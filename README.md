@@ -16,3 +16,23 @@ Contains the __@itwin/insights-client__ package that wraps sending requests to t
 # ---- Optional URL prefix for dev/qa environments ----
 IMJS_URL_PREFIX=""
 ```
+
+## Build Instructions
+
+
+- Install dependencies
+  ```
+  npm install
+  ```
+- Build source
+  ```
+  npm run build
+  ```
+- Run tests
+  ```
+  npm run test
+  ```
+- Run linters
+  ```
+  npm run lint
+  ```
