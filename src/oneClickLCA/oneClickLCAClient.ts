@@ -3,7 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { AccessToken } from "@itwin/core-bentley";
-import { OneClickLCAApi, BASE_PATH } from "./generated";
+import { OneClickLCAApi, CC_BASE_PATH } from ".";
 import { JobCreateCarbonCalculationAPI } from "./generated/api";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
@@ -15,10 +15,19 @@ const prefixUrl = (baseUrl?: string, prefix?: string) => {
   return baseUrl;
 };
 
+export interface OCLCALoginResponse {
+  username: string;
+  roles: string[];
+  token_type: string;
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+}
+
 export class OneClickLCAClient {
   private _oclcaApi: OneClickLCAApi;
   constructor() {
-    const baseUrl = prefixUrl(BASE_PATH, process.env.IMJS_URL_PREFIX);
+    const baseUrl = prefixUrl(CC_BASE_PATH, process.env.IMJS_URL_PREFIX);
     this._oclcaApi = new OneClickLCAApi(undefined, baseUrl); // TODO: change to baseUrl in deployment
   }
 

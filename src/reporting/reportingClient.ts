@@ -19,7 +19,7 @@ import type {
   MappingReportingAPI,
   MappingUpdateReportingAPI,
 } from "./generated/api";
-import { BASE_PATH, MappingsApi, ReportsApi } from "./generated/api";
+import { REPORTING_BASE_PATH, MappingsApi, ReportsApi } from "./generated/api";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 
@@ -35,7 +35,7 @@ export class ReportingClient {
   private _mappingsApi: MappingsApi;
   private _reportsApi: ReportsApi;
   constructor() {
-    const baseUrl = prefixUrl(BASE_PATH, process.env.IMJS_URL_PREFIX);
+    const baseUrl = prefixUrl(REPORTING_BASE_PATH, process.env.IMJS_URL_PREFIX);
     this._mappingsApi = new MappingsApi(undefined, baseUrl);
     this._reportsApi = new ReportsApi(undefined, baseUrl);
   }
@@ -427,3 +427,4 @@ export class ReportingClient {
     );
   }
 }
+

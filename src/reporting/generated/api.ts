@@ -21,16 +21,16 @@ import * as url from 'url';
 import isomorphicFetch from 'cross-fetch';
 import { Configuration } from './configuration';
 
-export const BASE_PATH = 'https://api.bentley.com/insights/reporting'.replace(
+const BASE_PATH = 'https://api.bentley.com/insights/reporting'.replace(
   /\/+$/,
   '',
 );
+export const REPORTING_BASE_PATH = BASE_PATH;
 
 /**
  *
- * @export
  */
-export const COLLECTION_FORMATS = {
+const COLLECTION_FORMATS = {
   csv: ',',
   ssv: ' ',
   tsv: '\t',
@@ -39,29 +39,26 @@ export const COLLECTION_FORMATS = {
 
 /**
  *
- * @export
  * @interface FetchAPI
  */
-export interface FetchAPI {
+interface FetchAPI {
   (url: string, init?: any): Promise<Response>;
 }
 
 /**
  *
- * @export
  * @interface FetchArgs
  */
-export interface FetchArgs {
+interface FetchArgs {
   url: string;
   options: any;
 }
 
 /**
  *
- * @export
  * @class BaseAPI
  */
-export class BaseAPI {
+class BaseAPI {
   protected configuration: Configuration;
 
   constructor(
@@ -78,11 +75,10 @@ export class BaseAPI {
 
 /**
  *
- * @export
  * @class RequiredError
  * @extends {Error}
  */
-export class RequiredError extends Error {
+class RequiredError extends Error {
   name: 'RequiredError';
   constructor(public field: string, msg?: string) {
     super(msg);
