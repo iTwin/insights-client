@@ -15,24 +15,29 @@ Contains the __@itwin/insights-client__ package that wraps sending requests to t
 ```
 # ---- Optional URL prefix for dev/qa environments ----
 IMJS_URL_PREFIX=""
+
+# ----Authorization for running tests ----
+IMJS_OIDC_BROWSER_TEST_CLIENT_ID=""
+IMJS_OIDC_BROWSER_TEST_REDIRECT_URI=""
+IMJS_OIDC_BROWSER_TEST_SCOPES=""
+IMJS_TEST_REGULAR_USER_NAME=""
+IMJS_TEST_REGULAR_USER_PASSWORD=""
 ```
 
 ## Build Instructions
 
+Install dependencies and build source
+```
+npm install
+npm run build
+```
 
-- Install dependencies
+Run tests
+```
+npm run test
   ```
-  npm install
-  ```
-- Build source
-  ```
-  npm run build
-  ```
-- Run tests
-  ```
-  npm run test
-  ```
-- Run linters
-  ```
-  npm run lint
-  ```
+
+Run linters
+```
+npm run lint
+```
