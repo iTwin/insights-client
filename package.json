@@ -12,7 +12,7 @@
     "lint": "eslint -f visualstudio \"./src/**/*.ts\" 1>&2",
     "lint:fix": "npm run lint -- --fix",
     "webpackTests": "webpack --config ./src/test/utils/webpack.config.js 1>&2",
-    "test": "npm run -s webpackTests && npm run -s test:chrome",
+    "test": "npm run build && npm run -s webpackTests && npm run -s test:chrome",
     "test:chrome": "certa -r chrome",
     "test:electron": "certa -r electron",
     "pack": "npm pack"
