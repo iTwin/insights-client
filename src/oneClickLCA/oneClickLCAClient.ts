@@ -36,7 +36,7 @@ export class OneClickLCAClient {
     });
 
     if (response.ok) {
-      return await response.json();
+      return response.json();
     } else {
       return undefined;
     }

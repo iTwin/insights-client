@@ -9,7 +9,7 @@
     "build": "npm run -s build:cjs && npm run -s build:esm",
     "build:cjs": "tsc 1>&2 --outDir lib/cjs",
     "build:esm": "tsc 1>&2 --module ES2020 --outDir lib/esm",
-    "lint": "eslint */**/*.{js,ts,tsx}",
+    "lint": "eslint */**/*.{js,ts,tsx} && npm run lint:copyright",
     "lint:fix": "npm run lint -- --fix && npm run lint:copyright -- --fix */**/*.{js,ts,tsx,scss}",
     "lint:copyright": "node scripts/copyright-linter.js",
     "webpackTests": "webpack --config ./src/test/utils/webpack.config.js 1>&2",
