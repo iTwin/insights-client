@@ -1,10 +1,10 @@
 /*---------------------------------------------------------------------------------------------
- * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
- * See LICENSE.md in the project root for license terms and full copyright notice.
- *--------------------------------------------------------------------------------------------*/
-import { AccessToken } from "@itwin/core-bentley";
-import { OneClickLCAApi, CC_BASE_PATH } from ".";
-import { JobCreateCarbonCalculationAPI } from "./generated/api";
+* Copyright (c) Bentley Systems, Incorporated. All rights reserved.
+* See LICENSE.md in the project root for license terms and full copyright notice.
+*--------------------------------------------------------------------------------------------*/
+import type { AccessToken } from "@itwin/core-bentley";
+import { CC_BASE_PATH, OneClickLCAApi } from "./generated/api";
+import type { JobCreateCarbonCalculationAPI } from "./generated/api";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 
@@ -14,15 +14,6 @@ const prefixUrl = (baseUrl?: string, prefix?: string) => {
   }
   return baseUrl;
 };
-
-export interface OCLCALoginResponse {
-  username: string;
-  roles: string[];
-  token_type: string;
-  access_token: string;
-  expires_in: number;
-  refresh_token: string;
-}
 
 export class OneClickLCAClient {
   private _oclcaApi: OneClickLCAApi;
@@ -36,11 +27,11 @@ export class OneClickLCAClient {
       return undefined;
     }
 
-    let response = await fetch("https://oneclicklcaapp.com/app/api/login", {
+    const response = await fetch("https://oneclicklcaapp.com/app/api/login", {
       method: "POST",
       body: JSON.stringify({
-        username: username,
-        password: password,
+        username,
+        password,
       }),
     });
 

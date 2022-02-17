@@ -2,15 +2,15 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-const path = require("path");
-const glob = require("glob");
-const webpack = require("webpack");
-const fs = require("fs");
+const path = require("path"); // eslint-disable-line @typescript-eslint/no-var-requires
+const glob = require("glob"); // eslint-disable-line @typescript-eslint/no-var-requires
+const webpack = require("webpack"); // eslint-disable-line @typescript-eslint/no-var-requires
+const fs = require("fs"); // eslint-disable-line @typescript-eslint/no-var-requires
 
 /** Loads the provided `.env` file into process.env */
 function loadEnv(envFile) {
   if (!fs.existsSync(envFile))
-    return;
+    {return;}
 
   const dotenv = require("dotenv"); // eslint-disable-line @typescript-eslint/no-var-requires
   const dotenvExpand = require("dotenv-expand"); // eslint-disable-line @typescript-eslint/no-var-requires

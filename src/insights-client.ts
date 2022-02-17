@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------------------
- * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
- * See LICENSE.md in the project root for license terms and full copyright notice.
- *--------------------------------------------------------------------------------------------*/
+* Copyright (c) Bentley Systems, Incorporated. All rights reserved.
+* See LICENSE.md in the project root for license terms and full copyright notice.
+*--------------------------------------------------------------------------------------------*/
 /** @docs-package-description
  * The insights-client package provides a means of interfacing with services relating to insights which surround iModels.
  */

@@ -16,4 +16,4 @@
  */
 
 export * from "./generated/api";
-export * from "./reportingClient"
+export * from "./reportingClient";
