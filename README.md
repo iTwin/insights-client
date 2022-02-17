@@ -41,3 +41,13 @@ Run linters
 ```
 npm run lint
 ```
+
+## Helper files
+.githooks
+- copyright-linter
+
+  To use custom hooks, run the command:
+
+  ```
+  git config --local core.hooksPath .githooks/
+  ```
