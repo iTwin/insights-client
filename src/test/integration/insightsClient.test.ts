@@ -12,7 +12,7 @@ chai.should();
 describe("ReportingClient", () => {
   const reportingCLient: ReportingClient = new ReportingClient();
   const projectId = process.env.IMJS_TEST_PROJECT_ID ?? "";
-  const imodelId = process.env.IMJS_IMODEL_ID ?? "";
+  const imodelId = process.env.IMJS_TEST_IMODEL_ID ?? "";
   const mappingId = process.env.IMJS_TEST_MAPPING_ID ?? "";
   const groupId = process.env.IMJS_TEST_GROUP_ID ?? "";
   let accessToken: AccessToken;
