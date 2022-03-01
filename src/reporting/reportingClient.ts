@@ -5,19 +5,19 @@
 import type { AccessToken } from "@itwin/core-bentley";
 
 import type {
-  CalculatedPropertyCreateReportingAPI,
-  CalculatedPropertyUpdateReportingAPI,
-  CustomCalculationCreateReportingAPI,
-  CustomCalculationUpdateReportingAPI,
-  GroupCreateReportingAPI,
-  GroupPropertyCreateReportingAPI,
-  GroupPropertyUpdateReportingAPI,
-  GroupUpdateReportingAPI,
-  MappingCollectionReportingAPI,
-  MappingCopyReportingAPI,
-  MappingCreateReportingAPI,
-  MappingReportingAPI,
-  MappingUpdateReportingAPI,
+  CalculatedPropertyCreate,
+  CalculatedPropertyUpdate,
+  CustomCalculationCreate,
+  CustomCalculationUpdate,
+  GroupCreate,
+  GroupPropertyCreate,
+  GroupPropertyUpdate,
+  GroupUpdate,
+  MappingCollection,
+  MappingCopy,
+  MappingCreate,
+  Mapping,
+  MappingUpdate,
 } from "./generated/api";
 import { MappingsApi, REPORTING_BASE_PATH, ReportsApi } from "./generated/api";
 
@@ -52,9 +52,9 @@ export class ReportingClient {
   }
 
   public async getMappings(accessToken: AccessToken, iModelId: string) {
-    const mappings: Array<MappingReportingAPI> = [];
+    const mappings: Array<Mapping> = [];
 
-    let response: MappingCollectionReportingAPI;
+    let response: MappingCollection;
     let continuationToken: string | undefined;
 
     do {
@@ -80,7 +80,7 @@ export class ReportingClient {
   public async createMapping(
     accessToken: AccessToken,
     iModelId: string,
-    mapping: MappingCreateReportingAPI
+    mapping: MappingCreate
   ) {
     return this._mappingsApi.createMapping(iModelId, accessToken, mapping);
   }
@@ -89,7 +89,7 @@ export class ReportingClient {
     accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
-    mapping: MappingUpdateReportingAPI
+    mapping: MappingUpdate
   ) {
     return this._mappingsApi.updateMapping(
       iModelId,
@@ -111,7 +111,7 @@ export class ReportingClient {
     accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
-    mappingCopy: MappingCopyReportingAPI
+    mappingCopy: MappingCopy
   ) {
     return this._mappingsApi.copyMapping(
       iModelId,
@@ -133,7 +133,7 @@ export class ReportingClient {
     accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
-    group: GroupCreateReportingAPI
+    group: GroupCreate
   ) {
     return this._mappingsApi.createGroup(
       iModelId,
@@ -162,7 +162,7 @@ export class ReportingClient {
     iModelId: string,
     mappingId: string,
     groupId: string,
-    group: GroupUpdateReportingAPI
+    group: GroupUpdate
   ) {
     return this._mappingsApi.updateGroup(
       iModelId,
@@ -222,7 +222,7 @@ export class ReportingClient {
     iModelId: string,
     mappingId: string,
     groupId: string,
-    groupProperty: GroupPropertyCreateReportingAPI
+    groupProperty: GroupPropertyCreate
   ) {
     return this._mappingsApi.createGroupproperty(
       iModelId,
@@ -239,7 +239,7 @@ export class ReportingClient {
     mappingId: string,
     groupId: string,
     groupPropertyId: string,
-    groupProperty: GroupPropertyUpdateReportingAPI
+    groupProperty: GroupPropertyUpdate
   ) {
     return this._mappingsApi.updateGroupproperty(
       iModelId,
@@ -302,7 +302,7 @@ export class ReportingClient {
     iModelId: string,
     mappingId: string,
     groupId: string,
-    property: CalculatedPropertyCreateReportingAPI
+    property: CalculatedPropertyCreate
   ) {
     return this._mappingsApi.createCalculatedproperty(
       iModelId,
@@ -319,7 +319,7 @@ export class ReportingClient {
     mappingId: string,
     groupId: string,
     propertyId: string,
-    property: CalculatedPropertyUpdateReportingAPI
+    property: CalculatedPropertyUpdate
   ) {
     return this._mappingsApi.updateCalculatedproperty(
       iModelId,
@@ -382,7 +382,7 @@ export class ReportingClient {
     iModelId: string,
     mappingId: string,
     groupId: string,
-    property: CustomCalculationCreateReportingAPI
+    property: CustomCalculationCreate
   ) {
     return this._mappingsApi.createCustomcalculation(
       iModelId,
@@ -399,7 +399,7 @@ export class ReportingClient {
     mappingId: string,
     groupId: string,
     propertyId: string,
-    property: CustomCalculationUpdateReportingAPI
+    property: CustomCalculationUpdate
   ) {
     return this._mappingsApi.updateCustomcalculation(
       iModelId,
