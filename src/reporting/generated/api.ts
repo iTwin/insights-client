@@ -86,1122 +86,1122 @@ class RequiredError extends Error {
 }
 
 /**
- * List of CalculatedProperties.
+ * Defines a CalculatedProperty or 'column' for a Group. It is calculated for each element returned by the Group's query.
  * @export
- * @interface CalculatedPropertyCollectionReportingAPI
+ * @interface CalculatedProperty
  */
-export interface CalculatedPropertyCollectionReportingAPI {
+export interface CalculatedProperty {
   /**
-   * List of CalculatedProperties.
-   * @type {Array<CalculatedPropertyReportingAPI>}
-   * @memberof CalculatedPropertyCollectionReportingAPI
+   * The CalculatedProperty Id.
+   * @type {string}
+   * @memberof CalculatedProperty
    */
-  properties?: Array<CalculatedPropertyReportingAPI>;
+  id?: string;
+  /**
+   * Name of the Property (OData v4 SimpleIdentifier).
+   * @type {string}
+   * @memberof CalculatedProperty
+   */
+  propertyName?: string;
+  /**
+   * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
+   * @type {string}
+   * @memberof CalculatedProperty
+   */
+  type?: string;
+  /**
+   * The quantity type of the CalculatedProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
+   * @type {string}
+   * @memberof CalculatedProperty
+   */
+  quantityType?: string;
   /**
    *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof CalculatedPropertyCollectionReportingAPI
+   * @type {CalculatedPropertyLinks}
+   * @memberof CalculatedProperty
    */
-  _links?: PagedResponseLinksReportingAPI;
+  _links?: CalculatedPropertyLinks;
+}
+/**
+ * List of CalculatedProperties.
+ * @export
+ * @interface CalculatedPropertyCollection
+ */
+export interface CalculatedPropertyCollection {
+  /**
+   * List of CalculatedProperties.
+   * @type {Array<CalculatedProperty>}
+   * @memberof CalculatedPropertyCollection
+   */
+  properties?: Array<CalculatedProperty>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof CalculatedPropertyCollection
+   */
+  _links?: PagedResponseLinks;
 }
 /**
  * Properties of the CalculatedProperty to be created.
  * @export
- * @interface CalculatedPropertyCreateReportingAPI
+ * @interface CalculatedPropertyCreate
  */
-export interface CalculatedPropertyCreateReportingAPI {
+export interface CalculatedPropertyCreate {
   /**
    * Name of the CalculatedProperty.
    * @type {string}
-   * @memberof CalculatedPropertyCreateReportingAPI
+   * @memberof CalculatedPropertyCreate
    */
   propertyName: string;
   /**
    * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
    * @type {string}
-   * @memberof CalculatedPropertyCreateReportingAPI
+   * @memberof CalculatedPropertyCreate
    */
   type: string;
 }
 /**
  *
  * @export
- * @interface CalculatedPropertyLinksReportingAPI
+ * @interface CalculatedPropertyLinks
  */
-export interface CalculatedPropertyLinksReportingAPI {
+export interface CalculatedPropertyLinks {
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof CalculatedPropertyLinksReportingAPI
+   * @type {Link}
+   * @memberof CalculatedPropertyLinks
    */
-  imodel?: LinkReportingAPI;
+  imodel?: Link;
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof CalculatedPropertyLinksReportingAPI
+   * @type {Link}
+   * @memberof CalculatedPropertyLinks
    */
-  mapping?: LinkReportingAPI;
+  mapping?: Link;
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof CalculatedPropertyLinksReportingAPI
+   * @type {Link}
+   * @memberof CalculatedPropertyLinks
    */
-  group?: LinkReportingAPI;
+  group?: Link;
 }
 /**
- * Defines a CalculatedProperty or 'column' for a Group. It is calculated for each element returned by the Group's query.
+ * Container for a CalculatedProperty object.
  * @export
- * @interface CalculatedPropertyReportingAPI
+ * @interface CalculatedPropertySingle
  */
-export interface CalculatedPropertyReportingAPI {
+export interface CalculatedPropertySingle {
   /**
-   * The CalculatedProperty Id.
+   *
+   * @type {CalculatedProperty}
+   * @memberof CalculatedPropertySingle
+   */
+  property?: CalculatedProperty;
+}
+/**
+ * Properties of the CalculatedProperty to be updated.
+ * @export
+ * @interface CalculatedPropertyUpdate
+ */
+export interface CalculatedPropertyUpdate {
+  /**
+   * Name of the CalculatedProperty.
    * @type {string}
-   * @memberof CalculatedPropertyReportingAPI
+   * @memberof CalculatedPropertyUpdate
+   */
+  propertyName?: string;
+  /**
+   * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
+   * @type {string}
+   * @memberof CalculatedPropertyUpdate
+   */
+  type?: string;
+}
+/**
+ * Defines a CustomCalculation or 'column' for a Group. It is calculated using the given formula for each element returned by the Group's query.
+ * @export
+ * @interface CustomCalculation
+ */
+export interface CustomCalculation {
+  /**
+   * The CustomCalculation Id.
+   * @type {string}
+   * @memberof CustomCalculation
    */
   id?: string;
   /**
    * Name of the Property (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof CalculatedPropertyReportingAPI
+   * @memberof CustomCalculation
    */
   propertyName?: string;
   /**
-   * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
+   * A mathematical formula which will be evaluated for each element returned by the Group's query.
    * @type {string}
-   * @memberof CalculatedPropertyReportingAPI
+   * @memberof CustomCalculation
    */
-  type?: string;
+  formula?: string;
   /**
-   * The quantity type of the CalculatedProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
+   * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
-   * @memberof CalculatedPropertyReportingAPI
+   * @memberof CustomCalculation
    */
   quantityType?: string;
   /**
    *
-   * @type {CalculatedPropertyLinksReportingAPI}
-   * @memberof CalculatedPropertyReportingAPI
+   * @type {CalculatedPropertyLinks}
+   * @memberof CustomCalculation
    */
-  _links?: CalculatedPropertyLinksReportingAPI;
-}
-/**
- * Container for a CalculatedProperty object.
- * @export
- * @interface CalculatedPropertySingleReportingAPI
- */
-export interface CalculatedPropertySingleReportingAPI {
-  /**
-   *
-   * @type {CalculatedPropertyReportingAPI}
-   * @memberof CalculatedPropertySingleReportingAPI
-   */
-  property?: CalculatedPropertyReportingAPI;
-}
-/**
- * Properties of the CalculatedProperty to be updated.
- * @export
- * @interface CalculatedPropertyUpdateReportingAPI
- */
-export interface CalculatedPropertyUpdateReportingAPI {
-  /**
-   * Name of the CalculatedProperty.
-   * @type {string}
-   * @memberof CalculatedPropertyUpdateReportingAPI
-   */
-  propertyName?: string;
-  /**
-   * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
-   * @type {string}
-   * @memberof CalculatedPropertyUpdateReportingAPI
-   */
-  type?: string;
+  _links?: CalculatedPropertyLinks;
 }
 /**
  * List of CustomCalculations.
  * @export
- * @interface CustomCalculationCollectionReportingAPI
+ * @interface CustomCalculationCollection
  */
-export interface CustomCalculationCollectionReportingAPI {
+export interface CustomCalculationCollection {
   /**
    * List of CustomCalculations.
-   * @type {Array<CustomCalculationReportingAPI>}
-   * @memberof CustomCalculationCollectionReportingAPI
+   * @type {Array<CustomCalculation>}
+   * @memberof CustomCalculationCollection
    */
-  customCalculations?: Array<CustomCalculationReportingAPI>;
+  customCalculations?: Array<CustomCalculation>;
   /**
    *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof CustomCalculationCollectionReportingAPI
+   * @type {PagedResponseLinks}
+   * @memberof CustomCalculationCollection
    */
-  _links?: PagedResponseLinksReportingAPI;
+  _links?: PagedResponseLinks;
 }
 /**
  * Properties of the CustomCalculation to be created.
  * @export
- * @interface CustomCalculationCreateReportingAPI
+ * @interface CustomCalculationCreate
  */
-export interface CustomCalculationCreateReportingAPI {
+export interface CustomCalculationCreate {
   /**
    * Name of the Property (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof CustomCalculationCreateReportingAPI
+   * @memberof CustomCalculationCreate
    */
   propertyName: string;
   /**
    * A mathematical formula which will be evaluated for each element returned by the Group's query.
    * @type {string}
-   * @memberof CustomCalculationCreateReportingAPI
+   * @memberof CustomCalculationCreate
    */
   formula: string;
   /**
    * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'. Default is 'Undefined'.
    * @type {string}
-   * @memberof CustomCalculationCreateReportingAPI
+   * @memberof CustomCalculationCreate
    */
   quantityType?: string;
-}
-/**
- * Defines a CustomCalculation or 'column' for a Group. It is calculated using the given formula for each element returned by the Group's query.
- * @export
- * @interface CustomCalculationReportingAPI
- */
-export interface CustomCalculationReportingAPI {
-  /**
-   * The CustomCalculation Id.
-   * @type {string}
-   * @memberof CustomCalculationReportingAPI
-   */
-  id?: string;
-  /**
-   * Name of the Property (OData v4 SimpleIdentifier).
-   * @type {string}
-   * @memberof CustomCalculationReportingAPI
-   */
-  propertyName?: string;
-  /**
-   * A mathematical formula which will be evaluated for each element returned by the Group's query.
-   * @type {string}
-   * @memberof CustomCalculationReportingAPI
-   */
-  formula?: string;
-  /**
-   * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
-   * @type {string}
-   * @memberof CustomCalculationReportingAPI
-   */
-  quantityType?: string;
-  /**
-   *
-   * @type {CalculatedPropertyLinksReportingAPI}
-   * @memberof CustomCalculationReportingAPI
-   */
-  _links?: CalculatedPropertyLinksReportingAPI;
 }
 /**
  * Container for a CustomCalculation object.
  * @export
- * @interface CustomCalculationSingleReportingAPI
+ * @interface CustomCalculationSingle
  */
-export interface CustomCalculationSingleReportingAPI {
+export interface CustomCalculationSingle {
   /**
    *
-   * @type {CustomCalculationReportingAPI}
-   * @memberof CustomCalculationSingleReportingAPI
+   * @type {CustomCalculation}
+   * @memberof CustomCalculationSingle
    */
-  customCalculation?: CustomCalculationReportingAPI;
+  customCalculation?: CustomCalculation;
 }
 /**
  * Properties of the CustomCalculation to be updated.
  * @export
- * @interface CustomCalculationUpdateReportingAPI
+ * @interface CustomCalculationUpdate
  */
-export interface CustomCalculationUpdateReportingAPI {
+export interface CustomCalculationUpdate {
   /**
    * Name of the Property (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof CustomCalculationUpdateReportingAPI
+   * @memberof CustomCalculationUpdate
    */
   propertyName?: string;
   /**
    * A mathematical formula which will be evaluated for each element returned by the Group's query.
    * @type {string}
-   * @memberof CustomCalculationUpdateReportingAPI
+   * @memberof CustomCalculationUpdate
    */
   formula?: string;
   /**
    * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
-   * @memberof CustomCalculationUpdateReportingAPI
+   * @memberof CustomCalculationUpdate
    */
   quantityType?: string;
 }
 /**
  * Defines a target ECProperty for a Group. This is used to determine what properties will be read from the query response of a Group.
  * @export
- * @interface ECPropertyReportingAPI
+ * @interface ECProperty
  */
-export interface ECPropertyReportingAPI {
+export interface ECProperty {
   /**
    * The target ECSchema.
    * @type {string}
-   * @memberof ECPropertyReportingAPI
+   * @memberof ECProperty
    */
   ecSchemaName?: string;
   /**
    * The target ECClass.
    * @type {string}
-   * @memberof ECPropertyReportingAPI
+   * @memberof ECProperty
    */
   ecClassName?: string;
   /**
    * The target ECProperty.
    * @type {string}
-   * @memberof ECPropertyReportingAPI
+   * @memberof ECProperty
    */
   ecPropertyName?: string;
   /**
    * The type of the target ECProperty.
    * @type {string}
-   * @memberof ECPropertyReportingAPI
+   * @memberof ECProperty
    */
   ecPropertyType?: string;
 }
 /**
  * Contains error information.
  * @export
- * @interface ErrorDetailsReportingAPI
+ * @interface ErrorDetails
  */
-export interface ErrorDetailsReportingAPI {
+export interface ErrorDetails {
   /**
    * One of a server-defined set of error codes.
    * @type {string}
-   * @memberof ErrorDetailsReportingAPI
+   * @memberof ErrorDetails
    */
   code: string;
   /**
    * A human-readable representation of the error.
    * @type {string}
-   * @memberof ErrorDetailsReportingAPI
+   * @memberof ErrorDetails
    */
   message: string;
-}
-/**
- * Contains error information and an optional array of more specific errors.
- * @export
- * @interface ErrorReportingAPI
- */
-export interface ErrorReportingAPI {
-  /**
-   * One of a server-defined set of error codes.
-   * @type {string}
-   * @memberof ErrorReportingAPI
-   */
-  code: string;
-  /**
-   * A human-readable representation of the error.
-   * @type {string}
-   * @memberof ErrorReportingAPI
-   */
-  message: string;
-  /**
-   * Optional array of more specific errors.
-   * @type {Array<ErrorDetailsReportingAPI>}
-   * @memberof ErrorReportingAPI
-   */
-  details?: Array<ErrorDetailsReportingAPI>;
 }
 /**
  * Gives details for an error that occurred while handling the request. Note that clients MUST NOT assume that every failed request will produce an object of this schema, or that all of the properties in the response will be non-null, as the error may have prevented this response from being constructed.
  * @export
- * @interface ErrorResponseReportingAPI
+ * @interface ErrorResponse
  */
-export interface ErrorResponseReportingAPI {
+export interface ErrorResponse {
   /**
    *
    * @type {Error}
-   * @memberof ErrorResponseReportingAPI
+   * @memberof ErrorResponse
    */
   error: Error;
 }
 /**
  * Metadata associated with a data extraction run.
  * @export
- * @interface ExtractionRunReportingAPI
+ * @interface ExtractionRun
  */
-export interface ExtractionRunReportingAPI {
+export interface ExtractionRun {
   /**
    *
-   * @type {ExtractionRunRunReportingAPI}
-   * @memberof ExtractionRunReportingAPI
+   * @type {ExtractionRunRun}
+   * @memberof ExtractionRun
    */
-  run?: ExtractionRunRunReportingAPI;
+  run?: ExtractionRunRun;
 }
 /**
  * Extraction Run properties.
  * @export
- * @interface ExtractionRunRunReportingAPI
+ * @interface ExtractionRunRun
  */
-export interface ExtractionRunRunReportingAPI {
+export interface ExtractionRunRun {
   /**
    * Unique Identifier for the Extraction Run. Use this to check run status.
    * @type {string}
-   * @memberof ExtractionRunRunReportingAPI
+   * @memberof ExtractionRunRun
    */
   id?: string;
 }
 /**
  * Status of the specified Extraction Run.
  * @export
- * @interface ExtractionStatusReportingAPI
+ * @interface ExtractionStatus
  */
-export interface ExtractionStatusReportingAPI {
+export interface ExtractionStatus {
   /**
    *
-   * @type {ExtractionStatusStatusReportingAPI}
-   * @memberof ExtractionStatusReportingAPI
+   * @type {ExtractionStatusStatus}
+   * @memberof ExtractionStatus
    */
-  status?: ExtractionStatusStatusReportingAPI;
+  status?: ExtractionStatusStatus;
 }
 /**
  * Extraction Status properties.
  * @export
- * @interface ExtractionStatusStatusReportingAPI
+ * @interface ExtractionStatusStatus
  */
-export interface ExtractionStatusStatusReportingAPI {
+export interface ExtractionStatusStatus {
   /**
    * Current state of the Extraction Run - 'Running', 'Succeeded', or 'Failed'.
    * @type {string}
-   * @memberof ExtractionStatusStatusReportingAPI
+   * @memberof ExtractionStatusStatus
    */
   state?: string;
   /**
    * Additional justification for the current state of the Extraction Run.
    * @type {string}
-   * @memberof ExtractionStatusStatusReportingAPI
+   * @memberof ExtractionStatusStatus
    */
   reason?: string;
 }
 /**
+ * Defines a single Group (collection of iModel elements) in an iModel Mapping.
+ * @export
+ * @interface Group
+ */
+export interface Group {
+  /**
+   * The Group Id.
+   * @type {string}
+   * @memberof Group
+   */
+  id?: string;
+  /**
+   * Name of the Group (OData v4 SimpleIdentifier).
+   * @type {string}
+   * @memberof Group
+   */
+  groupName?: string;
+  /**
+   * Description of the Group.
+   * @type {string}
+   * @memberof Group
+   */
+  description?: string;
+  /**
+   * Query string that will be executed against the target iModel to build this Group.
+   * @type {string}
+   * @memberof Group
+   */
+  query?: string;
+}
+/**
  * List of Groups.
  * @export
- * @interface GroupCollectionReportingAPI
+ * @interface GroupCollection
  */
-export interface GroupCollectionReportingAPI {
+export interface GroupCollection {
   /**
    * List of Groups.
-   * @type {Array<GroupReportingAPI>}
-   * @memberof GroupCollectionReportingAPI
+   * @type {Array<Group>}
+   * @memberof GroupCollection
    */
-  groups?: Array<GroupReportingAPI>;
+  groups?: Array<Group>;
   /**
    *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof GroupCollectionReportingAPI
+   * @type {PagedResponseLinks}
+   * @memberof GroupCollection
    */
-  _links?: PagedResponseLinksReportingAPI;
+  _links?: PagedResponseLinks;
 }
 /**
  * Properties of the Group to be created.
  * @export
- * @interface GroupCreateReportingAPI
+ * @interface GroupCreate
  */
-export interface GroupCreateReportingAPI {
+export interface GroupCreate {
   /**
    * Name of the Group (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof GroupCreateReportingAPI
+   * @memberof GroupCreate
    */
   groupName?: string;
   /**
    * Description of the Group.
    * @type {string}
-   * @memberof GroupCreateReportingAPI
+   * @memberof GroupCreate
    */
   description?: string;
   /**
    * Query string that will be executed against the target iModel to build this Group.
    * @type {string}
-   * @memberof GroupCreateReportingAPI
+   * @memberof GroupCreate
    */
   query?: string;
-}
-/**
- * List of GroupProperties.
- * @export
- * @interface GroupPropertyCollectionReportingAPI
- */
-export interface GroupPropertyCollectionReportingAPI {
-  /**
-   * List of GroupProperties.
-   * @type {Array<GroupPropertyReportingAPI>}
-   * @memberof GroupPropertyCollectionReportingAPI
-   */
-  properties?: Array<GroupPropertyReportingAPI>;
-  /**
-   *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof GroupPropertyCollectionReportingAPI
-   */
-  _links?: PagedResponseLinksReportingAPI;
-}
-/**
- * Properties of the GroupProperty to be created.
- * @export
- * @interface GroupPropertyCreateReportingAPI
- */
-export interface GroupPropertyCreateReportingAPI {
-  /**
-   * Name of the Property (OData v4 SimpleIdentifier).
-   * @type {string}
-   * @memberof GroupPropertyCreateReportingAPI
-   */
-  propertyName?: string;
-  /**
-   * The data type of the GroupProperty. One of 'Boolean', 'Number', 'String', or 'Undefined'.
-   * @type {string}
-   * @memberof GroupPropertyCreateReportingAPI
-   */
-  dataType?: string;
-  /**
-   * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
-   * @type {string}
-   * @memberof GroupPropertyCreateReportingAPI
-   */
-  quantityType?: string;
-  /**
-   * List of ECProperties that map to this GroupProperty.
-   * @type {Array<ECPropertyReportingAPI>}
-   * @memberof GroupPropertyCreateReportingAPI
-   */
-  ecProperties?: Array<ECPropertyReportingAPI>;
 }
 /**
  * Defines a one-to-many property mapping to a set of ECProperties for a Group - to be used when a Group query will return data from multiple ECClasses.
  * @export
- * @interface GroupPropertyReportingAPI
+ * @interface GroupProperty
  */
-export interface GroupPropertyReportingAPI {
+export interface GroupProperty {
   /**
    * The GroupProperty Id.
    * @type {string}
-   * @memberof GroupPropertyReportingAPI
+   * @memberof GroupProperty
    */
   id?: string;
   /**
    * Name of the Property (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof GroupPropertyReportingAPI
+   * @memberof GroupProperty
    */
   propertyName?: string;
   /**
    * The data type of the GroupProperty. One of 'Boolean', 'Number', 'String', or 'Undefined'.
    * @type {string}
-   * @memberof GroupPropertyReportingAPI
+   * @memberof GroupProperty
    */
   dataType?: string;
   /**
    * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
-   * @memberof GroupPropertyReportingAPI
+   * @memberof GroupProperty
    */
   quantityType?: string;
   /**
    * List of ECProperties that map to this GroupProperty.
-   * @type {Array<ECPropertyReportingAPI>}
-   * @memberof GroupPropertyReportingAPI
+   * @type {Array<ECProperty>}
+   * @memberof GroupProperty
    */
-  ecProperties?: Array<ECPropertyReportingAPI>;
+  ecProperties?: Array<ECProperty>;
+}
+/**
+ * List of GroupProperties.
+ * @export
+ * @interface GroupPropertyCollection
+ */
+export interface GroupPropertyCollection {
+  /**
+   * List of GroupProperties.
+   * @type {Array<GroupProperty>}
+   * @memberof GroupPropertyCollection
+   */
+  properties?: Array<GroupProperty>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof GroupPropertyCollection
+   */
+  _links?: PagedResponseLinks;
+}
+/**
+ * Properties of the GroupProperty to be created.
+ * @export
+ * @interface GroupPropertyCreate
+ */
+export interface GroupPropertyCreate {
+  /**
+   * Name of the Property (OData v4 SimpleIdentifier).
+   * @type {string}
+   * @memberof GroupPropertyCreate
+   */
+  propertyName?: string;
+  /**
+   * The data type of the GroupProperty. One of 'Boolean', 'Number', 'String', or 'Undefined'.
+   * @type {string}
+   * @memberof GroupPropertyCreate
+   */
+  dataType?: string;
+  /**
+   * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
+   * @type {string}
+   * @memberof GroupPropertyCreate
+   */
+  quantityType?: string;
+  /**
+   * List of ECProperties that map to this GroupProperty.
+   * @type {Array<ECProperty>}
+   * @memberof GroupPropertyCreate
+   */
+  ecProperties?: Array<ECProperty>;
 }
 /**
  * Container for a GroupProperty object.
  * @export
- * @interface GroupPropertySingleReportingAPI
+ * @interface GroupPropertySingle
  */
-export interface GroupPropertySingleReportingAPI {
+export interface GroupPropertySingle {
   /**
    *
-   * @type {GroupPropertyReportingAPI}
-   * @memberof GroupPropertySingleReportingAPI
+   * @type {GroupProperty}
+   * @memberof GroupPropertySingle
    */
-  property?: GroupPropertyReportingAPI;
+  property?: GroupProperty;
 }
 /**
  * Properties of the GroupProperty to be updated.
  * @export
- * @interface GroupPropertyUpdateReportingAPI
+ * @interface GroupPropertyUpdate
  */
-export interface GroupPropertyUpdateReportingAPI {
+export interface GroupPropertyUpdate {
   /**
    * Name of the Property (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof GroupPropertyUpdateReportingAPI
+   * @memberof GroupPropertyUpdate
    */
   propertyName?: string;
   /**
    * The data type of the GroupProperty. One of 'Boolean', 'Number', 'String', or 'Undefined'.
    * @type {string}
-   * @memberof GroupPropertyUpdateReportingAPI
+   * @memberof GroupPropertyUpdate
    */
   dataType?: string;
   /**
    * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
-   * @memberof GroupPropertyUpdateReportingAPI
+   * @memberof GroupPropertyUpdate
    */
   quantityType?: string;
   /**
    * List of ECProperties that map to this GroupProperty.
-   * @type {Array<ECPropertyReportingAPI>}
-   * @memberof GroupPropertyUpdateReportingAPI
+   * @type {Array<ECProperty>}
+   * @memberof GroupPropertyUpdate
    */
-  ecProperties?: Array<ECPropertyReportingAPI>;
-}
-/**
- * Defines a single Group (collection of iModel elements) in an iModel Mapping.
- * @export
- * @interface GroupReportingAPI
- */
-export interface GroupReportingAPI {
-  /**
-   * The Group Id.
-   * @type {string}
-   * @memberof GroupReportingAPI
-   */
-  id?: string;
-  /**
-   * Name of the Group (OData v4 SimpleIdentifier).
-   * @type {string}
-   * @memberof GroupReportingAPI
-   */
-  groupName?: string;
-  /**
-   * Description of the Group.
-   * @type {string}
-   * @memberof GroupReportingAPI
-   */
-  description?: string;
-  /**
-   * Query string that will be executed against the target iModel to build this Group.
-   * @type {string}
-   * @memberof GroupReportingAPI
-   */
-  query?: string;
+  ecProperties?: Array<ECProperty>;
 }
 /**
  * Container for a Group object.
  * @export
- * @interface GroupSingleReportingAPI
+ * @interface GroupSingle
  */
-export interface GroupSingleReportingAPI {
+export interface GroupSingle {
   /**
    *
-   * @type {GroupReportingAPI}
-   * @memberof GroupSingleReportingAPI
+   * @type {Group}
+   * @memberof GroupSingle
    */
-  group?: GroupReportingAPI;
+  group?: Group;
 }
 /**
  * Properties of the Group to be updated.
  * @export
- * @interface GroupUpdateReportingAPI
+ * @interface GroupUpdate
  */
-export interface GroupUpdateReportingAPI {
+export interface GroupUpdate {
   /**
    * Name of the Group (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof GroupUpdateReportingAPI
+   * @memberof GroupUpdate
    */
   groupName?: string;
   /**
    * Description of the Group.
    * @type {string}
-   * @memberof GroupUpdateReportingAPI
+   * @memberof GroupUpdate
    */
   description?: string;
   /**
    * Query string that will be executed against the target iModel to build this Group.
    * @type {string}
-   * @memberof GroupUpdateReportingAPI
+   * @memberof GroupUpdate
    */
   query?: string;
 }
 /**
  * Hyperlink container.
  * @export
- * @interface LinkReportingAPI
+ * @interface Link
  */
-export interface LinkReportingAPI {
+export interface Link {
   /**
    * Hyperlink to the specific entity.
    * @type {string}
-   * @memberof LinkReportingAPI
+   * @memberof Link
    */
   href?: string;
 }
 /**
- * List of Mappings.
+ * Defines a Mapping for an iModel. Each mapping represents a collection of 'Groups', sets of iModel elements, and their properties of interest.
  * @export
- * @interface MappingCollectionReportingAPI
+ * @interface Mapping
  */
-export interface MappingCollectionReportingAPI {
+export interface Mapping {
   /**
-   * List of Mappings.
-   * @type {Array<MappingReportingAPI>}
-   * @memberof MappingCollectionReportingAPI
+   * The Mapping Id.
+   * @type {string}
+   * @memberof Mapping
    */
-  mappings?: Array<MappingReportingAPI>;
+  id?: string;
+  /**
+   * Name of the Mapping (OData v4 SimpleIdentifier).
+   * @type {string}
+   * @memberof Mapping
+   */
+  mappingName?: string;
+  /**
+   * Description of the Mapping.
+   * @type {string}
+   * @memberof Mapping
+   */
+  description?: string;
+  /**
+   * Date when the Mapping was created.
+   * @type {string}
+   * @memberof Mapping
+   */
+  createdOn?: string;
+  /**
+   * Email of the user who created the Mapping.
+   * @type {string}
+   * @memberof Mapping
+   */
+  createdBy?: string;
+  /**
+   * Date when the Mapping was last modified.
+   * @type {string}
+   * @memberof Mapping
+   */
+  modifiedOn?: string;
+  /**
+   * Email of the user who last modified the Mapping.
+   * @type {string}
+   * @memberof Mapping
+   */
+  modifiedBy?: string;
   /**
    *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof MappingCollectionReportingAPI
+   * @type {MappingLinks}
+   * @memberof Mapping
    */
-  _links?: PagedResponseLinksReportingAPI;
+  _links?: MappingLinks;
+}
+/**
+ * List of Mappings.
+ * @export
+ * @interface MappingCollection
+ */
+export interface MappingCollection {
+  /**
+   * List of Mappings.
+   * @type {Array<Mapping>}
+   * @memberof MappingCollection
+   */
+  mappings?: Array<Mapping>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof MappingCollection
+   */
+  _links?: PagedResponseLinks;
 }
 /**
  * Properties for the copied Mapping.
  * @export
- * @interface MappingCopyReportingAPI
+ * @interface MappingCopy
  */
-export interface MappingCopyReportingAPI {
+export interface MappingCopy {
   /**
    * The target iModel Id.
    * @type {string}
-   * @memberof MappingCopyReportingAPI
+   * @memberof MappingCopy
    */
   targetIModelId: string;
   /**
    * Name of the target Mapping (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof MappingCopyReportingAPI
+   * @memberof MappingCopy
    */
   mappingName?: string;
 }
 /**
  * Properties of the Mapping to be created.
  * @export
- * @interface MappingCreateReportingAPI
+ * @interface MappingCreate
  */
-export interface MappingCreateReportingAPI {
+export interface MappingCreate {
   /**
    * Name of the Mapping (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof MappingCreateReportingAPI
+   * @memberof MappingCreate
    */
   mappingName?: string;
   /**
    * Description of the Mapping.
    * @type {string}
-   * @memberof MappingCreateReportingAPI
+   * @memberof MappingCreate
    */
   description?: string;
 }
 /**
  * Contains contextual hyperlinks to related data.
  * @export
- * @interface MappingLinksReportingAPI
+ * @interface MappingLinks
  */
-export interface MappingLinksReportingAPI {
+export interface MappingLinks {
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof MappingLinksReportingAPI
+   * @type {Link}
+   * @memberof MappingLinks
    */
-  imodel?: LinkReportingAPI;
-}
-/**
- * Defines a Mapping for an iModel. Each mapping represents a collection of 'Groups', sets of iModel elements, and their properties of interest.
- * @export
- * @interface MappingReportingAPI
- */
-export interface MappingReportingAPI {
-  /**
-   * The Mapping Id.
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  id?: string;
-  /**
-   * Name of the Mapping (OData v4 SimpleIdentifier).
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  mappingName?: string;
-  /**
-   * Description of the Mapping.
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  description?: string;
-  /**
-   * Date when the Mapping was created.
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  createdOn?: string;
-  /**
-   * Email of the user who created the Mapping.
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  createdBy?: string;
-  /**
-   * Date when the Mapping was last modified.
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  modifiedOn?: string;
-  /**
-   * Email of the user who last modified the Mapping.
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  modifiedBy?: string;
-  /**
-   *
-   * @type {MappingLinksReportingAPI}
-   * @memberof MappingReportingAPI
-   */
-  _links?: MappingLinksReportingAPI;
+  imodel?: Link;
 }
 /**
  * Container for a Mapping object.
  * @export
- * @interface MappingSingleReportingAPI
+ * @interface MappingSingle
  */
-export interface MappingSingleReportingAPI {
+export interface MappingSingle {
   /**
    *
-   * @type {MappingReportingAPI}
-   * @memberof MappingSingleReportingAPI
+   * @type {Mapping}
+   * @memberof MappingSingle
    */
-  mapping?: MappingReportingAPI;
+  mapping?: Mapping;
 }
 /**
  * Properties of the Mapping to be updated.
  * @export
- * @interface MappingUpdateReportingAPI
+ * @interface MappingUpdate
  */
-export interface MappingUpdateReportingAPI {
+export interface MappingUpdate {
   /**
    * Name of the Mapping (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof MappingUpdateReportingAPI
+   * @memberof MappingUpdate
    */
   mappingName?: string;
   /**
    * Description of the Mapping.
    * @type {string}
-   * @memberof MappingUpdateReportingAPI
+   * @memberof MappingUpdate
    */
   description?: string;
 }
 /**
+ * Contains error information and an optional array of more specific errors.
+ * @export
+ * @interface ModelError
+ */
+export interface ModelError {
+  /**
+   * One of a server-defined set of error codes.
+   * @type {string}
+   * @memberof ModelError
+   */
+  code: string;
+  /**
+   * A human-readable representation of the error.
+   * @type {string}
+   * @memberof ModelError
+   */
+  message: string;
+  /**
+   * Optional array of more specific errors.
+   * @type {Array<ErrorDetails>}
+   * @memberof ModelError
+   */
+  details?: Array<ErrorDetails>;
+}
+/**
  *
  * @export
- * @interface ODataItemReportingAPI
+ * @interface ODataItem
  */
-export interface ODataItemReportingAPI {
+export interface ODataItem {
   /**
    *
    * @type {string}
-   * @memberof ODataItemReportingAPI
+   * @memberof ODataItem
    */
   name?: string;
   /**
    *
    * @type {string}
-   * @memberof ODataItemReportingAPI
+   * @memberof ODataItem
    */
   url?: string;
 }
 /**
  * OData response.
  * @export
- * @interface ODataResponseReportingAPI
+ * @interface ODataResponse
  */
-export interface ODataResponseReportingAPI {
+export interface ODataResponse {
   /**
    *
-   * @type {ODataResponseStatusReportingAPI}
-   * @memberof ODataResponseReportingAPI
+   * @type {ODataResponseStatus}
+   * @memberof ODataResponse
    */
-  status?: ODataResponseStatusReportingAPI;
+  status?: ODataResponseStatus;
 }
 /**
  * OData response.
  * @export
- * @interface ODataResponseStatusReportingAPI
+ * @interface ODataResponseStatus
  */
-export interface ODataResponseStatusReportingAPI {
+export interface ODataResponseStatus {
   /**
    * OData Schema
    * @type {string}
-   * @memberof ODataResponseStatusReportingAPI
+   * @memberof ODataResponseStatus
    */
   odata_context?: string;
   /**
    *
-   * @type {Array<ODataItemReportingAPI>}
-   * @memberof ODataResponseStatusReportingAPI
+   * @type {Array<ODataItem>}
+   * @memberof ODataResponseStatus
    */
-  value?: Array<ODataItemReportingAPI>;
+  value?: Array<ODataItem>;
 }
 /**
  * URLs for redoing the current request and/or getting the next page of results if applicable.
  * @export
- * @interface PagedResponseLinksReportingAPI
+ * @interface PagedResponseLinks
  */
-export interface PagedResponseLinksReportingAPI {
+export interface PagedResponseLinks {
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof PagedResponseLinksReportingAPI
+   * @type {Link}
+   * @memberof PagedResponseLinks
    */
-  next?: LinkReportingAPI;
+  next?: Link;
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof PagedResponseLinksReportingAPI
+   * @type {Link}
+   * @memberof PagedResponseLinks
    */
-  self?: LinkReportingAPI;
+  self?: Link;
 }
 /**
- * List of Reports.
+ * Defines a unit of data that can be exposed as an OData feed. The contents of a Report are defined in Report Mappings.
  * @export
- * @interface ReportCollectionReportingAPI
+ * @interface Report
  */
-export interface ReportCollectionReportingAPI {
+export interface Report {
   /**
-   * List of Reports.
-   * @type {Array<ReportReportingAPI>}
-   * @memberof ReportCollectionReportingAPI
+   * The Report Id.
+   * @type {string}
+   * @memberof Report
    */
-  reports?: Array<ReportReportingAPI>;
-  /**
-   *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof ReportCollectionReportingAPI
-   */
-  _links?: PagedResponseLinksReportingAPI;
-}
-/**
- * Properties of the Report to be created.
- * @export
- * @interface ReportCreateReportingAPI
- */
-export interface ReportCreateReportingAPI {
+  id?: string;
   /**
    * Name of the Report.
    * @type {string}
-   * @memberof ReportCreateReportingAPI
+   * @memberof Report
    */
   displayName?: string;
   /**
    * Description of the Report.
    * @type {string}
-   * @memberof ReportCreateReportingAPI
+   * @memberof Report
+   */
+  description?: string;
+  /**
+   * Flag indicating whether or not a Report has been marked for deletion.
+   * @type {boolean}
+   * @memberof Report
+   */
+  deleted?: boolean;
+  /**
+   *
+   * @type {ReportLinks}
+   * @memberof Report
+   */
+  _links?: ReportLinks;
+}
+/**
+ * List of Reports.
+ * @export
+ * @interface ReportCollection
+ */
+export interface ReportCollection {
+  /**
+   * List of Reports.
+   * @type {Array<Report>}
+   * @memberof ReportCollection
+   */
+  reports?: Array<Report>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof ReportCollection
+   */
+  _links?: PagedResponseLinks;
+}
+/**
+ * Properties of the Report to be created.
+ * @export
+ * @interface ReportCreate
+ */
+export interface ReportCreate {
+  /**
+   * Name of the Report.
+   * @type {string}
+   * @memberof ReportCreate
+   */
+  displayName?: string;
+  /**
+   * Description of the Report.
+   * @type {string}
+   * @memberof ReportCreate
    */
   description?: string;
   /**
    * The Project Id this Report will be drawing data from.
    * @type {string}
-   * @memberof ReportCreateReportingAPI
+   * @memberof ReportCreate
    */
   projectId?: string;
 }
 /**
  * Contains contextual hyperlinks to related data.
  * @export
- * @interface ReportLinksReportingAPI
+ * @interface ReportLinks
  */
-export interface ReportLinksReportingAPI {
+export interface ReportLinks {
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof ReportLinksReportingAPI
+   * @type {Link}
+   * @memberof ReportLinks
    */
-  project?: LinkReportingAPI;
+  project?: Link;
 }
 /**
- * List of Report Mappings.
+ * Defines a relationship between Report and Mapping. A Mapping can be associated with more than one Report.
  * @export
- * @interface ReportMappingCollectionReportingAPI
+ * @interface ReportMapping
  */
-export interface ReportMappingCollectionReportingAPI {
+export interface ReportMapping {
   /**
-   * List of Report Mappings.
-   * @type {Array<ReportMappingReportingAPI>}
-   * @memberof ReportMappingCollectionReportingAPI
-   */
-  mappings?: Array<ReportMappingReportingAPI>;
-  /**
-   *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof ReportMappingCollectionReportingAPI
-   */
-  _links?: PagedResponseLinksReportingAPI;
-}
-/**
- * Properties of the Report Mapping to be created.
- * @export
- * @interface ReportMappingCreateReportingAPI
- */
-export interface ReportMappingCreateReportingAPI {
-  /**
-   * The Mapping Id that should be linked to this Report.
+   * The Report Id.
    * @type {string}
-   * @memberof ReportMappingCreateReportingAPI
+   * @memberof ReportMapping
+   */
+  reportId?: string;
+  /**
+   * The Mapping Id.
+   * @type {string}
+   * @memberof ReportMapping
    */
   mappingId?: string;
   /**
    * The iModel Id.
    * @type {string}
-   * @memberof ReportMappingCreateReportingAPI
+   * @memberof ReportMapping
+   */
+  imodelId?: string;
+  /**
+   *
+   * @type {ReportMappingLinks}
+   * @memberof ReportMapping
+   */
+  _links?: ReportMappingLinks;
+}
+/**
+ * List of Report Mappings.
+ * @export
+ * @interface ReportMappingCollection
+ */
+export interface ReportMappingCollection {
+  /**
+   * List of Report Mappings.
+   * @type {Array<ReportMapping>}
+   * @memberof ReportMappingCollection
+   */
+  mappings?: Array<ReportMapping>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof ReportMappingCollection
+   */
+  _links?: PagedResponseLinks;
+}
+/**
+ * Properties of the Report Mapping to be created.
+ * @export
+ * @interface ReportMappingCreate
+ */
+export interface ReportMappingCreate {
+  /**
+   * The Mapping Id that should be linked to this Report.
+   * @type {string}
+   * @memberof ReportMappingCreate
+   */
+  mappingId?: string;
+  /**
+   * The iModel Id.
+   * @type {string}
+   * @memberof ReportMappingCreate
    */
   imodelId?: string;
 }
 /**
  * Contains contextual hyperlinks to related data.
  * @export
- * @interface ReportMappingLinksReportingAPI
+ * @interface ReportMappingLinks
  */
-export interface ReportMappingLinksReportingAPI {
+export interface ReportMappingLinks {
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof ReportMappingLinksReportingAPI
+   * @type {Link}
+   * @memberof ReportMappingLinks
    */
-  report?: LinkReportingAPI;
+  report?: Link;
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof ReportMappingLinksReportingAPI
+   * @type {Link}
+   * @memberof ReportMappingLinks
    */
-  mapping?: LinkReportingAPI;
+  mapping?: Link;
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof ReportMappingLinksReportingAPI
+   * @type {Link}
+   * @memberof ReportMappingLinks
    */
-  imodel?: LinkReportingAPI;
-}
-/**
- * Defines a relationship between Report and Mapping. A Mapping can be associated with more than one Report.
- * @export
- * @interface ReportMappingReportingAPI
- */
-export interface ReportMappingReportingAPI {
-  /**
-   * The Report Id.
-   * @type {string}
-   * @memberof ReportMappingReportingAPI
-   */
-  reportId?: string;
-  /**
-   * The Mapping Id.
-   * @type {string}
-   * @memberof ReportMappingReportingAPI
-   */
-  mappingId?: string;
-  /**
-   * The iModel Id.
-   * @type {string}
-   * @memberof ReportMappingReportingAPI
-   */
-  imodelId?: string;
-  /**
-   *
-   * @type {ReportMappingLinksReportingAPI}
-   * @memberof ReportMappingReportingAPI
-   */
-  _links?: ReportMappingLinksReportingAPI;
+  imodel?: Link;
 }
 /**
  * Container for a Report Mapping object.
  * @export
- * @interface ReportMappingSingleReportingAPI
+ * @interface ReportMappingSingle
  */
-export interface ReportMappingSingleReportingAPI {
+export interface ReportMappingSingle {
   /**
    *
-   * @type {ReportMappingReportingAPI}
-   * @memberof ReportMappingSingleReportingAPI
+   * @type {ReportMapping}
+   * @memberof ReportMappingSingle
    */
-  mapping?: ReportMappingReportingAPI;
-}
-/**
- * Defines a unit of data that can be exposed as an OData feed. The contents of a Report are defined in Report Mappings.
- * @export
- * @interface ReportReportingAPI
- */
-export interface ReportReportingAPI {
-  /**
-   * The Report Id.
-   * @type {string}
-   * @memberof ReportReportingAPI
-   */
-  id?: string;
-  /**
-   * Name of the Report.
-   * @type {string}
-   * @memberof ReportReportingAPI
-   */
-  displayName?: string;
-  /**
-   * Description of the Report.
-   * @type {string}
-   * @memberof ReportReportingAPI
-   */
-  description?: string;
-  /**
-   * Flag indicating whether or not a Report has been marked for deletion.
-   * @type {boolean}
-   * @memberof ReportReportingAPI
-   */
-  deleted?: boolean;
-  /**
-   *
-   * @type {ReportLinksReportingAPI}
-   * @memberof ReportReportingAPI
-   */
-  _links?: ReportLinksReportingAPI;
+  mapping?: ReportMapping;
 }
 /**
  * Container for a Report object.
  * @export
- * @interface ReportSingleReportingAPI
+ * @interface ReportSingle
  */
-export interface ReportSingleReportingAPI {
+export interface ReportSingle {
   /**
    *
-   * @type {ReportReportingAPI}
-   * @memberof ReportSingleReportingAPI
+   * @type {Report}
+   * @memberof ReportSingle
    */
-  report?: ReportReportingAPI;
+  report?: Report;
 }
 /**
  * Properties of the Report to be updated.
  * @export
- * @interface ReportUpdateReportingAPI
+ * @interface ReportUpdate
  */
-export interface ReportUpdateReportingAPI {
+export interface ReportUpdate {
   /**
    * Name of the Report.
    * @type {string}
-   * @memberof ReportUpdateReportingAPI
+   * @memberof ReportUpdate
    */
   displayName?: string;
   /**
    * Description of the Report.
    * @type {string}
-   * @memberof ReportUpdateReportingAPI
+   * @memberof ReportUpdate
    */
   description?: string;
   /**
    * Flag indicating whether or not a Report has been marked for deletion.
    * @type {boolean}
-   * @memberof ReportUpdateReportingAPI
+   * @memberof ReportUpdate
    */
   deleted?: boolean;
 }
@@ -1553,10 +1553,7 @@ export const DataAccessApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ODataResponseReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ODataResponse> {
       const localVarFetchArgs = DataAccessApiFetchParamCreator(
         configuration,
       ).odata(reportId, Authorization, Accept, options);
@@ -2072,10 +2069,7 @@ export const ExtractionApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ExtractionStatusReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ExtractionStatus> {
       const localVarFetchArgs = ExtractionApiFetchParamCreator(
         configuration,
       ).getExtractionStatus(imodelId, jobId, Authorization, Accept, options);
@@ -2109,10 +2103,7 @@ export const ExtractionApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ExtractionRunReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ExtractionRun> {
       const localVarFetchArgs = ExtractionApiFetchParamCreator(
         configuration,
       ).runExtraction(imodelId, Authorization, Accept, options);
@@ -2267,7 +2258,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} imodelId Id of the source Mapping&#x27;s iModel.
      * @param {string} mappingId Id of the source Mapping.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingCopyReportingAPI} [body]
+     * @param {MappingCopy} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2276,7 +2267,7 @@ export const MappingsApiFetchParamCreator = function (
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: MappingCopyReportingAPI,
+      body?: MappingCopy,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -2365,7 +2356,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'MappingCopyReportingAPI' !== 'string' ||
+        <any>'MappingCopy' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -2383,7 +2374,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new CalculatedProperty.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CalculatedPropertyCreateReportingAPI} [body]
+     * @param {CalculatedPropertyCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2393,7 +2384,7 @@ export const MappingsApiFetchParamCreator = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: CalculatedPropertyCreateReportingAPI,
+      body?: CalculatedPropertyCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -2490,7 +2481,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'CalculatedPropertyCreateReportingAPI' !== 'string' ||
+        <any>'CalculatedPropertyCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -2508,7 +2499,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new CustomCalculation.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CustomCalculationCreateReportingAPI} [body]
+     * @param {CustomCalculationCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2518,7 +2509,7 @@ export const MappingsApiFetchParamCreator = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: CustomCalculationCreateReportingAPI,
+      body?: CustomCalculationCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -2615,7 +2606,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'CustomCalculationCreateReportingAPI' !== 'string' ||
+        <any>'CustomCalculationCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -2632,7 +2623,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId Id of the Mapping for which to create a new Group.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupCreateReportingAPI} [body]
+     * @param {GroupCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2641,7 +2632,7 @@ export const MappingsApiFetchParamCreator = function (
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: GroupCreateReportingAPI,
+      body?: GroupCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -2730,7 +2721,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'GroupCreateReportingAPI' !== 'string' ||
+        <any>'GroupCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -2748,7 +2739,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new GroupProperty.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupPropertyCreateReportingAPI} [body]
+     * @param {GroupPropertyCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2758,7 +2749,7 @@ export const MappingsApiFetchParamCreator = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: GroupPropertyCreateReportingAPI,
+      body?: GroupPropertyCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -2855,7 +2846,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'GroupPropertyCreateReportingAPI' !== 'string' ||
+        <any>'GroupPropertyCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -2871,7 +2862,7 @@ export const MappingsApiFetchParamCreator = function (
      * @summary Create Mapping
      * @param {string} imodelId Id of the iModel for which to create a new Mapping.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingCreateReportingAPI} [body]
+     * @param {MappingCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2879,7 +2870,7 @@ export const MappingsApiFetchParamCreator = function (
     createMapping(
       imodelId: string,
       Authorization: string,
-      body?: MappingCreateReportingAPI,
+      body?: MappingCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -2961,7 +2952,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'MappingCreateReportingAPI' !== 'string' ||
+        <any>'MappingCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -4797,7 +4788,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} groupId The Group Id.
      * @param {string} propertyId Id of the CalculatedProperty to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CalculatedPropertyUpdateReportingAPI} [body]
+     * @param {CalculatedPropertyUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4808,7 +4799,7 @@ export const MappingsApiFetchParamCreator = function (
       groupId: string,
       propertyId: string,
       Authorization: string,
-      body?: CalculatedPropertyUpdateReportingAPI,
+      body?: CalculatedPropertyUpdate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -4916,7 +4907,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'CalculatedPropertyUpdateReportingAPI' !== 'string' ||
+        <any>'CalculatedPropertyUpdate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -4935,7 +4926,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} groupId The Group Id.
      * @param {string} customCalculationId Id of the CustomCalculation to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CustomCalculationUpdateReportingAPI} [body]
+     * @param {CustomCalculationUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4946,7 +4937,7 @@ export const MappingsApiFetchParamCreator = function (
       groupId: string,
       customCalculationId: string,
       Authorization: string,
-      body?: CustomCalculationUpdateReportingAPI,
+      body?: CustomCalculationUpdate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -5057,7 +5048,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'CustomCalculationUpdateReportingAPI' !== 'string' ||
+        <any>'CustomCalculationUpdate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -5075,7 +5066,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} mappingId Globally Unique Identifier of the target Mapping.
      * @param {string} groupId Id of the Group to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupUpdateReportingAPI} [body]
+     * @param {GroupUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5085,7 +5076,7 @@ export const MappingsApiFetchParamCreator = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: GroupUpdateReportingAPI,
+      body?: GroupUpdate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -5185,7 +5176,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'GroupUpdateReportingAPI' !== 'string' ||
+        <any>'GroupUpdate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -5204,7 +5195,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} groupId The Group Id.
      * @param {string} propertyId Id of the GroupProperty to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupPropertyUpdateReportingAPI} [body]
+     * @param {GroupPropertyUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5215,7 +5206,7 @@ export const MappingsApiFetchParamCreator = function (
       groupId: string,
       propertyId: string,
       Authorization: string,
-      body?: GroupPropertyUpdateReportingAPI,
+      body?: GroupPropertyUpdate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -5320,7 +5311,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'GroupPropertyUpdateReportingAPI' !== 'string' ||
+        <any>'GroupPropertyUpdate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -5337,7 +5328,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId Id of the Mapping to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingUpdateReportingAPI} [body]
+     * @param {MappingUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5346,7 +5337,7 @@ export const MappingsApiFetchParamCreator = function (
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: MappingUpdateReportingAPI,
+      body?: MappingUpdate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -5438,7 +5429,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'MappingUpdateReportingAPI' !== 'string' ||
+        <any>'MappingUpdate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -5464,7 +5455,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} imodelId Id of the source Mapping&#x27;s iModel.
      * @param {string} mappingId Id of the source Mapping.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingCopyReportingAPI} [body]
+     * @param {MappingCopy} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5473,13 +5464,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: MappingCopyReportingAPI,
+      body?: MappingCopy,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<MappingSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<MappingSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).copyMapping(imodelId, mappingId, Authorization, body, Accept, options);
@@ -5506,7 +5494,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new CalculatedProperty.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CalculatedPropertyCreateReportingAPI} [body]
+     * @param {CalculatedPropertyCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5516,13 +5504,13 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: CalculatedPropertyCreateReportingAPI,
+      body?: CalculatedPropertyCreate,
       Accept?: string,
       options?: any,
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CalculatedPropertySingleReportingAPI> {
+    ) => Promise<CalculatedPropertySingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).createCalculatedproperty(
@@ -5557,7 +5545,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new CustomCalculation.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CustomCalculationCreateReportingAPI} [body]
+     * @param {CustomCalculationCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5567,13 +5555,13 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: CustomCalculationCreateReportingAPI,
+      body?: CustomCalculationCreate,
       Accept?: string,
       options?: any,
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CustomCalculationSingleReportingAPI> {
+    ) => Promise<CustomCalculationSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).createCustomcalculation(
@@ -5607,7 +5595,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId Id of the Mapping for which to create a new Group.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupCreateReportingAPI} [body]
+     * @param {GroupCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5616,13 +5604,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: GroupCreateReportingAPI,
+      body?: GroupCreate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).createGroup(imodelId, mappingId, Authorization, body, Accept, options);
@@ -5649,7 +5634,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new GroupProperty.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupPropertyCreateReportingAPI} [body]
+     * @param {GroupPropertyCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5659,13 +5644,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: GroupPropertyCreateReportingAPI,
+      body?: GroupPropertyCreate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupPropertySingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupPropertySingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).createGroupproperty(
@@ -5698,7 +5680,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @summary Create Mapping
      * @param {string} imodelId Id of the iModel for which to create a new Mapping.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingCreateReportingAPI} [body]
+     * @param {MappingCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5706,13 +5688,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
     createMapping(
       imodelId: string,
       Authorization: string,
-      body?: MappingCreateReportingAPI,
+      body?: MappingCreate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<MappingSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<MappingSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).createMapping(imodelId, Authorization, body, Accept, options);
@@ -5982,7 +5961,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CalculatedPropertyCollectionReportingAPI> {
+    ) => Promise<CalculatedPropertyCollection> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getCalculatedproperties(
@@ -6034,7 +6013,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CalculatedPropertySingleReportingAPI> {
+    ) => Promise<CalculatedPropertySingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getCalculatedproperty(
@@ -6085,7 +6064,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CustomCalculationSingleReportingAPI> {
+    ) => Promise<CustomCalculationSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getCustomcalculation(
@@ -6138,7 +6117,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CustomCalculationCollectionReportingAPI> {
+    ) => Promise<CustomCalculationCollection> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getCustomcalculations(
@@ -6185,10 +6164,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getGroup(imodelId, mappingId, groupId, Authorization, Accept, options);
@@ -6233,7 +6209,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<GroupPropertyCollectionReportingAPI> {
+    ) => Promise<GroupPropertyCollection> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getGroupproperties(
@@ -6282,10 +6258,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupPropertySingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupPropertySingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getGroupproperty(
@@ -6333,10 +6306,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       continuationToken?: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupCollectionReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupCollection> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getGroups(
@@ -6380,10 +6350,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<MappingSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<MappingSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getMapping(imodelId, mappingId, Authorization, Accept, options);
@@ -6421,10 +6388,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       continuationToken?: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<MappingCollectionReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<MappingCollection> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getMappings(
@@ -6459,7 +6423,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} groupId The Group Id.
      * @param {string} propertyId Id of the CalculatedProperty to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CalculatedPropertyUpdateReportingAPI} [body]
+     * @param {CalculatedPropertyUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6470,13 +6434,13 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       groupId: string,
       propertyId: string,
       Authorization: string,
-      body?: CalculatedPropertyUpdateReportingAPI,
+      body?: CalculatedPropertyUpdate,
       Accept?: string,
       options?: any,
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CalculatedPropertySingleReportingAPI> {
+    ) => Promise<CalculatedPropertySingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).updateCalculatedproperty(
@@ -6513,7 +6477,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} groupId The Group Id.
      * @param {string} customCalculationId Id of the CustomCalculation to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CustomCalculationUpdateReportingAPI} [body]
+     * @param {CustomCalculationUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6524,13 +6488,13 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       groupId: string,
       customCalculationId: string,
       Authorization: string,
-      body?: CustomCalculationUpdateReportingAPI,
+      body?: CustomCalculationUpdate,
       Accept?: string,
       options?: any,
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CustomCalculationSingleReportingAPI> {
+    ) => Promise<CustomCalculationSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).updateCustomcalculation(
@@ -6566,7 +6530,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} mappingId Globally Unique Identifier of the target Mapping.
      * @param {string} groupId Id of the Group to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupUpdateReportingAPI} [body]
+     * @param {GroupUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6576,13 +6540,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: GroupUpdateReportingAPI,
+      body?: GroupUpdate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).updateGroup(
@@ -6618,7 +6579,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} groupId The Group Id.
      * @param {string} propertyId Id of the GroupProperty to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupPropertyUpdateReportingAPI} [body]
+     * @param {GroupPropertyUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6629,13 +6590,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       groupId: string,
       propertyId: string,
       Authorization: string,
-      body?: GroupPropertyUpdateReportingAPI,
+      body?: GroupPropertyUpdate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupPropertySingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupPropertySingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).updateGroupproperty(
@@ -6670,7 +6628,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId Id of the Mapping to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingUpdateReportingAPI} [body]
+     * @param {MappingUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6679,13 +6637,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: MappingUpdateReportingAPI,
+      body?: MappingUpdate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<MappingSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<MappingSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).updateMapping(
@@ -6731,7 +6686,7 @@ export const MappingsApiFactory = function (
      * @param {string} imodelId Id of the source Mapping&#x27;s iModel.
      * @param {string} mappingId Id of the source Mapping.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingCopyReportingAPI} [body]
+     * @param {MappingCopy} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6740,7 +6695,7 @@ export const MappingsApiFactory = function (
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: MappingCopyReportingAPI,
+      body?: MappingCopy,
       Accept?: string,
       options?: any,
     ) {
@@ -6760,7 +6715,7 @@ export const MappingsApiFactory = function (
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new CalculatedProperty.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CalculatedPropertyCreateReportingAPI} [body]
+     * @param {CalculatedPropertyCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6770,7 +6725,7 @@ export const MappingsApiFactory = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: CalculatedPropertyCreateReportingAPI,
+      body?: CalculatedPropertyCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -6791,7 +6746,7 @@ export const MappingsApiFactory = function (
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new CustomCalculation.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CustomCalculationCreateReportingAPI} [body]
+     * @param {CustomCalculationCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6801,7 +6756,7 @@ export const MappingsApiFactory = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: CustomCalculationCreateReportingAPI,
+      body?: CustomCalculationCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -6821,7 +6776,7 @@ export const MappingsApiFactory = function (
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId Id of the Mapping for which to create a new Group.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupCreateReportingAPI} [body]
+     * @param {GroupCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6830,7 +6785,7 @@ export const MappingsApiFactory = function (
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: GroupCreateReportingAPI,
+      body?: GroupCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -6850,7 +6805,7 @@ export const MappingsApiFactory = function (
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new GroupProperty.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupPropertyCreateReportingAPI} [body]
+     * @param {GroupPropertyCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6860,7 +6815,7 @@ export const MappingsApiFactory = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: GroupPropertyCreateReportingAPI,
+      body?: GroupPropertyCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -6879,7 +6834,7 @@ export const MappingsApiFactory = function (
      * @summary Create Mapping
      * @param {string} imodelId Id of the iModel for which to create a new Mapping.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingCreateReportingAPI} [body]
+     * @param {MappingCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6887,7 +6842,7 @@ export const MappingsApiFactory = function (
     createMapping(
       imodelId: string,
       Authorization: string,
-      body?: MappingCreateReportingAPI,
+      body?: MappingCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -7360,7 +7315,7 @@ export const MappingsApiFactory = function (
      * @param {string} groupId The Group Id.
      * @param {string} propertyId Id of the CalculatedProperty to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CalculatedPropertyUpdateReportingAPI} [body]
+     * @param {CalculatedPropertyUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7371,7 +7326,7 @@ export const MappingsApiFactory = function (
       groupId: string,
       propertyId: string,
       Authorization: string,
-      body?: CalculatedPropertyUpdateReportingAPI,
+      body?: CalculatedPropertyUpdate,
       Accept?: string,
       options?: any,
     ) {
@@ -7394,7 +7349,7 @@ export const MappingsApiFactory = function (
      * @param {string} groupId The Group Id.
      * @param {string} customCalculationId Id of the CustomCalculation to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CustomCalculationUpdateReportingAPI} [body]
+     * @param {CustomCalculationUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7405,7 +7360,7 @@ export const MappingsApiFactory = function (
       groupId: string,
       customCalculationId: string,
       Authorization: string,
-      body?: CustomCalculationUpdateReportingAPI,
+      body?: CustomCalculationUpdate,
       Accept?: string,
       options?: any,
     ) {
@@ -7427,7 +7382,7 @@ export const MappingsApiFactory = function (
      * @param {string} mappingId Globally Unique Identifier of the target Mapping.
      * @param {string} groupId Id of the Group to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupUpdateReportingAPI} [body]
+     * @param {GroupUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7437,7 +7392,7 @@ export const MappingsApiFactory = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: GroupUpdateReportingAPI,
+      body?: GroupUpdate,
       Accept?: string,
       options?: any,
     ) {
@@ -7459,7 +7414,7 @@ export const MappingsApiFactory = function (
      * @param {string} groupId The Group Id.
      * @param {string} propertyId Id of the GroupProperty to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupPropertyUpdateReportingAPI} [body]
+     * @param {GroupPropertyUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7470,7 +7425,7 @@ export const MappingsApiFactory = function (
       groupId: string,
       propertyId: string,
       Authorization: string,
-      body?: GroupPropertyUpdateReportingAPI,
+      body?: GroupPropertyUpdate,
       Accept?: string,
       options?: any,
     ) {
@@ -7491,7 +7446,7 @@ export const MappingsApiFactory = function (
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId Id of the Mapping to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingUpdateReportingAPI} [body]
+     * @param {MappingUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7500,7 +7455,7 @@ export const MappingsApiFactory = function (
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: MappingUpdateReportingAPI,
+      body?: MappingUpdate,
       Accept?: string,
       options?: any,
     ) {
@@ -7529,7 +7484,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} imodelId Id of the source Mapping&#x27;s iModel.
    * @param {string} mappingId Id of the source Mapping.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {MappingCopyReportingAPI} [body]
+   * @param {MappingCopy} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7539,7 +7494,7 @@ export class MappingsApi extends BaseAPI {
     imodelId: string,
     mappingId: string,
     Authorization: string,
-    body?: MappingCopyReportingAPI,
+    body?: MappingCopy,
     Accept?: string,
     options?: any,
   ) {
@@ -7560,7 +7515,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId Id of the Group for which to create a new CalculatedProperty.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {CalculatedPropertyCreateReportingAPI} [body]
+   * @param {CalculatedPropertyCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7571,7 +7526,7 @@ export class MappingsApi extends BaseAPI {
     mappingId: string,
     groupId: string,
     Authorization: string,
-    body?: CalculatedPropertyCreateReportingAPI,
+    body?: CalculatedPropertyCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -7593,7 +7548,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId Id of the Group for which to create a new CustomCalculation.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {CustomCalculationCreateReportingAPI} [body]
+   * @param {CustomCalculationCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7604,7 +7559,7 @@ export class MappingsApi extends BaseAPI {
     mappingId: string,
     groupId: string,
     Authorization: string,
-    body?: CustomCalculationCreateReportingAPI,
+    body?: CustomCalculationCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -7625,7 +7580,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} imodelId The iModel Id.
    * @param {string} mappingId Id of the Mapping for which to create a new Group.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {GroupCreateReportingAPI} [body]
+   * @param {GroupCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7635,7 +7590,7 @@ export class MappingsApi extends BaseAPI {
     imodelId: string,
     mappingId: string,
     Authorization: string,
-    body?: GroupCreateReportingAPI,
+    body?: GroupCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -7656,7 +7611,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId Id of the Group for which to create a new GroupProperty.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {GroupPropertyCreateReportingAPI} [body]
+   * @param {GroupPropertyCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7667,7 +7622,7 @@ export class MappingsApi extends BaseAPI {
     mappingId: string,
     groupId: string,
     Authorization: string,
-    body?: GroupPropertyCreateReportingAPI,
+    body?: GroupPropertyCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -7687,7 +7642,7 @@ export class MappingsApi extends BaseAPI {
    * @summary Create Mapping
    * @param {string} imodelId Id of the iModel for which to create a new Mapping.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {MappingCreateReportingAPI} [body]
+   * @param {MappingCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7696,7 +7651,7 @@ export class MappingsApi extends BaseAPI {
   public createMapping(
     imodelId: string,
     Authorization: string,
-    body?: MappingCreateReportingAPI,
+    body?: MappingCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -8200,7 +8155,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} groupId The Group Id.
    * @param {string} propertyId Id of the CalculatedProperty to be updated.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {CalculatedPropertyUpdateReportingAPI} [body]
+   * @param {CalculatedPropertyUpdate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8212,7 +8167,7 @@ export class MappingsApi extends BaseAPI {
     groupId: string,
     propertyId: string,
     Authorization: string,
-    body?: CalculatedPropertyUpdateReportingAPI,
+    body?: CalculatedPropertyUpdate,
     Accept?: string,
     options?: any,
   ) {
@@ -8236,7 +8191,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} groupId The Group Id.
    * @param {string} customCalculationId Id of the CustomCalculation to be updated.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {CustomCalculationUpdateReportingAPI} [body]
+   * @param {CustomCalculationUpdate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8248,7 +8203,7 @@ export class MappingsApi extends BaseAPI {
     groupId: string,
     customCalculationId: string,
     Authorization: string,
-    body?: CustomCalculationUpdateReportingAPI,
+    body?: CustomCalculationUpdate,
     Accept?: string,
     options?: any,
   ) {
@@ -8271,7 +8226,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} mappingId Globally Unique Identifier of the target Mapping.
    * @param {string} groupId Id of the Group to be updated.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {GroupUpdateReportingAPI} [body]
+   * @param {GroupUpdate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8282,7 +8237,7 @@ export class MappingsApi extends BaseAPI {
     mappingId: string,
     groupId: string,
     Authorization: string,
-    body?: GroupUpdateReportingAPI,
+    body?: GroupUpdate,
     Accept?: string,
     options?: any,
   ) {
@@ -8305,7 +8260,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} groupId The Group Id.
    * @param {string} propertyId Id of the GroupProperty to be updated.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {GroupPropertyUpdateReportingAPI} [body]
+   * @param {GroupPropertyUpdate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8317,7 +8272,7 @@ export class MappingsApi extends BaseAPI {
     groupId: string,
     propertyId: string,
     Authorization: string,
-    body?: GroupPropertyUpdateReportingAPI,
+    body?: GroupPropertyUpdate,
     Accept?: string,
     options?: any,
   ) {
@@ -8339,7 +8294,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} imodelId The iModel Id.
    * @param {string} mappingId Id of the Mapping to be updated.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {MappingUpdateReportingAPI} [body]
+   * @param {MappingUpdate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8349,7 +8304,7 @@ export class MappingsApi extends BaseAPI {
     imodelId: string,
     mappingId: string,
     Authorization: string,
-    body?: MappingUpdateReportingAPI,
+    body?: MappingUpdate,
     Accept?: string,
     options?: any,
   ) {
@@ -8375,14 +8330,14 @@ export const ReportsApiFetchParamCreator = function (
      * ---    Creates a Report within the context of a Project.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `insights_modify` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Create Report
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportCreateReportingAPI} [body]
+     * @param {ReportCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createReport(
       Authorization: string,
-      body?: ReportCreateReportingAPI,
+      body?: ReportCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -8454,7 +8409,7 @@ export const ReportsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'ReportCreateReportingAPI' !== 'string' ||
+        <any>'ReportCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -8470,7 +8425,7 @@ export const ReportsApiFetchParamCreator = function (
      * @summary Create Report Mapping
      * @param {string} reportId The Report Id.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportMappingCreateReportingAPI} [body]
+     * @param {ReportMappingCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8478,7 +8433,7 @@ export const ReportsApiFetchParamCreator = function (
     createReportMapping(
       reportId: string,
       Authorization: string,
-      body?: ReportMappingCreateReportingAPI,
+      body?: ReportMappingCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -8561,7 +8516,7 @@ export const ReportsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'ReportMappingCreateReportingAPI' !== 'string' ||
+        <any>'ReportMappingCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -9104,7 +9059,7 @@ export const ReportsApiFetchParamCreator = function (
      * @summary Update Report
      * @param {string} reportId Id of the Report to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportUpdateReportingAPI} [body]
+     * @param {ReportUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9112,7 +9067,7 @@ export const ReportsApiFetchParamCreator = function (
     updateReport(
       reportId: string,
       Authorization: string,
-      body?: ReportUpdateReportingAPI,
+      body?: ReportUpdate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -9197,7 +9152,7 @@ export const ReportsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'ReportUpdateReportingAPI' !== 'string' ||
+        <any>'ReportUpdate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -9221,20 +9176,17 @@ export const ReportsApiFp = function (configuration?: Configuration) {
      * ---    Creates a Report within the context of a Project.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `insights_modify` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Create Report
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportCreateReportingAPI} [body]
+     * @param {ReportCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createReport(
       Authorization: string,
-      body?: ReportCreateReportingAPI,
+      body?: ReportCreate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ReportSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ReportSingle> {
       const localVarFetchArgs = ReportsApiFetchParamCreator(
         configuration,
       ).createReport(Authorization, body, Accept, options);
@@ -9259,7 +9211,7 @@ export const ReportsApiFp = function (configuration?: Configuration) {
      * @summary Create Report Mapping
      * @param {string} reportId The Report Id.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportMappingCreateReportingAPI} [body]
+     * @param {ReportMappingCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9267,13 +9219,10 @@ export const ReportsApiFp = function (configuration?: Configuration) {
     createReportMapping(
       reportId: string,
       Authorization: string,
-      body?: ReportMappingCreateReportingAPI,
+      body?: ReportMappingCreate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ReportMappingSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ReportMappingSingle> {
       const localVarFetchArgs = ReportsApiFetchParamCreator(
         configuration,
       ).createReportMapping(reportId, Authorization, body, Accept, options);
@@ -9389,10 +9338,7 @@ export const ReportsApiFp = function (configuration?: Configuration) {
       deleted?: boolean,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ReportCollectionReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ReportCollection> {
       const localVarFetchArgs = ReportsApiFetchParamCreator(
         configuration,
       ).getProjectReports(
@@ -9434,10 +9380,7 @@ export const ReportsApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ReportSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ReportSingle> {
       const localVarFetchArgs = ReportsApiFetchParamCreator(
         configuration,
       ).getReport(reportId, Authorization, Accept, options);
@@ -9478,7 +9421,7 @@ export const ReportsApiFp = function (configuration?: Configuration) {
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<ReportMappingCollectionReportingAPI> {
+    ) => Promise<ReportMappingCollection> {
       const localVarFetchArgs = ReportsApiFetchParamCreator(
         configuration,
       ).getReportMappings(
@@ -9510,7 +9453,7 @@ export const ReportsApiFp = function (configuration?: Configuration) {
      * @summary Update Report
      * @param {string} reportId Id of the Report to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportUpdateReportingAPI} [body]
+     * @param {ReportUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9518,13 +9461,10 @@ export const ReportsApiFp = function (configuration?: Configuration) {
     updateReport(
       reportId: string,
       Authorization: string,
-      body?: ReportUpdateReportingAPI,
+      body?: ReportUpdate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ReportSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ReportSingle> {
       const localVarFetchArgs = ReportsApiFetchParamCreator(
         configuration,
       ).updateReport(reportId, Authorization, body, Accept, options);
@@ -9561,14 +9501,14 @@ export const ReportsApiFactory = function (
      * ---    Creates a Report within the context of a Project.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `insights_modify` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Create Report
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportCreateReportingAPI} [body]
+     * @param {ReportCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createReport(
       Authorization: string,
-      body?: ReportCreateReportingAPI,
+      body?: ReportCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -9584,7 +9524,7 @@ export const ReportsApiFactory = function (
      * @summary Create Report Mapping
      * @param {string} reportId The Report Id.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportMappingCreateReportingAPI} [body]
+     * @param {ReportMappingCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9592,7 +9532,7 @@ export const ReportsApiFactory = function (
     createReportMapping(
       reportId: string,
       Authorization: string,
-      body?: ReportMappingCreateReportingAPI,
+      body?: ReportMappingCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -9737,7 +9677,7 @@ export const ReportsApiFactory = function (
      * @summary Update Report
      * @param {string} reportId Id of the Report to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportUpdateReportingAPI} [body]
+     * @param {ReportUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9745,7 +9685,7 @@ export const ReportsApiFactory = function (
     updateReport(
       reportId: string,
       Authorization: string,
-      body?: ReportUpdateReportingAPI,
+      body?: ReportUpdate,
       Accept?: string,
       options?: any,
     ) {
@@ -9771,7 +9711,7 @@ export class ReportsApi extends BaseAPI {
    * ---    Creates a Report within the context of a Project.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `insights_modify` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
    * @summary Create Report
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {ReportCreateReportingAPI} [body]
+   * @param {ReportCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9779,7 +9719,7 @@ export class ReportsApi extends BaseAPI {
    */
   public createReport(
     Authorization: string,
-    body?: ReportCreateReportingAPI,
+    body?: ReportCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -9796,7 +9736,7 @@ export class ReportsApi extends BaseAPI {
    * @summary Create Report Mapping
    * @param {string} reportId The Report Id.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {ReportMappingCreateReportingAPI} [body]
+   * @param {ReportMappingCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9805,7 +9745,7 @@ export class ReportsApi extends BaseAPI {
   public createReportMapping(
     reportId: string,
     Authorization: string,
-    body?: ReportMappingCreateReportingAPI,
+    body?: ReportMappingCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -9961,7 +9901,7 @@ export class ReportsApi extends BaseAPI {
    * @summary Update Report
    * @param {string} reportId Id of the Report to be updated.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {ReportUpdateReportingAPI} [body]
+   * @param {ReportUpdate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9970,7 +9910,7 @@ export class ReportsApi extends BaseAPI {
   public updateReport(
     reportId: string,
     Authorization: string,
-    body?: ReportUpdateReportingAPI,
+    body?: ReportUpdate,
     Accept?: string,
     options?: any,
   ) {
