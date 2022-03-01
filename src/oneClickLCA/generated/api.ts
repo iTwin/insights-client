@@ -100,10 +100,9 @@ export interface ErrorContainer {
 }
 /**
  * Contains error information.
- * @export
  * @interface ErrorDetails
  */
-export interface ErrorDetails {
+interface ErrorDetails {
   /**
    * One of a server-defined set of error codes.
    * @type {string}
@@ -119,10 +118,9 @@ export interface ErrorDetails {
 }
 /**
  * Gives details for an error that occurred while handling the request. Note that clients MUST NOT assume that every failed request will produce an object of this schema, or that all of the properties in the response will be non-null, as the error may have prevented this response from being constructed.
- * @export
  * @interface ErrorResponse
  */
-export interface ErrorResponse {
+interface ErrorResponse {
   /**
    *
    * @type {ModelError}
@@ -288,10 +286,9 @@ export interface JobStatusResponse {
 }
 /**
  * Hyperlink container.
- * @export
  * @interface Link
  */
-export interface Link {
+interface Link {
   /**
    * Hyperlink to the specific entity.
    * @type {string}
@@ -301,10 +298,9 @@ export interface Link {
 }
 /**
  * Contains error information and an optional array of more specific errors.
- * @export
  * @interface ModelError
  */
-export interface ModelError {
+interface ModelError {
   /**
    * One of a server-defined set of error codes.
    * @type {string}

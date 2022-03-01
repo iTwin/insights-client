@@ -51,7 +51,7 @@ describe("ReportingClient", () => {
       mappingId,
       groupId
     );
-    expect(properties.properties).to.be.not.undefined;
-    expect(properties.properties).to.not.be.empty;
+    expect(properties.groupProperties).to.be.not.undefined;
+    expect(properties.groupProperties).to.not.be.empty;
   });
 });
