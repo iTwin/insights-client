@@ -7,7 +7,7 @@
 // tslint:disable
 /**
  * Carbon Calculation
- * Access carbon footprint calculation from imodels report data.
+ * Access iTwin data integrations with various Carbon Calculation solutions for Embodied Carbon, Life Cycle Assesments, and more.
  *
  * OpenAPI spec version: v1
  *

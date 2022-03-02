@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
 import { CC_BASE_PATH, OneClickLCAApi } from "./generated/api";
-import type { JobCreateCarbonCalculationAPI } from "./generated/api";
+import type { JobCreate } from "./generated/api";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 
@@ -44,7 +44,7 @@ export class OneClickLCAClient {
 
   public async createOneclicklcaJob(
     accessToken: AccessToken,
-    job: JobCreateCarbonCalculationAPI
+    job: JobCreate
   ) {
     return this._oclcaApi.createOneclicklcaJob(accessToken, job, ACCEPT);
   }

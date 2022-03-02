@@ -86,1122 +86,1226 @@ class RequiredError extends Error {
 }
 
 /**
- * List of CalculatedProperties.
+ * Defines a CalculatedProperty or 'column' for a Group. It is calculated for each element returned by the Group's query.
  * @export
- * @interface CalculatedPropertyCollectionReportingAPI
+ * @interface CalculatedProperty
  */
-export interface CalculatedPropertyCollectionReportingAPI {
+export interface CalculatedProperty {
   /**
-   * List of CalculatedProperties.
-   * @type {Array<CalculatedPropertyReportingAPI>}
-   * @memberof CalculatedPropertyCollectionReportingAPI
+   * The CalculatedProperty Id.
+   * @type {string}
+   * @memberof CalculatedProperty
    */
-  properties?: Array<CalculatedPropertyReportingAPI>;
+  id?: string;
+  /**
+   * Name of the Property (OData v4 SimpleIdentifier).
+   * @type {string}
+   * @memberof CalculatedProperty
+   */
+  propertyName?: string;
+  /**
+   * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
+   * @type {string}
+   * @memberof CalculatedProperty
+   */
+  type?: string;
+  /**
+   * The quantity type of the CalculatedProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
+   * @type {string}
+   * @memberof CalculatedProperty
+   */
+  quantityType?: string;
   /**
    *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof CalculatedPropertyCollectionReportingAPI
+   * @type {CalculatedPropertyLinks}
+   * @memberof CalculatedProperty
    */
-  _links?: PagedResponseLinksReportingAPI;
+  _links?: CalculatedPropertyLinks;
+}
+/**
+ * List of CalculatedProperties.
+ * @export
+ * @interface CalculatedPropertyCollection
+ */
+export interface CalculatedPropertyCollection {
+  /**
+   * List of CalculatedProperties.
+   * @type {Array<CalculatedProperty>}
+   * @memberof CalculatedPropertyCollection
+   */
+  properties?: Array<CalculatedProperty>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof CalculatedPropertyCollection
+   */
+  _links?: PagedResponseLinks;
 }
 /**
  * Properties of the CalculatedProperty to be created.
  * @export
- * @interface CalculatedPropertyCreateReportingAPI
+ * @interface CalculatedPropertyCreate
  */
-export interface CalculatedPropertyCreateReportingAPI {
+export interface CalculatedPropertyCreate {
   /**
    * Name of the CalculatedProperty.
    * @type {string}
-   * @memberof CalculatedPropertyCreateReportingAPI
+   * @memberof CalculatedPropertyCreate
    */
   propertyName: string;
   /**
    * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
    * @type {string}
-   * @memberof CalculatedPropertyCreateReportingAPI
+   * @memberof CalculatedPropertyCreate
    */
   type: string;
 }
 /**
  *
  * @export
- * @interface CalculatedPropertyLinksReportingAPI
+ * @interface CalculatedPropertyLinks
  */
-export interface CalculatedPropertyLinksReportingAPI {
+export interface CalculatedPropertyLinks {
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof CalculatedPropertyLinksReportingAPI
+   * @type {Link}
+   * @memberof CalculatedPropertyLinks
    */
-  imodel?: LinkReportingAPI;
+  imodel?: Link;
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof CalculatedPropertyLinksReportingAPI
+   * @type {Link}
+   * @memberof CalculatedPropertyLinks
    */
-  mapping?: LinkReportingAPI;
+  mapping?: Link;
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof CalculatedPropertyLinksReportingAPI
+   * @type {Link}
+   * @memberof CalculatedPropertyLinks
    */
-  group?: LinkReportingAPI;
+  group?: Link;
 }
 /**
- * Defines a CalculatedProperty or 'column' for a Group. It is calculated for each element returned by the Group's query.
+ * Container for a CalculatedProperty object.
  * @export
- * @interface CalculatedPropertyReportingAPI
+ * @interface CalculatedPropertySingle
  */
-export interface CalculatedPropertyReportingAPI {
+export interface CalculatedPropertySingle {
   /**
-   * The CalculatedProperty Id.
+   *
+   * @type {CalculatedProperty}
+   * @memberof CalculatedPropertySingle
+   */
+  property?: CalculatedProperty;
+}
+/**
+ * Properties of the CalculatedProperty to be updated.
+ * @export
+ * @interface CalculatedPropertyUpdate
+ */
+export interface CalculatedPropertyUpdate {
+  /**
+   * Name of the CalculatedProperty.
    * @type {string}
-   * @memberof CalculatedPropertyReportingAPI
+   * @memberof CalculatedPropertyUpdate
+   */
+  propertyName?: string;
+  /**
+   * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
+   * @type {string}
+   * @memberof CalculatedPropertyUpdate
+   */
+  type?: string;
+}
+/**
+ * Defines a CustomCalculation or 'column' for a Group. It is calculated using the given formula for each element returned by the Group's query.
+ * @export
+ * @interface CustomCalculation
+ */
+export interface CustomCalculation {
+  /**
+   * The CustomCalculation Id.
+   * @type {string}
+   * @memberof CustomCalculation
    */
   id?: string;
   /**
    * Name of the Property (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof CalculatedPropertyReportingAPI
+   * @memberof CustomCalculation
    */
   propertyName?: string;
   /**
-   * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
+   * A mathematical formula which will be evaluated for each element returned by the Group's query.
    * @type {string}
-   * @memberof CalculatedPropertyReportingAPI
+   * @memberof CustomCalculation
    */
-  type?: string;
+  formula?: string;
   /**
-   * The quantity type of the CalculatedProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
+   * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
-   * @memberof CalculatedPropertyReportingAPI
+   * @memberof CustomCalculation
    */
   quantityType?: string;
   /**
    *
-   * @type {CalculatedPropertyLinksReportingAPI}
-   * @memberof CalculatedPropertyReportingAPI
+   * @type {CalculatedPropertyLinks}
+   * @memberof CustomCalculation
    */
-  _links?: CalculatedPropertyLinksReportingAPI;
-}
-/**
- * Container for a CalculatedProperty object.
- * @export
- * @interface CalculatedPropertySingleReportingAPI
- */
-export interface CalculatedPropertySingleReportingAPI {
-  /**
-   *
-   * @type {CalculatedPropertyReportingAPI}
-   * @memberof CalculatedPropertySingleReportingAPI
-   */
-  property?: CalculatedPropertyReportingAPI;
-}
-/**
- * Properties of the CalculatedProperty to be updated.
- * @export
- * @interface CalculatedPropertyUpdateReportingAPI
- */
-export interface CalculatedPropertyUpdateReportingAPI {
-  /**
-   * Name of the CalculatedProperty.
-   * @type {string}
-   * @memberof CalculatedPropertyUpdateReportingAPI
-   */
-  propertyName?: string;
-  /**
-   * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
-   * @type {string}
-   * @memberof CalculatedPropertyUpdateReportingAPI
-   */
-  type?: string;
+  _links?: CalculatedPropertyLinks;
 }
 /**
  * List of CustomCalculations.
  * @export
- * @interface CustomCalculationCollectionReportingAPI
+ * @interface CustomCalculationCollection
  */
-export interface CustomCalculationCollectionReportingAPI {
+export interface CustomCalculationCollection {
   /**
    * List of CustomCalculations.
-   * @type {Array<CustomCalculationReportingAPI>}
-   * @memberof CustomCalculationCollectionReportingAPI
+   * @type {Array<CustomCalculation>}
+   * @memberof CustomCalculationCollection
    */
-  customCalculations?: Array<CustomCalculationReportingAPI>;
+  customCalculations?: Array<CustomCalculation>;
   /**
    *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof CustomCalculationCollectionReportingAPI
+   * @type {PagedResponseLinks}
+   * @memberof CustomCalculationCollection
    */
-  _links?: PagedResponseLinksReportingAPI;
+  _links?: PagedResponseLinks;
 }
 /**
  * Properties of the CustomCalculation to be created.
  * @export
- * @interface CustomCalculationCreateReportingAPI
+ * @interface CustomCalculationCreate
  */
-export interface CustomCalculationCreateReportingAPI {
+export interface CustomCalculationCreate {
   /**
    * Name of the Property (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof CustomCalculationCreateReportingAPI
+   * @memberof CustomCalculationCreate
    */
   propertyName: string;
   /**
    * A mathematical formula which will be evaluated for each element returned by the Group's query.
    * @type {string}
-   * @memberof CustomCalculationCreateReportingAPI
+   * @memberof CustomCalculationCreate
    */
   formula: string;
   /**
    * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'. Default is 'Undefined'.
    * @type {string}
-   * @memberof CustomCalculationCreateReportingAPI
+   * @memberof CustomCalculationCreate
    */
   quantityType?: string;
-}
-/**
- * Defines a CustomCalculation or 'column' for a Group. It is calculated using the given formula for each element returned by the Group's query.
- * @export
- * @interface CustomCalculationReportingAPI
- */
-export interface CustomCalculationReportingAPI {
-  /**
-   * The CustomCalculation Id.
-   * @type {string}
-   * @memberof CustomCalculationReportingAPI
-   */
-  id?: string;
-  /**
-   * Name of the Property (OData v4 SimpleIdentifier).
-   * @type {string}
-   * @memberof CustomCalculationReportingAPI
-   */
-  propertyName?: string;
-  /**
-   * A mathematical formula which will be evaluated for each element returned by the Group's query.
-   * @type {string}
-   * @memberof CustomCalculationReportingAPI
-   */
-  formula?: string;
-  /**
-   * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
-   * @type {string}
-   * @memberof CustomCalculationReportingAPI
-   */
-  quantityType?: string;
-  /**
-   *
-   * @type {CalculatedPropertyLinksReportingAPI}
-   * @memberof CustomCalculationReportingAPI
-   */
-  _links?: CalculatedPropertyLinksReportingAPI;
 }
 /**
  * Container for a CustomCalculation object.
  * @export
- * @interface CustomCalculationSingleReportingAPI
+ * @interface CustomCalculationSingle
  */
-export interface CustomCalculationSingleReportingAPI {
+export interface CustomCalculationSingle {
   /**
    *
-   * @type {CustomCalculationReportingAPI}
-   * @memberof CustomCalculationSingleReportingAPI
+   * @type {CustomCalculation}
+   * @memberof CustomCalculationSingle
    */
-  customCalculation?: CustomCalculationReportingAPI;
+  customCalculation?: CustomCalculation;
 }
 /**
  * Properties of the CustomCalculation to be updated.
  * @export
- * @interface CustomCalculationUpdateReportingAPI
+ * @interface CustomCalculationUpdate
  */
-export interface CustomCalculationUpdateReportingAPI {
+export interface CustomCalculationUpdate {
   /**
    * Name of the Property (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof CustomCalculationUpdateReportingAPI
+   * @memberof CustomCalculationUpdate
    */
   propertyName?: string;
   /**
    * A mathematical formula which will be evaluated for each element returned by the Group's query.
    * @type {string}
-   * @memberof CustomCalculationUpdateReportingAPI
+   * @memberof CustomCalculationUpdate
    */
   formula?: string;
   /**
    * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
-   * @memberof CustomCalculationUpdateReportingAPI
+   * @memberof CustomCalculationUpdate
    */
   quantityType?: string;
 }
 /**
  * Defines a target ECProperty for a Group. This is used to determine what properties will be read from the query response of a Group.
  * @export
- * @interface ECPropertyReportingAPI
+ * @interface ECProperty
  */
-export interface ECPropertyReportingAPI {
+export interface ECProperty {
   /**
    * The target ECSchema.
    * @type {string}
-   * @memberof ECPropertyReportingAPI
+   * @memberof ECProperty
    */
   ecSchemaName?: string;
   /**
    * The target ECClass.
    * @type {string}
-   * @memberof ECPropertyReportingAPI
+   * @memberof ECProperty
    */
   ecClassName?: string;
   /**
    * The target ECProperty.
    * @type {string}
-   * @memberof ECPropertyReportingAPI
+   * @memberof ECProperty
    */
   ecPropertyName?: string;
   /**
    * The type of the target ECProperty.
    * @type {string}
-   * @memberof ECPropertyReportingAPI
+   * @memberof ECProperty
    */
   ecPropertyType?: string;
 }
 /**
  * Contains error information.
  * @export
- * @interface ErrorDetailsReportingAPI
+ * @interface ErrorDetails
  */
-export interface ErrorDetailsReportingAPI {
+export interface ErrorDetails {
   /**
    * One of a server-defined set of error codes.
    * @type {string}
-   * @memberof ErrorDetailsReportingAPI
+   * @memberof ErrorDetails
    */
   code: string;
   /**
    * A human-readable representation of the error.
    * @type {string}
-   * @memberof ErrorDetailsReportingAPI
+   * @memberof ErrorDetails
    */
   message: string;
-}
-/**
- * Contains error information and an optional array of more specific errors.
- * @export
- * @interface ErrorReportingAPI
- */
-export interface ErrorReportingAPI {
-  /**
-   * One of a server-defined set of error codes.
-   * @type {string}
-   * @memberof ErrorReportingAPI
-   */
-  code: string;
-  /**
-   * A human-readable representation of the error.
-   * @type {string}
-   * @memberof ErrorReportingAPI
-   */
-  message: string;
-  /**
-   * Optional array of more specific errors.
-   * @type {Array<ErrorDetailsReportingAPI>}
-   * @memberof ErrorReportingAPI
-   */
-  details?: Array<ErrorDetailsReportingAPI>;
 }
 /**
  * Gives details for an error that occurred while handling the request. Note that clients MUST NOT assume that every failed request will produce an object of this schema, or that all of the properties in the response will be non-null, as the error may have prevented this response from being constructed.
  * @export
- * @interface ErrorResponseReportingAPI
+ * @interface ErrorResponse
  */
-export interface ErrorResponseReportingAPI {
+export interface ErrorResponse {
   /**
    *
    * @type {Error}
-   * @memberof ErrorResponseReportingAPI
+   * @memberof ErrorResponse
    */
-  error: Error;
+  error: ModelError;
+}
+/**
+ * Defines a single Extraction Log response.
+ * @export
+ * @interface ExtractionLog
+ */
+export interface ExtractionLog {
+  /**
+   * The state of the Extraction at specific time.
+   * @type {string}
+   * @memberof ExtractionLog
+   */
+  state?: string;
+  /**
+   * The Reason explaining why state has specific value.
+   * @type {string}
+   * @memberof ExtractionLog
+   */
+  reason?: string;
+  /**
+   * Date when Extraction Log entity was created.
+   * @type {string}
+   * @memberof ExtractionLog
+   */
+  dateTime?: string;
+  /**
+   * Unique Identifier for the Extraction Run.
+   * @type {string}
+   * @memberof ExtractionLog
+   */
+  jobId?: string;
+  /**
+   * The type of the contextId.
+   * @type {string}
+   * @memberof ExtractionLog
+   */
+  contextType?: string;
+  /**
+   * The Context Id.
+   * @type {string}
+   * @memberof ExtractionLog
+   */
+  contextId?: string;
+  /**
+   * The level of an issue. If Extraction Log entity is not an issue it is marked as \"Information\".
+   * @type {string}
+   * @memberof ExtractionLog
+   */
+  level?: string;
+  /**
+   * The issue category. If Extraction Log entity is not an issue this is marked as \"Unknown\".
+   * @type {string}
+   * @memberof ExtractionLog
+   */
+  category?: string;
+  /**
+   * Message which specifies why certain issue occured. If Extraction Log entity is not an issue Message is null.
+   * @type {string}
+   * @memberof ExtractionLog
+   */
+  message?: string;
+  /**
+   * If Extraction Log contains an issue, this is marked as true.
+   * @type {boolean}
+   * @memberof ExtractionLog
+   */
+  containsIssues?: boolean;
+}
+/**
+ * List of Extraction Logs.
+ * @export
+ * @interface ExtractionLogCollection
+ */
+export interface ExtractionLogCollection {
+  /**
+   * List of Extraction Logs.
+   * @type {Array<ExtractionLog>}
+   * @memberof ExtractionLogCollection
+   */
+  extractionLog?: Array<ExtractionLog>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof ExtractionLogCollection
+   */
+  _links?: PagedResponseLinks;
 }
 /**
  * Metadata associated with a data extraction run.
  * @export
- * @interface ExtractionRunReportingAPI
+ * @interface ExtractionRun
  */
-export interface ExtractionRunReportingAPI {
+export interface ExtractionRun {
   /**
    *
-   * @type {ExtractionRunRunReportingAPI}
-   * @memberof ExtractionRunReportingAPI
+   * @type {ExtractionRunRun}
+   * @memberof ExtractionRun
    */
-  run?: ExtractionRunRunReportingAPI;
+  run?: ExtractionRunRun;
 }
 /**
  * Extraction Run properties.
  * @export
- * @interface ExtractionRunRunReportingAPI
+ * @interface ExtractionRunRun
  */
-export interface ExtractionRunRunReportingAPI {
+export interface ExtractionRunRun {
   /**
    * Unique Identifier for the Extraction Run. Use this to check run status.
    * @type {string}
-   * @memberof ExtractionRunRunReportingAPI
+   * @memberof ExtractionRunRun
    */
   id?: string;
 }
 /**
  * Status of the specified Extraction Run.
  * @export
- * @interface ExtractionStatusReportingAPI
+ * @interface ExtractionStatus
  */
-export interface ExtractionStatusReportingAPI {
+export interface ExtractionStatus {
   /**
    *
-   * @type {ExtractionStatusStatusReportingAPI}
-   * @memberof ExtractionStatusReportingAPI
+   * @type {ExtractionStatusStatus}
+   * @memberof ExtractionStatus
    */
-  status?: ExtractionStatusStatusReportingAPI;
+  status?: ExtractionStatusStatus;
 }
 /**
  * Extraction Status properties.
  * @export
- * @interface ExtractionStatusStatusReportingAPI
+ * @interface ExtractionStatusStatus
  */
-export interface ExtractionStatusStatusReportingAPI {
+export interface ExtractionStatusStatus {
   /**
    * Current state of the Extraction Run - 'Running', 'Succeeded', or 'Failed'.
    * @type {string}
-   * @memberof ExtractionStatusStatusReportingAPI
+   * @memberof ExtractionStatusStatus
    */
   state?: string;
   /**
    * Additional justification for the current state of the Extraction Run.
    * @type {string}
-   * @memberof ExtractionStatusStatusReportingAPI
+   * @memberof ExtractionStatusStatus
    */
   reason?: string;
 }
 /**
+ * Defines a single Group (collection of iModel elements) in an iModel Mapping.
+ * @export
+ * @interface Group
+ */
+export interface Group {
+  /**
+   * The Group Id.
+   * @type {string}
+   * @memberof Group
+   */
+  id?: string;
+  /**
+   * Name of the Group (OData v4 SimpleIdentifier).
+   * @type {string}
+   * @memberof Group
+   */
+  groupName?: string;
+  /**
+   * Description of the Group.
+   * @type {string}
+   * @memberof Group
+   */
+  description?: string;
+  /**
+   * Query string that will be executed against the target iModel to build this Group.
+   * @type {string}
+   * @memberof Group
+   */
+  query?: string;
+}
+/**
  * List of Groups.
  * @export
- * @interface GroupCollectionReportingAPI
+ * @interface GroupCollection
  */
-export interface GroupCollectionReportingAPI {
+export interface GroupCollection {
   /**
    * List of Groups.
-   * @type {Array<GroupReportingAPI>}
-   * @memberof GroupCollectionReportingAPI
+   * @type {Array<Group>}
+   * @memberof GroupCollection
    */
-  groups?: Array<GroupReportingAPI>;
+  groups?: Array<Group>;
   /**
    *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof GroupCollectionReportingAPI
+   * @type {PagedResponseLinks}
+   * @memberof GroupCollection
    */
-  _links?: PagedResponseLinksReportingAPI;
+  _links?: PagedResponseLinks;
 }
 /**
  * Properties of the Group to be created.
  * @export
- * @interface GroupCreateReportingAPI
+ * @interface GroupCreate
  */
-export interface GroupCreateReportingAPI {
+export interface GroupCreate {
   /**
    * Name of the Group (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof GroupCreateReportingAPI
+   * @memberof GroupCreate
    */
   groupName?: string;
   /**
    * Description of the Group.
    * @type {string}
-   * @memberof GroupCreateReportingAPI
+   * @memberof GroupCreate
    */
   description?: string;
   /**
    * Query string that will be executed against the target iModel to build this Group.
    * @type {string}
-   * @memberof GroupCreateReportingAPI
+   * @memberof GroupCreate
    */
   query?: string;
-}
-/**
- * List of GroupProperties.
- * @export
- * @interface GroupPropertyCollectionReportingAPI
- */
-export interface GroupPropertyCollectionReportingAPI {
-  /**
-   * List of GroupProperties.
-   * @type {Array<GroupPropertyReportingAPI>}
-   * @memberof GroupPropertyCollectionReportingAPI
-   */
-  properties?: Array<GroupPropertyReportingAPI>;
-  /**
-   *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof GroupPropertyCollectionReportingAPI
-   */
-  _links?: PagedResponseLinksReportingAPI;
-}
-/**
- * Properties of the GroupProperty to be created.
- * @export
- * @interface GroupPropertyCreateReportingAPI
- */
-export interface GroupPropertyCreateReportingAPI {
-  /**
-   * Name of the Property (OData v4 SimpleIdentifier).
-   * @type {string}
-   * @memberof GroupPropertyCreateReportingAPI
-   */
-  propertyName?: string;
-  /**
-   * The data type of the GroupProperty. One of 'Boolean', 'Number', 'String', or 'Undefined'.
-   * @type {string}
-   * @memberof GroupPropertyCreateReportingAPI
-   */
-  dataType?: string;
-  /**
-   * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
-   * @type {string}
-   * @memberof GroupPropertyCreateReportingAPI
-   */
-  quantityType?: string;
-  /**
-   * List of ECProperties that map to this GroupProperty.
-   * @type {Array<ECPropertyReportingAPI>}
-   * @memberof GroupPropertyCreateReportingAPI
-   */
-  ecProperties?: Array<ECPropertyReportingAPI>;
 }
 /**
  * Defines a one-to-many property mapping to a set of ECProperties for a Group - to be used when a Group query will return data from multiple ECClasses.
  * @export
- * @interface GroupPropertyReportingAPI
+ * @interface GroupProperty
  */
-export interface GroupPropertyReportingAPI {
+export interface GroupProperty {
   /**
    * The GroupProperty Id.
    * @type {string}
-   * @memberof GroupPropertyReportingAPI
+   * @memberof GroupProperty
    */
   id?: string;
   /**
    * Name of the Property (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof GroupPropertyReportingAPI
+   * @memberof GroupProperty
    */
   propertyName?: string;
   /**
    * The data type of the GroupProperty. One of 'Boolean', 'Number', 'String', or 'Undefined'.
    * @type {string}
-   * @memberof GroupPropertyReportingAPI
+   * @memberof GroupProperty
    */
   dataType?: string;
   /**
    * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
-   * @memberof GroupPropertyReportingAPI
+   * @memberof GroupProperty
    */
   quantityType?: string;
   /**
    * List of ECProperties that map to this GroupProperty.
-   * @type {Array<ECPropertyReportingAPI>}
-   * @memberof GroupPropertyReportingAPI
+   * @type {Array<ECProperty>}
+   * @memberof GroupProperty
    */
-  ecProperties?: Array<ECPropertyReportingAPI>;
+  ecProperties?: Array<ECProperty>;
+}
+/**
+ * List of GroupProperties.
+ * @export
+ * @interface GroupPropertyCollection
+ */
+export interface GroupPropertyCollection {
+  /**
+   * List of GroupProperties.
+   * @type {Array<GroupProperty>}
+   * @memberof GroupPropertyCollection
+   */
+  groupProperties?: Array<GroupProperty>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof GroupPropertyCollection
+   */
+  _links?: PagedResponseLinks;
+}
+/**
+ * Properties of the GroupProperty to be created.
+ * @export
+ * @interface GroupPropertyCreate
+ */
+export interface GroupPropertyCreate {
+  /**
+   * Name of the Property (OData v4 SimpleIdentifier).
+   * @type {string}
+   * @memberof GroupPropertyCreate
+   */
+  propertyName?: string;
+  /**
+   * The data type of the GroupProperty. One of 'Boolean', 'Number', 'String', or 'Undefined'.
+   * @type {string}
+   * @memberof GroupPropertyCreate
+   */
+  dataType?: string;
+  /**
+   * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
+   * @type {string}
+   * @memberof GroupPropertyCreate
+   */
+  quantityType?: string;
+  /**
+   * List of ECProperties that map to this GroupProperty.
+   * @type {Array<ECProperty>}
+   * @memberof GroupPropertyCreate
+   */
+  ecProperties?: Array<ECProperty>;
 }
 /**
  * Container for a GroupProperty object.
  * @export
- * @interface GroupPropertySingleReportingAPI
+ * @interface GroupPropertySingle
  */
-export interface GroupPropertySingleReportingAPI {
+export interface GroupPropertySingle {
   /**
    *
-   * @type {GroupPropertyReportingAPI}
-   * @memberof GroupPropertySingleReportingAPI
+   * @type {GroupProperty}
+   * @memberof GroupPropertySingle
    */
-  property?: GroupPropertyReportingAPI;
+  groupProperty?: GroupProperty;
 }
 /**
  * Properties of the GroupProperty to be updated.
  * @export
- * @interface GroupPropertyUpdateReportingAPI
+ * @interface GroupPropertyUpdate
  */
-export interface GroupPropertyUpdateReportingAPI {
+export interface GroupPropertyUpdate {
   /**
    * Name of the Property (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof GroupPropertyUpdateReportingAPI
+   * @memberof GroupPropertyUpdate
    */
   propertyName?: string;
   /**
    * The data type of the GroupProperty. One of 'Boolean', 'Number', 'String', or 'Undefined'.
    * @type {string}
-   * @memberof GroupPropertyUpdateReportingAPI
+   * @memberof GroupPropertyUpdate
    */
   dataType?: string;
   /**
    * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
-   * @memberof GroupPropertyUpdateReportingAPI
+   * @memberof GroupPropertyUpdate
    */
   quantityType?: string;
   /**
    * List of ECProperties that map to this GroupProperty.
-   * @type {Array<ECPropertyReportingAPI>}
-   * @memberof GroupPropertyUpdateReportingAPI
+   * @type {Array<ECProperty>}
+   * @memberof GroupPropertyUpdate
    */
-  ecProperties?: Array<ECPropertyReportingAPI>;
-}
-/**
- * Defines a single Group (collection of iModel elements) in an iModel Mapping.
- * @export
- * @interface GroupReportingAPI
- */
-export interface GroupReportingAPI {
-  /**
-   * The Group Id.
-   * @type {string}
-   * @memberof GroupReportingAPI
-   */
-  id?: string;
-  /**
-   * Name of the Group (OData v4 SimpleIdentifier).
-   * @type {string}
-   * @memberof GroupReportingAPI
-   */
-  groupName?: string;
-  /**
-   * Description of the Group.
-   * @type {string}
-   * @memberof GroupReportingAPI
-   */
-  description?: string;
-  /**
-   * Query string that will be executed against the target iModel to build this Group.
-   * @type {string}
-   * @memberof GroupReportingAPI
-   */
-  query?: string;
+  ecProperties?: Array<ECProperty>;
 }
 /**
  * Container for a Group object.
  * @export
- * @interface GroupSingleReportingAPI
+ * @interface GroupSingle
  */
-export interface GroupSingleReportingAPI {
+export interface GroupSingle {
   /**
    *
-   * @type {GroupReportingAPI}
-   * @memberof GroupSingleReportingAPI
+   * @type {Group}
+   * @memberof GroupSingle
    */
-  group?: GroupReportingAPI;
+  group?: Group;
 }
 /**
  * Properties of the Group to be updated.
  * @export
- * @interface GroupUpdateReportingAPI
+ * @interface GroupUpdate
  */
-export interface GroupUpdateReportingAPI {
+export interface GroupUpdate {
   /**
    * Name of the Group (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof GroupUpdateReportingAPI
+   * @memberof GroupUpdate
    */
   groupName?: string;
   /**
    * Description of the Group.
    * @type {string}
-   * @memberof GroupUpdateReportingAPI
+   * @memberof GroupUpdate
    */
   description?: string;
   /**
    * Query string that will be executed against the target iModel to build this Group.
    * @type {string}
-   * @memberof GroupUpdateReportingAPI
+   * @memberof GroupUpdate
    */
   query?: string;
 }
 /**
  * Hyperlink container.
  * @export
- * @interface LinkReportingAPI
+ * @interface Link
  */
-export interface LinkReportingAPI {
+export interface Link {
   /**
    * Hyperlink to the specific entity.
    * @type {string}
-   * @memberof LinkReportingAPI
+   * @memberof Link
    */
   href?: string;
 }
 /**
- * List of Mappings.
+ * Defines a Mapping for an iModel. Each mapping represents a collection of 'Groups', sets of iModel elements, and their properties of interest.
  * @export
- * @interface MappingCollectionReportingAPI
+ * @interface Mapping
  */
-export interface MappingCollectionReportingAPI {
+export interface Mapping {
   /**
-   * List of Mappings.
-   * @type {Array<MappingReportingAPI>}
-   * @memberof MappingCollectionReportingAPI
+   * The Mapping Id.
+   * @type {string}
+   * @memberof Mapping
    */
-  mappings?: Array<MappingReportingAPI>;
+  id?: string;
+  /**
+   * Name of the Mapping (OData v4 SimpleIdentifier).
+   * @type {string}
+   * @memberof Mapping
+   */
+  mappingName?: string;
+  /**
+   * Description of the Mapping.
+   * @type {string}
+   * @memberof Mapping
+   */
+  description?: string;
+  /**
+   * Value of `false` excludes a `Mapping` from the `Run Extraction` operation and automatic execution after the `Create iModel Named Version` operation.
+   * @type {boolean}
+   * @memberof Mapping
+   */
+  extractionEnabled?: boolean;
+  /**
+   * Date when the Mapping was created.
+   * @type {string}
+   * @memberof Mapping
+   */
+  createdOn?: string;
+  /**
+   * Email of the user who created the Mapping.
+   * @type {string}
+   * @memberof Mapping
+   */
+  createdBy?: string;
+  /**
+   * Date when the Mapping was last modified.
+   * @type {string}
+   * @memberof Mapping
+   */
+  modifiedOn?: string;
+  /**
+   * Email of the user who last modified the Mapping.
+   * @type {string}
+   * @memberof Mapping
+   */
+  modifiedBy?: string;
   /**
    *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof MappingCollectionReportingAPI
+   * @type {MappingLinks}
+   * @memberof Mapping
    */
-  _links?: PagedResponseLinksReportingAPI;
+  _links?: MappingLinks;
+}
+/**
+ * List of Mappings.
+ * @export
+ * @interface MappingCollection
+ */
+export interface MappingCollection {
+  /**
+   * List of Mappings.
+   * @type {Array<Mapping>}
+   * @memberof MappingCollection
+   */
+  mappings?: Array<Mapping>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof MappingCollection
+   */
+  _links?: PagedResponseLinks;
 }
 /**
  * Properties for the copied Mapping.
  * @export
- * @interface MappingCopyReportingAPI
+ * @interface MappingCopy
  */
-export interface MappingCopyReportingAPI {
+export interface MappingCopy {
   /**
    * The target iModel Id.
    * @type {string}
-   * @memberof MappingCopyReportingAPI
+   * @memberof MappingCopy
    */
   targetIModelId: string;
   /**
    * Name of the target Mapping (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof MappingCopyReportingAPI
+   * @memberof MappingCopy
    */
   mappingName?: string;
 }
 /**
  * Properties of the Mapping to be created.
  * @export
- * @interface MappingCreateReportingAPI
+ * @interface MappingCreate
  */
-export interface MappingCreateReportingAPI {
+export interface MappingCreate {
   /**
    * Name of the Mapping (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof MappingCreateReportingAPI
+   * @memberof MappingCreate
    */
-  mappingName?: string;
+  mappingName: string;
   /**
    * Description of the Mapping.
    * @type {string}
-   * @memberof MappingCreateReportingAPI
+   * @memberof MappingCreate
    */
   description?: string;
+  /**
+   * Value of `false` excludes a `Mapping` from the `Run Extraction` operation and automatic execution after the `Create iModel Named Version` operation. The default value is `true`.
+   * @type {boolean}
+   * @memberof MappingCreate
+   */
+  extractionEnabled?: boolean;
 }
 /**
  * Contains contextual hyperlinks to related data.
  * @export
- * @interface MappingLinksReportingAPI
+ * @interface MappingLinks
  */
-export interface MappingLinksReportingAPI {
+export interface MappingLinks {
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof MappingLinksReportingAPI
+   * @type {Link}
+   * @memberof MappingLinks
    */
-  imodel?: LinkReportingAPI;
-}
-/**
- * Defines a Mapping for an iModel. Each mapping represents a collection of 'Groups', sets of iModel elements, and their properties of interest.
- * @export
- * @interface MappingReportingAPI
- */
-export interface MappingReportingAPI {
-  /**
-   * The Mapping Id.
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  id?: string;
-  /**
-   * Name of the Mapping (OData v4 SimpleIdentifier).
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  mappingName?: string;
-  /**
-   * Description of the Mapping.
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  description?: string;
-  /**
-   * Date when the Mapping was created.
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  createdOn?: string;
-  /**
-   * Email of the user who created the Mapping.
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  createdBy?: string;
-  /**
-   * Date when the Mapping was last modified.
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  modifiedOn?: string;
-  /**
-   * Email of the user who last modified the Mapping.
-   * @type {string}
-   * @memberof MappingReportingAPI
-   */
-  modifiedBy?: string;
-  /**
-   *
-   * @type {MappingLinksReportingAPI}
-   * @memberof MappingReportingAPI
-   */
-  _links?: MappingLinksReportingAPI;
+  imodel?: Link;
 }
 /**
  * Container for a Mapping object.
  * @export
- * @interface MappingSingleReportingAPI
+ * @interface MappingSingle
  */
-export interface MappingSingleReportingAPI {
+export interface MappingSingle {
   /**
    *
-   * @type {MappingReportingAPI}
-   * @memberof MappingSingleReportingAPI
+   * @type {Mapping}
+   * @memberof MappingSingle
    */
-  mapping?: MappingReportingAPI;
+  mapping?: Mapping;
 }
 /**
  * Properties of the Mapping to be updated.
  * @export
- * @interface MappingUpdateReportingAPI
+ * @interface MappingUpdate
  */
-export interface MappingUpdateReportingAPI {
+export interface MappingUpdate {
   /**
    * Name of the Mapping (OData v4 SimpleIdentifier).
    * @type {string}
-   * @memberof MappingUpdateReportingAPI
+   * @memberof MappingUpdate
    */
   mappingName?: string;
   /**
    * Description of the Mapping.
    * @type {string}
-   * @memberof MappingUpdateReportingAPI
+   * @memberof MappingUpdate
    */
   description?: string;
+  /**
+   * Value of `false` excludes a `Mapping` from the `Run Extraction` operation and automatic execution after the `Create iModel Named Version` operation.
+   * @type {boolean}
+   * @memberof MappingUpdate
+   */
+  extractionEnabled?: boolean;
+}
+/**
+ * Contains error information and an optional array of more specific errors.
+ * @export
+ * @interface ModelError
+ */
+export interface ModelError {
+  /**
+   * One of a server-defined set of error codes.
+   * @type {string}
+   * @memberof ModelError
+   */
+  code: string;
+  /**
+   * A human-readable representation of the error.
+   * @type {string}
+   * @memberof ModelError
+   */
+  message: string;
+  /**
+   * Optional array of more specific errors.
+   * @type {Array<ErrorDetails>}
+   * @memberof ModelError
+   */
+  details?: Array<ErrorDetails>;
 }
 /**
  *
  * @export
- * @interface ODataItemReportingAPI
+ * @interface ODataItem
  */
-export interface ODataItemReportingAPI {
+export interface ODataItem {
   /**
    *
    * @type {string}
-   * @memberof ODataItemReportingAPI
+   * @memberof ODataItem
    */
   name?: string;
   /**
    *
    * @type {string}
-   * @memberof ODataItemReportingAPI
+   * @memberof ODataItem
    */
   url?: string;
 }
 /**
  * OData response.
  * @export
- * @interface ODataResponseReportingAPI
+ * @interface ODataResponse
  */
-export interface ODataResponseReportingAPI {
+export interface ODataResponse {
   /**
    *
-   * @type {ODataResponseStatusReportingAPI}
-   * @memberof ODataResponseReportingAPI
+   * @type {ODataResponseStatus}
+   * @memberof ODataResponse
    */
-  status?: ODataResponseStatusReportingAPI;
+  status?: ODataResponseStatus;
 }
 /**
  * OData response.
  * @export
- * @interface ODataResponseStatusReportingAPI
+ * @interface ODataResponseStatus
  */
-export interface ODataResponseStatusReportingAPI {
+export interface ODataResponseStatus {
   /**
    * OData Schema
    * @type {string}
-   * @memberof ODataResponseStatusReportingAPI
+   * @memberof ODataResponseStatus
    */
   odata_context?: string;
   /**
    *
-   * @type {Array<ODataItemReportingAPI>}
-   * @memberof ODataResponseStatusReportingAPI
+   * @type {Array<ODataItem>}
+   * @memberof ODataResponseStatus
    */
-  value?: Array<ODataItemReportingAPI>;
+  value?: Array<ODataItem>;
 }
 /**
  * URLs for redoing the current request and/or getting the next page of results if applicable.
  * @export
- * @interface PagedResponseLinksReportingAPI
+ * @interface PagedResponseLinks
  */
-export interface PagedResponseLinksReportingAPI {
+export interface PagedResponseLinks {
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof PagedResponseLinksReportingAPI
+   * @type {Link}
+   * @memberof PagedResponseLinks
    */
-  next?: LinkReportingAPI;
+  next?: Link;
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof PagedResponseLinksReportingAPI
+   * @type {Link}
+   * @memberof PagedResponseLinks
    */
-  self?: LinkReportingAPI;
+  self?: Link;
 }
 /**
- * List of Reports.
+ * Defines a unit of data that can be exposed as an OData feed. The contents of a Report are defined in Report Mappings.
  * @export
- * @interface ReportCollectionReportingAPI
+ * @interface Report
  */
-export interface ReportCollectionReportingAPI {
+export interface Report {
   /**
-   * List of Reports.
-   * @type {Array<ReportReportingAPI>}
-   * @memberof ReportCollectionReportingAPI
+   * The Report Id.
+   * @type {string}
+   * @memberof Report
    */
-  reports?: Array<ReportReportingAPI>;
-  /**
-   *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof ReportCollectionReportingAPI
-   */
-  _links?: PagedResponseLinksReportingAPI;
-}
-/**
- * Properties of the Report to be created.
- * @export
- * @interface ReportCreateReportingAPI
- */
-export interface ReportCreateReportingAPI {
+  id?: string;
   /**
    * Name of the Report.
    * @type {string}
-   * @memberof ReportCreateReportingAPI
+   * @memberof Report
    */
   displayName?: string;
   /**
    * Description of the Report.
    * @type {string}
-   * @memberof ReportCreateReportingAPI
+   * @memberof Report
+   */
+  description?: string;
+  /**
+   * Flag indicating whether or not a Report has been marked for deletion.
+   * @type {boolean}
+   * @memberof Report
+   */
+  deleted?: boolean;
+  /**
+   *
+   * @type {ReportLinks}
+   * @memberof Report
+   */
+  _links?: ReportLinks;
+}
+/**
+ * List of Reports.
+ * @export
+ * @interface ReportCollection
+ */
+export interface ReportCollection {
+  /**
+   * List of Reports.
+   * @type {Array<Report>}
+   * @memberof ReportCollection
+   */
+  reports?: Array<Report>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof ReportCollection
+   */
+  _links?: PagedResponseLinks;
+}
+/**
+ * Properties of the Report to be created.
+ * @export
+ * @interface ReportCreate
+ */
+export interface ReportCreate {
+  /**
+   * Name of the Report.
+   * @type {string}
+   * @memberof ReportCreate
+   */
+  displayName?: string;
+  /**
+   * Description of the Report.
+   * @type {string}
+   * @memberof ReportCreate
    */
   description?: string;
   /**
    * The Project Id this Report will be drawing data from.
    * @type {string}
-   * @memberof ReportCreateReportingAPI
+   * @memberof ReportCreate
    */
   projectId?: string;
 }
 /**
  * Contains contextual hyperlinks to related data.
  * @export
- * @interface ReportLinksReportingAPI
+ * @interface ReportLinks
  */
-export interface ReportLinksReportingAPI {
+export interface ReportLinks {
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof ReportLinksReportingAPI
+   * @type {Link}
+   * @memberof ReportLinks
    */
-  project?: LinkReportingAPI;
+  project?: Link;
 }
 /**
- * List of Report Mappings.
+ * Defines a relationship between Report and Mapping. A Mapping can be associated with more than one Report.
  * @export
- * @interface ReportMappingCollectionReportingAPI
+ * @interface ReportMapping
  */
-export interface ReportMappingCollectionReportingAPI {
+export interface ReportMapping {
   /**
-   * List of Report Mappings.
-   * @type {Array<ReportMappingReportingAPI>}
-   * @memberof ReportMappingCollectionReportingAPI
-   */
-  mappings?: Array<ReportMappingReportingAPI>;
-  /**
-   *
-   * @type {PagedResponseLinksReportingAPI}
-   * @memberof ReportMappingCollectionReportingAPI
-   */
-  _links?: PagedResponseLinksReportingAPI;
-}
-/**
- * Properties of the Report Mapping to be created.
- * @export
- * @interface ReportMappingCreateReportingAPI
- */
-export interface ReportMappingCreateReportingAPI {
-  /**
-   * The Mapping Id that should be linked to this Report.
+   * The Report Id.
    * @type {string}
-   * @memberof ReportMappingCreateReportingAPI
+   * @memberof ReportMapping
+   */
+  reportId?: string;
+  /**
+   * The Mapping Id.
+   * @type {string}
+   * @memberof ReportMapping
    */
   mappingId?: string;
   /**
    * The iModel Id.
    * @type {string}
-   * @memberof ReportMappingCreateReportingAPI
+   * @memberof ReportMapping
+   */
+  imodelId?: string;
+  /**
+   *
+   * @type {ReportMappingLinks}
+   * @memberof ReportMapping
+   */
+  _links?: ReportMappingLinks;
+}
+/**
+ * List of Report Mappings.
+ * @export
+ * @interface ReportMappingCollection
+ */
+export interface ReportMappingCollection {
+  /**
+   * List of Report Mappings.
+   * @type {Array<ReportMapping>}
+   * @memberof ReportMappingCollection
+   */
+  mappings?: Array<ReportMapping>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof ReportMappingCollection
+   */
+  _links?: PagedResponseLinks;
+}
+/**
+ * Properties of the Report Mapping to be created.
+ * @export
+ * @interface ReportMappingCreate
+ */
+export interface ReportMappingCreate {
+  /**
+   * The Mapping Id that should be linked to this Report.
+   * @type {string}
+   * @memberof ReportMappingCreate
+   */
+  mappingId?: string;
+  /**
+   * The iModel Id.
+   * @type {string}
+   * @memberof ReportMappingCreate
    */
   imodelId?: string;
 }
 /**
  * Contains contextual hyperlinks to related data.
  * @export
- * @interface ReportMappingLinksReportingAPI
+ * @interface ReportMappingLinks
  */
-export interface ReportMappingLinksReportingAPI {
+export interface ReportMappingLinks {
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof ReportMappingLinksReportingAPI
+   * @type {Link}
+   * @memberof ReportMappingLinks
    */
-  report?: LinkReportingAPI;
+  report?: Link;
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof ReportMappingLinksReportingAPI
+   * @type {Link}
+   * @memberof ReportMappingLinks
    */
-  mapping?: LinkReportingAPI;
+  mapping?: Link;
   /**
    *
-   * @type {LinkReportingAPI}
-   * @memberof ReportMappingLinksReportingAPI
+   * @type {Link}
+   * @memberof ReportMappingLinks
    */
-  imodel?: LinkReportingAPI;
-}
-/**
- * Defines a relationship between Report and Mapping. A Mapping can be associated with more than one Report.
- * @export
- * @interface ReportMappingReportingAPI
- */
-export interface ReportMappingReportingAPI {
-  /**
-   * The Report Id.
-   * @type {string}
-   * @memberof ReportMappingReportingAPI
-   */
-  reportId?: string;
-  /**
-   * The Mapping Id.
-   * @type {string}
-   * @memberof ReportMappingReportingAPI
-   */
-  mappingId?: string;
-  /**
-   * The iModel Id.
-   * @type {string}
-   * @memberof ReportMappingReportingAPI
-   */
-  imodelId?: string;
-  /**
-   *
-   * @type {ReportMappingLinksReportingAPI}
-   * @memberof ReportMappingReportingAPI
-   */
-  _links?: ReportMappingLinksReportingAPI;
+  imodel?: Link;
 }
 /**
  * Container for a Report Mapping object.
  * @export
- * @interface ReportMappingSingleReportingAPI
+ * @interface ReportMappingSingle
  */
-export interface ReportMappingSingleReportingAPI {
+export interface ReportMappingSingle {
   /**
    *
-   * @type {ReportMappingReportingAPI}
-   * @memberof ReportMappingSingleReportingAPI
+   * @type {ReportMapping}
+   * @memberof ReportMappingSingle
    */
-  mapping?: ReportMappingReportingAPI;
-}
-/**
- * Defines a unit of data that can be exposed as an OData feed. The contents of a Report are defined in Report Mappings.
- * @export
- * @interface ReportReportingAPI
- */
-export interface ReportReportingAPI {
-  /**
-   * The Report Id.
-   * @type {string}
-   * @memberof ReportReportingAPI
-   */
-  id?: string;
-  /**
-   * Name of the Report.
-   * @type {string}
-   * @memberof ReportReportingAPI
-   */
-  displayName?: string;
-  /**
-   * Description of the Report.
-   * @type {string}
-   * @memberof ReportReportingAPI
-   */
-  description?: string;
-  /**
-   * Flag indicating whether or not a Report has been marked for deletion.
-   * @type {boolean}
-   * @memberof ReportReportingAPI
-   */
-  deleted?: boolean;
-  /**
-   *
-   * @type {ReportLinksReportingAPI}
-   * @memberof ReportReportingAPI
-   */
-  _links?: ReportLinksReportingAPI;
+  mapping?: ReportMapping;
 }
 /**
  * Container for a Report object.
  * @export
- * @interface ReportSingleReportingAPI
+ * @interface ReportSingle
  */
-export interface ReportSingleReportingAPI {
+export interface ReportSingle {
   /**
    *
-   * @type {ReportReportingAPI}
-   * @memberof ReportSingleReportingAPI
+   * @type {Report}
+   * @memberof ReportSingle
    */
-  report?: ReportReportingAPI;
+  report?: Report;
 }
 /**
  * Properties of the Report to be updated.
  * @export
- * @interface ReportUpdateReportingAPI
+ * @interface ReportUpdate
  */
-export interface ReportUpdateReportingAPI {
+export interface ReportUpdate {
   /**
    * Name of the Report.
    * @type {string}
-   * @memberof ReportUpdateReportingAPI
+   * @memberof ReportUpdate
    */
   displayName?: string;
   /**
    * Description of the Report.
    * @type {string}
-   * @memberof ReportUpdateReportingAPI
+   * @memberof ReportUpdate
    */
   description?: string;
   /**
    * Flag indicating whether or not a Report has been marked for deletion.
    * @type {boolean}
-   * @memberof ReportUpdateReportingAPI
+   * @memberof ReportUpdate
    */
   deleted?: boolean;
 }
@@ -1553,10 +1657,7 @@ export const DataAccessApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ODataResponseReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ODataResponse> {
       const localVarFetchArgs = DataAccessApiFetchParamCreator(
         configuration,
       ).odata(reportId, Authorization, Accept, options);
@@ -1846,9 +1947,117 @@ export const ExtractionApiFetchParamCreator = function (
 ) {
   return {
     /**
+     * ---    Gets Logs of an Extraction Run.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * @summary Get Extraction Logs
+     * @param {string} jobId Unique Identifier of the Extraction Run.
+     * @param {string} Authorization OAuth access token with scope &#x60;insights:read&#x60;
+     * @param {number} [top] Optional max items to be sent in response.
+     * @param {string} [continuationToken] Optional token to retrieve next page in paginated response.
+     * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getExtractionLogs(
+      jobId: string,
+      Authorization: string,
+      top?: number,
+      continuationToken?: string,
+      Accept?: string,
+      options: any = {},
+    ): FetchArgs {
+      // verify required parameter 'jobId' is not null or undefined
+      if (jobId === null || jobId === undefined) {
+        throw new RequiredError(
+          'jobId',
+          'Required parameter jobId was null or undefined when calling getExtractionLogs.',
+        );
+      }
+      // verify required parameter 'Authorization' is not null or undefined
+      if (Authorization === null || Authorization === undefined) {
+        throw new RequiredError(
+          'Authorization',
+          'Required parameter Authorization was null or undefined when calling getExtractionLogs.',
+        );
+      }
+      const localVarPath =
+        `/datasources/extraction/status/{jobId}/logs`.replace(
+          `{${'jobId'}}`,
+          encodeURIComponent(String(jobId)),
+        );
+      const localVarUrlObj = url.parse(localVarPath, true);
+      const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication apiKeyHeader required
+      if (configuration && configuration.apiKey) {
+        const localVarApiKeyValue =
+          typeof configuration.apiKey === 'function'
+            ? configuration.apiKey('X-Api-Subscription-Key')
+            : configuration.apiKey;
+        localVarHeaderParameter['X-Api-Subscription-Key'] = localVarApiKeyValue;
+      }
+
+      // authentication apiKeyQuery required
+      if (configuration && configuration.apiKey) {
+        const localVarApiKeyValue =
+          typeof configuration.apiKey === 'function'
+            ? configuration.apiKey('subscription-key')
+            : configuration.apiKey;
+        localVarQueryParameter['subscription-key'] = localVarApiKeyValue;
+      }
+
+      // authentication oauth2Bentley OAuth2 Service required
+      // oauth required
+      if (configuration && configuration.accessToken) {
+        const localVarAccessTokenValue =
+          typeof configuration.accessToken === 'function'
+            ? configuration.accessToken('oauth2Bentley OAuth2 Service', [
+                'insights:read insights:modify',
+              ])
+            : configuration.accessToken;
+        localVarHeaderParameter['Authorization'] =
+          'Bearer ' + localVarAccessTokenValue;
+      }
+
+      if (top !== undefined) {
+        localVarQueryParameter['$top'] = top;
+      }
+
+      if (continuationToken !== undefined) {
+        localVarQueryParameter['$continuationToken'] = continuationToken;
+      }
+
+      if (Authorization !== undefined && Authorization !== null) {
+        localVarHeaderParameter['Authorization'] = String(Authorization);
+      }
+
+      if (Accept !== undefined && Accept !== null) {
+        localVarHeaderParameter['Accept'] = String(Accept);
+      }
+
+      localVarUrlObj.query = Object.assign(
+        {},
+        localVarUrlObj.query,
+        localVarQueryParameter,
+        options.query,
+      );
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+      delete localVarUrlObj.search;
+      localVarRequestOptions.headers = Object.assign(
+        {},
+        localVarHeaderParameter,
+        options.headers,
+      );
+
+      return {
+        url: url.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * ---    Gets the Status of an Extraction Run.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get Extraction Status
-     * @param {string} imodelId Globally Unique Identifier of the target iModel.
      * @param {string} jobId Unique Identifier of the Extraction Run.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:read&#x60;
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
@@ -1856,19 +2065,11 @@ export const ExtractionApiFetchParamCreator = function (
      * @throws {RequiredError}
      */
     getExtractionStatus(
-      imodelId: string,
       jobId: string,
       Authorization: string,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
-      // verify required parameter 'imodelId' is not null or undefined
-      if (imodelId === null || imodelId === undefined) {
-        throw new RequiredError(
-          'imodelId',
-          'Required parameter imodelId was null or undefined when calling getExtractionStatus.',
-        );
-      }
       // verify required parameter 'jobId' is not null or undefined
       if (jobId === null || jobId === undefined) {
         throw new RequiredError(
@@ -1881,6 +2082,111 @@ export const ExtractionApiFetchParamCreator = function (
         throw new RequiredError(
           'Authorization',
           'Required parameter Authorization was null or undefined when calling getExtractionStatus.',
+        );
+      }
+      const localVarPath = `/datasources/extraction/status/{jobId}`.replace(
+        `{${'jobId'}}`,
+        encodeURIComponent(String(jobId)),
+      );
+      const localVarUrlObj = url.parse(localVarPath, true);
+      const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication apiKeyHeader required
+      if (configuration && configuration.apiKey) {
+        const localVarApiKeyValue =
+          typeof configuration.apiKey === 'function'
+            ? configuration.apiKey('X-Api-Subscription-Key')
+            : configuration.apiKey;
+        localVarHeaderParameter['X-Api-Subscription-Key'] = localVarApiKeyValue;
+      }
+
+      // authentication apiKeyQuery required
+      if (configuration && configuration.apiKey) {
+        const localVarApiKeyValue =
+          typeof configuration.apiKey === 'function'
+            ? configuration.apiKey('subscription-key')
+            : configuration.apiKey;
+        localVarQueryParameter['subscription-key'] = localVarApiKeyValue;
+      }
+
+      // authentication oauth2Bentley OAuth2 Service required
+      // oauth required
+      if (configuration && configuration.accessToken) {
+        const localVarAccessTokenValue =
+          typeof configuration.accessToken === 'function'
+            ? configuration.accessToken('oauth2Bentley OAuth2 Service', [
+                'insights:read insights:modify',
+              ])
+            : configuration.accessToken;
+        localVarHeaderParameter['Authorization'] =
+          'Bearer ' + localVarAccessTokenValue;
+      }
+
+      if (Authorization !== undefined && Authorization !== null) {
+        localVarHeaderParameter['Authorization'] = String(Authorization);
+      }
+
+      if (Accept !== undefined && Accept !== null) {
+        localVarHeaderParameter['Accept'] = String(Accept);
+      }
+
+      localVarUrlObj.query = Object.assign(
+        {},
+        localVarUrlObj.query,
+        localVarQueryParameter,
+        options.query,
+      );
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+      delete localVarUrlObj.search;
+      localVarRequestOptions.headers = Object.assign(
+        {},
+        localVarHeaderParameter,
+        options.headers,
+      );
+
+      return {
+        url: url.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * ---    Gets the Status of an Extraction Run.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * @summary Get Extraction Status (Deprecated)
+     * @param {string} imodelId Globally Unique Identifier of the target iModel.
+     * @param {string} jobId Unique Identifier of the Extraction Run.
+     * @param {string} Authorization OAuth access token with scope &#x60;insights:read&#x60;
+     * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getExtractionStatusDeprecated(
+      imodelId: string,
+      jobId: string,
+      Authorization: string,
+      Accept?: string,
+      options: any = {},
+    ): FetchArgs {
+      // verify required parameter 'imodelId' is not null or undefined
+      if (imodelId === null || imodelId === undefined) {
+        throw new RequiredError(
+          'imodelId',
+          'Required parameter imodelId was null or undefined when calling getExtractionStatusDeprecated.',
+        );
+      }
+      // verify required parameter 'jobId' is not null or undefined
+      if (jobId === null || jobId === undefined) {
+        throw new RequiredError(
+          'jobId',
+          'Required parameter jobId was null or undefined when calling getExtractionStatusDeprecated.',
+        );
+      }
+      // verify required parameter 'Authorization' is not null or undefined
+      if (Authorization === null || Authorization === undefined) {
+        throw new RequiredError(
+          'Authorization',
+          'Required parameter Authorization was null or undefined when calling getExtractionStatusDeprecated.',
         );
       }
       const localVarPath =
@@ -2057,9 +2363,56 @@ export const ExtractionApiFetchParamCreator = function (
 export const ExtractionApiFp = function (configuration?: Configuration) {
   return {
     /**
+     * ---    Gets Logs of an Extraction Run.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * @summary Get Extraction Logs
+     * @param {string} jobId Unique Identifier of the Extraction Run.
+     * @param {string} Authorization OAuth access token with scope &#x60;insights:read&#x60;
+     * @param {number} [top] Optional max items to be sent in response.
+     * @param {string} [continuationToken] Optional token to retrieve next page in paginated response.
+     * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getExtractionLogs(
+      jobId: string,
+      Authorization: string,
+      top?: number,
+      continuationToken?: string,
+      Accept?: string,
+      options?: any,
+    ): (
+      fetch?: FetchAPI,
+      basePath?: string,
+    ) => Promise<ExtractionLogCollection> {
+      const localVarFetchArgs = ExtractionApiFetchParamCreator(
+        configuration,
+      ).getExtractionLogs(
+        jobId,
+        Authorization,
+        top,
+        continuationToken,
+        Accept,
+        options,
+      );
+      return (
+        fetch: FetchAPI = isomorphicFetch,
+        basePath: string = BASE_PATH,
+      ) => {
+        return fetch(
+          basePath + localVarFetchArgs.url,
+          localVarFetchArgs.options,
+        ).then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            return response.json();
+          } else {
+            throw response;
+          }
+        });
+      };
+    },
+    /**
      * ---    Gets the Status of an Extraction Run.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get Extraction Status
-     * @param {string} imodelId Globally Unique Identifier of the target iModel.
      * @param {string} jobId Unique Identifier of the Extraction Run.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:read&#x60;
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
@@ -2067,18 +2420,56 @@ export const ExtractionApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     getExtractionStatus(
+      jobId: string,
+      Authorization: string,
+      Accept?: string,
+      options?: any,
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ExtractionStatus> {
+      const localVarFetchArgs = ExtractionApiFetchParamCreator(
+        configuration,
+      ).getExtractionStatus(jobId, Authorization, Accept, options);
+      return (
+        fetch: FetchAPI = isomorphicFetch,
+        basePath: string = BASE_PATH,
+      ) => {
+        return fetch(
+          basePath + localVarFetchArgs.url,
+          localVarFetchArgs.options,
+        ).then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            return response.json();
+          } else {
+            throw response;
+          }
+        });
+      };
+    },
+    /**
+     * ---    Gets the Status of an Extraction Run.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * @summary Get Extraction Status (Deprecated)
+     * @param {string} imodelId Globally Unique Identifier of the target iModel.
+     * @param {string} jobId Unique Identifier of the Extraction Run.
+     * @param {string} Authorization OAuth access token with scope &#x60;insights:read&#x60;
+     * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getExtractionStatusDeprecated(
       imodelId: string,
       jobId: string,
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ExtractionStatusReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ExtractionStatus> {
       const localVarFetchArgs = ExtractionApiFetchParamCreator(
         configuration,
-      ).getExtractionStatus(imodelId, jobId, Authorization, Accept, options);
+      ).getExtractionStatusDeprecated(
+        imodelId,
+        jobId,
+        Authorization,
+        Accept,
+        options,
+      );
       return (
         fetch: FetchAPI = isomorphicFetch,
         basePath: string = BASE_PATH,
@@ -2109,10 +2500,7 @@ export const ExtractionApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ExtractionRunReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ExtractionRun> {
       const localVarFetchArgs = ExtractionApiFetchParamCreator(
         configuration,
       ).runExtraction(imodelId, Authorization, Accept, options);
@@ -2146,9 +2534,36 @@ export const ExtractionApiFactory = function (
 ) {
   return {
     /**
+     * ---    Gets Logs of an Extraction Run.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * @summary Get Extraction Logs
+     * @param {string} jobId Unique Identifier of the Extraction Run.
+     * @param {string} Authorization OAuth access token with scope &#x60;insights:read&#x60;
+     * @param {number} [top] Optional max items to be sent in response.
+     * @param {string} [continuationToken] Optional token to retrieve next page in paginated response.
+     * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getExtractionLogs(
+      jobId: string,
+      Authorization: string,
+      top?: number,
+      continuationToken?: string,
+      Accept?: string,
+      options?: any,
+    ) {
+      return ExtractionApiFp(configuration).getExtractionLogs(
+        jobId,
+        Authorization,
+        top,
+        continuationToken,
+        Accept,
+        options,
+      )(fetch, basePath);
+    },
+    /**
      * ---    Gets the Status of an Extraction Run.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get Extraction Status
-     * @param {string} imodelId Globally Unique Identifier of the target iModel.
      * @param {string} jobId Unique Identifier of the Extraction Run.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:read&#x60;
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
@@ -2156,13 +2571,36 @@ export const ExtractionApiFactory = function (
      * @throws {RequiredError}
      */
     getExtractionStatus(
-      imodelId: string,
       jobId: string,
       Authorization: string,
       Accept?: string,
       options?: any,
     ) {
       return ExtractionApiFp(configuration).getExtractionStatus(
+        jobId,
+        Authorization,
+        Accept,
+        options,
+      )(fetch, basePath);
+    },
+    /**
+     * ---    Gets the Status of an Extraction Run.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * @summary Get Extraction Status (Deprecated)
+     * @param {string} imodelId Globally Unique Identifier of the target iModel.
+     * @param {string} jobId Unique Identifier of the Extraction Run.
+     * @param {string} Authorization OAuth access token with scope &#x60;insights:read&#x60;
+     * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getExtractionStatusDeprecated(
+      imodelId: string,
+      jobId: string,
+      Authorization: string,
+      Accept?: string,
+      options?: any,
+    ) {
+      return ExtractionApiFp(configuration).getExtractionStatusDeprecated(
         imodelId,
         jobId,
         Authorization,
@@ -2203,9 +2641,38 @@ export const ExtractionApiFactory = function (
  */
 export class ExtractionApi extends BaseAPI {
   /**
+   * ---    Gets Logs of an Extraction Run.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+   * @summary Get Extraction Logs
+   * @param {string} jobId Unique Identifier of the Extraction Run.
+   * @param {string} Authorization OAuth access token with scope &#x60;insights:read&#x60;
+   * @param {number} [top] Optional max items to be sent in response.
+   * @param {string} [continuationToken] Optional token to retrieve next page in paginated response.
+   * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ExtractionApi
+   */
+  public getExtractionLogs(
+    jobId: string,
+    Authorization: string,
+    top?: number,
+    continuationToken?: string,
+    Accept?: string,
+    options?: any,
+  ) {
+    return ExtractionApiFp(this.configuration).getExtractionLogs(
+      jobId,
+      Authorization,
+      top,
+      continuationToken,
+      Accept,
+      options,
+    )(this.fetch, this.basePath);
+  }
+
+  /**
    * ---    Gets the Status of an Extraction Run.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
    * @summary Get Extraction Status
-   * @param {string} imodelId Globally Unique Identifier of the target iModel.
    * @param {string} jobId Unique Identifier of the Extraction Run.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:read&#x60;
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
@@ -2214,13 +2681,38 @@ export class ExtractionApi extends BaseAPI {
    * @memberof ExtractionApi
    */
   public getExtractionStatus(
-    imodelId: string,
     jobId: string,
     Authorization: string,
     Accept?: string,
     options?: any,
   ) {
     return ExtractionApiFp(this.configuration).getExtractionStatus(
+      jobId,
+      Authorization,
+      Accept,
+      options,
+    )(this.fetch, this.basePath);
+  }
+
+  /**
+   * ---    Gets the Status of an Extraction Run.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+   * @summary Get Extraction Status (Deprecated)
+   * @param {string} imodelId Globally Unique Identifier of the target iModel.
+   * @param {string} jobId Unique Identifier of the Extraction Run.
+   * @param {string} Authorization OAuth access token with scope &#x60;insights:read&#x60;
+   * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ExtractionApi
+   */
+  public getExtractionStatusDeprecated(
+    imodelId: string,
+    jobId: string,
+    Authorization: string,
+    Accept?: string,
+    options?: any,
+  ) {
+    return ExtractionApiFp(this.configuration).getExtractionStatusDeprecated(
       imodelId,
       jobId,
       Authorization,
@@ -2267,7 +2759,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} imodelId Id of the source Mapping&#x27;s iModel.
      * @param {string} mappingId Id of the source Mapping.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingCopyReportingAPI} [body]
+     * @param {MappingCopy} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2276,7 +2768,7 @@ export const MappingsApiFetchParamCreator = function (
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: MappingCopyReportingAPI,
+      body?: MappingCopy,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -2365,7 +2857,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'MappingCopyReportingAPI' !== 'string' ||
+        <any>'MappingCopy' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -2383,7 +2875,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new CalculatedProperty.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CalculatedPropertyCreateReportingAPI} [body]
+     * @param {CalculatedPropertyCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2393,7 +2885,7 @@ export const MappingsApiFetchParamCreator = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: CalculatedPropertyCreateReportingAPI,
+      body?: CalculatedPropertyCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -2490,7 +2982,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'CalculatedPropertyCreateReportingAPI' !== 'string' ||
+        <any>'CalculatedPropertyCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -2508,7 +3000,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new CustomCalculation.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CustomCalculationCreateReportingAPI} [body]
+     * @param {CustomCalculationCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2518,7 +3010,7 @@ export const MappingsApiFetchParamCreator = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: CustomCalculationCreateReportingAPI,
+      body?: CustomCalculationCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -2615,7 +3107,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'CustomCalculationCreateReportingAPI' !== 'string' ||
+        <any>'CustomCalculationCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -2627,12 +3119,12 @@ export const MappingsApiFetchParamCreator = function (
       };
     },
     /**
-     * ---    Creates a Group for an iModel data source Mapping. A Group is a collection of design elements from an iModel represented by an [ECSQL](https://www.itwinjs.org/learning/ecsql/) query and defines one table in the output data of a report.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Creates a Group for an iModel data source Mapping. A Group is a collection of design elements from an iModel represented by an [ECSQL](https://www.itwinjs.org/learning/ecsql/) query and defines one table in the output data of a report.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Create Group
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId Id of the Mapping for which to create a new Group.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupCreateReportingAPI} [body]
+     * @param {GroupCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2641,7 +3133,7 @@ export const MappingsApiFetchParamCreator = function (
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: GroupCreateReportingAPI,
+      body?: GroupCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -2730,7 +3222,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'GroupCreateReportingAPI' !== 'string' ||
+        <any>'GroupCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -2742,13 +3234,13 @@ export const MappingsApiFetchParamCreator = function (
       };
     },
     /**
-     * ---    Creates a GroupProperty for a Group. Each GroupProperty defines a column of mapped data.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Creates a GroupProperty for a Group. Each GroupProperty defines a column of mapped data.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Create GroupProperty
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new GroupProperty.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupPropertyCreateReportingAPI} [body]
+     * @param {GroupPropertyCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2758,7 +3250,7 @@ export const MappingsApiFetchParamCreator = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: GroupPropertyCreateReportingAPI,
+      body?: GroupPropertyCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -2855,7 +3347,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'GroupPropertyCreateReportingAPI' !== 'string' ||
+        <any>'GroupPropertyCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -2871,7 +3363,7 @@ export const MappingsApiFetchParamCreator = function (
      * @summary Create Mapping
      * @param {string} imodelId Id of the iModel for which to create a new Mapping.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingCreateReportingAPI} [body]
+     * @param {MappingCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2879,7 +3371,7 @@ export const MappingsApiFetchParamCreator = function (
     createMapping(
       imodelId: string,
       Authorization: string,
-      body?: MappingCreateReportingAPI,
+      body?: MappingCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -2961,7 +3453,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'MappingCreateReportingAPI' !== 'string' ||
+        <any>'MappingCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -4093,7 +4585,7 @@ export const MappingsApiFetchParamCreator = function (
       };
     },
     /**
-     * ---    Gets a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Gets a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get Group
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
@@ -4208,7 +4700,7 @@ export const MappingsApiFetchParamCreator = function (
       };
     },
     /**
-     * ---    Gets all GroupProperties for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Gets all GroupProperties for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get GroupProperties
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
@@ -4335,7 +4827,7 @@ export const MappingsApiFetchParamCreator = function (
       };
     },
     /**
-     * ---    Gets a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Gets a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get GroupProperty
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
@@ -4460,7 +4952,7 @@ export const MappingsApiFetchParamCreator = function (
       };
     },
     /**
-     * ---    Gets all Groups for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Gets all Groups for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get Groups
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
@@ -4797,7 +5289,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} groupId The Group Id.
      * @param {string} propertyId Id of the CalculatedProperty to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CalculatedPropertyUpdateReportingAPI} [body]
+     * @param {CalculatedPropertyUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4808,7 +5300,7 @@ export const MappingsApiFetchParamCreator = function (
       groupId: string,
       propertyId: string,
       Authorization: string,
-      body?: CalculatedPropertyUpdateReportingAPI,
+      body?: CalculatedPropertyUpdate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -4916,7 +5408,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'CalculatedPropertyUpdateReportingAPI' !== 'string' ||
+        <any>'CalculatedPropertyUpdate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -4935,7 +5427,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} groupId The Group Id.
      * @param {string} customCalculationId Id of the CustomCalculation to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CustomCalculationUpdateReportingAPI} [body]
+     * @param {CustomCalculationUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4946,7 +5438,7 @@ export const MappingsApiFetchParamCreator = function (
       groupId: string,
       customCalculationId: string,
       Authorization: string,
-      body?: CustomCalculationUpdateReportingAPI,
+      body?: CustomCalculationUpdate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -5057,7 +5549,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'CustomCalculationUpdateReportingAPI' !== 'string' ||
+        <any>'CustomCalculationUpdate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -5069,13 +5561,13 @@ export const MappingsApiFetchParamCreator = function (
       };
     },
     /**
-     * ---    Updates a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Updates a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Update Group
      * @param {string} imodelId Globally Unique Identifier of the target iModel.
      * @param {string} mappingId Globally Unique Identifier of the target Mapping.
      * @param {string} groupId Id of the Group to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupUpdateReportingAPI} [body]
+     * @param {GroupUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5085,7 +5577,7 @@ export const MappingsApiFetchParamCreator = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: GroupUpdateReportingAPI,
+      body?: GroupUpdate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -5185,7 +5677,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'GroupUpdateReportingAPI' !== 'string' ||
+        <any>'GroupUpdate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -5197,14 +5689,14 @@ export const MappingsApiFetchParamCreator = function (
       };
     },
     /**
-     * ---    Updates a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Updates a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Update GroupProperty
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId The Group Id.
      * @param {string} propertyId Id of the GroupProperty to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupPropertyUpdateReportingAPI} [body]
+     * @param {GroupPropertyUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5215,7 +5707,7 @@ export const MappingsApiFetchParamCreator = function (
       groupId: string,
       propertyId: string,
       Authorization: string,
-      body?: GroupPropertyUpdateReportingAPI,
+      body?: GroupPropertyUpdate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -5320,7 +5812,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'GroupPropertyUpdateReportingAPI' !== 'string' ||
+        <any>'GroupPropertyUpdate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -5337,7 +5829,7 @@ export const MappingsApiFetchParamCreator = function (
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId Id of the Mapping to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingUpdateReportingAPI} [body]
+     * @param {MappingUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5346,7 +5838,7 @@ export const MappingsApiFetchParamCreator = function (
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: MappingUpdateReportingAPI,
+      body?: MappingUpdate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -5438,7 +5930,7 @@ export const MappingsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'MappingUpdateReportingAPI' !== 'string' ||
+        <any>'MappingUpdate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -5464,7 +5956,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} imodelId Id of the source Mapping&#x27;s iModel.
      * @param {string} mappingId Id of the source Mapping.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingCopyReportingAPI} [body]
+     * @param {MappingCopy} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5473,13 +5965,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: MappingCopyReportingAPI,
+      body?: MappingCopy,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<MappingSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<MappingSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).copyMapping(imodelId, mappingId, Authorization, body, Accept, options);
@@ -5506,7 +5995,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new CalculatedProperty.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CalculatedPropertyCreateReportingAPI} [body]
+     * @param {CalculatedPropertyCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5516,13 +6005,13 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: CalculatedPropertyCreateReportingAPI,
+      body?: CalculatedPropertyCreate,
       Accept?: string,
       options?: any,
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CalculatedPropertySingleReportingAPI> {
+    ) => Promise<CalculatedPropertySingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).createCalculatedproperty(
@@ -5557,7 +6046,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new CustomCalculation.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CustomCalculationCreateReportingAPI} [body]
+     * @param {CustomCalculationCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5567,13 +6056,13 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: CustomCalculationCreateReportingAPI,
+      body?: CustomCalculationCreate,
       Accept?: string,
       options?: any,
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CustomCalculationSingleReportingAPI> {
+    ) => Promise<CustomCalculationSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).createCustomcalculation(
@@ -5602,12 +6091,12 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       };
     },
     /**
-     * ---    Creates a Group for an iModel data source Mapping. A Group is a collection of design elements from an iModel represented by an [ECSQL](https://www.itwinjs.org/learning/ecsql/) query and defines one table in the output data of a report.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Creates a Group for an iModel data source Mapping. A Group is a collection of design elements from an iModel represented by an [ECSQL](https://www.itwinjs.org/learning/ecsql/) query and defines one table in the output data of a report.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Create Group
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId Id of the Mapping for which to create a new Group.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupCreateReportingAPI} [body]
+     * @param {GroupCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5616,13 +6105,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: GroupCreateReportingAPI,
+      body?: GroupCreate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).createGroup(imodelId, mappingId, Authorization, body, Accept, options);
@@ -5643,13 +6129,13 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       };
     },
     /**
-     * ---    Creates a GroupProperty for a Group. Each GroupProperty defines a column of mapped data.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Creates a GroupProperty for a Group. Each GroupProperty defines a column of mapped data.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Create GroupProperty
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new GroupProperty.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupPropertyCreateReportingAPI} [body]
+     * @param {GroupPropertyCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5659,13 +6145,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: GroupPropertyCreateReportingAPI,
+      body?: GroupPropertyCreate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupPropertySingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupPropertySingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).createGroupproperty(
@@ -5698,7 +6181,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @summary Create Mapping
      * @param {string} imodelId Id of the iModel for which to create a new Mapping.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingCreateReportingAPI} [body]
+     * @param {MappingCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5706,13 +6189,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
     createMapping(
       imodelId: string,
       Authorization: string,
-      body?: MappingCreateReportingAPI,
+      body?: MappingCreate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<MappingSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<MappingSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).createMapping(imodelId, Authorization, body, Accept, options);
@@ -5982,7 +6462,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CalculatedPropertyCollectionReportingAPI> {
+    ) => Promise<CalculatedPropertyCollection> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getCalculatedproperties(
@@ -6034,7 +6514,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CalculatedPropertySingleReportingAPI> {
+    ) => Promise<CalculatedPropertySingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getCalculatedproperty(
@@ -6085,7 +6565,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CustomCalculationSingleReportingAPI> {
+    ) => Promise<CustomCalculationSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getCustomcalculation(
@@ -6138,7 +6618,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CustomCalculationCollectionReportingAPI> {
+    ) => Promise<CustomCalculationCollection> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getCustomcalculations(
@@ -6168,7 +6648,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       };
     },
     /**
-     * ---    Gets a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Gets a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get Group
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
@@ -6185,10 +6665,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getGroup(imodelId, mappingId, groupId, Authorization, Accept, options);
@@ -6209,7 +6686,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       };
     },
     /**
-     * ---    Gets all GroupProperties for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Gets all GroupProperties for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get GroupProperties
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
@@ -6233,7 +6710,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<GroupPropertyCollectionReportingAPI> {
+    ) => Promise<GroupPropertyCollection> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getGroupproperties(
@@ -6263,7 +6740,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       };
     },
     /**
-     * ---    Gets a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Gets a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get GroupProperty
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
@@ -6282,10 +6759,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupPropertySingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupPropertySingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getGroupproperty(
@@ -6314,7 +6788,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       };
     },
     /**
-     * ---    Gets all Groups for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Gets all Groups for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get Groups
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
@@ -6333,10 +6807,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       continuationToken?: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupCollectionReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupCollection> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getGroups(
@@ -6380,10 +6851,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<MappingSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<MappingSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getMapping(imodelId, mappingId, Authorization, Accept, options);
@@ -6421,10 +6889,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       continuationToken?: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<MappingCollectionReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<MappingCollection> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).getMappings(
@@ -6459,7 +6924,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} groupId The Group Id.
      * @param {string} propertyId Id of the CalculatedProperty to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CalculatedPropertyUpdateReportingAPI} [body]
+     * @param {CalculatedPropertyUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6470,13 +6935,13 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       groupId: string,
       propertyId: string,
       Authorization: string,
-      body?: CalculatedPropertyUpdateReportingAPI,
+      body?: CalculatedPropertyUpdate,
       Accept?: string,
       options?: any,
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CalculatedPropertySingleReportingAPI> {
+    ) => Promise<CalculatedPropertySingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).updateCalculatedproperty(
@@ -6513,7 +6978,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} groupId The Group Id.
      * @param {string} customCalculationId Id of the CustomCalculation to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CustomCalculationUpdateReportingAPI} [body]
+     * @param {CustomCalculationUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6524,13 +6989,13 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       groupId: string,
       customCalculationId: string,
       Authorization: string,
-      body?: CustomCalculationUpdateReportingAPI,
+      body?: CustomCalculationUpdate,
       Accept?: string,
       options?: any,
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<CustomCalculationSingleReportingAPI> {
+    ) => Promise<CustomCalculationSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).updateCustomcalculation(
@@ -6560,13 +7025,13 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       };
     },
     /**
-     * ---    Updates a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Updates a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Update Group
      * @param {string} imodelId Globally Unique Identifier of the target iModel.
      * @param {string} mappingId Globally Unique Identifier of the target Mapping.
      * @param {string} groupId Id of the Group to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupUpdateReportingAPI} [body]
+     * @param {GroupUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6576,13 +7041,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: GroupUpdateReportingAPI,
+      body?: GroupUpdate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).updateGroup(
@@ -6611,14 +7073,14 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       };
     },
     /**
-     * ---    Updates a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Updates a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Update GroupProperty
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId The Group Id.
      * @param {string} propertyId Id of the GroupProperty to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupPropertyUpdateReportingAPI} [body]
+     * @param {GroupPropertyUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6629,13 +7091,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       groupId: string,
       propertyId: string,
       Authorization: string,
-      body?: GroupPropertyUpdateReportingAPI,
+      body?: GroupPropertyUpdate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<GroupPropertySingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<GroupPropertySingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).updateGroupproperty(
@@ -6670,7 +7129,7 @@ export const MappingsApiFp = function (configuration?: Configuration) {
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId Id of the Mapping to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingUpdateReportingAPI} [body]
+     * @param {MappingUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6679,13 +7138,10 @@ export const MappingsApiFp = function (configuration?: Configuration) {
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: MappingUpdateReportingAPI,
+      body?: MappingUpdate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<MappingSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<MappingSingle> {
       const localVarFetchArgs = MappingsApiFetchParamCreator(
         configuration,
       ).updateMapping(
@@ -6731,7 +7187,7 @@ export const MappingsApiFactory = function (
      * @param {string} imodelId Id of the source Mapping&#x27;s iModel.
      * @param {string} mappingId Id of the source Mapping.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingCopyReportingAPI} [body]
+     * @param {MappingCopy} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6740,7 +7196,7 @@ export const MappingsApiFactory = function (
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: MappingCopyReportingAPI,
+      body?: MappingCopy,
       Accept?: string,
       options?: any,
     ) {
@@ -6760,7 +7216,7 @@ export const MappingsApiFactory = function (
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new CalculatedProperty.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CalculatedPropertyCreateReportingAPI} [body]
+     * @param {CalculatedPropertyCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6770,7 +7226,7 @@ export const MappingsApiFactory = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: CalculatedPropertyCreateReportingAPI,
+      body?: CalculatedPropertyCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -6791,7 +7247,7 @@ export const MappingsApiFactory = function (
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new CustomCalculation.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CustomCalculationCreateReportingAPI} [body]
+     * @param {CustomCalculationCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6801,7 +7257,7 @@ export const MappingsApiFactory = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: CustomCalculationCreateReportingAPI,
+      body?: CustomCalculationCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -6816,12 +7272,12 @@ export const MappingsApiFactory = function (
       )(fetch, basePath);
     },
     /**
-     * ---    Creates a Group for an iModel data source Mapping. A Group is a collection of design elements from an iModel represented by an [ECSQL](https://www.itwinjs.org/learning/ecsql/) query and defines one table in the output data of a report.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Creates a Group for an iModel data source Mapping. A Group is a collection of design elements from an iModel represented by an [ECSQL](https://www.itwinjs.org/learning/ecsql/) query and defines one table in the output data of a report.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Create Group
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId Id of the Mapping for which to create a new Group.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupCreateReportingAPI} [body]
+     * @param {GroupCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6830,7 +7286,7 @@ export const MappingsApiFactory = function (
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: GroupCreateReportingAPI,
+      body?: GroupCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -6844,13 +7300,13 @@ export const MappingsApiFactory = function (
       )(fetch, basePath);
     },
     /**
-     * ---    Creates a GroupProperty for a Group. Each GroupProperty defines a column of mapped data.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Creates a GroupProperty for a Group. Each GroupProperty defines a column of mapped data.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Create GroupProperty
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId Id of the Group for which to create a new GroupProperty.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupPropertyCreateReportingAPI} [body]
+     * @param {GroupPropertyCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6860,7 +7316,7 @@ export const MappingsApiFactory = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: GroupPropertyCreateReportingAPI,
+      body?: GroupPropertyCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -6879,7 +7335,7 @@ export const MappingsApiFactory = function (
      * @summary Create Mapping
      * @param {string} imodelId Id of the iModel for which to create a new Mapping.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingCreateReportingAPI} [body]
+     * @param {MappingCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6887,7 +7343,7 @@ export const MappingsApiFactory = function (
     createMapping(
       imodelId: string,
       Authorization: string,
-      body?: MappingCreateReportingAPI,
+      body?: MappingCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -7176,7 +7632,7 @@ export const MappingsApiFactory = function (
       )(fetch, basePath);
     },
     /**
-     * ---    Gets a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Gets a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get Group
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
@@ -7204,7 +7660,7 @@ export const MappingsApiFactory = function (
       )(fetch, basePath);
     },
     /**
-     * ---    Gets all GroupProperties for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Gets all GroupProperties for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get GroupProperties
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
@@ -7238,7 +7694,7 @@ export const MappingsApiFactory = function (
       )(fetch, basePath);
     },
     /**
-     * ---    Gets a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Gets a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get GroupProperty
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
@@ -7269,7 +7725,7 @@ export const MappingsApiFactory = function (
       )(fetch, basePath);
     },
     /**
-     * ---    Gets all Groups for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Gets all Groups for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Get Groups
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
@@ -7360,7 +7816,7 @@ export const MappingsApiFactory = function (
      * @param {string} groupId The Group Id.
      * @param {string} propertyId Id of the CalculatedProperty to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CalculatedPropertyUpdateReportingAPI} [body]
+     * @param {CalculatedPropertyUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7371,7 +7827,7 @@ export const MappingsApiFactory = function (
       groupId: string,
       propertyId: string,
       Authorization: string,
-      body?: CalculatedPropertyUpdateReportingAPI,
+      body?: CalculatedPropertyUpdate,
       Accept?: string,
       options?: any,
     ) {
@@ -7394,7 +7850,7 @@ export const MappingsApiFactory = function (
      * @param {string} groupId The Group Id.
      * @param {string} customCalculationId Id of the CustomCalculation to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {CustomCalculationUpdateReportingAPI} [body]
+     * @param {CustomCalculationUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7405,7 +7861,7 @@ export const MappingsApiFactory = function (
       groupId: string,
       customCalculationId: string,
       Authorization: string,
-      body?: CustomCalculationUpdateReportingAPI,
+      body?: CustomCalculationUpdate,
       Accept?: string,
       options?: any,
     ) {
@@ -7421,13 +7877,13 @@ export const MappingsApiFactory = function (
       )(fetch, basePath);
     },
     /**
-     * ---    Updates a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Updates a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Update Group
      * @param {string} imodelId Globally Unique Identifier of the target iModel.
      * @param {string} mappingId Globally Unique Identifier of the target Mapping.
      * @param {string} groupId Id of the Group to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupUpdateReportingAPI} [body]
+     * @param {GroupUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7437,7 +7893,7 @@ export const MappingsApiFactory = function (
       mappingId: string,
       groupId: string,
       Authorization: string,
-      body?: GroupUpdateReportingAPI,
+      body?: GroupUpdate,
       Accept?: string,
       options?: any,
     ) {
@@ -7452,14 +7908,14 @@ export const MappingsApiFactory = function (
       )(fetch, basePath);
     },
     /**
-     * ---    Updates a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+     * ---    Updates a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Update GroupProperty
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId The Mapping Id.
      * @param {string} groupId The Group Id.
      * @param {string} propertyId Id of the GroupProperty to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {GroupPropertyUpdateReportingAPI} [body]
+     * @param {GroupPropertyUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7470,7 +7926,7 @@ export const MappingsApiFactory = function (
       groupId: string,
       propertyId: string,
       Authorization: string,
-      body?: GroupPropertyUpdateReportingAPI,
+      body?: GroupPropertyUpdate,
       Accept?: string,
       options?: any,
     ) {
@@ -7491,7 +7947,7 @@ export const MappingsApiFactory = function (
      * @param {string} imodelId The iModel Id.
      * @param {string} mappingId Id of the Mapping to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {MappingUpdateReportingAPI} [body]
+     * @param {MappingUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7500,7 +7956,7 @@ export const MappingsApiFactory = function (
       imodelId: string,
       mappingId: string,
       Authorization: string,
-      body?: MappingUpdateReportingAPI,
+      body?: MappingUpdate,
       Accept?: string,
       options?: any,
     ) {
@@ -7529,7 +7985,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} imodelId Id of the source Mapping&#x27;s iModel.
    * @param {string} mappingId Id of the source Mapping.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {MappingCopyReportingAPI} [body]
+   * @param {MappingCopy} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7539,7 +7995,7 @@ export class MappingsApi extends BaseAPI {
     imodelId: string,
     mappingId: string,
     Authorization: string,
-    body?: MappingCopyReportingAPI,
+    body?: MappingCopy,
     Accept?: string,
     options?: any,
   ) {
@@ -7560,7 +8016,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId Id of the Group for which to create a new CalculatedProperty.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {CalculatedPropertyCreateReportingAPI} [body]
+   * @param {CalculatedPropertyCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7571,7 +8027,7 @@ export class MappingsApi extends BaseAPI {
     mappingId: string,
     groupId: string,
     Authorization: string,
-    body?: CalculatedPropertyCreateReportingAPI,
+    body?: CalculatedPropertyCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -7593,7 +8049,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId Id of the Group for which to create a new CustomCalculation.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {CustomCalculationCreateReportingAPI} [body]
+   * @param {CustomCalculationCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7604,7 +8060,7 @@ export class MappingsApi extends BaseAPI {
     mappingId: string,
     groupId: string,
     Authorization: string,
-    body?: CustomCalculationCreateReportingAPI,
+    body?: CustomCalculationCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -7620,12 +8076,12 @@ export class MappingsApi extends BaseAPI {
   }
 
   /**
-   * ---    Creates a Group for an iModel data source Mapping. A Group is a collection of design elements from an iModel represented by an [ECSQL](https://www.itwinjs.org/learning/ecsql/) query and defines one table in the output data of a report.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+   * ---    Creates a Group for an iModel data source Mapping. A Group is a collection of design elements from an iModel represented by an [ECSQL](https://www.itwinjs.org/learning/ecsql/) query and defines one table in the output data of a report.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
    * @summary Create Group
    * @param {string} imodelId The iModel Id.
    * @param {string} mappingId Id of the Mapping for which to create a new Group.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {GroupCreateReportingAPI} [body]
+   * @param {GroupCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7635,7 +8091,7 @@ export class MappingsApi extends BaseAPI {
     imodelId: string,
     mappingId: string,
     Authorization: string,
-    body?: GroupCreateReportingAPI,
+    body?: GroupCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -7650,13 +8106,13 @@ export class MappingsApi extends BaseAPI {
   }
 
   /**
-   * ---    Creates a GroupProperty for a Group. Each GroupProperty defines a column of mapped data.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+   * ---    Creates a GroupProperty for a Group. Each GroupProperty defines a column of mapped data.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
    * @summary Create GroupProperty
    * @param {string} imodelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId Id of the Group for which to create a new GroupProperty.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {GroupPropertyCreateReportingAPI} [body]
+   * @param {GroupPropertyCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7667,7 +8123,7 @@ export class MappingsApi extends BaseAPI {
     mappingId: string,
     groupId: string,
     Authorization: string,
-    body?: GroupPropertyCreateReportingAPI,
+    body?: GroupPropertyCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -7687,7 +8143,7 @@ export class MappingsApi extends BaseAPI {
    * @summary Create Mapping
    * @param {string} imodelId Id of the iModel for which to create a new Mapping.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {MappingCreateReportingAPI} [body]
+   * @param {MappingCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7696,7 +8152,7 @@ export class MappingsApi extends BaseAPI {
   public createMapping(
     imodelId: string,
     Authorization: string,
-    body?: MappingCreateReportingAPI,
+    body?: MappingCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -8004,7 +8460,7 @@ export class MappingsApi extends BaseAPI {
   }
 
   /**
-   * ---    Gets a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+   * ---    Gets a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
    * @summary Get Group
    * @param {string} imodelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
@@ -8034,7 +8490,7 @@ export class MappingsApi extends BaseAPI {
   }
 
   /**
-   * ---    Gets all GroupProperties for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+   * ---    Gets all GroupProperties for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
    * @summary Get GroupProperties
    * @param {string} imodelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
@@ -8070,7 +8526,7 @@ export class MappingsApi extends BaseAPI {
   }
 
   /**
-   * ---    Gets a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+   * ---    Gets a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
    * @summary Get GroupProperty
    * @param {string} imodelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
@@ -8103,7 +8559,7 @@ export class MappingsApi extends BaseAPI {
   }
 
   /**
-   * ---    Gets all Groups for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+   * ---    Gets all Groups for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:read`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_read` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
    * @summary Get Groups
    * @param {string} imodelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
@@ -8200,7 +8656,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} groupId The Group Id.
    * @param {string} propertyId Id of the CalculatedProperty to be updated.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {CalculatedPropertyUpdateReportingAPI} [body]
+   * @param {CalculatedPropertyUpdate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8212,7 +8668,7 @@ export class MappingsApi extends BaseAPI {
     groupId: string,
     propertyId: string,
     Authorization: string,
-    body?: CalculatedPropertyUpdateReportingAPI,
+    body?: CalculatedPropertyUpdate,
     Accept?: string,
     options?: any,
   ) {
@@ -8236,7 +8692,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} groupId The Group Id.
    * @param {string} customCalculationId Id of the CustomCalculation to be updated.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {CustomCalculationUpdateReportingAPI} [body]
+   * @param {CustomCalculationUpdate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8248,7 +8704,7 @@ export class MappingsApi extends BaseAPI {
     groupId: string,
     customCalculationId: string,
     Authorization: string,
-    body?: CustomCalculationUpdateReportingAPI,
+    body?: CustomCalculationUpdate,
     Accept?: string,
     options?: any,
   ) {
@@ -8265,13 +8721,13 @@ export class MappingsApi extends BaseAPI {
   }
 
   /**
-   * ---    Updates a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.Id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+   * ---    Updates a Group for a Mapping.    ### Group Query    The `query` parameter of a Group supports ECSql and ECClassIds.    If a valid ECSql query is given and the selected class is `bis.Element`, or if it is a descendant of the class `bis.Element`, the only required column is `ECInstanceId`.    - `SELECT * FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT * FROM Building.Beam` is a valid query  - `SELECT ECInstanceId FROM bis.Element` is a valid query  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECInstanceId FROM Building.Beam` is valid  - `SELECT ECClassId FROM bis.Element` is _not_ a valid query because ECInstanceId column is missing  - Assuming that class `Building.Beam` is a descendant of the class `bis.Element`, the query `SELECT ECClassId FROM Building.Beam` is _not_ valid because ECInstanceId column is missing  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.ECInstanceId FROM bis.Element E JOIN Building.BeamAspect A ON A.Element.id = E.ECInstanceId` is _not_ valid because the selected `ECInstanceId` is of the aspect, not the element  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id FROM Building.BeamAspect` is _not_ valid because the selected column's name is not `ECInstanceId`  - Assuming that `Building.BeamAspect` is an aspect, the query `SELECT A.Element.id ECInstanceId FROM Building.BeamAspect` is valid    In all other cases when providing an ECSql query it is required to select `ECInstanceId`, `ECClassId`, and all other columns that you are planning to use for mapping. If only `ECInstanceId` and `ECClassId` are selected and other columns are used for mapping, those columns will be filled with `null` values. If either `ECInstanceId` or `ECClassId` column is not selected, the query will not produce any output.    If the `query` parameter does not contain a valid ECSql query, then it must be equal to `bis.Element`, `bis.ElementAspect`, or any of their descendants.    The ECClassId format `{schemaName}:{schemaItemName}` where `schemaName` does not contain a 3-part version number is supported.    The ECClassId format `{schemaName}.{schemaItemName}` is supported.    The ECClassId format `{schemaAlias}:{schemaItemName}` where `schemaAlias` is the alias of a `schemaName` is supported.    The ECClassId format `{schemaFullName}:{schemaItemName}` where `schemaFullName` contains a 3-part version number is _not_ supported.    When the given ECClassId is equal to `bis.Element` or is one of its descendants, then all elements with the ECClassId will be selected.    When the given ECClassId is equal to `bis.ElementAspect` or is one of its descendants, then all elements that have such aspect will be selected.    When the given ECClassId is none of the above, the query will not produce any output.    - If a class `Building.Beam` does not have any subclasses and the `query` parameter is set to `Building.Beam`, then all elements with ECClassIds of `Building.Beam` will be selected  - If there is a class `Building.StructuralMember` which has 2 subclasses `Building.Beam` and `Building.Column`, and the `query` parameter is set to `Building.StructuralMember`, then all elements with ECClassIds of `Building.StructuralMember`, `Building.Beam`, and `Building.Column` will be selected  - If a class `Building.BeamAspect` inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.BeamAspect`, then all elements that have a `Building.BeamAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId  - If there is class `Building.StructuralMemberAspect` which has 2 subclasses `Building.BeamAspect` and `Building.ColumnAspect`, the `Building.StructuralMemberAspect` class inherits from a class `bis.ElementAspect` (is unique or multi aspect) and the `query` parameter is set to `Building.StructuralMemberAspect`, then all elements that have `Building.StructuralMemberAspect`, `Building.BeamAspect`, or `Building.ColumnAspect` attached to them will be selected. This query will _not_ select the aspects themselves, but the elements that they are attached to. The selected elements may have any ECClassId    If different queries are needed for a single output table, then create multiple Groups with those different queries but with the same name for each Group. That will cause results of all these queries to be concatenated into a single output table. The output table will have column list equal to a union of all GroupProperties of Groups with the same name.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
    * @summary Update Group
    * @param {string} imodelId Globally Unique Identifier of the target iModel.
    * @param {string} mappingId Globally Unique Identifier of the target Mapping.
    * @param {string} groupId Id of the Group to be updated.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {GroupUpdateReportingAPI} [body]
+   * @param {GroupUpdate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8282,7 +8738,7 @@ export class MappingsApi extends BaseAPI {
     mappingId: string,
     groupId: string,
     Authorization: string,
-    body?: GroupUpdateReportingAPI,
+    body?: GroupUpdate,
     Accept?: string,
     options?: any,
   ) {
@@ -8298,14 +8754,14 @@ export class MappingsApi extends BaseAPI {
   }
 
   /**
-   * ---    Updates a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains 2 entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by 3 values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. Class inheritance is _not_ checked. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only 1 instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
+   * ---    Updates a GroupProperty for a Group.    ### Mapping ECProperties    GroupProperties define mappings from ECProperties on an iModel to columns. They allow mapping the queried, element, element aspect, or related element properties.    Content of the columns depend on the `ecProperties` field. The `ecProperties` field is a prioritized array which contains `ECProperty` entities. The closer the `ECProperty` is to the array's start, the higher the priority. The priority of `ECProperty` can be changed by reordering the `ecProperties` array. Reading of the `ecProperties` array stops when a valid value is found. For example, if the `ecProperties` array contains two entries and the first entry results in a null or undefined value, it will take the second entry. The value can be undefined if the given ECProperty does not exist. The result column will be filled with a null value if no valid value was found.    Evaluating `ecProperties` is prioritized by:    1. Queried properties  2. Element properties  3. Element aspect properties    Having queried properties as the highest priority allows for constant or complex values to be added to a mapping.    `ECProperty` lookup is defined by three values - `ECSchemaName`, `ECClassName`, and `ECPropertyName`.    `ECSchemaName` and `ECClassName` are used together to create a ECClassId which is the ECClassId of the current row when selecting a property. If the ECClassId of a selected row does not match the `ECSchemaName` and `ECClassName` pair, the value for this `ECProperty` is considered undefined. If the formed ECClassId is of an element aspect, the current selected row is an element and there is only one instance of that element aspect related to the element, the property lookup is done on the element aspect.    `ECSchemaName` and `ECClassName` are case-insensitive.    `ECSchemaName` and `ECClassName` can be set to a wildcard value `*`.    - If the value of `ECSchemaName` is `*` and the value of `ECClassName` is `Beam`, then it will match any `Beam` class from any schema (e.g. `Building.Beam`, `Structural.Beam`, etc.)  - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `*`, then it will match any class from the schema `Building` (e.g. `Building.Beam`, `Building.CurtainWall`, etc.)  - If values of `ECSchemaName` and `ECClassName` are `*`, then it will match any ECClassId (e.g. `Building.Beam`, `Structural.Column`, etc.)  - If either value of `ECSchemaName` or `ECClassName` are `*`, then no element aspect lookup is done    Class inheritance is checked if there is no wildcard value.    - If the value of `ECSchemaName` is `Building` and the value of `ECClassName` is `StructuralMember`, then it will match any ECClassId which inherits `Building.StructuralMember` (e.g. `Building.Beam` which inherits `Building.StructuralMember`, `Building.Column` which inherits `Building.StructuralMember`, etc)  - If `ECSchemaName` or `ECClassName` is a wildcard, then inheritance will not be checked    Set `ECPropertyName` to a property name that you want to select. The value of `ECPropertyName` can also be a path defining how to find a property. The path segments must be separated by a period (`.`). The path can contain the names of:    - A navigation property  - A struct property  - A string property that happens to contain a string representation of a json object  - A property inside the selected json    Names of properties are not case sensitive. If json object does not have duplicate property names which only differ in letter casing, then those json properties are not case sensitive. We recommend treating json properties as case sensitive.    - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category` or `category`, then the whole value `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` will be selected  - If `Category` property is a navigation property with a value of `{\"id\":\"0x2000000000b\",\"relClassName\":\"BisCore.GeometricElement3dIsInCategory\"}` and the `ECPropertyName` is set to `Category.id`, then only the `id` value `0x2000000000b` will be selected  - If `Category` property is a navigation property and it points to a row that has a property `CodeValue` that we want to select, the `ECPropertyName` should be set to `Category.CodeValue`  - If `Model` property is a navigation property and it points to a row that has a property `JsonProperties` with a value `{\"formatter\":{\"mastUnit\":{\"label\":\"m\"}}}` and we want to select the master unit label, the `ECPropertyName` should be set to `Model.JsonProperties.formatter.mastUnit.label`. The result will be `m`    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `imodels_write` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
    * @summary Update GroupProperty
    * @param {string} imodelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
    * @param {string} propertyId Id of the GroupProperty to be updated.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {GroupPropertyUpdateReportingAPI} [body]
+   * @param {GroupPropertyUpdate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8317,7 +8773,7 @@ export class MappingsApi extends BaseAPI {
     groupId: string,
     propertyId: string,
     Authorization: string,
-    body?: GroupPropertyUpdateReportingAPI,
+    body?: GroupPropertyUpdate,
     Accept?: string,
     options?: any,
   ) {
@@ -8339,7 +8795,7 @@ export class MappingsApi extends BaseAPI {
    * @param {string} imodelId The iModel Id.
    * @param {string} mappingId Id of the Mapping to be updated.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {MappingUpdateReportingAPI} [body]
+   * @param {MappingUpdate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8349,7 +8805,7 @@ export class MappingsApi extends BaseAPI {
     imodelId: string,
     mappingId: string,
     Authorization: string,
-    body?: MappingUpdateReportingAPI,
+    body?: MappingUpdate,
     Accept?: string,
     options?: any,
   ) {
@@ -8375,14 +8831,14 @@ export const ReportsApiFetchParamCreator = function (
      * ---    Creates a Report within the context of a Project.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `insights_modify` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Create Report
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportCreateReportingAPI} [body]
+     * @param {ReportCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createReport(
       Authorization: string,
-      body?: ReportCreateReportingAPI,
+      body?: ReportCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -8454,7 +8910,7 @@ export const ReportsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'ReportCreateReportingAPI' !== 'string' ||
+        <any>'ReportCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -8470,7 +8926,7 @@ export const ReportsApiFetchParamCreator = function (
      * @summary Create Report Mapping
      * @param {string} reportId The Report Id.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportMappingCreateReportingAPI} [body]
+     * @param {ReportMappingCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8478,7 +8934,7 @@ export const ReportsApiFetchParamCreator = function (
     createReportMapping(
       reportId: string,
       Authorization: string,
-      body?: ReportMappingCreateReportingAPI,
+      body?: ReportMappingCreate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -8561,7 +9017,7 @@ export const ReportsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'ReportMappingCreateReportingAPI' !== 'string' ||
+        <any>'ReportMappingCreate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -9104,7 +9560,7 @@ export const ReportsApiFetchParamCreator = function (
      * @summary Update Report
      * @param {string} reportId Id of the Report to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportUpdateReportingAPI} [body]
+     * @param {ReportUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9112,7 +9568,7 @@ export const ReportsApiFetchParamCreator = function (
     updateReport(
       reportId: string,
       Authorization: string,
-      body?: ReportUpdateReportingAPI,
+      body?: ReportUpdate,
       Accept?: string,
       options: any = {},
     ): FetchArgs {
@@ -9197,7 +9653,7 @@ export const ReportsApiFetchParamCreator = function (
         options.headers,
       );
       const needsSerialization =
-        <any>'ReportUpdateReportingAPI' !== 'string' ||
+        <any>'ReportUpdate' !== 'string' ||
         localVarRequestOptions.headers['Content-Type'] === 'application/json';
       localVarRequestOptions.body = needsSerialization
         ? JSON.stringify(body || {})
@@ -9221,20 +9677,17 @@ export const ReportsApiFp = function (configuration?: Configuration) {
      * ---    Creates a Report within the context of a Project.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `insights_modify` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Create Report
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportCreateReportingAPI} [body]
+     * @param {ReportCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createReport(
       Authorization: string,
-      body?: ReportCreateReportingAPI,
+      body?: ReportCreate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ReportSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ReportSingle> {
       const localVarFetchArgs = ReportsApiFetchParamCreator(
         configuration,
       ).createReport(Authorization, body, Accept, options);
@@ -9259,7 +9712,7 @@ export const ReportsApiFp = function (configuration?: Configuration) {
      * @summary Create Report Mapping
      * @param {string} reportId The Report Id.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportMappingCreateReportingAPI} [body]
+     * @param {ReportMappingCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9267,13 +9720,10 @@ export const ReportsApiFp = function (configuration?: Configuration) {
     createReportMapping(
       reportId: string,
       Authorization: string,
-      body?: ReportMappingCreateReportingAPI,
+      body?: ReportMappingCreate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ReportMappingSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ReportMappingSingle> {
       const localVarFetchArgs = ReportsApiFetchParamCreator(
         configuration,
       ).createReportMapping(reportId, Authorization, body, Accept, options);
@@ -9389,10 +9839,7 @@ export const ReportsApiFp = function (configuration?: Configuration) {
       deleted?: boolean,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ReportCollectionReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ReportCollection> {
       const localVarFetchArgs = ReportsApiFetchParamCreator(
         configuration,
       ).getProjectReports(
@@ -9434,10 +9881,7 @@ export const ReportsApiFp = function (configuration?: Configuration) {
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ReportSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ReportSingle> {
       const localVarFetchArgs = ReportsApiFetchParamCreator(
         configuration,
       ).getReport(reportId, Authorization, Accept, options);
@@ -9478,7 +9922,7 @@ export const ReportsApiFp = function (configuration?: Configuration) {
     ): (
       fetch?: FetchAPI,
       basePath?: string,
-    ) => Promise<ReportMappingCollectionReportingAPI> {
+    ) => Promise<ReportMappingCollection> {
       const localVarFetchArgs = ReportsApiFetchParamCreator(
         configuration,
       ).getReportMappings(
@@ -9510,7 +9954,7 @@ export const ReportsApiFp = function (configuration?: Configuration) {
      * @summary Update Report
      * @param {string} reportId Id of the Report to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportUpdateReportingAPI} [body]
+     * @param {ReportUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9518,13 +9962,10 @@ export const ReportsApiFp = function (configuration?: Configuration) {
     updateReport(
       reportId: string,
       Authorization: string,
-      body?: ReportUpdateReportingAPI,
+      body?: ReportUpdate,
       Accept?: string,
       options?: any,
-    ): (
-      fetch?: FetchAPI,
-      basePath?: string,
-    ) => Promise<ReportSingleReportingAPI> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ReportSingle> {
       const localVarFetchArgs = ReportsApiFetchParamCreator(
         configuration,
       ).updateReport(reportId, Authorization, body, Accept, options);
@@ -9561,14 +10002,14 @@ export const ReportsApiFactory = function (
      * ---    Creates a Report within the context of a Project.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `insights_modify` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
      * @summary Create Report
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportCreateReportingAPI} [body]
+     * @param {ReportCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createReport(
       Authorization: string,
-      body?: ReportCreateReportingAPI,
+      body?: ReportCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -9584,7 +10025,7 @@ export const ReportsApiFactory = function (
      * @summary Create Report Mapping
      * @param {string} reportId The Report Id.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportMappingCreateReportingAPI} [body]
+     * @param {ReportMappingCreate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9592,7 +10033,7 @@ export const ReportsApiFactory = function (
     createReportMapping(
       reportId: string,
       Authorization: string,
-      body?: ReportMappingCreateReportingAPI,
+      body?: ReportMappingCreate,
       Accept?: string,
       options?: any,
     ) {
@@ -9737,7 +10178,7 @@ export const ReportsApiFactory = function (
      * @summary Update Report
      * @param {string} reportId Id of the Report to be updated.
      * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-     * @param {ReportUpdateReportingAPI} [body]
+     * @param {ReportUpdate} [body]
      * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9745,7 +10186,7 @@ export const ReportsApiFactory = function (
     updateReport(
       reportId: string,
       Authorization: string,
-      body?: ReportUpdateReportingAPI,
+      body?: ReportUpdate,
       Accept?: string,
       options?: any,
     ) {
@@ -9771,7 +10212,7 @@ export class ReportsApi extends BaseAPI {
    * ---    Creates a Report within the context of a Project.    ### Authentication    Requires `Authorization` header with valid Bearer token for scope `insights:modify`.    For more documentation on authorization and how to get access token visit [OAUTH2 Authorization](https://developer.bentley.com/apis/overview/authorization/) page.    ### Authorization    User must have `insights_modify` permission(s) assigned at the Project level. iModel specific permissions may also be applied at the iModel level if iModel level permissions are enabled.    Alternatively the user should be an Organization Administrator for the Organization that owns a given Project or iModel.    An Organization Administrator must have at least one of the following roles assigned in User Management: Account Administrator, Co-Administrator, or CONNECT Services Administrator. For more information about User Management please visit our Bentley Communities [Licensing, Cloud, and Web Services](https://communities.bentley.com/communities/other_communities/licensing_cloud_and_web_services/w/wiki/50711/user-management-2-0) wiki page.    ### Rate limits    All iTwin Platform API operations have a rate limit. For more documentation on that visit [Rate limits and quotas](https://developer.bentley.com/apis/overview/rate-limits/) page.    ---
    * @summary Create Report
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {ReportCreateReportingAPI} [body]
+   * @param {ReportCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9779,7 +10220,7 @@ export class ReportsApi extends BaseAPI {
    */
   public createReport(
     Authorization: string,
-    body?: ReportCreateReportingAPI,
+    body?: ReportCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -9796,7 +10237,7 @@ export class ReportsApi extends BaseAPI {
    * @summary Create Report Mapping
    * @param {string} reportId The Report Id.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {ReportMappingCreateReportingAPI} [body]
+   * @param {ReportMappingCreate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9805,7 +10246,7 @@ export class ReportsApi extends BaseAPI {
   public createReportMapping(
     reportId: string,
     Authorization: string,
-    body?: ReportMappingCreateReportingAPI,
+    body?: ReportMappingCreate,
     Accept?: string,
     options?: any,
   ) {
@@ -9961,7 +10402,7 @@ export class ReportsApi extends BaseAPI {
    * @summary Update Report
    * @param {string} reportId Id of the Report to be updated.
    * @param {string} Authorization OAuth access token with scope &#x60;insights:modify&#x60;
-   * @param {ReportUpdateReportingAPI} [body]
+   * @param {ReportUpdate} [body]
    * @param {string} [Accept] Setting to &#x60;application/vnd.bentley.itwin-platform.v1+json&#x60; is recommended.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -9970,7 +10411,7 @@ export class ReportsApi extends BaseAPI {
   public updateReport(
     reportId: string,
     Authorization: string,
-    body?: ReportUpdateReportingAPI,
+    body?: ReportUpdate,
     Accept?: string,
     options?: any,
   ) {

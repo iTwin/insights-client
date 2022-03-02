@@ -11,10 +11,10 @@ import { ReportingClient } from "./../../reporting/reportingClient";
 chai.should();
 describe("ReportingClient", () => {
   const reportingCLient: ReportingClient = new ReportingClient();
-  const projectId = "8b4b17c9-2a99-4e83-9637-c587bef27e30";
-  const imodelId = "8d73d54f-a340-4fad-b579-07403541cd99";
-  const mappingId = "30dc87ab-2661-449f-b5c1-e8961226f3c4";
-  const groupId = "4e5fc52b-25af-474e-9ecf-33756c2cece4";
+  const projectId = process.env.IMJS_TEST_PROJECT_ID ?? "";
+  const imodelId = process.env.IMJS_TEST_IMODEL_ID ?? "";
+  const mappingId = process.env.IMJS_TEST_MAPPING_ID ?? "";
+  const groupId = process.env.IMJS_TEST_GROUP_ID ?? "";
   let accessToken: AccessToken;
 
   before(async function () {
@@ -51,7 +51,7 @@ describe("ReportingClient", () => {
       mappingId,
       groupId
     );
-    expect(properties.properties).to.be.not.undefined;
-    expect(properties.properties).to.not.be.empty;
+    expect(properties.groupProperties).to.be.not.undefined;
+    expect(properties.groupProperties).to.not.be.empty;
   });
 });
