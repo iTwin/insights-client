@@ -13,11 +13,16 @@ import type {
   GroupPropertyCreate,
   GroupPropertyUpdate,
   GroupUpdate,
+  Mapping,
   MappingCollection,
   MappingCopy,
   MappingCreate,
-  Mapping,
   MappingUpdate,
+  ReportCreate,
+  ReportMappingCreate,
+  ReportUpdate} from "./generated/api";
+import {
+  ExtractionApi,
 } from "./generated/api";
 import { MappingsApi, REPORTING_BASE_PATH, ReportsApi } from "./generated/api";
 
@@ -34,10 +39,29 @@ const prefixUrl = (baseUrl?: string, prefix?: string) => {
 export class ReportingClient {
   private _mappingsApi: MappingsApi;
   private _reportsApi: ReportsApi;
+  private _extractionApi: ExtractionApi;
   constructor() {
     const baseUrl = prefixUrl(REPORTING_BASE_PATH, process.env.IMJS_URL_PREFIX);
     this._mappingsApi = new MappingsApi(undefined, baseUrl);
     this._reportsApi = new ReportsApi(undefined, baseUrl);
+    this._extractionApi = new ExtractionApi(undefined, baseUrl);
+  }
+
+  public async runExtraction(accessToken: AccessToken, iModelId: string) {
+    return this._extractionApi.runExtraction(
+      iModelId,
+      accessToken,
+      ACCEPT
+    );
+  }
+
+  public async getExtractionStatus(accessToken: AccessToken, jobId: string) {
+    return this._extractionApi.getExtractionStatus(
+      jobId,
+      accessToken,
+      ACCEPT
+    );
+
   }
 
   public async getReports(accessToken: AccessToken, projectId: string) {
@@ -47,6 +71,59 @@ export class ReportingClient {
       undefined,
       undefined,
       false,
+      ACCEPT
+    );
+  }
+
+  public async createReport(accessToken: AccessToken, report: ReportCreate) {
+    return this._reportsApi.createReport(
+      accessToken,
+      report,
+      ACCEPT
+    );
+  }
+
+  public async updateReport(accessToken: AccessToken, reportId: string, report: ReportUpdate) {
+    return this._reportsApi.updateReport(
+      reportId,
+      accessToken,
+      report,
+      ACCEPT
+    );
+  }
+
+  public async deleteReport(accessToken: AccessToken, reportId: string) {
+    return this._reportsApi.deleteReport(
+      reportId,
+      accessToken,
+      ACCEPT
+    );
+  }
+
+  public async getReportMappings(accessToken: AccessToken, reportId: string) {
+    return this._reportsApi.getReportMappings(
+      reportId,
+      accessToken,
+      undefined,
+      undefined,
+      ACCEPT
+    );
+  }
+
+  public async createReportMapping(accessToken: AccessToken, reportId: string, reportMapping: ReportMappingCreate) {
+    return this._reportsApi.createReportMapping(
+      reportId,
+      accessToken,
+      reportMapping,
+      ACCEPT
+    );
+  }
+
+  public async deleteReportMapping(accessToken: AccessToken, reportId: string, reportMappingId: string) {
+    return this._reportsApi.deleteReportMapping(
+      reportId,
+      reportMappingId,
+      accessToken,
       ACCEPT
     );
   }
@@ -75,6 +152,10 @@ export class ReportingClient {
     } while (response._links?.next?.href);
 
     return mappings;
+  }
+
+  public async getMapping(accessToken: AccessToken, mappingId: string, iModelId: string) {
+    return this._mappingsApi.getMapping(iModelId, mappingId, accessToken);
   }
 
   public async createMapping(
