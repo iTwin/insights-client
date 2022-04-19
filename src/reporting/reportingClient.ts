@@ -3,28 +3,47 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
+import { report } from "process";
 
 import type {
+  CalculatedProperty,
+  CalculatedPropertyCollection,
   CalculatedPropertyCreate,
   CalculatedPropertyUpdate,
+  CustomCalculation,
+  CustomCalculationCollection,
   CustomCalculationCreate,
   CustomCalculationUpdate,
+  Group,
+  GroupCollection,
   GroupCreate,
+  GroupProperty,
+  GroupPropertyCollection,
   GroupPropertyCreate,
   GroupPropertyUpdate,
   GroupUpdate,
+  ExtractionLog,
+  ExtractionLogCollection,
   Mapping,
   MappingCollection,
   MappingCopy,
   MappingCreate,
   MappingUpdate,
+  Report,
+  ReportCollection,
   ReportCreate,
+  ReportMapping,
+  ReportMappingCollection,
   ReportMappingCreate,
-  ReportUpdate} from "./generated/api";
-import {
-  ExtractionApi,
+  ReportUpdate
 } from "./generated/api";
-import { MappingsApi, REPORTING_BASE_PATH, ReportsApi } from "./generated/api";
+import {
+  DataAccessApi,
+  ExtractionApi,
+  MappingsApi,
+  REPORTING_BASE_PATH,
+  ReportsApi
+} from "./generated/api";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 
@@ -37,17 +56,74 @@ const prefixUrl = (baseUrl?: string, prefix?: string) => {
 
 // To be only used within Viewer
 export class ReportingClient {
+  private _dataAccessApi: DataAccessApi;
   private _mappingsApi: MappingsApi;
   private _reportsApi: ReportsApi;
   private _extractionApi: ExtractionApi;
   constructor() {
     const baseUrl = prefixUrl(REPORTING_BASE_PATH, process.env.IMJS_URL_PREFIX);
+    this._dataAccessApi = new DataAccessApi(undefined, baseUrl);
     this._mappingsApi = new MappingsApi(undefined, baseUrl);
     this._reportsApi = new ReportsApi(undefined, baseUrl);
     this._extractionApi = new ExtractionApi(undefined, baseUrl);
   }
 
-  public async runExtraction(accessToken: AccessToken, iModelId: string) {
+  //#region Data Access Endpoints
+
+  public async getODataReport(accessToken: AccessToken, reportId: string) {
+    return this._dataAccessApi.odata(reportId, accessToken);
+  }
+
+  public async getODataReportEntity(
+    accessToken: AccessToken,
+    reportId: string,
+    region: string,
+    manifestId: string,
+    entityType: string
+  ) {
+    return this._dataAccessApi.odataEntity(
+      reportId,
+      region,
+      manifestId,
+      entityType,
+      accessToken
+    );
+  }
+
+  public async getODataReportMetadata(accessToken: AccessToken, reportId: string) {
+    return this._dataAccessApi.odataMetadata(reportId, accessToken);
+  }
+
+  //#endregion
+
+  //#region Extraction Endpoints
+
+  public async getExtractionLogs(accessToken: AccessToken, jobId: string) {
+    const logs: Array<ExtractionLog> = [];
+
+    let response: ExtractionLogCollection;
+    let continuationToken: string | undefined;
+
+    do {
+      response = await this._extractionApi.getExtractionLogs(
+        jobId,
+        accessToken,
+        undefined,
+        continuationToken,
+        ACCEPT
+      );
+      response.extractionLog && logs.push(...response.extractionLog);
+      if (!response._links?.next?.href) {
+        continue;
+      }
+      const url = new URL(response._links?.next?.href);
+      continuationToken = url.searchParams.get("$continuationToken") ?? undefined;
+    } while (response._links?.next?.href);
+
+    return logs;
+  }
+
+  public runExtraction(accessToken: AccessToken, iModelId: string) {
     return this._extractionApi.runExtraction(
       iModelId,
       accessToken,
@@ -64,14 +140,41 @@ export class ReportingClient {
 
   }
 
+  //#endregion
+
+  //#region Reports Endpoints
+
   public async getReports(accessToken: AccessToken, projectId: string) {
-    return this._reportsApi.getProjectReports(
+    const reports: Array<Report> = [];
+
+    let response: ReportCollection;
+    let continuationToken: string | undefined;
+
+    do {
+      response = await this._reportsApi.getProjectReports(
+        projectId,
+        accessToken,
+        undefined,
+        continuationToken,
+        false,
+        ACCEPT
+      );
+      response.reports && reports.push(...response.reports);
+      if (!response._links?.next?.href) {
+        continue;
+      }
+      const url = new URL(response._links?.next?.href);
+      continuationToken = url.searchParams.get("$continuationToken") ?? undefined;
+    } while (response._links?.next?.href);
+
+    return reports;
+  }
+
+  public async getReport(accessToken: AccessToken, projectId: string, reportId: string) {
+    return this._reportsApi.getReport(
       projectId,
-      accessToken,
-      undefined,
-      undefined,
-      false,
-      ACCEPT
+      reportId,
+      accessToken
     );
   }
 
@@ -101,13 +204,28 @@ export class ReportingClient {
   }
 
   public async getReportMappings(accessToken: AccessToken, reportId: string) {
-    return this._reportsApi.getReportMappings(
-      reportId,
-      accessToken,
-      undefined,
-      undefined,
-      ACCEPT
-    );
+    const reportMappings: Array<ReportMapping> = [];
+
+    let response: ReportMappingCollection;
+    let continuationToken: string | undefined;
+
+    do {
+      response = await this._reportsApi.getReportMappings(
+        reportId,
+        accessToken,
+        undefined,
+        continuationToken,
+        ACCEPT
+      );
+      response.mappings && reportMappings.push(...response.mappings);
+      if (!response._links?.next?.href) {
+        continue;
+      }
+      const url = new URL(response._links?.next?.href);
+      continuationToken = url.searchParams.get("$continuationToken") ?? undefined;
+    } while (response._links?.next?.href);
+
+    return reportMappings;
   }
 
   public async createReportMapping(accessToken: AccessToken, reportId: string, reportMapping: ReportMappingCreate) {
@@ -128,6 +246,10 @@ export class ReportingClient {
     );
   }
 
+  //#endregion
+
+  //#region Mappings Endpoints
+
   public async getMappings(accessToken: AccessToken, iModelId: string) {
     const mappings: Array<Mapping> = [];
 
@@ -147,8 +269,7 @@ export class ReportingClient {
         continue;
       }
       const url = new URL(response._links?.next?.href);
-      continuationToken =
-        url.searchParams.get("$continuationToken") ?? undefined;
+      continuationToken = url.searchParams.get("$continuationToken") ?? undefined;
     } while (response._links?.next?.href);
 
     return mappings;
@@ -207,7 +328,29 @@ export class ReportingClient {
     iModelId: string,
     mappingId: string
   ) {
-    return this._mappingsApi.getGroups(iModelId, mappingId, accessToken);
+    const groups: Array<Group> = [];
+
+    let response: GroupCollection;
+    let continuationToken: string | undefined;
+
+    do {
+      response = await this._mappingsApi.getGroups(
+        iModelId,
+        mappingId,
+        accessToken,
+        undefined,
+        continuationToken,
+        ACCEPT
+      );
+      response.groups && groups.push(...response.groups);
+      if (!response._links?.next?.href) {
+        continue;
+      }
+      const url = new URL(response._links?.next?.href);
+      continuationToken = url.searchParams.get("$continuationToken") ?? undefined;
+    } while (response._links?.next?.href);
+
+    return groups;
   }
 
   public async createGroup(
@@ -274,12 +417,30 @@ export class ReportingClient {
     mappingId: string,
     groupId: string
   ) {
-    return this._mappingsApi.getGroupproperties(
-      iModelId,
-      mappingId,
-      groupId,
-      accessToken
-    );
+    const properties: Array<GroupProperty> = [];
+
+    let response: GroupPropertyCollection;
+    let continuationToken: string | undefined;
+
+    do {
+      response = await this._mappingsApi.getGroupproperties(
+        iModelId,
+        mappingId,
+        groupId,
+        accessToken,
+        undefined,
+        continuationToken,
+        ACCEPT
+      );
+      response.groupProperties && properties.push(...response.groupProperties);
+      if (!response._links?.next?.href) {
+        continue;
+      }
+      const url = new URL(response._links?.next?.href);
+      continuationToken = url.searchParams.get("$continuationToken") ?? undefined;
+    } while (response._links?.next?.href);
+
+    return properties;
   }
 
   public async getGroupProperty(
@@ -354,12 +515,27 @@ export class ReportingClient {
     mappingId: string,
     groupId: string
   ) {
-    return this._mappingsApi.getCalculatedproperties(
-      iModelId,
-      mappingId,
-      groupId,
-      accessToken
-    );
+    const properties: Array<CalculatedProperty> = [];
+
+    let response: CalculatedPropertyCollection;
+    let continuationToken: string | undefined;
+
+    do {
+      response = await this._mappingsApi.getCalculatedproperties(
+        iModelId,
+        mappingId,
+        groupId,
+        accessToken
+      );
+      response.properties && properties.push(...response.properties);
+      if (!response._links?.next?.href) {
+        continue;
+      }
+      const url = new URL(response._links?.next?.href);
+      continuationToken = url.searchParams.get("$continuationToken") ?? undefined;
+    } while (response._links?.next?.href);
+
+    return properties;
   }
 
   public async getCalculatedProperty(
@@ -434,12 +610,27 @@ export class ReportingClient {
     mappingId: string,
     groupId: string
   ) {
-    return this._mappingsApi.getCustomcalculations(
-      iModelId,
-      mappingId,
-      groupId,
-      accessToken
-    );
+    const customCalculations: Array<CustomCalculation> = [];
+
+    let response: CustomCalculationCollection;
+    let continuationToken: string | undefined;
+
+    do {
+      response = await this._mappingsApi.getCustomcalculations(
+        iModelId,
+        mappingId,
+        groupId,
+        accessToken
+      );
+      response.customCalculations && customCalculations.push(...response.customCalculations);
+      if (!response._links?.next?.href) {
+        continue;
+      }
+      const url = new URL(response._links?.next?.href);
+      continuationToken = url.searchParams.get("$continuationToken") ?? undefined;
+    } while (response._links?.next?.href);
+
+    return customCalculations;
   }
 
   public async getCustomCalculation(
@@ -507,4 +698,6 @@ export class ReportingClient {
       accessToken
     );
   }
+
+  //#endregion
 }
