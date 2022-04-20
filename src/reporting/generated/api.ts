@@ -1026,30 +1026,42 @@ export interface ODataItem {
  */
 export interface ODataResponse {
   /**
-   *
-   * @type {ODataResponseStatus}
-   * @memberof ODataResponse
-   */
-  status?: ODataResponseStatus;
-}
-/**
- * OData response.
- * @export
- * @interface ODataResponseStatus
- */
-export interface ODataResponseStatus {
-  /**
    * OData Schema
    * @type {string}
-   * @memberof ODataResponseStatus
+   * @memberof ODataResponse
    */
-  odata_context?: string;
+  "@odata.context": string;
   /**
    *
    * @type {Array<ODataItem>}
    * @memberof ODataResponseStatus
    */
-  value?: Array<ODataItem>;
+  value: Array<ODataItem>;
+}
+/**
+ * OData Entity response.
+ * @export
+ * @interface ODataEntityResponse
+ */
+export interface ODataEntityResponse {
+  /**
+   * OData Schema
+   * @type {string}
+   * @memberof ODataResponse
+   */
+  "@odata.context": string;
+  /**
+   *
+   * @type {Array<Object>}
+   * @memberof ODataResponseStatus
+   */
+  value: Array<Object>;
+  /**
+   *
+   * @type {string}
+   * @memberof ODataResponse
+   */
+  "@odata.nextLink": string;
 }
 /**
  * URLs for redoing the current request and/or getting the next page of results if applicable.
@@ -1430,6 +1442,7 @@ export const DataAccessApiFetchParamCreator = function (
       region: string,
       manifestId: string,
       entityType: string,
+      sequence: number,
       Authorization: string,
       Accept?: string,
       options: any = {},
@@ -1462,6 +1475,13 @@ export const DataAccessApiFetchParamCreator = function (
           'Required parameter entityType was null or undefined when calling odataEntity.',
         );
       }
+      // verify required parameter 'sequence' is not null or undefined
+      if (sequence === null || sequence === undefined) {
+        throw new RequiredError(
+          'sequence',
+          'Required parameter sequence was null or undefined when calling odataEntity.',
+        );
+      }
       // verify required parameter 'Authorization' is not null or undefined
       if (Authorization === null || Authorization === undefined) {
         throw new RequiredError(
@@ -1470,11 +1490,12 @@ export const DataAccessApiFetchParamCreator = function (
         );
       }
       const localVarPath =
-        `/odata/{reportId}/{region}/{manifestId}/{entityType}`
+        `/odata/{reportId}/{region}/{manifestId}/{entityType}?sequence={sequence}`
           .replace(`{${'reportId'}}`, encodeURIComponent(String(reportId)))
           .replace(`{${'region'}}`, encodeURIComponent(String(region)))
           .replace(`{${'manifestId'}}`, encodeURIComponent(String(manifestId)))
-          .replace(`{${'entityType'}}`, encodeURIComponent(String(entityType)));
+          .replace(`{${'entityType'}}`, encodeURIComponent(String(entityType)))
+          .replace(`{${'sequence'}}`, encodeURIComponent(String(sequence)));
       const localVarUrlObj = url.parse(localVarPath, true);
       const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
       const localVarHeaderParameter = {} as any;
@@ -1694,10 +1715,11 @@ export const DataAccessApiFp = function (configuration?: Configuration) {
       region: string,
       manifestId: string,
       entityType: string,
+      sequence: number,
       Authorization: string,
       Accept?: string,
       options?: any,
-    ): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+    ): (fetch?: FetchAPI, basePath?: string) => Promise<ODataEntityResponse> {
       const localVarFetchArgs = DataAccessApiFetchParamCreator(
         configuration,
       ).odataEntity(
@@ -1705,6 +1727,7 @@ export const DataAccessApiFp = function (configuration?: Configuration) {
         region,
         manifestId,
         entityType,
+        sequence,
         Authorization,
         Accept,
         options,
@@ -1811,6 +1834,7 @@ export const DataAccessApiFactory = function (
       region: string,
       manifestId: string,
       entityType: string,
+      sequence: number,
       Authorization: string,
       Accept?: string,
       options?: any,
@@ -1820,6 +1844,7 @@ export const DataAccessApiFactory = function (
         region,
         manifestId,
         entityType,
+        sequence,
         Authorization,
         Accept,
         options,
@@ -1899,6 +1924,7 @@ export class DataAccessApi extends BaseAPI {
     region: string,
     manifestId: string,
     entityType: string,
+    sequence: number,
     Authorization: string,
     Accept?: string,
     options?: any,
@@ -1908,6 +1934,7 @@ export class DataAccessApi extends BaseAPI {
       region,
       manifestId,
       entityType,
+      sequence,
       Authorization,
       Accept,
       options,

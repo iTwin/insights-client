@@ -29,6 +29,8 @@ import type {
   MappingCopy,
   MappingCreate,
   MappingUpdate,
+  ODataEntityResponse,
+  ODataItem,
   Report,
   ReportCollection,
   ReportCreate,
@@ -74,20 +76,28 @@ export class ReportingClient {
     return this._dataAccessApi.odata(reportId, accessToken);
   }
 
-  public async getODataReportEntity(
-    accessToken: AccessToken,
-    reportId: string,
-    region: string,
-    manifestId: string,
-    entityType: string
-  ) {
-    return this._dataAccessApi.odataEntity(
-      reportId,
-      region,
-      manifestId,
-      entityType,
-      accessToken
-    );
+  public async getODataReportEntity(accessToken: AccessToken, reportId: string, odataItem: ODataItem) {
+    const segments = odataItem?.url?.split('/');
+    if (segments?.length !== 3) return undefined;
+    let sequence = 0;
+
+    let reportData: Array<Object> = [];
+    let response: ODataEntityResponse;
+
+    do {
+      response = await this._dataAccessApi.odataEntity(
+        reportId,
+        segments[0],
+        segments[1],
+        segments[2],
+        sequence,
+        accessToken
+      );
+      response.value && reportData.push(...response.value);
+      sequence++;
+    } while (response["@odata.nextLink"]);
+
+    return reportData;
   }
 
   public async getODataReportMetadata(accessToken: AccessToken, reportId: string) {
