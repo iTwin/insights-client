@@ -93,7 +93,9 @@ export class ReportingClient {
    */
   public async getODataReportEntity(accessToken: AccessToken, reportId: string, odataItem: ODataItem) {
     const segments = odataItem?.url?.split('/');
-    if (segments?.length !== 3) return undefined;
+    if (segments?.length !== 3) {
+      return undefined;
+    }
     let sequence = 0;
 
     let reportData: Array<Object> = [];
