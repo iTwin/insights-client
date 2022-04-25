@@ -10,7 +10,7 @@ import { ReportingClient } from "./../../reporting/reportingClient";
 
 chai.should();
 describe("ReportingClient", () => {
-  const reportingCLient: ReportingClient = new ReportingClient();
+  const reportingClient: ReportingClient = new ReportingClient();
   const projectId = process.env.IMJS_TEST_PROJECT_ID ?? "";
   const imodelId = process.env.IMJS_TEST_IMODEL_ID ?? "";
   const mappingId = process.env.IMJS_TEST_MAPPING_ID ?? "";
@@ -23,35 +23,35 @@ describe("ReportingClient", () => {
   });
 
   it("Get reportis", async () => {
-    const reports = await reportingCLient.getReports(accessToken, projectId);
-    expect(reports.reports).to.not.be.undefined;
-    expect(reports.reports).to.not.be.empty;
+    const reports = await reportingClient.getReports(accessToken, projectId);
+    expect(reports).to.not.be.undefined;
+    expect(reports).to.not.be.empty;
   });
 
   it("Get mappings", async () => {
-    const mappings = await reportingCLient.getMappings(accessToken, imodelId);
+    const mappings = await reportingClient.getMappings(accessToken, imodelId);
     expect(mappings).to.not.be.undefined;
     expect(mappings).to.not.be.empty;
   });
 
   it("Get groups", async () => {
-    const groups = await reportingCLient.getGroups(
+    const groups = await reportingClient.getGroups(
       accessToken,
       imodelId,
       mappingId
     );
-    expect(groups.groups).to.not.be.undefined;
-    expect(groups.groups).to.not.be.empty;
+    expect(groups).to.not.be.undefined;
+    expect(groups).to.not.be.empty;
   });
 
   it("Get properties", async () => {
-    const properties = await reportingCLient.getGroupProperties(
+    const properties = await reportingClient.getGroupProperties(
       accessToken,
       imodelId,
       mappingId,
       groupId
     );
-    expect(properties.properties).to.be.not.undefined;
-    expect(properties.properties).to.not.be.empty;
+    expect(properties).to.be.not.undefined;
+    expect(properties).to.not.be.empty;
   });
 });
