@@ -1052,10 +1052,10 @@ export interface ODataEntityResponse {
   "@odata.context": string;
   /**
    *
-   * @type {Array<Object>}
+   * @type {Array<[key: string]: string>}
    * @memberof ODataResponseStatus
    */
-  value: Array<Object>;
+  value: Array<{[key: string]: string}>
   /**
    *
    * @type {string}

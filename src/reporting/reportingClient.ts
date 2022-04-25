@@ -3,7 +3,6 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
-import { report } from "process";
 
 import type {
   CalculatedProperty,
@@ -98,7 +97,8 @@ export class ReportingClient {
     }
     let sequence = 0;
 
-    const reportData: Array<Object> = [];
+
+    const reportData: Array<{[key: string]: string}> = [];
     let response: ODataEntityResponse;
 
     do {
@@ -792,7 +792,9 @@ export class ReportingClient {
         iModelId,
         mappingId,
         groupId,
-        accessToken
+        accessToken,
+        undefined,
+        continuationToken
       );
       response.properties && properties.push(...response.properties);
       if (!response._links?.next?.href) {
@@ -937,7 +939,9 @@ export class ReportingClient {
         iModelId,
         mappingId,
         groupId,
-        accessToken
+        accessToken,
+        undefined,
+        continuationToken
       );
       response.customCalculations && customCalculations.push(...response.customCalculations);
       if (!response._links?.next?.href) {
