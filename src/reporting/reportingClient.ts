@@ -98,7 +98,7 @@ export class ReportingClient {
     }
     let sequence = 0;
 
-    let reportData: Array<Object> = [];
+    const reportData: Array<Object> = [];
     let response: ODataEntityResponse;
 
     do {
@@ -649,7 +649,7 @@ export class ReportingClient {
         continuationToken,
         ACCEPT
       );
-      response.groupProperties && properties.push(...response.groupProperties);
+      response.properties && properties.push(...response.properties);
       if (!response._links?.next?.href) {
         continue;
       }
