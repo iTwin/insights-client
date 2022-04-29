@@ -1739,13 +1739,14 @@ export const DataAccessApiFp = function (configuration?: Configuration) {
         return fetch(
           basePath + localVarFetchArgs.url,
           localVarFetchArgs.options,
-        ).then(response => response.json()
-        ).then((responseJson) => {
-          if (responseJson.status >= 200 && responseJson.status < 300) {
-            return responseJson;
+        ).then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            return response.json();
           } else {
-            throw responseJson;
+            throw response;
           }
+        }).then((responseJson) => {
+          return responseJson;
         });
       };
     },
