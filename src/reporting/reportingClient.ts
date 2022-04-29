@@ -48,25 +48,18 @@ import {
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 
-const prefixUrl = (baseUrl?: string, prefix?: string) => {
-  if (prefix && baseUrl) {
-    return baseUrl.replace("api.bentley.com", `${prefix}api.bentley.com`);
-  }
-  return baseUrl;
-};
-
 // To be only used within Viewer
 export class ReportingClient {
   private _dataAccessApi: DataAccessApi;
   private _mappingsApi: MappingsApi;
   private _reportsApi: ReportsApi;
   private _extractionApi: ExtractionApi;
-  constructor(prefix?: "dev" | "qa" | "") {
-    const baseUrl = prefixUrl(REPORTING_BASE_PATH, prefix ? `${prefix}-` : process.env.IMJS_URL_PREFIX);
-    this._dataAccessApi = new DataAccessApi(undefined, baseUrl);
-    this._mappingsApi = new MappingsApi(undefined, baseUrl);
-    this._reportsApi = new ReportsApi(undefined, baseUrl);
-    this._extractionApi = new ExtractionApi(undefined, baseUrl);
+  constructor(baseUrl?: string) {
+    const reportingBaseUrl = baseUrl ?? REPORTING_BASE_PATH
+    this._dataAccessApi = new DataAccessApi(undefined, reportingBaseUrl);
+    this._mappingsApi = new MappingsApi(undefined, reportingBaseUrl);
+    this._reportsApi = new ReportsApi(undefined, reportingBaseUrl);
+    this._extractionApi = new ExtractionApi(undefined, reportingBaseUrl);
   }
 
   //#region Data Access Endpoints
