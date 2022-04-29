@@ -1741,10 +1741,12 @@ export const DataAccessApiFp = function (configuration?: Configuration) {
           localVarFetchArgs.options,
         ).then((response) => {
           if (response.status >= 200 && response.status < 300) {
-            return response;
+            return response.json();
           } else {
             throw response;
           }
+        }).then((responseJson) => {
+          return responseJson;
         });
       };
     },

@@ -97,7 +97,6 @@ export class ReportingClient {
     }
     let sequence = 0;
 
-
     const reportData: Array<{[key: string]: string}> = [];
     let response: ODataEntityResponse;
 
