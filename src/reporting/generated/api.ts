@@ -1052,10 +1052,10 @@ export interface ODataEntityResponse {
   "@odata.context": string;
   /**
    *
-   * @type {Array<Object>}
+   * @type {Array<[key: string]: string>}
    * @memberof ODataResponseStatus
    */
-  value: Array<Object>;
+  value: Array<{[key: string]: string}>
   /**
    *
    * @type {string}
@@ -1739,11 +1739,12 @@ export const DataAccessApiFp = function (configuration?: Configuration) {
         return fetch(
           basePath + localVarFetchArgs.url,
           localVarFetchArgs.options,
-        ).then((response) => {
-          if (response.status >= 200 && response.status < 300) {
-            return response;
+        ).then(response => response.json()
+        ).then((responseJson) => {
+          if (responseJson.status >= 200 && responseJson.status < 300) {
+            return responseJson;
           } else {
-            throw response;
+            throw responseJson;
           }
         });
       };
