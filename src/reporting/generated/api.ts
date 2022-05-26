@@ -242,6 +242,12 @@ export interface CustomCalculation {
    */
   formula?: string;
   /**
+   * The data type of the CustomCalculation. One of 'Boolean', 'Number', 'String', or 'Undefined'.
+   * @type {string}
+   * @memberof CustomCalculation
+   */
+  dataType?: string;
+  /**
    * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
    * @memberof CustomCalculation
