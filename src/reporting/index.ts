@@ -17,3 +17,13 @@
 
 export * from "./generated/api";
 export * from "./reportingClient";
+export * from "./CalculatedProperties";
+export * from "./CustumCalculations";
+export * from "./Errors";
+export * from "./ExtractionProcess";
+export * from "./GroupProperties";
+export * from "./Groups";
+export * from "./Links";
+export * from "./Mappings";
+export * from "./OData";
+export * from "./Reports";

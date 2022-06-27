@@ -8,28 +8,42 @@ import type {
   CalculatedProperty,
   CalculatedPropertyCollection,
   CalculatedPropertyCreate,
-  CalculatedPropertyUpdate,
+  CalculatedPropertyUpdate
+} from "./CalculatedProperties";
+import type {
   CustomCalculation,
   CustomCalculationCollection,
   CustomCalculationCreate,
-  CustomCalculationUpdate,
+  CustomCalculationUpdate
+} from "./CustumCalculations";
+import type {
   Group,
   GroupCollection,
   GroupCreate,
+  GroupUpdate
+} from "./Groups";
+import type {
   GroupProperty,
   GroupPropertyCollection,
   GroupPropertyCreate,
-  GroupPropertyUpdate,
-  GroupUpdate,
+  GroupPropertyUpdate
+} from "./GroupProperties";
+import type {
   ExtractionLog,
   ExtractionLogCollection,
+} from "./ExtractionProcess";
+import type {
   Mapping,
   MappingCollection,
   MappingCopy,
   MappingCreate,
-  MappingUpdate,
+  MappingUpdate
+} from "./Mappings";
+import type {
   ODataEntityResponse,
   ODataItem,
+} from "./OData";
+import type {
   Report,
   ReportCollection,
   ReportCreate,
@@ -37,7 +51,7 @@ import type {
   ReportMappingCollection,
   ReportMappingCreate,
   ReportUpdate
-} from "./generated/api";
+} from "./Reports";
 import {
   DataAccessApi,
   ExtractionApi,
