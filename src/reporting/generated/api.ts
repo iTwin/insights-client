@@ -21,12 +21,14 @@ import * as url from 'url';
 import isomorphicFetch from 'cross-fetch';
 import { Configuration } from './configuration';
 import {MappingCopy} from "../Mappings";
-import {CalculatedPropertyCreate, CalculatedPropertyUpdate} from "../CalculatedProperties";
-import {CustomCalculationCreate, CustomCalculationUpdate} from "../CustumCalculations";
-import {GroupCreate, GroupUpdate} from "../Groups";
-import {GroupPropertyCreate, GroupPropertyUpdate} from "../GroupProperties";
-import {MappingCreate, MappingUpdate} from "../Mappings";
-import {ReportCreate, ReportMappingCreate, ReportUpdate} from "../Reports";
+import {CalculatedPropertyCreate, CalculatedPropertyUpdate, CalculatedPropertySingle, CalculatedPropertyCollection} from "../CalculatedProperties";
+import {CustomCalculationCreate, CustomCalculationUpdate, CustomCalculationSingle, CustomCalculationCollection} from "../CustumCalculations";
+import {GroupCreate, GroupUpdate, GroupSingle, GroupCollection} from "../Groups";
+import {GroupPropertyCreate, GroupPropertyUpdate, GroupPropertySingle, GroupPropertyCollection} from "../GroupProperties";
+import {MappingCreate, MappingUpdate, MappingSingle, MappingCollection} from "../Mappings";
+import {ReportCreate, ReportMappingCreate, ReportUpdate, ReportSingle, ReportCollection, ReportMappingSingle, ReportMappingCollection} from "../Reports";
+import {ODataResponse, ODataEntityResponse} from "../OData";
+import {ExtractionLogCollection, ExtractionStatus, ExtractionRun} from "../ExtractionProcess";
 
 const BASE_PATH = 'https://api.bentley.com/insights/reporting'.replace(
   /\/+$/,

@@ -8,25 +8,25 @@ import type {
   CalculatedProperty,
   CalculatedPropertyCollection,
   CalculatedPropertyCreate,
-  CalculatedPropertyUpdate
+  CalculatedPropertyUpdate,
 } from "./CalculatedProperties";
 import type {
   CustomCalculation,
   CustomCalculationCollection,
   CustomCalculationCreate,
-  CustomCalculationUpdate
+  CustomCalculationUpdate,
 } from "./CustumCalculations";
 import type {
   Group,
   GroupCollection,
   GroupCreate,
-  GroupUpdate
+  GroupUpdate,
 } from "./Groups";
 import type {
   GroupProperty,
   GroupPropertyCollection,
   GroupPropertyCreate,
-  GroupPropertyUpdate
+  GroupPropertyUpdate,
 } from "./GroupProperties";
 import type {
   ExtractionLog,
@@ -37,7 +37,7 @@ import type {
   MappingCollection,
   MappingCopy,
   MappingCreate,
-  MappingUpdate
+  MappingUpdate,
 } from "./Mappings";
 import type {
   ODataEntityResponse,
@@ -50,14 +50,14 @@ import type {
   ReportMapping,
   ReportMappingCollection,
   ReportMappingCreate,
-  ReportUpdate
+  ReportUpdate,
 } from "./Reports";
 import {
   DataAccessApi,
   ExtractionApi,
   MappingsApi,
   REPORTING_BASE_PATH,
-  ReportsApi
+  ReportsApi,
 } from "./generated/api";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
@@ -380,26 +380,48 @@ export class ReportingClient {
   public async getMappings(accessToken: AccessToken, iModelId: string) {
     const mappings: Array<Mapping> = [];
 
-    let response: MappingCollection;
-    let continuationToken: string | undefined;
-
-    do {
-      response = await this._mappingsApi.getMappings(
-        iModelId,
-        accessToken,
-        undefined,
-        continuationToken,
-        ACCEPT
-      );
-      response.mappings && mappings.push(...response.mappings);
-      if (!response._links?.next?.href) {
-        continue;
-      }
-      const url = new URL(response._links?.next?.href);
-      continuationToken = url.searchParams.get("$continuationToken") ?? undefined;
-    } while (response._links?.next?.href);
+    const mapIterator = this.getMappingsAsync(accessToken, iModelId);
+    for await(const map of mapIterator) {
+      mappings.push(map);
+    }
 
     return mappings;
+  }
+
+  public getMappingsAsync(accessToken: AccessToken, iModelId: string) {
+    let mappings: Array<Mapping> = [];
+
+    let response: MappingCollection;
+    let continuationToken: string | undefined;
+    const myApi = this._mappingsApi;
+    let i = 0;
+
+    return {
+      [Symbol.asyncIterator] : async function*() {
+        do {
+          response = await myApi.getMappings(
+            iModelId,
+            accessToken,
+            undefined,
+            continuationToken,
+            ACCEPT
+          );
+          response.mappings && mappings.push(...response.mappings);
+          while(i < mappings.length) {
+            yield mappings[i++];
+          }
+          mappings = [];
+          i = 0;
+          if (!response._links?.next?.href) {
+            continue;
+          }
+          const url = new URL(response._links?.next?.href);
+          continuationToken = url.searchParams.get("$continuationToken") ?? undefined;
+        } while (response._links?.next?.href);
+
+        return;
+      },
+    };
   }
 
   /**
