@@ -83,7 +83,7 @@ export interface ExtractionLogCollection {
    * @type {Array<ExtractionLog>}
    * @memberof ExtractionLogCollection
    */
-  extractionLog: Array<ExtractionLog>;
+  logs: Array<ExtractionLog>;
   /**
    *
    * @type {PagedResponseLinks}

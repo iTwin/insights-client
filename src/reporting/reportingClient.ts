@@ -60,9 +60,7 @@ import {
   ReportsApi,
 } from "./generated/api";
 import { PagedResponseLinks } from "./Links";
-import * as url from 'url';
 import isomorphicFetch from 'cross-fetch';
-import { nextTick } from "process";
 
 const BASE_PATH = 'https://api.bentley.com/insights/reporting'.replace(
   /\/+$/,
@@ -243,12 +241,12 @@ export class ReportingClient {
     return this.genericIterator<ExtractionLog>(
       async (nextUrl: string | undefined): Promise<GenericCollection> => {
         if(nextUrl === undefined) {
-          nextUrl = BASE_PATH + "/datasources/extraction/status/" + encodeURIComponent(String(jobId)) + "/logs".replace;
+          nextUrl = BASE_PATH + "/datasources/extraction/status/" + encodeURIComponent(String(jobId)) + "/logs";
         }
-        const requestOptions : RequestInit = this.createRequest('GET', accessToken);
+        const requestOptions: RequestInit = this.createRequest('GET', accessToken);
         const response: ExtractionLogCollection = await this.fetch(nextUrl, requestOptions);
         return {
-          values: response.extractionLog,
+          values: response.logs,
           _links: response._links,
         };
       });
