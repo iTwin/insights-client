@@ -60,6 +60,29 @@ import {
   ReportsApi,
 } from "./generated/api";
 import { PagedResponseLinks } from "./Links";
+import * as url from 'url';
+import isomorphicFetch from 'cross-fetch';
+import { nextTick } from "process";
+
+const BASE_PATH = 'https://api.bentley.com/insights/reporting'.replace(
+  /\/+$/,
+  '',
+);
+
+interface FetchArgs {
+  url: string;
+  options: any;
+}
+
+class RequiredError extends Error {
+  constructor(public field: string, msg?: string) {
+    super(msg);
+  }
+}
+
+interface FetchAPI {
+  (url: string, init?: any): Promise<Response>;
+}
 
 interface GenericCollection {
   values: Array<any>;
@@ -87,17 +110,18 @@ export class ReportingClient {
    * @param {Async Function} getNextBatch function that specifies what data to retrieve
    * @memberof ReportingClient
    */
-  private genericIterator<T>(getNextBatch: (continuationToken: string | undefined) => Promise<GenericCollection>): {
+
+  private genericIterator<T>(getNextBatch: (nextUrl: string | undefined) => Promise<GenericCollection>): {
     [Symbol.asyncIterator]: () => AsyncGenerator<T, void, unknown>;
   } {
     return {
       [Symbol.asyncIterator]: async function*() {
         let response: GenericCollection;
         let i: number = 0;
-        let continuationToken: string | undefined;
+        let nextUrl: string | undefined = undefined;
 
         do {
-          response = await getNextBatch(continuationToken);
+          response = await getNextBatch(nextUrl);
           while(i < response.values.length) {
             yield response.values[i++];
           }
@@ -105,12 +129,33 @@ export class ReportingClient {
           if (!response._links?.next?.href) {
             continue;
           }
-          const url = new URL(response._links?.next?.href);
-          continuationToken = url.searchParams.get("$continuationToken") ?? undefined;
+          nextUrl = response._links?.next?.href;
         } while (response._links?.next?.href);
         return;
       },
     };
+  }
+
+  private createRequest(operation: string, accessToken: string): RequestInit {
+    return {
+      method: operation,
+      headers: {
+        Authorization: String(accessToken),
+        Accept: String(ACCEPT),
+    }};
+  }
+
+  private async fetch(nextUrl: RequestInfo, requestOptions: RequestInit) {
+    return isomorphicFetch(
+      nextUrl,
+      requestOptions
+    ).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      } else {
+        throw response;
+      }
+    });
   }
 
   /**
@@ -195,17 +240,13 @@ export class ReportingClient {
   public getExtractionLogsAsync(accessToken: AccessToken, jobId: string): {
     [Symbol.asyncIterator]: () => AsyncGenerator<ExtractionLog, void, unknown>;
   } {
-    const myApi = this._extractionApi;
-
     return this.genericIterator<ExtractionLog>(
-      async (continuationToken: string | undefined): Promise<GenericCollection> => {
-        const response: ExtractionLogCollection = await myApi.getExtractionLogs(
-          jobId,
-          accessToken,
-          undefined,
-          continuationToken,
-          ACCEPT
-        );
+      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+        if(nextUrl === undefined) {
+          nextUrl = BASE_PATH + "/datasources/extraction/status/" + encodeURIComponent(String(jobId)) + "/logs".replace;
+        }
+        const requestOptions : RequestInit = this.createRequest('GET', accessToken);
+        const response: ExtractionLogCollection = await this.fetch(nextUrl, requestOptions);
         return {
           values: response.extractionLog,
           _links: response._links,
@@ -270,18 +311,13 @@ export class ReportingClient {
   public getReportsAsync(accessToken: AccessToken, projectId: string): {
     [Symbol.asyncIterator]: () => AsyncGenerator<Report, void, unknown>;
   } {
-    const myApi = this._reportsApi;
-
     return this.genericIterator<Report>(
-      async (continuationToken: string | undefined): Promise<GenericCollection> => {
-        const response: ReportCollection = await myApi.getProjectReports(
-          projectId,
-          accessToken,
-          undefined,
-          continuationToken,
-          false,
-          ACCEPT
-        );
+      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+        if(nextUrl === undefined) {
+          nextUrl = BASE_PATH + "/reports?projectId=" + encodeURIComponent(String(projectId)) + "&deleted=false";
+        }
+        const requestOptions : RequestInit = this.createRequest('GET', accessToken);
+        const response: ReportCollection = await this.fetch(nextUrl, requestOptions);
         return {
           values: response.reports,
           _links: response._links,
@@ -377,17 +413,13 @@ export class ReportingClient {
   public getReportMappingsAsync(accessToken: AccessToken, reportId: string): {
     [Symbol.asyncIterator]: () => AsyncGenerator<ReportMapping, void, unknown>;
   } {
-    const myApi = this._reportsApi;
-
     return this.genericIterator<ReportMapping>(
-      async (continuationToken: string | undefined): Promise<GenericCollection> => {
-        const response: ReportMappingCollection = await myApi.getReportMappings(
-          reportId,
-          accessToken,
-          undefined,
-          continuationToken,
-          ACCEPT
-        );
+      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+        if(nextUrl === undefined) {
+          nextUrl = BASE_PATH + "/reports/" + encodeURIComponent(String(reportId)) + "/datasources/imodelMappings";
+        }
+        const requestOptions : RequestInit = this.createRequest('GET', accessToken);
+        const response: ReportMappingCollection = await this.fetch(nextUrl, requestOptions);
         return {
           values: response.mappings,
           _links: response._links,
@@ -455,17 +487,13 @@ export class ReportingClient {
   public getMappingsAsync(accessToken: AccessToken, iModelId: string): {
     [Symbol.asyncIterator]: () => AsyncGenerator<Mapping, void, unknown>;
   } {
-    const myApi = this._mappingsApi;
-
     return this.genericIterator<Mapping>(
-      async (continuationToken: string | undefined): Promise<GenericCollection> => {
-        const response: MappingCollection = await myApi.getMappings(
-          iModelId,
-          accessToken,
-          undefined,
-          continuationToken,
-          ACCEPT
-        );
+      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+        if(nextUrl === undefined) {
+          nextUrl = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings";
+        }
+        const requestOptions : RequestInit = this.createRequest('GET', accessToken);
+        const response: MappingCollection = await this.fetch(nextUrl, requestOptions);
         return {
           values: response.mappings,
           _links: response._links,
@@ -599,18 +627,14 @@ export class ReportingClient {
     {
       [Symbol.asyncIterator]: () => AsyncGenerator<Group, void, unknown>;
     } {
-    const myApi = this._mappingsApi;
-
     return this.genericIterator<Group>(
-      async (continuationToken: string | undefined): Promise<GenericCollection> => {
-        const response: GroupCollection = await myApi.getGroups(
-          iModelId,
-          mappingId,
-          accessToken,
-          undefined,
-          continuationToken,
-          ACCEPT
-        );
+      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+        if(nextUrl === undefined) {
+          nextUrl = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) +
+          "/mappings/" + encodeURIComponent(String(mappingId)) + "/groups";
+        }
+        const requestOptions : RequestInit = this.createRequest('GET', accessToken);
+        const response: GroupCollection = await this.fetch(nextUrl, requestOptions);
         return {
           values: response.groups,
           _links: response._links,
@@ -753,19 +777,14 @@ export class ReportingClient {
   ): {
       [Symbol.asyncIterator]: () => AsyncGenerator<GroupProperty, void, unknown>;
     } {
-    const myApi = this._mappingsApi;
-
     return this.genericIterator<GroupProperty>(
-      async (continuationToken: string | undefined): Promise<GenericCollection> => {
-        const response: GroupPropertyCollection = await myApi.getGroupproperties(
-          iModelId,
-          mappingId,
-          groupId,
-          accessToken,
-          undefined,
-          continuationToken,
-          ACCEPT
-        );
+      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+        if(nextUrl === undefined) {
+          nextUrl = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings/" + 
+          encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId)) + "/properties";
+        }
+        const requestOptions : RequestInit = this.createRequest('GET', accessToken);
+        const response: GroupPropertyCollection = await this.fetch(nextUrl, requestOptions);
         return {
           values: response.properties,
           _links: response._links,
@@ -920,18 +939,14 @@ export class ReportingClient {
   ): {
       [Symbol.asyncIterator]: () => AsyncGenerator<CalculatedProperty, void, unknown>;
     } {
-    const myApi = this._mappingsApi;
-
     return this.genericIterator<CalculatedProperty>(
-      async (continuationToken: string | undefined): Promise<GenericCollection> => {
-        const response: CalculatedPropertyCollection = await myApi.getCalculatedproperties(
-          iModelId,
-          mappingId,
-          groupId,
-          accessToken,
-          undefined,
-          continuationToken
-        );
+      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+        if(nextUrl === undefined) {
+          nextUrl = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings/" + 
+          encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId)) + "/calculatedProperties";
+        }
+        const requestOptions : RequestInit = this.createRequest('GET', accessToken);
+        const response: CalculatedPropertyCollection = await this.fetch(nextUrl, requestOptions);
         return {
           values: response.properties,
           _links: response._links,
@@ -1086,18 +1101,14 @@ export class ReportingClient {
   ): {
       [Symbol.asyncIterator]: () => AsyncGenerator<CustomCalculation, void, unknown>;
     } {
-    const myApi = this._mappingsApi;
-
     return this.genericIterator<CustomCalculation>(
-      async (continuationToken: string | undefined): Promise<GenericCollection> => {
-        const response: CustomCalculationCollection = await myApi.getCustomcalculations(
-          iModelId,
-          mappingId,
-          groupId,
-          accessToken,
-          undefined,
-          continuationToken
-        );
+      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+        if(nextUrl === undefined) {
+          nextUrl = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings/" + 
+          encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId)) + "/customCalculations";
+        }
+        const requestOptions : RequestInit = this.createRequest('GET', accessToken);
+        const response: CustomCalculationCollection = await this.fetch(nextUrl, requestOptions);
         return {
           values: response.customCalculations,
           _links: response._links,
