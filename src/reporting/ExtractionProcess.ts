@@ -2,7 +2,21 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { PagedResponseLinks } from "./Links";
+import { Link, PagedResponseLinks } from "./Links";
+
+/**
+ * Contains contextual hyperlinks to related data.
+ * @export
+ * @interface ExtractionLinks
+ */
+export interface ExtractionLinks {
+  /**
+   *
+   * @type {Link}
+   * @memberof ExtractionLinks
+   */
+  logs: Link;
+}
 
 /**
  * Defines a single Extraction Log response.
@@ -123,13 +137,13 @@ export interface ExtractionRun {
 /**
  * Status of the specified Extraction Run.
  * @export
- * @interface ExtractionSingleStatus
+ * @interface ExtractionStatusSingle
  */
-export interface ExtractionSingleStatus {
+export interface ExtractionStatusSingle {
   /**
    *
-   * @type {ExtractionStatus}
-   * @memberof ExtractionSingleStatus
+   * @type {ExtractionStatusSingle}
+   * @memberof ExtractionStatusSingle
    */
   status: ExtractionStatus;
 }
@@ -152,4 +166,16 @@ export interface ExtractionStatus {
    * @memberof ExtractionStatus
    */
   reason: string;
+  /**
+   * Flag indicating whether or not a Report has been marked for deletion.
+   * @type {boolean}
+   * @memberof ExtractionStatus
+   */
+  containsIssues: boolean;
+  /**
+   * 
+   * @type {ExtractionLinks}
+   * @memberof ExtractionStatus
+   */
+  _links: ExtractionLinks;
 }

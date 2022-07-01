@@ -8,40 +8,47 @@ import type {
   CalculatedProperty,
   CalculatedPropertyCollection,
   CalculatedPropertyCreate,
+  CalculatedPropertySingle,
   CalculatedPropertyUpdate,
 } from "./CalculatedProperties";
 import type {
   CustomCalculation,
   CustomCalculationCollection,
   CustomCalculationCreate,
+  CustomCalculationSingle,
   CustomCalculationUpdate,
 } from "./CustumCalculations";
 import type {
   Group,
   GroupCollection,
   GroupCreate,
+  GroupSingle,
   GroupUpdate,
 } from "./Groups";
 import type {
   GroupProperty,
   GroupPropertyCollection,
   GroupPropertyCreate,
+  GroupPropertySingle,
   GroupPropertyUpdate,
 } from "./GroupProperties";
 import type {
   ExtractionLog,
   ExtractionLogCollection,
+  ExtractionStatusSingle,
 } from "./ExtractionProcess";
 import type {
   Mapping,
   MappingCollection,
   MappingCopy,
   MappingCreate,
+  MappingSingle,
   MappingUpdate,
 } from "./Mappings";
 import type {
   ODataEntityResponse,
   ODataItem,
+  ODataResponse,
 } from "./OData";
 import type {
   Report,
@@ -50,6 +57,8 @@ import type {
   ReportMapping,
   ReportMappingCollection,
   ReportMappingCreate,
+  ReportMappingSingle,
+  ReportSingle,
   ReportUpdate,
 } from "./Reports";
 import {
@@ -67,22 +76,7 @@ const BASE_PATH = 'https://api.bentley.com/insights/reporting'.replace(
   '',
 );
 
-interface FetchArgs {
-  url: string;
-  options: any;
-}
-
-class RequiredError extends Error {
-  constructor(public field: string, msg?: string) {
-    super(msg);
-  }
-}
-
-interface FetchAPI {
-  (url: string, init?: any): Promise<Response>;
-}
-
-interface GenericCollection {
+interface collection {
   values: Array<any>;
   _links: PagedResponseLinks;
 }
@@ -108,13 +102,12 @@ export class ReportingClient {
    * @param {Async Function} getNextBatch function that specifies what data to retrieve
    * @memberof ReportingClient
    */
-
-  private genericIterator<T>(getNextBatch: (nextUrl: string | undefined) => Promise<GenericCollection>): {
+  private genericIterator<T>(getNextBatch: (nextUrl: string | undefined) => Promise<collection>): {
     [Symbol.asyncIterator]: () => AsyncGenerator<T, void, unknown>;
   } {
     return {
       [Symbol.asyncIterator]: async function*() {
-        let response: GenericCollection;
+        let response: collection;
         let i: number = 0;
         let nextUrl: string | undefined = undefined;
 
@@ -143,6 +136,12 @@ export class ReportingClient {
     }};
   }
 
+  private setContent(request: any, contentType: string, content: string) {
+    request.headers['Content-Type'] = contentType;
+    request.body = content;
+    return request;
+  }
+
   private async fetch(nextUrl: RequestInfo, requestOptions: RequestInit) {
     return isomorphicFetch(
       nextUrl,
@@ -163,7 +162,7 @@ export class ReportingClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/odata/
    */
-  public async getODataReport(accessToken: AccessToken, reportId: string) {
+  public async getODataReport(accessToken: AccessToken, reportId: string): Promise<ODataResponse> {
     return this._dataAccessApi.odata(reportId, accessToken);
   }
 
@@ -239,7 +238,7 @@ export class ReportingClient {
     [Symbol.asyncIterator]: () => AsyncGenerator<ExtractionLog, void, unknown>;
   } {
     return this.genericIterator<ExtractionLog>(
-      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+      async (nextUrl: string | undefined): Promise<collection> => {
         if(nextUrl === undefined) {
           nextUrl = BASE_PATH + "/datasources/extraction/status/" + encodeURIComponent(String(jobId)) + "/logs";
         }
@@ -274,13 +273,10 @@ export class ReportingClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-extraction-status/
    */
-  public async getExtractionStatus(accessToken: AccessToken, jobId: string) {
-    return this._extractionApi.getExtractionStatus(
-      jobId,
-      accessToken,
-      ACCEPT
-    );
-
+  public async getExtractionStatus(accessToken: AccessToken, jobId: string): Promise<ExtractionStatusSingle> {
+    const url = BASE_PATH + "/datasources/extraction/status/" + encodeURIComponent(String(jobId));
+    const requestOptions: RequestInit = this.createRequest('GET', accessToken);
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -310,7 +306,7 @@ export class ReportingClient {
     [Symbol.asyncIterator]: () => AsyncGenerator<Report, void, unknown>;
   } {
     return this.genericIterator<Report>(
-      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+      async (nextUrl: string | undefined): Promise<collection> => {
         if(nextUrl === undefined) {
           nextUrl = BASE_PATH + "/reports?projectId=" + encodeURIComponent(String(projectId)) + "&deleted=false";
         }
@@ -330,12 +326,10 @@ export class ReportingClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report/
    */
-  public async getReport(accessToken: AccessToken, projectId: string, reportId: string) {
-    return this._reportsApi.getReport(
-      projectId,
-      reportId,
-      accessToken
-    );
+  public async getReport(accessToken: AccessToken, reportId: string): Promise<ReportSingle> {
+    const url = BASE_PATH + "/reports/" + encodeURIComponent(String(reportId));
+    const requestOptions: RequestInit = this.createRequest('GET', accessToken);
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -345,12 +339,14 @@ export class ReportingClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-report/
    */
-  public async createReport(accessToken: AccessToken, report: ReportCreate) {
-    return this._reportsApi.createReport(
-      accessToken,
-      report,
-      ACCEPT
-    );
+  public async createReport(accessToken: AccessToken, report: ReportCreate): Promise<ReportSingle>{
+    const url = BASE_PATH + "/reports/";
+    const requestOptions: RequestInit = this.setContent(
+      this.createRequest('POST', accessToken),
+      "application/json",
+      JSON.stringify(report || {})
+      );
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -412,7 +408,7 @@ export class ReportingClient {
     [Symbol.asyncIterator]: () => AsyncGenerator<ReportMapping, void, unknown>;
   } {
     return this.genericIterator<ReportMapping>(
-      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+      async (nextUrl: string | undefined): Promise<collection> => {
         if(nextUrl === undefined) {
           nextUrl = BASE_PATH + "/reports/" + encodeURIComponent(String(reportId)) + "/datasources/imodelMappings";
         }
@@ -433,13 +429,18 @@ export class ReportingClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-report-mapping/
    */
-  public async createReportMapping(accessToken: AccessToken, reportId: string, reportMapping: ReportMappingCreate) {
-    return this._reportsApi.createReportMapping(
-      reportId,
-      accessToken,
-      reportMapping,
-      ACCEPT
-    );
+  public async createReportMapping(
+    accessToken: AccessToken, 
+    reportId: string, 
+    reportMapping: ReportMappingCreate
+    ): Promise<ReportMappingSingle> {
+    const url = BASE_PATH + "/reports/" + encodeURIComponent(String(reportId)) + "/datasources/imodelMappings";
+    const requestOptions: RequestInit = this.setContent(
+      this.createRequest('POST', accessToken),
+      "application/json",
+      JSON.stringify(reportMapping || {})
+      );
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -486,7 +487,7 @@ export class ReportingClient {
     [Symbol.asyncIterator]: () => AsyncGenerator<Mapping, void, unknown>;
   } {
     return this.genericIterator<Mapping>(
-      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+      async (nextUrl: string | undefined): Promise<collection> => {
         if(nextUrl === undefined) {
           nextUrl = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings";
         }
@@ -507,8 +508,11 @@ export class ReportingClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mapping/
    */
-  public async getMapping(accessToken: AccessToken, mappingId: string, iModelId: string) {
-    return this._mappingsApi.getMapping(iModelId, mappingId, accessToken);
+  public async getMapping(accessToken: AccessToken, mappingId: string, iModelId: string): Promise<MappingSingle> {
+    const url = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + 
+    "/mappings/" + encodeURIComponent(String(mappingId));
+    const requestOptions: RequestInit = this.createRequest('GET', accessToken);
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -523,8 +527,14 @@ export class ReportingClient {
     accessToken: AccessToken,
     iModelId: string,
     mapping: MappingCreate
-  ) {
-    return this._mappingsApi.createMapping(iModelId, accessToken, mapping);
+  ): Promise<MappingSingle> {
+    const url = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings";
+    const requestOptions: RequestInit = this.setContent(
+      this.createRequest('POST', accessToken),
+      "application/json",
+      JSON.stringify(mapping || {})
+      );
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -626,7 +636,7 @@ export class ReportingClient {
       [Symbol.asyncIterator]: () => AsyncGenerator<Group, void, unknown>;
     } {
     return this.genericIterator<Group>(
-      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+      async (nextUrl: string | undefined): Promise<collection> => {
         if(nextUrl === undefined) {
           nextUrl = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) +
           "/mappings/" + encodeURIComponent(String(mappingId)) + "/groups";
@@ -654,13 +664,15 @@ export class ReportingClient {
     iModelId: string,
     mappingId: string,
     group: GroupCreate
-  ) {
-    return this._mappingsApi.createGroup(
-      iModelId,
-      mappingId,
-      accessToken,
-      group
-    );
+  ): Promise<GroupSingle> {
+    const url = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + 
+    "/mappings/" + encodeURIComponent(String(mappingId)) + "/groups";
+    const requestOptions: RequestInit = this.setContent(
+      this.createRequest('POST', accessToken),
+      "application/json",
+      JSON.stringify(group || {})
+      );
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -677,13 +689,11 @@ export class ReportingClient {
     iModelId: string,
     mappingId: string,
     groupId: string
-  ) {
-    return this._mappingsApi.getGroup(
-      iModelId,
-      mappingId,
-      groupId,
-      accessToken
-    );
+  ): Promise<GroupSingle> {
+    const url = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings/" + 
+    encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId));
+    const requestOptions: RequestInit = this.createRequest('GET', accessToken);
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -776,7 +786,7 @@ export class ReportingClient {
       [Symbol.asyncIterator]: () => AsyncGenerator<GroupProperty, void, unknown>;
     } {
     return this.genericIterator<GroupProperty>(
-      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+      async (nextUrl: string | undefined): Promise<collection> => {
         if(nextUrl === undefined) {
           nextUrl = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings/" + 
           encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId)) + "/properties";
@@ -806,14 +816,12 @@ export class ReportingClient {
     mappingId: string,
     groupId: string,
     propertyId: string
-  ) {
-    return this._mappingsApi.getGroupproperty(
-      iModelId,
-      mappingId,
-      groupId,
-      propertyId,
-      accessToken
-    );
+  ): Promise<GroupPropertySingle> {
+    const url = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings/" + 
+    encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId)) + "/properties/ " + 
+    encodeURIComponent(String(propertyId));
+    const requestOptions: RequestInit = this.createRequest('GET', accessToken);
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -832,14 +840,15 @@ export class ReportingClient {
     mappingId: string,
     groupId: string,
     groupProperty: GroupPropertyCreate
-  ) {
-    return this._mappingsApi.createGroupproperty(
-      iModelId,
-      mappingId,
-      groupId,
-      accessToken,
-      groupProperty
-    );
+  ): Promise<GroupPropertySingle> {
+    const url = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings/" + 
+    encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId)) + "/properties";
+    const requestOptions: RequestInit = this.setContent(
+      this.createRequest('POST', accessToken),
+      "application/json",
+      JSON.stringify(groupProperty || {})
+      );
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -938,7 +947,7 @@ export class ReportingClient {
       [Symbol.asyncIterator]: () => AsyncGenerator<CalculatedProperty, void, unknown>;
     } {
     return this.genericIterator<CalculatedProperty>(
-      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+      async (nextUrl: string | undefined): Promise<collection> => {
         if(nextUrl === undefined) {
           nextUrl = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings/" + 
           encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId)) + "/calculatedProperties";
@@ -968,14 +977,12 @@ export class ReportingClient {
     mappingId: string,
     groupId: string,
     propertyId: string
-  ) {
-    return this._mappingsApi.getCalculatedproperty(
-      iModelId,
-      mappingId,
-      groupId,
-      propertyId,
-      accessToken
-    );
+  ): Promise<CalculatedPropertySingle> {
+    const url = BASE_PATH +  "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings/" + 
+    encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId)) + 
+    "/calculatedProperties/" + encodeURIComponent(String(propertyId));
+    const requestOptions: RequestInit = this.createRequest('GET', accessToken);
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -994,14 +1001,15 @@ export class ReportingClient {
     mappingId: string,
     groupId: string,
     property: CalculatedPropertyCreate
-  ) {
-    return this._mappingsApi.createCalculatedproperty(
-      iModelId,
-      mappingId,
-      groupId,
-      accessToken,
-      property
-    );
+  ): Promise<CalculatedPropertySingle> {
+    const url = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings/" + 
+    encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId)) + "/calculatedProperties";
+    const requestOptions: RequestInit = this.setContent(
+      this.createRequest('POST', accessToken),
+      "application/json",
+      JSON.stringify(property || {})
+      );
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -1100,7 +1108,7 @@ export class ReportingClient {
       [Symbol.asyncIterator]: () => AsyncGenerator<CustomCalculation, void, unknown>;
     } {
     return this.genericIterator<CustomCalculation>(
-      async (nextUrl: string | undefined): Promise<GenericCollection> => {
+      async (nextUrl: string | undefined): Promise<collection> => {
         if(nextUrl === undefined) {
           nextUrl = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings/" + 
           encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId)) + "/customCalculations";
@@ -1130,14 +1138,12 @@ export class ReportingClient {
     mappingId: string,
     groupId: string,
     propertyId: string
-  ) {
-    return this._mappingsApi.getCustomcalculation(
-      iModelId,
-      mappingId,
-      groupId,
-      propertyId,
-      accessToken
-    );
+  ): Promise<CustomCalculationSingle> {
+    const url = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + 
+    "/mappings/" + encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId)) + 
+    "/customCalculations/" + encodeURIComponent(String(propertyId));
+    const requestOptions: RequestInit = this.createRequest('GET', accessToken);
+    return await this.fetch(url, requestOptions);
   }
 
   /**
@@ -1156,14 +1162,15 @@ export class ReportingClient {
     mappingId: string,
     groupId: string,
     property: CustomCalculationCreate
-  ) {
-    return this._mappingsApi.createCustomcalculation(
-      iModelId,
-      mappingId,
-      groupId,
-      accessToken,
-      property
-    );
+  ): Promise<CustomCalculationSingle> {
+    const url = BASE_PATH + "/datasources/imodels/" + encodeURIComponent(String(iModelId)) + "/mappings/" + 
+    encodeURIComponent(String(mappingId)) + "/groups/" + encodeURIComponent(String(groupId)) + "/customCalculations";
+    const requestOptions: RequestInit = this.setContent(
+      this.createRequest('POST', accessToken),
+      "application/json",
+      JSON.stringify(property || {})
+      );
+    return await this.fetch(url, requestOptions);
   }
 
   /**
