@@ -61,3 +61,9 @@ export interface ModelError {
    */
   details?: Array<ErrorDetails>;
 }
+
+export class RequiredError extends Error {
+  constructor(public field: string, msg?: string) {
+    super(msg);
+  }
+}

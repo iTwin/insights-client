@@ -2,484 +2,183 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import type { AccessToken } from "@itwin/core-bentley";
+import { AccessToken } from "@itwin/core-bentley";
+import { RequiredError } from "../interfaces/Errors";
+import { EntityListIterator } from "../iterators/EntityListIterator";
+import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
+import { collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
+import { BASE_PATH, OperationsBase } from "../OperationsBase";
+import { CalculatedProperty, CalculatedPropertyCollection, CalculatedPropertySingle, CalculatedPropertyCreate, CalculatedPropertyUpdate } from "../interfaces/mappingInterfaces/CalculatedProperties";
+import { CustomCalculation, CustomCalculationCollection, CustomCalculationSingle, CustomCalculationCreate, CustomCalculationUpdate } from "../interfaces/mappingInterfaces/CustumCalculations";
+import { GroupProperty, GroupPropertyCollection, GroupPropertySingle, GroupPropertyCreate, GroupPropertyUpdate } from "../interfaces/mappingInterfaces/GroupProperties";
+import { Group, GroupCollection, GroupCreate, GroupSingle, GroupUpdate } from "../interfaces/mappingInterfaces/Groups";
+import { Mapping, MappingCollection, MappingSingle, MappingCreate, MappingUpdate, MappingCopy } from "../interfaces/mappingInterfaces/Mappings";
 
-import type {
-  CalculatedProperty,
-  CalculatedPropertyCollection,
-  CalculatedPropertyCreate,
-  CalculatedPropertySingle,
-  CalculatedPropertyUpdate,
-} from "./CalculatedProperties";
-import type {
-  CustomCalculation,
-  CustomCalculationCollection,
-  CustomCalculationCreate,
-  CustomCalculationSingle,
-  CustomCalculationUpdate,
-} from "./CustumCalculations";
-import type {
-  Group,
-  GroupCollection,
-  GroupCreate,
-  GroupSingle,
-  GroupUpdate,
-} from "./Groups";
-import type {
-  GroupProperty,
-  GroupPropertyCollection,
-  GroupPropertyCreate,
-  GroupPropertySingle,
-  GroupPropertyUpdate,
-} from "./GroupProperties";
-import type {
-  ExtractionLog,
-  ExtractionLogCollection,
-  ExtractionRun,
-  ExtractionStatusSingle,
-} from "./ExtractionProcess";
-import type {
-  Mapping,
-  MappingCollection,
-  MappingCopy,
-  MappingCreate,
-  MappingSingle,
-  MappingUpdate,
-} from "./Mappings";
-import type {
-  ODataEntityResponse,
-  ODataItem,
-  ODataResponse,
-} from "./OData";
-import type {
-  Report,
-  ReportCollection,
-  ReportCreate,
-  ReportMapping,
-  ReportMappingCollection,
-  ReportMappingCreate,
-  ReportMappingSingle,
-  ReportSingle,
-  ReportUpdate,
-} from "./Reports";
-import {
-  DataAccessApi,
-  ExtractionApi,
-  MappingsApi,
-  REPORTING_BASE_PATH,
-  ReportsApi,
-} from "./generated/api";
-import { PagedResponseLinks } from "./Links";
-import isomorphicFetch from 'cross-fetch';
-
-const BASE_PATH = 'https://api.bentley.com/insights/reporting'.replace(
-  /\/+$/,
-  '',
-);
-
-interface collection {
-  values: Array<any>;
-  _links: PagedResponseLinks;
+export interface MappingsClientInterface {
+  getMappings(
+    accessToken: AccessToken, 
+    iModelId: string,
+    top?: number
+  ): Promise<Mapping[]>,
+  getMapping(accessToken: AccessToken, 
+    iModelId: string,
+    mappingId: string
+  ): Promise<MappingSingle>,
+  createMapping(accessToken: AccessToken, 
+    iModelId: string,
+    mapping: MappingCreate
+  ): Promise<MappingSingle>,
+  updateMapping(accessToken: AccessToken, 
+    iModelId: string,
+    mappingId: string, 
+    mapping: MappingUpdate
+  ): Promise<MappingSingle>,
+  deleteMapping(accessToken: AccessToken, 
+    iModelId: string,
+    mappingId: string
+  ): Promise<Response>,
+  copyMapping(accessToken: AccessToken, 
+    iModelId: string,
+    mappingId: string,
+    mappingCopy: MappingCopy
+  ): Promise<GroupSingle>,
+  getGroups(accessToken: AccessToken, 
+    iModelId: string,
+    mappingId: string,
+    top?: number
+  ): Promise<Group[]>,
+  getGroup(accessToken: AccessToken, 
+    iModelId: string,
+    mappingId: string,
+    groupId: string
+  ): Promise<GroupSingle>,
+  createGroup(accessToken: AccessToken, 
+    iModelId: string,
+    mappingId: string,
+    group: GroupCreate
+  ): Promise<GroupSingle>,
+  updateGroup(accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    group: GroupUpdate
+  ): Promise<GroupSingle>,
+  deleteGroup(accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string
+  ): Promise<Response>,
+  getGroupProperties(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    top?: number
+  ): Promise<GroupProperty[]>,
+  getGroupProperty(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    propertyId: string
+  ): Promise<GroupPropertySingle>,
+  createGroupProperty(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    groupProperty: GroupPropertyCreate
+  ): Promise<GroupPropertySingle>,
+  updateGroupProperty(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    propertyId: string,
+    groupProperty: GroupPropertyUpdate
+  ): Promise<GroupPropertySingle>,
+  deleteGroupProperty(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    propertyId: string
+  ): Promise<Response>,
+  getCalculatedProperties(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    top?: number
+  ): Promise<CalculatedProperty[]>,
+  getCalculatedProperty(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    propertyId: string
+  ): Promise<CalculatedPropertySingle>,
+  createCalculatedProperty(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    property: CalculatedPropertyCreate
+  ): Promise<CalculatedPropertySingle>,
+  updateCalculatedProperty(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    propertyId: string,
+    property: CalculatedPropertyUpdate
+  ): Promise<CalculatedPropertySingle>,
+  deleteCalculatedProperty(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    propertyId: string
+  ): Promise<Response>,
+  getCustomCalculations(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    top?: number
+  ): Promise<CustomCalculation[]>,
+  getCustomCalculation(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    propertyId: string
+  ): Promise<CustomCalculationSingle>,
+  createCustomCalculation(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    property: CustomCalculationCreate
+  ): Promise<CustomCalculationSingle>,
+  updateCustomCalculation(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    propertyId: string,
+    property: CustomCalculationUpdate
+  ): Promise<CustomCalculationSingle>,
+  deleteCustomCalculation(
+    accessToken: AccessToken,
+    iModelId: string,
+    mappingId: string,
+    groupId: string,
+    propertyId: string
+  ): Promise<Response>,
 }
 
-const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
-
-// To be only used within Viewer
-export class ReportingClient {
-  private _dataAccessApi: DataAccessApi;
-  private _mappingsApi: MappingsApi;
-  private _reportsApi: ReportsApi;
-  private _extractionApi: ExtractionApi;
-  constructor(baseUrl?: string) {
-    const reportingBaseUrl = baseUrl ?? REPORTING_BASE_PATH;
-    this._dataAccessApi = new DataAccessApi(undefined, reportingBaseUrl);
-    this._mappingsApi = new MappingsApi(undefined, reportingBaseUrl);
-    this._reportsApi = new ReportsApi(undefined, reportingBaseUrl);
-    this._extractionApi = new ExtractionApi(undefined, reportingBaseUrl);
-  }
-
-  /**
-   * Creates an abstract async generator to loop through collections
-   * @param {Async Function} getNextBatch function that specifies what data to retrieve
-   * @memberof ReportingClient
-   */
-  private genericIterator<T>(getNextBatch: (nextUrl: string | undefined) => Promise<collection>): {
-    [Symbol.asyncIterator]: () => AsyncGenerator<T, void, unknown>;
-  } {
-    return {
-      [Symbol.asyncIterator]: async function*() {
-        let response: collection;
-        let i: number = 0;
-        let nextUrl: string | undefined;
-
-        do {
-          response = await getNextBatch(nextUrl);
-          while(i < response.values.length) {
-            yield response.values[i++];
-          }
-          i = 0;
-          if (!response._links?.next?.href) {
-            continue;
-          }
-          nextUrl = response._links?.next?.href;
-        } while (response._links?.next?.href);
-        return;
-      },
-    };
-  }
-
-  /**
-   * Creates a request body and headers
-   * @param {string} operation string specifying which opperation will be performed
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {string} content request body
-   * @memberof ReportingClient
-   */
-  private createRequest(operation: string, accessToken: string, content?: string): RequestInit {
-    const request: any = {
-      method: operation,
-      headers: {
-        Authorization: String(accessToken),
-        Accept: String(ACCEPT),
-      }};
-    if(content) {
-      request.headers['Content-Type'] = "application/json";
-      request.body = content;
-    }
-    return request;
-  }
-
-  /**
-   * retrieves specified data
-   * @param {string} nextUrl url for the fetch
-   * @param {RequestInit} requestOptions information about the fetch
-   * @memberof ReportingClient
-   */
-  private async fetch(nextUrl: RequestInfo, requestOptions: RequestInit) {
-    return isomorphicFetch(
-      nextUrl,
-      requestOptions
-    ).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        if(response.status === 204)
-          return response;
-        return response.json();
-      } else {
-        throw response;
-      }
-    });
-  }
-
-  /**
-   * Lists all OData Entities for a Report.
-   * @param {string} reportId The Report Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/odata/
-   */
-  public async getODataReport(accessToken: AccessToken, reportId: string): Promise<ODataResponse> {
-    const url = `${BASE_PATH}/odata/${encodeURIComponent(reportId)}`;
-    const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch(url, requestOptions);
-  }
-
-  // TODO: figure out what to do with this
-  /**
-   * Lists the raw table data for a Report Entity.
-   * @param {string} reportId The Report Id.
-   * @param {ODataItem} odataItem Reference to a table exported to your Report. Use {@link getODataReport()} to fetch a list of ODataItems in the report.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/odata-entity/
-   */
-  public async getODataReportEntity(accessToken: AccessToken, reportId: string, odataItem: ODataItem) {
-    const segments = odataItem?.url?.split('/');
-    if (segments?.length !== 3) {
-      return undefined;
-    }
-    let sequence = 0;
-
-    const reportData: Array<{[key: string]: string}> = [];
-    let response: ODataEntityResponse;
-
-    do {
-      response = await this._dataAccessApi.odataEntity(
-        reportId,
-        segments[0],
-        segments[1],
-        segments[2],
-        sequence,
-        accessToken
-      );
-      response.value && reportData.push(...response.value);
-      sequence++;
-    } while (response["@odata.nextLink"]);
-
-    return reportData;
-  }
-
-  /**
-   * Lists schemas for all Entities tied to a Report.
-   * @param {string} reportId The Report Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/odata-metadata/
-   */
-  public async getODataReportMetadata(accessToken: AccessToken, reportId: string): Promise<Response> {
-    const url = `${BASE_PATH}/odata/${encodeURIComponent(reportId)}/$metadata`;
-    const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return isomorphicFetch(url, requestOptions).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        return response;
-      } else {
-        throw response;
-      }
-    });
-  }
-
-  /**
-   * Gets Logs of an Extraction Run.
-   * @param {string} jobId Unique Identifier of the Extraction Run.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-extraction-logs/
-   */
-  public async getExtractionLogs(accessToken: AccessToken, jobId: string, top?: number) {
-    const logs: Array<ExtractionLog> = [];
-    const logIterator = this.getExtractionLogsAsync(accessToken, jobId, top);
-    for await(const log of logIterator) {
-      logs.push(log);
-    }
-    return logs;
-  }
-
-  /**
-   * Gets an async iterator for Logs of an Extraction Run.
-   * @param {string} jobId Unique Identifier of the Extraction Run.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   */
-  public getExtractionLogsAsync(accessToken: AccessToken, jobId: string, top?: number): {
-    [Symbol.asyncIterator]: () => AsyncGenerator<ExtractionLog, void, unknown>;
-  } {
-    return this.genericIterator<ExtractionLog>(
-      async (nextUrl: string | undefined): Promise<collection> => {
-        if(nextUrl === undefined) {
-          nextUrl = `${BASE_PATH}/datasources/extraction/status/${encodeURIComponent(jobId)}/logs`;
-          if(top !== undefined) {
-            nextUrl += `/?%24top=${top}`;
-          }
-        }
-        const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-        const response: ExtractionLogCollection = await this.fetch(nextUrl, requestOptions);
-        return {
-          values: response.logs,
-          _links: response._links,
-        };
-      });
-  }
-
-  /**
-   * Manually run Extraction of data from an iModel.
-   * @param {string} imodelId The iModel Id.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/run-extraction/
-   */
-  public runExtraction(accessToken: AccessToken, iModelId: string): Promise<ExtractionRun> {
-    const url = `${BASE_PATH}/datasources/imodels/${iModelId}/extraction/run`;
-    const requestOptions: RequestInit = this.createRequest("POST", accessToken);
-    return this.fetch(url, requestOptions);
-  }
-
-  /**
-   * Gets the Status of an Extraction Run.
-   * @param {string} jobId Unique Identifier of the Extraction Run.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-extraction-status/
-   */
-  public async getExtractionStatus(accessToken: AccessToken, jobId: string): Promise<ExtractionStatusSingle> {
-    const url = `${BASE_PATH}/datasources/extraction/status/${encodeURIComponent(jobId)}`;
-    const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch(url, requestOptions);
-  }
-
-  /**
-   * Gets all Reports within the context of a Project.
-   * @param {string} projectId The Project Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
-   */
-  public async getReports(accessToken: AccessToken, projectId: string, top?: number) {
-    const reports: Array<Report> = [];
-    const reportIterator = this.getReportsAsync(accessToken, projectId, top);
-    for await(const report of reportIterator) {
-      reports.push(report);
-    }
-    return reports;
-  }
-
-  /**
-   * Gets an async iterator for the Reports of a Project
-   * @param {string} projectId The Project Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   */
-  public getReportsAsync(accessToken: AccessToken, projectId: string, top?: number): {
-    [Symbol.asyncIterator]: () => AsyncGenerator<Report, void, unknown>;
-  } {
-    return this.genericIterator<Report>(
-      async (nextUrl: string | undefined): Promise<collection> => {
-        if(nextUrl === undefined) {
-          nextUrl = `${BASE_PATH}/reports?projectId=${encodeURIComponent(projectId)}`;
-          if(top !== undefined) {
-            nextUrl += `&%24top=${top}`;
-          }
-        }
-        const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-        const response: ReportCollection = await this.fetch(nextUrl, requestOptions);
-        return {
-          values: response.reports,
-          _links: response._links,
-        };
-      });
-  }
-
-  /**
-   * Gets a single Report.
-   * @param {string} reportId The Report Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-report/
-   */
-  public async getReport(accessToken: AccessToken, reportId: string): Promise<ReportSingle> {
-    const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}`;
-    const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch(url, requestOptions);
-  }
-
-  /**
-   * Creates a Report within the context of a Project.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {ReportCreate} report Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/create-report/
-   */
-  public async createReport(accessToken: AccessToken, report: ReportCreate): Promise<ReportSingle>{
-    const url = `${BASE_PATH}/reports/`;
-    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(report || {}));
-    return this.fetch(url, requestOptions);
-  }
-
-  /**
-   * Updates a Report.
-   * @param {string} reportId Id of the Report to be updated.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {ReportUpdate} report Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/update-report/
-   */
-  public async updateReport(accessToken: AccessToken, reportId: string, report: ReportUpdate): Promise<ReportSingle> {
-    const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}`;
-    const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(report || {}));
-    return this.fetch(url, requestOptions);
-  }
-
-  /**
-   * Marks a Report for deletetion.
-   * @param {string} reportId Id of the Report to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/delete-report/
-   */
-  public async deleteReport(accessToken: AccessToken, reportId: string) {
-    const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}`;
-    const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetch(url, requestOptions);
-  }
-
-  /**
-   * Gets all Report Mappings for a Report.
-   * @param {string} reportId The Report Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
-   */
-  public async getReportMappings(accessToken: AccessToken, reportId: string, top?: number) {
-    const reportMappings: Array<ReportMapping> = [];
-    const reportMappingIterator = this.getReportMappingsAsync(accessToken, reportId, top);
-    for await(const reportMapping of reportMappingIterator) {
-      reportMappings.push(reportMapping);
-    }
-    return reportMappings;
-  }
-
-  /**
-   * Gets an async iterator for Report Mappings for a Report.
-   * @param {string} reportId The Report Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   */
-  public getReportMappingsAsync(accessToken: AccessToken, reportId: string, top?: number): {
-    [Symbol.asyncIterator]: () => AsyncGenerator<ReportMapping, void, unknown>;
-  } {
-    return this.genericIterator<ReportMapping>(
-      async (nextUrl: string | undefined): Promise<collection> => {
-        if(nextUrl === undefined) {
-          nextUrl = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
-          if(top !== undefined) {
-            nextUrl += `/?%24top=${top}`;
-          }
-        }
-        const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-        const response: ReportMappingCollection = await this.fetch(nextUrl, requestOptions);
-        return {
-          values: response.mappings,
-          _links: response._links,
-        };
-      });
-  }
-
-  /**
-   * Creates a Report Mapping.
-   * @param {string} reportId The Report Id.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {ReportMappingCreate} reportMapping Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/create-report-mapping/
-   */
-  public async createReportMapping(
-    accessToken: AccessToken,
-    reportId: string,
-    reportMapping: ReportMappingCreate
-  ): Promise<ReportMappingSingle> {
-    const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
-    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(reportMapping || {}));
-    return this.fetch(url, requestOptions);
-  }
-
-  /**
-   * Deletes a Report Mapping from a Report.
-   * @param {string} reportId The Report Id.
-   * @param {string} mappingId Id of the Report Mapping to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/delete-report-mapping/
-   */
-  public async deleteReportMapping(accessToken: AccessToken, reportId: string, reportMappingId: string) {
-    const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings/${encodeURIComponent(reportMappingId)}`;
-    const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetch(url, requestOptions);
-  }
-
+export class MappingsClient extends OperationsBase implements MappingsClientInterface{
   /**
    * Gets all Mappings for an iModel.
    * @param {string} imodelId The iModel Id.
@@ -488,40 +187,28 @@ export class ReportingClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
    */
-  public async getMappings(accessToken: AccessToken, iModelId: string, top?: number) {
+   public async getMappings(accessToken: AccessToken, iModelId: string, top?: number) {
     const mappings: Array<Mapping> = [];
-    const mapIterator = this.getMappingsAsync(accessToken, iModelId, top);
+    const mapIterator = this.getMappingsIterator(accessToken, iModelId, top);
     for await(const map of mapIterator) {
       mappings.push(map);
     }
     return mappings;
   }
 
-  /**
-   * Gets an async iterator for Mappings for an iModel.
-   * @param {string} imodelId The iModel Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   */
-  public getMappingsAsync(accessToken: AccessToken, iModelId: string, top?: number): {
-    [Symbol.asyncIterator]: () => AsyncGenerator<Mapping, void, unknown>;
-  } {
-    return this.genericIterator<Mapping>(
-      async (nextUrl: string | undefined): Promise<collection> => {
-        if(nextUrl === undefined) {
-          nextUrl = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
-          if(top !== undefined) {
-            nextUrl += `/?%24top=${top}`;
-          }
-        }
-        const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-        const response: MappingCollection = await this.fetch(nextUrl, requestOptions);
+  public getMappingsIterator(accessToken: AccessToken, iModelId: string, top?: number): EntityListIterator<Mapping> {
+    let url: string = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
+    url += top ?  `/?%24top=${top}` : "";
+    return new EntityListIteratorImpl(async () => getEntityCollectionPage<Mapping>(
+      url,
+      this.createRequest("GET", accessToken),
+      async (url: string, requestOptions: RequestInit): Promise<collection> => {
+        let response: MappingCollection = await this.fetch(url, requestOptions);
         return {
           values: response.mappings,
           _links: response._links,
-        };
-      });
+        }
+    }));
   }
 
   /**
@@ -551,6 +238,13 @@ export class ReportingClient {
     iModelId: string,
     mapping: MappingCreate
   ): Promise<MappingSingle> {
+    if (!this.isSimpleIdentifier(mapping.mappingName)) {
+      throw new RequiredError(
+        'mappingName',
+        'Required field mappingName of mapping was missing or invalid when calling createMapping.',
+      );
+    }
+
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(mapping || {}));
     return this.fetch(url, requestOptions);
@@ -571,6 +265,19 @@ export class ReportingClient {
     mappingId: string,
     mapping: MappingUpdate
   ): Promise<MappingSingle> {
+    if (mapping.description == null && mapping.extractionEnabled == null && mapping.mappingName == null) {
+      throw new RequiredError(
+        'mapping',
+        'All properties of mapping were missing when calling updateMapping.',
+      );
+    }
+    if (mapping.mappingName != null && !this.isSimpleIdentifier(mapping.mappingName)) {
+      throw new RequiredError(
+        'mappingName',
+        'Required field mappingName of mapping was invalid when calling createMapping.',
+      );
+    }
+
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(mapping || {}));
     return this.fetch(url, requestOptions);
@@ -609,6 +316,19 @@ export class ReportingClient {
     mappingId: string,
     mappingCopy: MappingCopy
   ) {
+    if (null != mappingCopy.mappingName && !this.isSimpleIdentifier(mappingCopy.mappingName)) {
+      throw new RequiredError(
+        'mappingName',
+        'Field mappingName of mappingCopy was invalid when calling copyMapping.',
+      );
+    }
+    if(this.isNullOrWhitespace(mappingCopy.targetIModelId)) {
+      throw new RequiredError(
+        'targetIModelId',
+        'Required field targetIModelId of mappingCopy was missing when calling copyMapping.',
+      );
+    }
+
     const url = `/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/copy`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(mappingCopy || {}));
     return this.fetch(url, requestOptions);
@@ -616,7 +336,7 @@ export class ReportingClient {
 
   /**
    * Gets all Groups for a Mapping.
-   * @param {string} imodelId The iModel Id.
+   * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
    * @param {number} top the number of entities to pre-load.
@@ -630,50 +350,38 @@ export class ReportingClient {
     top?: number
   ) {
     const groups: Array<Group> = [];
-
-    const groupIterator = this.getGroupsAsync(accessToken, iModelId, mappingId, top);
+    const groupIterator = this.getGroupsIterator(accessToken, iModelId, mappingId, top);
     for await(const group of groupIterator) {
       groups.push(group);
     }
     return groups;
   }
 
-  /**
-   * Gets an async iterator for all Groups of a Mapping.
-   * @param {string} imodelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   */
-  public getGroupsAsync(
+  public getGroupsIterator(
     accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
-    top?: number):
-    {
-      [Symbol.asyncIterator]: () => AsyncGenerator<Group, void, unknown>;
-    } {
-    return this.genericIterator<Group>(
-      async (nextUrl: string | undefined): Promise<collection> => {
-        if(nextUrl === undefined) {
-          nextUrl = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
-          if(top !== undefined) {
-            nextUrl += `/?%24top=${top}`;
-          }
-        }
-        const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-        const response: GroupCollection = await this.fetch(nextUrl, requestOptions);
+    top?: number
+  ): EntityListIterator<Group> {
+    let url: string = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
+    url += top ? `/?%24top=${top}` : "";
+    return new EntityListIteratorImpl(async () => getEntityCollectionPage<Group>(
+      url,
+      this.createRequest("GET", accessToken),
+      async (url: string, requestOptions: RequestInit): Promise<collection> => {
+        let response: GroupCollection = await this.fetch(url, requestOptions);
         return {
           values: response.groups,
           _links: response._links,
-        };
-      });
+        }
+    }));
+
+
   }
 
   /**
    * Creates a Group for an iModel data source Mapping.
-   * @param {string} imodelId The iModel Id.
+   * @param {string} iModelId The iModel Id.
    * @param {string} mappingId Id of the Mapping for which to create a new Group.
    * @param {string} AccessToken OAuth access token with scope `insights:modify`
    * @param {GroupCreate} group Request body.
@@ -686,6 +394,19 @@ export class ReportingClient {
     mappingId: string,
     group: GroupCreate
   ): Promise<GroupSingle> {
+    if(!this.isSimpleIdentifier(group.groupName)) {
+      throw new RequiredError(
+        'groupName',
+        'Required field mappingName of group was null or undefined when calling createGroup.',
+      );
+    }
+    if(this.isNullOrWhitespace(group.query)) {
+      throw new RequiredError(
+        'query',
+        'Required field query of group was null or undefined when calling createGroup.',
+      );
+    }
+
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
     const requestOptions: RequestInit =  this.createRequest("POST", accessToken, JSON.stringify(group || {}));
     return this.fetch(url, requestOptions);
@@ -728,6 +449,25 @@ export class ReportingClient {
     groupId: string,
     group: GroupUpdate
   ): Promise<GroupSingle> {
+    if(null == group.groupName && null == group.description && null == group.query) {
+      throw new RequiredError(
+        'group',
+        'All properties of group were missing when calling updateGroup.',
+      );
+    }
+    if (null != group.groupName && this.isSimpleIdentifier(group.groupName)) {
+      throw new RequiredError(
+        'groupName',
+        'Field groupName of group was invalid when calling copyGroup.',
+      );
+    }
+    if (null != group.query && this.isNullOrWhitespace(group.query)) {
+      throw new RequiredError(
+        'query',
+        'Required field query of group was null or undefined when calling updateGroup.',
+      );
+    }
+
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(group || {}));
     return this.fetch(url, requestOptions);
@@ -772,46 +512,32 @@ export class ReportingClient {
   ) {
     const properties: Array<GroupProperty> = [];
 
-    const groupPropertyIterator = this.getGroupPropertiesAsync(accessToken, iModelId, mappingId, groupId, top);
+    const groupPropertyIterator = this.getGroupPropertiesIterator(accessToken, iModelId, mappingId, groupId, top);
     for await(const groupProperty of groupPropertyIterator) {
       properties.push(groupProperty);
     }
     return properties;
   }
 
-  /**
-   * Gets an async iterator for all GroupProperties of a Group.
-   * @param {string} imodelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   */
-  public getGroupPropertiesAsync(
+  public getGroupPropertiesIterator(
     accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     groupId: string,
     top?: number
-  ): {
-      [Symbol.asyncIterator]: () => AsyncGenerator<GroupProperty, void, unknown>;
-    } {
-    return this.genericIterator<GroupProperty>(
-      async (nextUrl: string | undefined): Promise<collection> => {
-        if(nextUrl === undefined) {
-          nextUrl = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
-          if(top !== undefined) {
-            nextUrl += `/?%24top=${top}`;
-          }
-        }
-        const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-        const response: GroupPropertyCollection = await this.fetch(nextUrl, requestOptions);
+  ): EntityListIterator<GroupProperty> {
+    let url: string = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
+    url += top ? `/?%24top=${top}` : "";
+    return new EntityListIteratorImpl(async () => getEntityCollectionPage<GroupProperty>(
+      url,
+      this.createRequest("GET", accessToken),
+      async (url: string, requestOptions: RequestInit): Promise<collection> => {
+        let response: GroupPropertyCollection = await this.fetch(url, requestOptions);
         return {
           values: response.properties,
           _links: response._links,
-        };
-      });
+        }
+    }));
   }
 
   /**
@@ -853,6 +579,33 @@ export class ReportingClient {
     groupId: string,
     groupProperty: GroupPropertyCreate
   ): Promise<GroupPropertySingle> {
+    if (!this.isSimpleIdentifier(groupProperty.propertyName)) {
+      throw new RequiredError(
+        'propertyName',
+        'Field propertyName of groupProperty was invalid when calling createGroupProperty.',
+      );
+    }
+    if (groupProperty.dataType == undefined) {
+      throw new RequiredError(
+        'dataType',
+        'Required field dataType of groupProperty was null or undefined when calling createGroupProperty.',
+      );
+    }
+    if (groupProperty.ecProperties == null || groupProperty.ecProperties.length == 0) {
+      throw new RequiredError(
+        'ecProperties',
+        'Required field ecProperties of groupProperty was null or undefined when calling createGroupProperty.',
+      );
+    }
+    for(const i of groupProperty.ecProperties) {
+      if (!this.IsValid(i)) {
+        throw new RequiredError(
+          'ecProperties',
+          'Field ecProperties of groupProperty was invalid when calling updateGroupProperty.',
+        );
+      }
+    }
+
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(groupProperty || {}));
     return this.fetch(url, requestOptions);
@@ -877,6 +630,33 @@ export class ReportingClient {
     propertyId: string,
     groupProperty: GroupPropertyUpdate
   ): Promise<GroupPropertySingle> {
+    if(!this.isSimpleIdentifier(groupProperty.propertyName)) {
+      throw new RequiredError(
+        'propertyName',
+        'Field propertyName of groupProperty was invalid when calling updateGroupProperty.',
+      );
+    }
+    if(groupProperty.dataType == undefined) {
+      throw new RequiredError(
+        'dataType',
+        'Required field dataType of groupProperty was null or undefined when calling updateGroupProperty.',
+      );
+    }
+    if (groupProperty.ecProperties == null || groupProperty.ecProperties.length == 0) {
+      throw new RequiredError(
+        'ecProperties',
+        'Required field ecProperties of groupProperty was null or undefined when calling updateGroupProperty.',
+      );
+    }
+    for(const i of groupProperty.ecProperties) {
+      if (!this.IsValid(i)) {
+        throw new RequiredError(
+          'ecProperties',
+          'Field ecProperties of groupProperty was invalid when calling updateGroupProperty.',
+        );
+      }
+    }
+
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("PUT", accessToken, JSON.stringify(groupProperty || {}));
     return this.fetch(url, requestOptions);
@@ -923,46 +703,32 @@ export class ReportingClient {
   ) {
     const properties: Array<CalculatedProperty> = [];
 
-    const calculatedPropertyIterator = this.getCalculatedPropertiesAsync(accessToken, iModelId, mappingId, groupId, top);
+    const calculatedPropertyIterator = this.getCalculatedPropertiesIterator(accessToken, iModelId, mappingId, groupId, top);
     for await(const calculatedProperty of calculatedPropertyIterator) {
       properties.push(calculatedProperty);
     }
     return properties;
   }
 
-  /**
-   * Gets an async iterator for all CalculatedProperties of a Group.
-   * @param {string} imodelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   */
-  public getCalculatedPropertiesAsync(
+  public getCalculatedPropertiesIterator(
     accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     groupId: string,
     top?: number
-  ): {
-      [Symbol.asyncIterator]: () => AsyncGenerator<CalculatedProperty, void, unknown>;
-    } {
-    return this.genericIterator<CalculatedProperty>(
-      async (nextUrl: string | undefined): Promise<collection> => {
-        if(nextUrl === undefined) {
-          nextUrl = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
-          if(top !== undefined) {
-            nextUrl += `/?%24top=${top}`;
-          }
-        }
-        const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-        const response: CalculatedPropertyCollection = await this.fetch(nextUrl, requestOptions);
+  ): EntityListIterator<CalculatedProperty> {
+    let url: string = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
+    url += top ? `/?%24top=${top}` : "";
+    return new EntityListIteratorImpl(async () => getEntityCollectionPage<CalculatedProperty>(
+      url,
+      this.createRequest("GET", accessToken),
+      async (url: string, requestOptions: RequestInit): Promise<collection> => {
+        let response: CalculatedPropertyCollection = await this.fetch(url, requestOptions);
         return {
           values: response.properties,
           _links: response._links,
-        };
-      });
+        }
+    }));
   }
 
   /**
@@ -1004,6 +770,18 @@ export class ReportingClient {
     groupId: string,
     property: CalculatedPropertyCreate
   ): Promise<CalculatedPropertySingle> {
+    if(!this.isSimpleIdentifier(property.propertyName)) {
+      throw new RequiredError(
+        'propertyName',
+        'Field propertyName of property was invalid when calling createCalculatedProperty.',
+      );
+    }
+    if(property.type == undefined) {
+      throw new RequiredError(
+        'type',
+        'Required field type of property was null or undefined when calling createCalculatedProperty.',
+      );
+    }
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(property || {}));
     return this.fetch(url, requestOptions);
@@ -1028,6 +806,25 @@ export class ReportingClient {
     propertyId: string,
     property: CalculatedPropertyUpdate
   ): Promise<CalculatedPropertySingle> {
+    if(null == property.propertyName && null == property.type) {
+      throw new RequiredError(
+        'property',
+        'All properties of property were missing when calling updateCalculatedProperty.',
+      );
+    }
+    if(null != property.propertyName && !this.isSimpleIdentifier(property.propertyName)) {
+      throw new RequiredError(
+        'propertyName',
+        'Field propertyName of property was invalid when calling updateCalculatedProperty.',
+      );
+    }
+    if(null != property.type && property.type == undefined) {
+      throw new RequiredError(
+        'type',
+        'Required field type of property was null or undefined when calling updateCalculatedProperty.',
+        );
+    }
+
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(property || {}));
     return this.fetch(url, requestOptions);
@@ -1074,46 +871,32 @@ export class ReportingClient {
   ) {
     const customCalculations: Array<CustomCalculation> = [];
 
-    const customCalculationsIterator = this.getCustomCalculationsAsync(accessToken, iModelId, mappingId, groupId, top);
+    const customCalculationsIterator = this.getCustomCalculationsIterator(accessToken, iModelId, mappingId, groupId, top);
     for await(const customCalculation of customCalculationsIterator) {
       customCalculations.push(customCalculation);
     }
     return customCalculations;
   }
 
-  /**
-   * Gets an async iterator for all CustomCalculations of a Group.
-   * @param {string} imodelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   */
-  public getCustomCalculationsAsync(
+  public getCustomCalculationsIterator(
     accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     groupId: string,
     top?: number
-  ): {
-      [Symbol.asyncIterator]: () => AsyncGenerator<CustomCalculation, void, unknown>;
-    } {
-    return this.genericIterator<CustomCalculation>(
-      async (nextUrl: string | undefined): Promise<collection> => {
-        if(nextUrl === undefined) {
-          nextUrl = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations`;
-          if(top !== undefined) {
-            nextUrl += `/?%24top=${top}`;
-          }
-        }
-        const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-        const response: CustomCalculationCollection = await this.fetch(nextUrl, requestOptions);
+  ): EntityListIterator<CustomCalculation> {
+    let url: string = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations`;
+    url += top ? `/?%24top=${top}` : "";
+    return new EntityListIteratorImpl(async () => getEntityCollectionPage<CustomCalculation>(
+      url,
+      this.createRequest("GET", accessToken),
+      async (url: string, requestOptions: RequestInit): Promise<collection> => {
+        let response: CustomCalculationCollection = await this.fetch(url, requestOptions);
         return {
           values: response.customCalculations,
           _links: response._links,
-        };
-      });
+        }
+    }));
   }
 
   /**
@@ -1155,6 +938,19 @@ export class ReportingClient {
     groupId: string,
     property: CustomCalculationCreate
   ): Promise<CustomCalculationSingle> {
+    if(!this.isSimpleIdentifier(property.propertyName)) {
+      throw new RequiredError(
+        'propertyName',
+        'Field propertyName of property was invalid when calling createCustomCalculation.',
+      );
+    }
+    if(this.isNullOrWhitespace(property.formula)) {
+      throw new RequiredError(
+        'formula',
+        'Required field formula of property was null or undefined when calling createCustomCalculation.',
+      );
+    }
+
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(property || {}));
     return this.fetch(url, requestOptions);
@@ -1179,6 +975,25 @@ export class ReportingClient {
     propertyId: string,
     property: CustomCalculationUpdate
   ): Promise<CustomCalculationSingle> {
+    if(null == property.formula && null == property.propertyName && null == property.quantityType) {
+      throw new RequiredError(
+        'property',
+        'All properties of property were missing when calling updateProperty.',
+      );
+    }
+    if(null != property.propertyName && !this.isSimpleIdentifier(property.propertyName)) {
+      throw new RequiredError(
+        'propertyName',
+        'Field propertyName of property was invalid when calling updateCustomCalculation.',
+      );
+    }
+    if(null != property.formula && this.isNullOrWhitespace(property.formula)) {
+      throw new RequiredError(
+        'formula',
+        'Required field formula of property was null or undefined when calling updateCustomCalculation.',
+      );
+    }
+
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(property || {}));
     return this.fetch(url, requestOptions);

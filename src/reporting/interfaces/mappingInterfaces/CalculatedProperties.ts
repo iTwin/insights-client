@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { Link, PagedResponseLinks } from "./Links";
+import { Link, PagedResponseLinks } from "../Links";
 
 /**
  * Defines a CalculatedProperty or 'column' for a Group. It is calculated for each element returned by the Group's query.

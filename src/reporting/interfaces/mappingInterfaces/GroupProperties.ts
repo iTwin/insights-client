@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { PagedResponseLinks } from "./Links";
+import { PagedResponseLinks } from "../Links";
 
 /**
  * Defines a target ECProperty for a Group. This is used to determine what properties will be read from the query response of a Group.

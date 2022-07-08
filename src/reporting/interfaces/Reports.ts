@@ -27,7 +27,7 @@ export interface Report {
    * @type {string}
    * @memberof Report
    */
-  description: string;
+  description?: string;
   /**
    * Flag indicating whether or not a Report has been marked for deletion.
    * @type {boolean}
@@ -79,7 +79,7 @@ export interface ReportCreate {
    * @type {string}
    * @memberof ReportCreate
    */
-  description: string;
+  description?: string;
   /**
    * The Project Id this Report will be drawing data from.
    * @type {string}

@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { CalculatedPropertyLinks } from "./CalculatedProperties";
-import { PagedResponseLinks } from "./Links";
+import { PagedResponseLinks } from "../Links";
 
 /**
  * Defines a CustomCalculation or 'column' for a Group. It is calculated using the given formula for each element returned by the Group's query.

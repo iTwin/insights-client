@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { Link, PagedResponseLinks } from "./Links";
+import { Link, PagedResponseLinks } from "../Links";
 
 /**
  * Defines a Mapping for an iModel. Each mapping represents a collection of 'Groups', sets of iModel elements, and their properties of interest.
@@ -27,7 +27,7 @@ export interface Mapping {
    * @type {string}
    * @memberof Mapping
    */
-  description: string;
+  description?: string;
   /**
    * Value of `false` excludes a `Mapping` from the `Run Extraction` operation and automatic execution after the `Create iModel Named Version` operation.
    * @type {boolean}
@@ -123,13 +123,13 @@ export interface MappingCreate {
    * @type {string}
    * @memberof MappingCreate
    */
-  description: string;
+  description?: string;
   /**
    * Value of `false` excludes a `Mapping` from the `Run Extraction` operation and automatic execution after the `Create iModel Named Version` operation. The default value is `true`.
    * @type {boolean}
    * @memberof MappingCreate
    */
-  extractionEnabled: boolean;
+  extractionEnabled?: boolean;
 }
 
 /**

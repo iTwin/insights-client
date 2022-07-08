@@ -20,15 +20,15 @@
 import * as url from 'url';
 import isomorphicFetch from 'cross-fetch';
 import { Configuration } from './configuration';
-import {MappingCopy} from "../Mappings";
-import {CalculatedPropertyCreate, CalculatedPropertyUpdate, CalculatedPropertySingle, CalculatedPropertyCollection} from "../CalculatedProperties";
-import {CustomCalculationCreate, CustomCalculationUpdate, CustomCalculationSingle, CustomCalculationCollection} from "../CustumCalculations";
-import {GroupCreate, GroupUpdate, GroupSingle, GroupCollection} from "../Groups";
-import {GroupPropertyCreate, GroupPropertyUpdate, GroupPropertySingle, GroupPropertyCollection} from "../GroupProperties";
-import {MappingCreate, MappingUpdate, MappingSingle, MappingCollection} from "../Mappings";
-import {ReportCreate, ReportMappingCreate, ReportUpdate, ReportSingle, ReportCollection, ReportMappingSingle, ReportMappingCollection} from "../Reports";
-import {ODataResponse, ODataEntityResponse} from "../OData";
-import {ExtractionLogCollection, ExtractionStatus, ExtractionRun} from "../ExtractionProcess";
+import {MappingCopy} from "../interfaces/mappingInterfaces/Mappings";
+import {CalculatedPropertyCreate, CalculatedPropertyUpdate, CalculatedPropertySingle, CalculatedPropertyCollection} from "../interfaces/mappingInterfaces/CalculatedProperties";
+import {CustomCalculationCreate, CustomCalculationUpdate, CustomCalculationSingle, CustomCalculationCollection} from "../interfaces/mappingInterfaces/CustumCalculations";
+import {GroupCreate, GroupUpdate, GroupSingle, GroupCollection} from "../interfaces/mappingInterfaces/Groups";
+import {GroupPropertyCreate, GroupPropertyUpdate, GroupPropertySingle, GroupPropertyCollection} from "../interfaces/mappingInterfaces/GroupProperties";
+import {MappingCreate, MappingUpdate, MappingSingle, MappingCollection} from "../interfaces/mappingInterfaces/Mappings";
+import {ReportCreate, ReportMappingCreate, ReportUpdate, ReportSingle, ReportCollection, ReportMappingSingle, ReportMappingCollection} from "../interfaces/Reports";
+import {ODataResponse, ODataEntityResponse} from "../interfaces/OData";
+import {ExtractionLogCollection, ExtractionStatus, ExtractionRun} from "../interfaces/ExtractionProcess";
 
 const BASE_PATH = 'https://api.bentley.com/insights/reporting'.replace(
   /\/+$/,

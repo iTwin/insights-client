@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { PagedResponseLinks } from "./Links";
+import { PagedResponseLinks } from "../Links";
 
 /**
  * Defines a single Group (collection of iModel elements) in an iModel Mapping.
@@ -27,7 +27,7 @@ export interface Group {
    * @type {string}
    * @memberof Group
    */
-  description: string;
+  description?: string;
   /**
    * Query string that will be executed against the target iModel to build this Group.
    * @type {string}
@@ -73,7 +73,7 @@ export interface GroupCreate {
    * @type {string}
    * @memberof GroupCreate
    */
-  description: string;
+  description?: string;
   /**
    * Query string that will be executed against the target iModel to build this Group.
    * @type {string}
