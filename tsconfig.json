@@ -3,7 +3,8 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
-    "outDir": "./lib"
+    "outDir": "./lib",
+    "sourceMap": true,
   },
   "include": [
     "./src/**/*.ts"
