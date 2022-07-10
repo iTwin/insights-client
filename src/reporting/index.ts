@@ -15,7 +15,6 @@
  * Do not edit the file manually.
  */
 
-export * from "./generated/api";
 export * from "./clients/ReportsClient";
 export * from "./interfaces/mappingInterfaces/CalculatedProperties";
 export * from "./interfaces/mappingInterfaces/CustumCalculations";
