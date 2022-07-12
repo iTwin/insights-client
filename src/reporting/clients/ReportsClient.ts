@@ -16,6 +16,11 @@ export interface ReportsClientInterface{
     projectId: string, 
     top?: number
   ): Promise<Report[]>,
+  getReportsIterator(
+    accessToken: AccessToken, 
+    projectId: string, 
+    top?: number
+  ): EntityListIterator<Report>,
   getReport(
     accessToken: AccessToken,
     reportId: string
@@ -38,6 +43,11 @@ export interface ReportsClientInterface{
     reportId: string,
     top?: number
   ): Promise<ReportMapping[]>,
+  getReportMappingsIterator(
+    accessToken: AccessToken,
+    reportId: string,
+    top?: number
+  ): EntityListIterator<ReportMapping>,
   createReportMapping(
     accessToken: AccessToken,
     reportId: string,
@@ -68,6 +78,14 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
     return reports;
   }
 
+  /**
+   * Gets an async paged iterator for Reports within the context of a Project.
+   * @param {string} projectId The Project Id.
+   * @param {string} accessToken OAuth access token with scope `insights:read`
+   * @param {number} top the number of entities to pre-load.
+   * @memberof ReportingClient
+   * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
+   */
   public getReportsIterator(accessToken: AccessToken, projectId: string, top?: number): EntityListIterator<Report> {
     let url: string = `${BASE_PATH}/reports?projectId=${encodeURIComponent(projectId)}`;
     url += top ? `/?%24top=${top}` : "";
@@ -179,6 +197,14 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
     return reportMappings;
   }
 
+  /**
+   * Gets an async paged iterator of Report Mappings for a Report.
+   * @param {string} reportId The Report Id.
+   * @param {string} accessToken OAuth access token with scope `insights:read`
+   * @param {number} top the number of entities to pre-load.
+   * @memberof ReportingClient
+   * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
+   */
   public getReportMappingsIterator(accessToken: AccessToken, reportId: string, top?: number): EntityListIterator<ReportMapping> {
     let url: string = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
     url += top ? `/?%24top=${top}` : "";

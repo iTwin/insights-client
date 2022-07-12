@@ -15,6 +15,11 @@ export interface ExtractionClientInterface {
     jobId: string,
     top?: number
   ): Promise<ExtractionLog[]>,
+  getExtractionLogsIterator(
+    accessToken: AccessToken,
+    jobId: string,
+    top?: number
+  ): EntityListIterator<ExtractionLog>,
   runExtraction(
     accessToken: AccessToken,
     iModelId: string
@@ -25,7 +30,7 @@ export interface ExtractionClientInterface {
   ): Promise<ExtractionStatusSingle>,
 }
 
-export class ExtractionClient extends OperationsBase implements ExtractionClientInterface {
+export class ExtractionClient extends OperationsBase {
   /**
    * Gets Logs of an Extraction Run.
    * @param {string} jobId Unique Identifier of the Extraction Run.
@@ -43,6 +48,14 @@ export class ExtractionClient extends OperationsBase implements ExtractionClient
     return logs;
   }
 
+  /**
+   * Gets an async paged iterator of logs for an Extraction Run.
+   * @param {string} jobId Unique Identifier of the Extraction Run.
+   * @param {string} accessToken OAuth access token with scope `insights:read`
+   * @param {number} top the number of entities to pre-load.
+   * @memberof ReportingClient
+   * @link https://developer.bentley.com/apis/insights/operations/get-extraction-logs/
+   */
   public getExtractionLogsIterator(accessToken: AccessToken, jobId: string, top?: number): EntityListIterator<ExtractionLog> {
     let url: string = `${BASE_PATH}/datasources/extraction/status/${encodeURIComponent(jobId)}/logs`;
     url += top ? `/?%24top=${top}` : "";
