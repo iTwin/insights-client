@@ -4,16 +4,16 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chai from "chai";
 import { expect } from "chai";
-import { MappingsClient, MappingCreate, Mapping, MappingSingle } from "./../../reporting";
+import { ExtractionClient, ExtractionLog, ExtractionSingleRun, ExtractionStatusSingle } from "./../../reporting";
 import "reflect-metadata";
 import { getTestRunId, Constants, getTestDIContainer } from "../utils/index";
 import { IModelsClient, IModelsClientOptions } from "../imodels-client-authoring/src/IModelsClient";
 import { AuthorizationCallback } from "../imodels-client-management/src/IModelsClientExports";
-import { TestUtilTypes, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider } from "../imodels-client-test-utils/src/iModelsClientTestUtilsExports";
+import { TestUtilTypes, TestIModelGroup, TestIModelGroupFactory, BaseIntegrationTestsConfig, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider } from "../imodels-client-test-utils/src/iModelsClientTestUtilsExports";
 
 chai.should();
-describe("ReportingClient", () => {
-  const mappingsClient: MappingsClient = new MappingsClient();
+describe("Extraction Client", () => {
+  const extractionClient: ExtractionClient = new ExtractionClient();
   let accessToken: string;
 
   let iModelsClient: IModelsClient;
@@ -21,6 +21,8 @@ describe("ReportingClient", () => {
   let testIModelGroup: TestIModelGroup;
   let testIModel: IModelMetadata;
   let testIModelFileProvider: TestIModelFileProvider;
+
+  let extractionId: string;
 
   before( async function () {
     this.timeout(0);
@@ -52,21 +54,24 @@ describe("ReportingClient", () => {
   });
 
   //run tests
-  it("MappingsOperations", async function () {
+  it("Run extraction", async function () {
     this.timeout(0);
-    let map: MappingCreate = {
-      mappingName: "TestMap",
-    }
-    const created: MappingSingle = await mappingsClient.createMapping(accessToken, testIModel.id, map);
-    expect(created).to.not.be.undefined;
-    const reports: Array<Mapping> = await mappingsClient.getMappings(accessToken, testIModel.id);
-    expect(reports).to.not.be.undefined;
-    expect(reports.length).to.be.equals(1);
-    const deleted: Response = await mappingsClient.deleteMapping(accessToken, testIModel.id, created.mapping.id);
-    expect(deleted.status).to.be.above(199);
-    expect(deleted.status).to.be.below(301);
-    const reportsEmpty: Array<Mapping> = await mappingsClient.getMappings(accessToken, testIModel.id);
-    expect(reportsEmpty).to.not.be.undefined;
-    expect(reportsEmpty.length).to.be.equals(0);
+    const extraction: ExtractionSingleRun = await extractionClient.runExtraction(accessToken, testIModel.id);
+    expect(extraction).to.not.be.undefined;
+    extractionId = extraction.run.id;
+  });
+
+  it("Get Logs Async", async function () {
+    this.timeout(0);
+    const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId, 10);
+    expect(extraction).to.not.be.undefined;
+    expect(extraction).to.not.be.empty;
+  });
+
+  it("Get Status", async function () {
+    this.timeout(0);
+    const extraction: ExtractionStatusSingle = await extractionClient.getExtractionStatus(accessToken, extractionId);
+    expect(extraction).to.not.be.undefined;
+    expect(extraction).to.not.be.empty;
   });
 });

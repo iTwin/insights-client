@@ -7,7 +7,7 @@ import { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
 import { collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { BASE_PATH, OperationsBase } from "../OperationsBase";
-import { ExtractionLog, ExtractionLogCollection, ExtractionRun, ExtractionStatusSingle } from "../interfaces/ExtractionProcess";
+import { ExtractionLog, ExtractionLogCollection, ExtractionRun, ExtractionSingleRun, ExtractionStatusSingle } from "../interfaces/ExtractionProcess";
 
 export interface ExtractionClientInterface {
   getExtractionLogs(
@@ -78,7 +78,7 @@ export class ExtractionClient extends OperationsBase {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/run-extraction/
    */
-  public runExtraction(accessToken: AccessToken, iModelId: string): Promise<ExtractionRun> {
+  public runExtraction(accessToken: AccessToken, iModelId: string): Promise<ExtractionSingleRun> {
     const url = `${BASE_PATH}/datasources/imodels/${iModelId}/extraction/run`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken);
     return this.fetch(url, requestOptions);

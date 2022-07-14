@@ -9,12 +9,13 @@
     "build": "npm run -s build:cjs && npm run -s build:esm",
     "build:cjs": "tsc 1>&2 --outDir lib/cjs",
     "build:esm": "tsc 1>&2 --module es6 --outDir lib/esm",
+    "copy": "cp package.json lib/ && cp README.md lib/ && cp .npmrc lib/",
     "lint": "eslint \"*/**/*.{js,ts}\"",
     "lint:fix": "npm run lint -- --fix",
     "lint:copyright": "node scripts/copyright-linter.js",
     "pack": "npm pack",
     "cover": "nyc mocha lib/cjs/**/*.test.js",
-    "test:integration": "mocha lib/cjs/**/*.test.js --color"
+    "test:integration": "mocha lib/cjs/**/*.test.js --color --timeout 180000"
   },
   "keywords": [
     "Bentley",
@@ -72,6 +73,7 @@
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
+    "exclude": "**/test/*",
     "check-coverage": true
   }
 }

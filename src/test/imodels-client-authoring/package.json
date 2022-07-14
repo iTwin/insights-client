@@ -1,0 +1,46 @@
+{
+  "name": "@itwin/imodels-client-authoring",
+  "version": "1.1.0",
+  "description": "iModels API client wrapper for applications that author iModels.",
+  "keywords": [
+    "Bentley",
+    "iModel",
+    "iTwin",
+    "iTwin platform",
+    "iTwin.js",
+    "iModels API Client"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iTwin/imodels-clients"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Bentley Systems, Inc.",
+    "url": "http://www.bentley.com"
+  },
+  "main": "lib/IModelsClientExports.js",
+  "typings": "lib/IModelsClientExports",
+  "scripts": {
+    "build": "tsc 1>&2",
+    "clean": "rimraf lib",
+    "lint": "eslint ./src/**/*.ts 1>&2",
+    "lint-fix": "eslint --fix ./src/**/*.ts 1>&2 && sort-package-json",
+    "spell-check": "cspell \"**\" --config ./node_modules/@itwin/imodels-client-common-config/cspell.json"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/@itwin/imodels-client-common-config/.eslintrc.json"
+  },
+  "dependencies": {
+    "@azure/storage-blob": "~12.7.0",
+    "@itwin/imodels-client-management": "workspace:*"
+  },
+  "devDependencies": {
+    "@itwin/imodels-client-common-config": "workspace:*",
+    "cspell": "~5.21.0",
+    "eslint": "~7.31.0",
+    "rimraf": "~3.0.2",
+    "sort-package-json": "~1.53.1",
+    "typescript": "~4.4.0"
+  }
+}
