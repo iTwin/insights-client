@@ -31,7 +31,7 @@ interface ChangesetDescriptorFileItem extends TestChangesetFile {
 
 @injectable()
 export class TestIModelFileProvider {
-  private readonly _iModelDataRootPath = `${__dirname}/../../../../../../../assets`;
+  private readonly _iModelDataRootPath = `${__dirname}/../../assets`;
   private _baselineFile: TestIModelBaselineFile | undefined;
   private _changesetFiles: TestChangesetFile[] | undefined;
 

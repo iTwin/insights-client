@@ -49,7 +49,8 @@ describe("Extraction Client", () => {
 
   });
 
-  after(async () => {
+  after(async function () {
+    this.timeout(0);
     await testIModelGroup.cleanupIModels();
   });
 
