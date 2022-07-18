@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chai from "chai";
 import { expect } from "chai";
-import { ExtractionClient, ExtractionLog, ExtractionSingleRun, ExtractionStatusSingle } from "./../../reporting";
+import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, ExtractionStatusSingle, GroupCollection, GroupCreate, MappingCreate, MappingsClient } from "./../../reporting";
 import "reflect-metadata";
 import { getTestRunId, Constants, getTestDIContainer } from "../utils/index";
 import { IModelsClient, IModelsClientOptions } from "../imodels-client-authoring/src/IModelsClient";
@@ -14,6 +14,7 @@ import { TestUtilTypes, TestIModelGroup, TestIModelGroupFactory, BaseIntegration
 chai.should();
 describe("Extraction Client", () => {
   const extractionClient: ExtractionClient = new ExtractionClient();
+  const mappingsClient: MappingsClient = new MappingsClient();
   let accessToken: string;
 
   let iModelsClient: IModelsClient;
@@ -23,6 +24,7 @@ describe("Extraction Client", () => {
   let testIModelFileProvider: TestIModelFileProvider;
 
   let extractionId: string;
+  let mappingId: string;
 
   before( async function () {
     this.timeout(0);
@@ -47,6 +49,9 @@ describe("Extraction Client", () => {
     const reusableTestIModelProvider = container.get(ReusableTestIModelProvider);
     testIModel = await reusableTestIModelProvider.getOrCreate();
 
+    const extraction: ExtractionRun = await extractionClient.runExtraction(accessToken, testIModel.id);
+    expect(extraction).to.not.be.undefined;
+    extractionId = extraction.id;
   });
 
   after(async function () {
@@ -55,24 +60,33 @@ describe("Extraction Client", () => {
   });
 
   //run tests
-  it("Run extraction", async function () {
+
+  it("run extraction", async function () {
     this.timeout(0);
-    const extraction: ExtractionSingleRun = await extractionClient.runExtraction(accessToken, testIModel.id);
+    const extraction: ExtractionRun = await extractionClient.runExtraction(accessToken, testIModel.id);
     expect(extraction).to.not.be.undefined;
-    extractionId = extraction.run.id;
+    expect(extraction).to.not.be.empty;
+  });
+
+  it("Get Logs", async function () {
+    this.timeout(0);
+    const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId);
+    expect(extraction).to.not.be.undefined;
+    expect(extraction).to.not.be.empty;
   });
 
   it("Get Logs Async", async function () {
     this.timeout(0);
-    const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId, 10);
+    const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId, 1);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
   });
 
   it("Get Status", async function () {
     this.timeout(0);
-    const extraction: ExtractionStatusSingle = await extractionClient.getExtractionStatus(accessToken, extractionId);
+    const extraction: ExtractionStatus = await extractionClient.getExtractionStatus(accessToken, extractionId);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
+    expect(extraction.state).to.not.be.equals("Failed");
   });
 });
