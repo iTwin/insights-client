@@ -6,6 +6,7 @@ import { AccessToken } from "@itwin/core-bentley";
 import { ODataResponse, ODataItem, ODataEntityResponse } from "../interfaces/OData";
 import isomorphicFetch from 'cross-fetch';
 import { BASE_PATH, OperationsBase } from "../OperationsBase";
+import { Dictionary } from "../../test/imodels-client-management/src/base";
 
 export interface ODataClientInterface{
   getODataReport(
@@ -34,7 +35,7 @@ export class ODataClient extends OperationsBase implements ODataClientInterface{
   public async getODataReport(accessToken: AccessToken, reportId: string): Promise<ODataResponse> {
     const url = `${BASE_PATH}/odata/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch(url, requestOptions);
+    return this.fetch<ODataResponse>(url, requestOptions);
   }
 
   /**
@@ -51,7 +52,7 @@ export class ODataClient extends OperationsBase implements ODataClientInterface{
       return undefined;
     }
     let sequence = 0;
-    const reportData: Array<{[key: string]: string}> = [];
+    const reportData: Array<Dictionary<string>> = [];
     let response: ODataEntityResponse;
     do {
       let url = `${BASE_PATH}/odata/${encodeURIComponent(reportId)}/${encodeURIComponent(segments[0])}/${encodeURIComponent(segments[1])}/${encodeURIComponent(segments[2])}?sequence=${encodeURIComponent(sequence)}`;

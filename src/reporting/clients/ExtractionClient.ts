@@ -7,7 +7,7 @@ import { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
 import { collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { BASE_PATH, OperationsBase } from "../OperationsBase";
-import { ExtractionLog, ExtractionLogCollection, ExtractionRun, ExtractionSingleRun, ExtractionStatusSingle } from "../interfaces/ExtractionProcess";
+import { ExtractionLog, ExtractionLogCollection, ExtractionRun, ExtractionRunSingle, ExtractionStatus, ExtractionStatusSingle } from "../interfaces/ExtractionProcess";
 
 export interface ExtractionClientInterface {
   getExtractionLogs(
@@ -27,10 +27,10 @@ export interface ExtractionClientInterface {
   getExtractionStatus(
     accessToken: AccessToken,
     jobId: string
-  ): Promise<ExtractionStatusSingle>,
+  ): Promise<ExtractionStatus>,
 }
 
-export class ExtractionClient extends OperationsBase {
+export class ExtractionClient extends OperationsBase implements ExtractionClientInterface {
   /**
    * Gets Logs of an Extraction Run.
    * @param {string} jobId Unique Identifier of the Extraction Run.
@@ -39,7 +39,7 @@ export class ExtractionClient extends OperationsBase {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-extraction-logs/
    */
-  public async getExtractionLogs(accessToken: AccessToken, jobId: string, top?: number) {
+  public async getExtractionLogs(accessToken: AccessToken, jobId: string, top?: number): Promise<ExtractionLog[]> {
     const logs: Array<ExtractionLog> = [];
     const logIterator = this.getExtractionLogsIterator(accessToken, jobId, top);
     for await(const log of logIterator) {
@@ -78,10 +78,10 @@ export class ExtractionClient extends OperationsBase {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/run-extraction/
    */
-  public runExtraction(accessToken: AccessToken, iModelId: string): Promise<ExtractionSingleRun> {
+  public async runExtraction(accessToken: AccessToken, iModelId: string): Promise<ExtractionRun> {
     const url = `${BASE_PATH}/datasources/imodels/${iModelId}/extraction/run`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken);
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<ExtractionRunSingle>(url, requestOptions)).run;
   }
 
   /**
@@ -91,9 +91,9 @@ export class ExtractionClient extends OperationsBase {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-extraction-status/
    */
-  public async getExtractionStatus(accessToken: AccessToken, jobId: string): Promise<ExtractionStatusSingle> {
+  public async getExtractionStatus(accessToken: AccessToken, jobId: string): Promise<ExtractionStatus> {
     const url = `${BASE_PATH}/datasources/extraction/status/${encodeURIComponent(jobId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<ExtractionStatusSingle>(url, requestOptions)).status;
   }
 }

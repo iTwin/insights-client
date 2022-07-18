@@ -24,16 +24,16 @@ export interface ReportsClientInterface{
   getReport(
     accessToken: AccessToken,
     reportId: string
-  ): Promise<ReportSingle>,
+  ): Promise<Report>,
   createReport(
     accessToken: AccessToken,
     report: ReportCreate
-  ): Promise<ReportSingle>,
+  ): Promise<Report>,
   updateReport(
     accessToken: AccessToken,
     reportId: string,
     report: ReportUpdate
-  ): Promise<ReportSingle>,
+  ): Promise<Report>,
   deleteReport(
     accessToken: AccessToken,
     reportId: string
@@ -52,7 +52,7 @@ export interface ReportsClientInterface{
     accessToken: AccessToken,
     reportId: string,
     reportMapping: ReportMappingCreate
-  ): Promise<ReportMappingSingle>,
+  ): Promise<ReportMapping>,
   deleteReportMapping(
     accessToken: AccessToken,
     reportId: string,
@@ -69,7 +69,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
-  public async getReports(accessToken: AccessToken, projectId: string, top?: number) {
+  public async getReports(accessToken: AccessToken, projectId: string, top?: number): Promise<Report[]> {
     const reports: Array<Report> = [];
     const reportIterator = this.getReportsIterator(accessToken, projectId, top);
     for await(const report of reportIterator) {
@@ -93,7 +93,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: ReportCollection = await this.fetch(url, requestOptions);
+        let response: ReportCollection = await this.fetch<ReportCollection>(url, requestOptions);
         return {
           values: response.reports,
           _links: response._links,
@@ -108,10 +108,10 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report/
    */
-  public async getReport(accessToken: AccessToken, reportId: string): Promise<ReportSingle> {
+  public async getReport(accessToken: AccessToken, reportId: string): Promise<Report> {
     const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<ReportSingle>(url, requestOptions)).report;;
   }
 
   /**
@@ -121,7 +121,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-report/
    */
-  public async createReport(accessToken: AccessToken, report: ReportCreate): Promise<ReportSingle>{
+  public async createReport(accessToken: AccessToken, report: ReportCreate): Promise<Report>{
     if (!report.displayName) {
       throw new RequiredError(
         'displayName',
@@ -131,13 +131,13 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
     if (!report.projectId) {
       throw new RequiredError(
         'projectId',
-        'Required field  of report was null or undefined when calling createReport.',
+        'Required field of report was null or undefined when calling createReport.',
       );
     }
 
     const url = `${BASE_PATH}/reports/`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(report || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<ReportSingle>(url, requestOptions)).report;
   }
 
   /**
@@ -148,7 +148,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/update-report/
    */
-  public async updateReport(accessToken: AccessToken, reportId: string, report: ReportUpdate): Promise<ReportSingle> {
+  public async updateReport(accessToken: AccessToken, reportId: string, report: ReportUpdate): Promise<Report> {
     if (report.deleted == null && report.description == null && report.displayName == null) {
       throw new RequiredError(
         'report',
@@ -164,7 +164,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
 
     const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(report || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<ReportSingle>(url, requestOptions)).report;
   }
 
   /**
@@ -174,10 +174,10 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-report/
    */
-  public async deleteReport(accessToken: AccessToken, reportId: string) {
+  public async deleteReport(accessToken: AccessToken, reportId: string): Promise<Response> {
     const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetch(url, requestOptions);
+    return this.fetch<Response>(url, requestOptions);
   }
 
   /**
@@ -188,7 +188,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
    */
-  public async getReportMappings(accessToken: AccessToken, reportId: string, top?: number) {
+  public async getReportMappings(accessToken: AccessToken, reportId: string, top?: number): Promise<ReportMapping[]> {
     const reportMappings: Array<ReportMapping> = [];
     const reportMappingIterator = this.getReportMappingsIterator(accessToken, reportId, top);
     for await(const reportMapping of reportMappingIterator) {
@@ -212,7 +212,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: ReportMappingCollection = await this.fetch(url, requestOptions);
+        let response: ReportMappingCollection = await this.fetch<ReportMappingCollection>(url, requestOptions);
         return {
           values: response.mappings,
           _links: response._links,
@@ -232,7 +232,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
     accessToken: AccessToken,
     reportId: string,
     reportMapping: ReportMappingCreate
-  ): Promise<ReportMappingSingle> {
+  ): Promise<ReportMapping> {
     if (!reportMapping.imodelId) {
       throw new RequiredError(
         'imodelId',
@@ -248,7 +248,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
 
     const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(reportMapping || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<ReportMappingSingle>(url, requestOptions)).mapping;
   }
 
   /**
@@ -259,10 +259,10 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-report-mapping/
    */
-  public async deleteReportMapping(accessToken: AccessToken, reportId: string, reportMappingId: string) {
+  public async deleteReportMapping(accessToken: AccessToken, reportId: string, reportMappingId: string): Promise<Response> {
     const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings/${encodeURIComponent(reportMappingId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetch(url, requestOptions);
+    return this.fetch<Response>(url, requestOptions);
   }
 
 }

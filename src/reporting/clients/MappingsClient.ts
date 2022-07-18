@@ -28,16 +28,16 @@ export interface MappingsClientInterface {
   getMapping(accessToken: AccessToken, 
     iModelId: string,
     mappingId: string
-  ): Promise<MappingSingle>,
+  ): Promise<Mapping>,
   createMapping(accessToken: AccessToken, 
     iModelId: string,
     mapping: MappingCreate
-  ): Promise<MappingSingle>,
+  ): Promise<Mapping>,
   updateMapping(accessToken: AccessToken, 
     iModelId: string,
     mappingId: string, 
     mapping: MappingUpdate
-  ): Promise<MappingSingle>,
+  ): Promise<Mapping>,
   deleteMapping(accessToken: AccessToken, 
     iModelId: string,
     mappingId: string
@@ -46,7 +46,7 @@ export interface MappingsClientInterface {
     iModelId: string,
     mappingId: string,
     mappingCopy: MappingCopy
-  ): Promise<GroupSingle>,
+  ): Promise<Mapping>,
   getGroups(accessToken: AccessToken, 
     iModelId: string,
     mappingId: string,
@@ -61,18 +61,18 @@ export interface MappingsClientInterface {
     iModelId: string,
     mappingId: string,
     groupId: string
-  ): Promise<GroupSingle>,
+  ): Promise<Group>,
   createGroup(accessToken: AccessToken, 
     iModelId: string,
     mappingId: string,
     group: GroupCreate
-  ): Promise<GroupSingle>,
+  ): Promise<Group>,
   updateGroup(accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     groupId: string,
     group: GroupUpdate
-  ): Promise<GroupSingle>,
+  ): Promise<Group>,
   deleteGroup(accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
@@ -98,14 +98,14 @@ export interface MappingsClientInterface {
     mappingId: string,
     groupId: string,
     propertyId: string
-  ): Promise<GroupPropertySingle>,
+  ): Promise<GroupProperty>,
   createGroupProperty(
     accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     groupId: string,
     groupProperty: GroupPropertyCreate
-  ): Promise<GroupPropertySingle>,
+  ): Promise<GroupProperty>,
   updateGroupProperty(
     accessToken: AccessToken,
     iModelId: string,
@@ -113,7 +113,7 @@ export interface MappingsClientInterface {
     groupId: string,
     propertyId: string,
     groupProperty: GroupPropertyUpdate
-  ): Promise<GroupPropertySingle>,
+  ): Promise<GroupProperty>,
   deleteGroupProperty(
     accessToken: AccessToken,
     iModelId: string,
@@ -141,14 +141,14 @@ export interface MappingsClientInterface {
     mappingId: string,
     groupId: string,
     propertyId: string
-  ): Promise<CalculatedPropertySingle>,
+  ): Promise<CalculatedProperty>,
   createCalculatedProperty(
     accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     groupId: string,
     property: CalculatedPropertyCreate
-  ): Promise<CalculatedPropertySingle>,
+  ): Promise<CalculatedProperty>,
   updateCalculatedProperty(
     accessToken: AccessToken,
     iModelId: string,
@@ -156,7 +156,7 @@ export interface MappingsClientInterface {
     groupId: string,
     propertyId: string,
     property: CalculatedPropertyUpdate
-  ): Promise<CalculatedPropertySingle>,
+  ): Promise<CalculatedProperty>,
   deleteCalculatedProperty(
     accessToken: AccessToken,
     iModelId: string,
@@ -184,14 +184,14 @@ export interface MappingsClientInterface {
     mappingId: string,
     groupId: string,
     propertyId: string
-  ): Promise<CustomCalculationSingle>,
+  ): Promise<CustomCalculation>,
   createCustomCalculation(
     accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     groupId: string,
     property: CustomCalculationCreate
-  ): Promise<CustomCalculationSingle>,
+  ): Promise<CustomCalculation>,
   updateCustomCalculation(
     accessToken: AccessToken,
     iModelId: string,
@@ -199,7 +199,7 @@ export interface MappingsClientInterface {
     groupId: string,
     propertyId: string,
     property: CustomCalculationUpdate
-  ): Promise<CustomCalculationSingle>,
+  ): Promise<CustomCalculation>,
   deleteCustomCalculation(
     accessToken: AccessToken,
     iModelId: string,
@@ -218,7 +218,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
    */
-   public async getMappings(accessToken: AccessToken, iModelId: string, top?: number) {
+   public async getMappings(accessToken: AccessToken, iModelId: string, top?: number): Promise<Mapping[]> {
     const mappings: Array<Mapping> = [];
     const mapIterator = this.getMappingsIterator(accessToken, iModelId, top);
     for await(const map of mapIterator) {
@@ -242,7 +242,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: MappingCollection = await this.fetch(url, requestOptions);
+        let response: MappingCollection = await this.fetch<MappingCollection>(url, requestOptions);
         return {
           values: response.mappings,
           _links: response._links,
@@ -258,10 +258,10 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mapping/
    */
-  public async getMapping(accessToken: AccessToken, iModelId: string, mappingId: string): Promise<MappingSingle> {
+  public async getMapping(accessToken: AccessToken, iModelId: string, mappingId: string): Promise<Mapping> {
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<MappingSingle>(url, requestOptions)).mapping;
   }
 
   /**
@@ -276,7 +276,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     accessToken: AccessToken,
     iModelId: string,
     mapping: MappingCreate
-  ): Promise<MappingSingle> {
+  ): Promise<Mapping> {
     if (!this.isSimpleIdentifier(mapping.mappingName)) {
       throw new RequiredError(
         'mappingName',
@@ -286,7 +286,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(mapping || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<MappingSingle>(url, requestOptions)).mapping;
   }
 
   /**
@@ -303,7 +303,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     iModelId: string,
     mappingId: string,
     mapping: MappingUpdate
-  ): Promise<MappingSingle> {
+  ): Promise<Mapping> {
     if (mapping.description == null && mapping.extractionEnabled == null && mapping.mappingName == null) {
       throw new RequiredError(
         'mapping',
@@ -319,7 +319,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(mapping || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<MappingSingle>(url, requestOptions)).mapping;;
   }
 
   /**
@@ -334,10 +334,10 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     accessToken: AccessToken,
     iModelId: string,
     mappingId: string
-  ) {
+  ): Promise<Response> {
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetch(url, requestOptions);
+    return this.fetch<Response>(url, requestOptions);
   }
 
   /**
@@ -354,7 +354,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     iModelId: string,
     mappingId: string,
     mappingCopy: MappingCopy
-  ) {
+  ): Promise<Mapping> {
     if (null != mappingCopy.mappingName && !this.isSimpleIdentifier(mappingCopy.mappingName)) {
       throw new RequiredError(
         'mappingName',
@@ -370,7 +370,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
 
     const url = `/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/copy`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(mappingCopy || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<MappingSingle>(url, requestOptions)).mapping;
   }
 
   /**
@@ -387,7 +387,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     iModelId: string,
     mappingId: string,
     top?: number
-  ) {
+  ): Promise<Group[]> {
     const groups: Array<Group> = [];
     const groupIterator = this.getGroupsIterator(accessToken, iModelId, mappingId, top);
     for await(const group of groupIterator) {
@@ -417,7 +417,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: GroupCollection = await this.fetch(url, requestOptions);
+        let response: GroupCollection = await this.fetch<GroupCollection>(url, requestOptions);
         return {
           values: response.groups,
           _links: response._links,
@@ -441,7 +441,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     iModelId: string,
     mappingId: string,
     group: GroupCreate
-  ): Promise<GroupSingle> {
+  ): Promise<Group> {
     if(!this.isSimpleIdentifier(group.groupName)) {
       throw new RequiredError(
         'groupName',
@@ -457,7 +457,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
     const requestOptions: RequestInit =  this.createRequest("POST", accessToken, JSON.stringify(group || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<GroupSingle>(url, requestOptions)).group;
   }
 
   /**
@@ -474,10 +474,10 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     iModelId: string,
     mappingId: string,
     groupId: string
-  ): Promise<GroupSingle> {
+  ): Promise<Group> {
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<GroupSingle>(url, requestOptions)).group;
   }
 
   /**
@@ -496,7 +496,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     group: GroupUpdate
-  ): Promise<GroupSingle> {
+  ): Promise<Group> {
     if(null == group.groupName && null == group.description && null == group.query) {
       throw new RequiredError(
         'group',
@@ -518,7 +518,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(group || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<GroupSingle>(url, requestOptions)).group;
   }
 
   /**
@@ -535,10 +535,10 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     iModelId: string,
     mappingId: string,
     groupId: string
-  ) {
+  ): Promise<Response> {
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetch(url, requestOptions);
+    return this.fetch<Response>(url, requestOptions);
   }
 
   /**
@@ -557,7 +557,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     top?: number
-  ) {
+  ): Promise<GroupProperty[]> {
     const properties: Array<GroupProperty> = [];
     const groupPropertyIterator = this.getGroupPropertiesIterator(accessToken, iModelId, mappingId, groupId, top);
     for await(const groupProperty of groupPropertyIterator) {
@@ -589,7 +589,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: GroupPropertyCollection = await this.fetch(url, requestOptions);
+        let response: GroupPropertyCollection = await this.fetch<GroupPropertyCollection>(url, requestOptions);
         return {
           values: response.properties,
           _links: response._links,
@@ -613,10 +613,10 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     propertyId: string
-  ): Promise<GroupPropertySingle> {
+  ): Promise<GroupProperty> {
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<GroupPropertySingle>(url, requestOptions)).property;
   }
 
   /**
@@ -635,7 +635,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     groupProperty: GroupPropertyCreate
-  ): Promise<GroupPropertySingle> {
+  ): Promise<GroupProperty> {
     if (!this.isSimpleIdentifier(groupProperty.propertyName)) {
       throw new RequiredError(
         'propertyName',
@@ -665,7 +665,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(groupProperty || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<GroupPropertySingle>(url, requestOptions)).property;
   }
 
   /**
@@ -686,7 +686,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     groupId: string,
     propertyId: string,
     groupProperty: GroupPropertyUpdate
-  ): Promise<GroupPropertySingle> {
+  ): Promise<GroupProperty> {
     if(!this.isSimpleIdentifier(groupProperty.propertyName)) {
       throw new RequiredError(
         'propertyName',
@@ -716,7 +716,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("PUT", accessToken, JSON.stringify(groupProperty || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<GroupPropertySingle>(url, requestOptions)).property;
   }
 
   /**
@@ -735,10 +735,10 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     propertyId: string
-  ) {
+  ): Promise<Response> {
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetch(url, requestOptions);
+    return this.fetch<Response>(url, requestOptions);
   }
 
   /**
@@ -757,7 +757,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     top?: number
-  ) {
+  ): Promise<CalculatedProperty[]> {
     const properties: Array<CalculatedProperty> = [];
     const calculatedPropertyIterator = this.getCalculatedPropertiesIterator(accessToken, iModelId, mappingId, groupId, top);
     for await(const calculatedProperty of calculatedPropertyIterator) {
@@ -789,7 +789,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: CalculatedPropertyCollection = await this.fetch(url, requestOptions);
+        let response: CalculatedPropertyCollection = await this.fetch<CalculatedPropertyCollection>(url, requestOptions);
         return {
           values: response.properties,
           _links: response._links,
@@ -813,10 +813,10 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     propertyId: string
-  ): Promise<CalculatedPropertySingle> {
+  ): Promise<CalculatedProperty> {
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<CalculatedPropertySingle>(url, requestOptions)).property;
   }
 
   /**
@@ -835,7 +835,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     property: CalculatedPropertyCreate
-  ): Promise<CalculatedPropertySingle> {
+  ): Promise<CalculatedProperty> {
     if(!this.isSimpleIdentifier(property.propertyName)) {
       throw new RequiredError(
         'propertyName',
@@ -850,7 +850,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(property || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<CalculatedPropertySingle>(url, requestOptions)).property;
   }
 
   /**
@@ -871,7 +871,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     groupId: string,
     propertyId: string,
     property: CalculatedPropertyUpdate
-  ): Promise<CalculatedPropertySingle> {
+  ): Promise<CalculatedProperty> {
     if(null == property.propertyName && null == property.type) {
       throw new RequiredError(
         'property',
@@ -893,7 +893,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(property || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<CalculatedPropertySingle>(url, requestOptions)).property;
   }
 
   /**
@@ -912,10 +912,10 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     propertyId: string
-  ) {
+  ): Promise<Response> {
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetch(url, requestOptions);
+    return this.fetch<Response>(url, requestOptions);
   }
 
   /**
@@ -934,7 +934,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     top?: number
-  ) {
+  ): Promise<CustomCalculation[]> {
     const customCalculations: Array<CustomCalculation> = [];
     const customCalculationsIterator = this.getCustomCalculationsIterator(accessToken, iModelId, mappingId, groupId, top);
     for await(const customCalculation of customCalculationsIterator) {
@@ -966,7 +966,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: CustomCalculationCollection = await this.fetch(url, requestOptions);
+        let response: CustomCalculationCollection = await this.fetch<CustomCalculationCollection>(url, requestOptions);
         return {
           values: response.customCalculations,
           _links: response._links,
@@ -990,10 +990,10 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     propertyId: string
-  ): Promise<CustomCalculationSingle> {
+  ): Promise<CustomCalculation> {
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<CustomCalculationSingle>(url, requestOptions)).customCalculation;
   }
 
   /**
@@ -1012,7 +1012,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     property: CustomCalculationCreate
-  ): Promise<CustomCalculationSingle> {
+  ): Promise<CustomCalculation> {
     if(!this.isSimpleIdentifier(property.propertyName)) {
       throw new RequiredError(
         'propertyName',
@@ -1028,7 +1028,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(property || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<CustomCalculationSingle>(url, requestOptions)).customCalculation;
   }
 
   /**
@@ -1049,7 +1049,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     groupId: string,
     propertyId: string,
     property: CustomCalculationUpdate
-  ): Promise<CustomCalculationSingle> {
+  ): Promise<CustomCalculation> {
     if(null == property.formula && null == property.propertyName && null == property.quantityType) {
       throw new RequiredError(
         'property',
@@ -1071,7 +1071,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(property || {}));
-    return this.fetch(url, requestOptions);
+    return (await this.fetch<CustomCalculationSingle>(url, requestOptions)).customCalculation;
   }
 
   /**
@@ -1090,9 +1090,9 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     groupId: string,
     propertyId: string
-  ) {
+  ): Promise<Response> {
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetch(url, requestOptions);
+    return this.fetch<Response>(url, requestOptions);
   }
 }

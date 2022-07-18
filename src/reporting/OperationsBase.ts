@@ -37,7 +37,7 @@ export class OperationsBase {
    * @param {RequestInit} requestOptions information about the fetch
    * @memberof OperationsBase
    */
-  public async fetch(nextUrl: string, requestOptions: RequestInit) {
+  public async fetch<T>(nextUrl: string, requestOptions: RequestInit): Promise<T> {
     return isomorphicFetch(
       nextUrl,
       requestOptions
