@@ -23,7 +23,7 @@ export function createDirectory(directoryPath: string): void {
 
 export function cleanupDirectory(directory: string): void {
   if (fs.existsSync(directory)) {
-    fs.rmdirSync(directory, { recursive: true });
+    fs.rmSync(directory, { recursive: true });
     fs.mkdirSync(directory);
   }
 }
@@ -36,4 +36,8 @@ export function createGuidValue(): string {
     const v = c === "x" ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
+}
+
+export function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

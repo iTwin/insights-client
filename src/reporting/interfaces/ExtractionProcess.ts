@@ -109,13 +109,13 @@ export interface ExtractionLogCollection {
 /**
  * Metadata associated with a data extraction run.
  * @export
- * @interface ExtractionSingleRun
+ * @interface ExtractionRunSingle
  */
-export interface ExtractionSingleRun {
+export interface ExtractionRunSingle {
   /**
    *
    * @type {ExtractionRun}
-   * @memberof ExtractionSingleRun
+   * @memberof ExtractionRunSingle
    */
   run: ExtractionRun;
 }
