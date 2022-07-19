@@ -122,7 +122,7 @@ describe("Reports Client", () => {
       expect(response.status).to.be.equals(204);
     }
     while(mappingIds.length > 0) {
-      response = await mappingsClient.deleteMapping(accessToken, testIModel.id ,mappingIds.pop() ?? "");
+      response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop() ?? "");
       expect(response.status).to.be.equals(204);
     }
     while(reportIds.length > 0) {
@@ -135,7 +135,7 @@ describe("Reports Client", () => {
 
   //reports tests
 
-  it("Create and delete report", async function () {
+  it("Reports - Create and delete", async function () {
     this.timeout(0);
     const newReport: ReportCreate = {
       displayName: "Test",
@@ -148,7 +148,7 @@ describe("Reports Client", () => {
     expect(response.status).to.be.equals(204);
   });
 
-  it("Create reports unsuccessfully", async function () {
+  it("Reports - Create unsuccessfully", async function () {
     this.timeout(0);
     let newReport: ReportCreate = {
       displayName: "",
@@ -165,13 +165,13 @@ describe("Reports Client", () => {
     );
   });
 
-  it("Get report", async function () {
+  it("Reports - Get", async function () {
     this.timeout(0);
     let report = await reportsClient.getReport(accessToken, reportIds[reportIds.length - 1]);
     expect(report).to.not.be.undefined;
   });
 
-  it("update report", async function () {
+  it("Reports - Update", async function () {
     this.timeout(0);
     const reportUpdate: ReportUpdate = {
       displayName: "Updated"
@@ -180,7 +180,7 @@ describe("Reports Client", () => {
     expect(report).to.not.be.undefined;
   });
 
-  it("Update reports unsuccessfully", async function () {
+  it("Reports - Update unsuccessfully", async function () {
     this.timeout(0);
     let reportUpdate: ReportUpdate = {};
     await expect(reportsClient.updateReport(accessToken, reportIds[reportIds.length - 1], reportUpdate)).to.be.rejectedWith(
@@ -193,14 +193,14 @@ describe("Reports Client", () => {
     );
   });
 
-  it("Get all reports", async function () {
+  it("Reports - Get all", async function () {
     this.timeout(0);
     let reports = await reportsClient.getReports(accessToken, projectId);
     expect(reports).to.not.be.undefined;
     expect(reports.length).to.be.above(2);
   });
 
-  it("Get 2 reports with iterator", async function () {
+  it("Reports - Get 2 with iterator", async function () {
     this.timeout(0);
     let reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
     let reports: Report = (await reportsIt.next()).value;
@@ -209,7 +209,7 @@ describe("Reports Client", () => {
     expect(reports).to.not.be.undefined;
   });
 
-  it("Get 2 pages of reports", async function () {
+  it("Reports - Get 2 pages", async function () {
     this.timeout(0);
     let reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
     let reports: Array<Report> = (await reportsIt.byPage().next()).value;
@@ -222,7 +222,7 @@ describe("Reports Client", () => {
 
   //report mapping tests
 
-  it("create and delete report mapping", async function() {
+  it("Report mappings - Create and delete", async function() {
     this.timeout(0);
     const newMapping: MappingCreate = {
       mappingName: "Test"
@@ -246,7 +246,7 @@ describe("Reports Client", () => {
     expect(response.status).to.be.equals(204);
   })
 
-  it("Create report mappings unsuccessfully", async function () {
+  it("Report mappings - Create unsuccessfully", async function () {
     this.timeout(0);
     let newReportMapping: ReportMappingCreate = {
       mappingId: "",
@@ -263,23 +263,24 @@ describe("Reports Client", () => {
     );
   });
 
-  it("Get all report mappings", async function () {
+  it("Report mappings - Get all", async function () {
     this.timeout(0);
     let reportMappings: Array<ReportMapping> = await reportsClient.getReportMappings(accessToken, reportIds[reportIds.length - 1]);
     expect(reportMappings).to.not.be.undefined;
   });
 
-  it("Get 2 report mappings with iterator", async function () {
+  it("Report mappings - Get 3 with iterator", async function () {
     this.timeout(0);
     let reportsIt = reportsClient.getReportMappingsIterator(accessToken, reportIds[reportIds.length - 1], 2);
     let reportMapping: ReportMapping = (await reportsIt.next()).value;
     expect(reportMapping).to.not.be.undefined;
-
+    reportMapping = (await reportsIt.next()).value;
+    expect(reportMapping).to.not.be.undefined;
     reportMapping = (await reportsIt.next()).value;
     expect(reportMapping).to.not.be.undefined;
   });
 
-  it("Get 2 pages of report mappings", async function () {
+  it("Report mappings - Get 2 pages with iterator", async function () {
     this.timeout(0);
     let reportsIt = reportsClient.getReportMappingsIterator(accessToken, reportIds[reportIds.length - 1], 2);
     let reportMappings: Array<ReportMapping> = (await reportsIt.byPage().next()).value;

@@ -33,6 +33,6 @@ export async function getEntityCollectionPage<TEntity>(
   const response: collection = await getNextBatch(nextUrl, requestOptions);
   return {
     entities: response.values,
-    next: response._links.next ? async () => getEntityCollectionPage<TEntity>(response._links.next?.href!, requestOptions, getNextBatch) : undefined
+    next: response._links.next ? async () => getEntityCollectionPage<TEntity>(response._links.next!.href!, requestOptions, getNextBatch) : undefined
   };
 }

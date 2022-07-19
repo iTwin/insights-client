@@ -4,6 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import { CalculatedPropertyLinks } from "./CalculatedProperties";
 import { PagedResponseLinks } from "../Links";
+import { DataType, QuantityType } from "./GroupProperties";
 
 /**
  * Defines a CustomCalculation or 'column' for a Group. It is calculated using the given formula for each element returned by the Group's query.
@@ -34,13 +35,13 @@ export interface CustomCalculation {
    * @type {string}
    * @memberof CustomCalculation
    */
-  dataType: string;
+  dataType: DataType;
   /**
    * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
    * @memberof CustomCalculation
    */
-  quantityType: string;
+  quantityType: QuantityType;
   /**
    *
    * @type {CalculatedPropertyLinks}
@@ -92,7 +93,7 @@ export interface CustomCalculationCreate {
    * @type {string}
    * @memberof CustomCalculationCreate
    */
-  quantityType: string;
+  quantityType: QuantityType;
 }
 
 /**
@@ -132,5 +133,5 @@ export interface CustomCalculationUpdate {
    * @type {string}
    * @memberof CustomCalculationUpdate
    */
-  quantityType?: string;
+  quantityType?: QuantityType;
 }

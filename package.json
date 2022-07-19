@@ -15,7 +15,8 @@
     "lint:copyright": "node scripts/copyright-linter.js",
     "pack": "npm pack",
     "cover": "nyc mocha lib/cjs/**/*.test.js",
-    "test:integration": "mocha lib/cjs/**/*.test.js --color --timeout 180000"
+    "test:integration": "mocha lib/cjs/**/*.test.js --color",
+    "test:unit": "mocha lib/cjs/**/unit.test.js --color"
   },
   "keywords": [
     "Bentley",
@@ -81,7 +82,13 @@
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
     "exclude": "**/test/*",
-    "check-coverage": true
+    "check-coverage": true,
+    "report-dir": "lib/test/coverage",
+    "reporter": [
+      "text-summary",
+      "lcov",
+      "cobertura"
+    ]
   },
   "mocha": {
     "timeout": 420000

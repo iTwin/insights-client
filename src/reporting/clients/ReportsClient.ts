@@ -88,7 +88,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    */
   public getReportsIterator(accessToken: AccessToken, projectId: string, top?: number): EntityListIterator<Report> {
     let url: string = `${BASE_PATH}/reports?projectId=${encodeURIComponent(projectId)}`;
-    url += top ? `/?%24top=${top}` : "";
+    url += top ? `&%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Report>(
       url,
       this.createRequest("GET", accessToken),
@@ -136,7 +136,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
     }
 
     const url = `${BASE_PATH}/reports/`;
-    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(report || {}));
+    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(report));
     return (await this.fetch<ReportSingle>(url, requestOptions)).report;
   }
 
@@ -163,7 +163,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
     }
 
     const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}`;
-    const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(report || {}));
+    const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(report));
     return (await this.fetch<ReportSingle>(url, requestOptions)).report;
   }
 
@@ -247,7 +247,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
     }
 
     const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
-    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(reportMapping || {}));
+    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(reportMapping));
     return (await this.fetch<ReportMappingSingle>(url, requestOptions)).mapping;
   }
 

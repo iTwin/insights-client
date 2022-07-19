@@ -2,9 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import * as chai from "chai";
+const chai = require('chai').use(require('chai-as-promised'))
 import { expect } from "chai";
-import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, ExtractionStatusSingle, GroupCollection, GroupCreate, MappingCreate, MappingsClient, ODataClient, ODataItem, ReportCreate, ReportMappingCreate, ReportsClient } from "./../../reporting";
+import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, ExtractionStatusSingle, ExtractorState, GroupCollection, GroupCreate, MappingCreate, MappingsClient, ODataClient, ODataItem, ReportCreate, ReportMappingCreate, ReportsClient } from "../../reporting";
 import "reflect-metadata";
 import { getTestRunId, Constants, getTestDIContainer } from "../utils/index";
 import { IModelsClient, IModelsClientOptions } from "../imodels-client-authoring/src/IModelsClient";
@@ -94,10 +94,10 @@ describe("OData Client", () => {
     let status: ExtractionStatus;
     for (const start = performance.now(); performance.now() - start < 6 * 60 * 1000; await sleep(3000)) {
       status = await extractionClient.getExtractionStatus(accessToken, extraction.id);
-      if(status.state !== "Queued" && status.state !== "Running")
+      if(status.state !== ExtractorState.Queued && status.state.valueOf() !== ExtractorState.Running)
         break;
     }
-    expect(status!.state).to.be.equals("Succeeded");
+    expect(status!.state).to.be.equals(ExtractorState.Succeeded);
 
     const oDataResponse = await oDataClient.getODataReport(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;

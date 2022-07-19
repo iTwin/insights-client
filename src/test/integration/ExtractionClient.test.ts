@@ -2,9 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import * as chai from "chai";
+const chai = require('chai').use(require('chai-as-promised'));
 import { expect } from "chai";
-import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, ExtractionStatusSingle, GroupCollection, GroupCreate, MappingCreate, MappingsClient } from "./../../reporting";
+import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, ExtractionStatusSingle, GroupCollection, GroupCreate, MappingCreate, MappingsClient } from "../../reporting";
 import "reflect-metadata";
 import { getTestRunId, Constants, getTestDIContainer } from "../utils/index";
 import { IModelsClient, IModelsClientOptions } from "../imodels-client-authoring/src/IModelsClient";
@@ -75,7 +75,7 @@ describe("Extraction Client", () => {
     expect(extraction).to.not.be.empty;
   });
 
-  it("Get Logs Async", async function () {
+  it("Get Logs with top", async function () {
     this.timeout(0);
     const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId, 1);
     expect(extraction).to.not.be.undefined;

@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { Link, PagedResponseLinks } from "../Links";
+import { QuantityType } from "./GroupProperties";
 
 /**
  * Defines a CalculatedProperty or 'column' for a Group. It is calculated for each element returned by the Group's query.
@@ -27,13 +28,13 @@ export interface CalculatedProperty {
    * @type {string}
    * @memberof CalculatedProperty
    */
-  type: string;
+  type: CalculatedPropertyType;
   /**
    * The quantity type of the CalculatedProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
    * @memberof CalculatedProperty
    */
-  quantityType: string;
+  quantityType: QuantityType;
   /**
    *
    * @type {CalculatedPropertyLinks}
@@ -79,7 +80,7 @@ export interface CalculatedPropertyCreate {
    * @type {string}
    * @memberof CalculatedPropertyCreate
    */
-  type: string;
+  type: CalculatedPropertyType;
 }
 
 /**
@@ -140,5 +141,19 @@ export interface CalculatedPropertyUpdate {
    * @type {string}
    * @memberof CalculatedPropertyUpdate
    */
-  type?: string;
+  type?: CalculatedPropertyType;
+}
+
+export enum CalculatedPropertyType {
+  Undefined = "Undefined",
+  Volume = "Volume",
+  Length = "Length",
+  Area = "Area",
+  BoundingBoxLongestEdgeLength = "BoundingBoxLongestEdgeLength",
+  BoundingBoxIntermediateEdgeLength = "BoundingBoxIntermediateEdgeLength",
+  BoundingBoxShortestEdgeLength = "BoundingBoxShortestEdgeLength",
+  BoundingBoxDiagonalLength = "BoundingBoxDiagonalLength",
+  BoundingBoxLongestFaceDiagonalLength = "BoundingBoxLongestFaceDiagonalLength",
+  BoundingBoxIntermediateFaceDiagonalLength = "BoundingBoxIntermediateFaceDiagonalLength",
+  BoundingBoxShortestFaceDiagonalLength = "BoundingBoxShortestFaceDiagonalLength"
 }

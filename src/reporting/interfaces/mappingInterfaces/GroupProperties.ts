@@ -59,13 +59,13 @@ export interface GroupProperty {
    * @type {string}
    * @memberof GroupProperty
    */
-  dataType: string;
+  dataType: DataType;
   /**
    * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
    * @memberof GroupProperty
    */
-  quantityType: string;
+  quantityType: QuantityType;
   /**
    * List of ECProperties that map to this GroupProperty.
    * @type {Array<ECProperty>}
@@ -111,13 +111,13 @@ export interface GroupPropertyCreate {
    * @type {string}
    * @memberof GroupPropertyCreate
    */
-  dataType: string;
+  dataType: DataType;
   /**
    * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
    * @memberof GroupPropertyCreate
    */
-  quantityType: string;
+  quantityType: QuantityType;
   /**
    * List of ECProperties that map to this GroupProperty.
    * @type {Array<ECProperty>}
@@ -157,17 +157,47 @@ export interface GroupPropertyUpdate {
    * @type {string}
    * @memberof GroupPropertyUpdate
    */
-  dataType: string;
+  dataType: DataType;
   /**
    * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
    * @type {string}
    * @memberof GroupPropertyUpdate
    */
-  quantityType: string;
+  quantityType: QuantityType;
   /**
    * List of ECProperties that map to this GroupProperty.
    * @type {Array<ECProperty>}
    * @memberof GroupPropertyUpdate
    */
   ecProperties: Array<ECProperty>;
+}
+
+/**
+* The data type of a GroupProperty
+* @export
+* @enum DataType
+*/
+export enum DataType {
+  Undefined = "Undefined",
+  Boolean = "Boolean",
+  Number = "Number", // Deprecated - treated as Double by the extractor.
+  Integer = "Integer",
+  Double = "Double",
+  String = "String"
+}
+
+/**
+* The type of data
+* @export
+* @enum QuantityType
+*/
+export enum QuantityType{
+  Undefined = "Undefined",
+  Area = "Area",
+  Distance = "Distance",
+  Force = "Force",
+  Mass = "Mass",
+  Monetary = "Monetary",
+  Time = "Time",
+  Volume = "Volume"
 }

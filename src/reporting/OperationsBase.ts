@@ -77,9 +77,9 @@ export class OperationsBase {
    * @memberof OperationsBase
    */
   public IsValid (prop: ECProperty): boolean {
-    return this.isNullOrWhitespace(prop.ecSchemaName) &&
-    this.isNullOrWhitespace(prop.ecClassName) &&
-    this.isNullOrWhitespace(prop.ecPropertyName) &&
+    return !this.isNullOrWhitespace(prop.ecSchemaName) &&
+    !this.isNullOrWhitespace(prop.ecClassName) &&
+    !this.isNullOrWhitespace(prop.ecPropertyName) &&
     undefined != prop.ecPropertyType;
   }
 }

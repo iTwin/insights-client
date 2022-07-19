@@ -29,7 +29,7 @@ export interface ExtractionLog {
    * @type {string}
    * @memberof ExtractionLog
    */
-  state: string;
+  state: ExtractorState;
   /**
    * The Reason explaining why state has specific value.
    * @type {string}
@@ -159,7 +159,7 @@ export interface ExtractionStatus {
    * @type {string}
    * @memberof ExtractionStatus
    */
-  state: string;
+  state: ExtractorState;
   /**
    * Additional justification for the current state of the Extraction Run.
    * @type {string}
@@ -179,3 +179,10 @@ export interface ExtractionStatus {
    */
   _links: ExtractionLinks;
 }
+
+export enum ExtractorState {
+  Queued = "Queued",
+  Running = "Running",
+  Succeeded = "Succeeded",
+  Failed = "Failed"
+};

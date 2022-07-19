@@ -8,9 +8,9 @@ import { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
 import { collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { BASE_PATH, OperationsBase } from "../OperationsBase";
-import { CalculatedProperty, CalculatedPropertyCollection, CalculatedPropertySingle, CalculatedPropertyCreate, CalculatedPropertyUpdate } from "../interfaces/mappingInterfaces/CalculatedProperties";
+import { CalculatedProperty, CalculatedPropertyCollection, CalculatedPropertySingle, CalculatedPropertyCreate, CalculatedPropertyUpdate, CalculatedPropertyType } from "../interfaces/mappingInterfaces/CalculatedProperties";
 import { CustomCalculation, CustomCalculationCollection, CustomCalculationSingle, CustomCalculationCreate, CustomCalculationUpdate } from "../interfaces/mappingInterfaces/CustumCalculations";
-import { GroupProperty, GroupPropertyCollection, GroupPropertySingle, GroupPropertyCreate, GroupPropertyUpdate } from "../interfaces/mappingInterfaces/GroupProperties";
+import { GroupProperty, GroupPropertyCollection, GroupPropertySingle, GroupPropertyCreate, GroupPropertyUpdate, DataType } from "../interfaces/mappingInterfaces/GroupProperties";
 import { Group, GroupCollection, GroupCreate, GroupSingle, GroupUpdate } from "../interfaces/mappingInterfaces/Groups";
 import { Mapping, MappingCollection, MappingSingle, MappingCreate, MappingUpdate, MappingCopy } from "../interfaces/mappingInterfaces/Mappings";
 
@@ -285,7 +285,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
-    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(mapping || {}));
+    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(mapping));
     return (await this.fetch<MappingSingle>(url, requestOptions)).mapping;
   }
 
@@ -318,7 +318,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}`;
-    const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(mapping || {}));
+    const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(mapping));
     return (await this.fetch<MappingSingle>(url, requestOptions)).mapping;;
   }
 
@@ -368,8 +368,8 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
       );
     }
 
-    const url = `/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/copy`;
-    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(mappingCopy || {}));
+    const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/copy`;
+    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(mappingCopy));
     return (await this.fetch<MappingSingle>(url, requestOptions)).mapping;
   }
 
@@ -456,7 +456,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
-    const requestOptions: RequestInit =  this.createRequest("POST", accessToken, JSON.stringify(group || {}));
+    const requestOptions: RequestInit =  this.createRequest("POST", accessToken, JSON.stringify(group));
     return (await this.fetch<GroupSingle>(url, requestOptions)).group;
   }
 
@@ -503,7 +503,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
         'All properties of group were missing when calling updateGroup.',
       );
     }
-    if (null != group.groupName && this.isSimpleIdentifier(group.groupName)) {
+    if (null != group.groupName && !this.isSimpleIdentifier(group.groupName)) {
       throw new RequiredError(
         'groupName',
         'Field groupName of group was invalid when calling copyGroup.',
@@ -517,7 +517,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
-    const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(group || {}));
+    const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(group));
     return (await this.fetch<GroupSingle>(url, requestOptions)).group;
   }
 
@@ -642,7 +642,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
         'Field propertyName of groupProperty was invalid when calling createGroupProperty.',
       );
     }
-    if (groupProperty.dataType == undefined) {
+    if (groupProperty.dataType == DataType.Undefined) {
       throw new RequiredError(
         'dataType',
         'Required field dataType of groupProperty was null or undefined when calling createGroupProperty.',
@@ -651,20 +651,20 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     if (groupProperty.ecProperties == null || groupProperty.ecProperties.length == 0) {
       throw new RequiredError(
         'ecProperties',
-        'Required field ecProperties of groupProperty was null or undefined when calling createGroupProperty.',
+        'Required field ecProperties of groupProperty was null or empty when calling createGroupProperty.',
       );
     }
     for(const i of groupProperty.ecProperties) {
       if (!this.IsValid(i)) {
         throw new RequiredError(
           'ecProperties',
-          'Field ecProperties of groupProperty was invalid when calling updateGroupProperty.',
+          'Field ecProperties of groupProperty was invalid when calling createGroupProperty.',
         );
       }
     }
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
-    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(groupProperty || {}));
+    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(groupProperty));
     return (await this.fetch<GroupPropertySingle>(url, requestOptions)).property;
   }
 
@@ -693,7 +693,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
         'Field propertyName of groupProperty was invalid when calling updateGroupProperty.',
       );
     }
-    if(groupProperty.dataType == undefined) {
+    if(groupProperty.dataType == DataType.Undefined) {
       throw new RequiredError(
         'dataType',
         'Required field dataType of groupProperty was null or undefined when calling updateGroupProperty.',
@@ -702,7 +702,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     if (groupProperty.ecProperties == null || groupProperty.ecProperties.length == 0) {
       throw new RequiredError(
         'ecProperties',
-        'Required field ecProperties of groupProperty was null or undefined when calling updateGroupProperty.',
+        'Required field ecProperties of groupProperty was null or empty when calling updateGroupProperty.',
       );
     }
     for(const i of groupProperty.ecProperties) {
@@ -715,7 +715,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
-    const requestOptions: RequestInit = this.createRequest("PUT", accessToken, JSON.stringify(groupProperty || {}));
+    const requestOptions: RequestInit = this.createRequest("PUT", accessToken, JSON.stringify(groupProperty));
     return (await this.fetch<GroupPropertySingle>(url, requestOptions)).property;
   }
 
@@ -842,14 +842,14 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
         'Field propertyName of property was invalid when calling createCalculatedProperty.',
       );
     }
-    if(property.type == undefined) {
+    if(property.type == CalculatedPropertyType.Undefined) {
       throw new RequiredError(
         'type',
         'Required field type of property was null or undefined when calling createCalculatedProperty.',
       );
     }
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
-    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(property || {}));
+    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(property));
     return (await this.fetch<CalculatedPropertySingle>(url, requestOptions)).property;
   }
 
@@ -884,7 +884,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
         'Field propertyName of property was invalid when calling updateCalculatedProperty.',
       );
     }
-    if(null != property.type && property.type == undefined) {
+    if(null != property.type && property.type == CalculatedPropertyType.Undefined) {
       throw new RequiredError(
         'type',
         'Required field type of property was null or undefined when calling updateCalculatedProperty.',
@@ -892,7 +892,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties/${encodeURIComponent(propertyId)}`;
-    const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(property || {}));
+    const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(property));
     return (await this.fetch<CalculatedPropertySingle>(url, requestOptions)).property;
   }
 
@@ -1027,7 +1027,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations`;
-    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(property || {}));
+    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(property));
     return (await this.fetch<CustomCalculationSingle>(url, requestOptions)).customCalculation;
   }
 
@@ -1070,7 +1070,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }
 
     const url = `${BASE_PATH}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations/${encodeURIComponent(propertyId)}`;
-    const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(property || {}));
+    const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(property));
     return (await this.fetch<CustomCalculationSingle>(url, requestOptions)).customCalculation;
   }
 

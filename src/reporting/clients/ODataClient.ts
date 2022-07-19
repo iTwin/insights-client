@@ -47,8 +47,8 @@ export class ODataClient extends OperationsBase implements ODataClientInterface{
    * @link https://developer.bentley.com/apis/insights/operations/odata-entity/
    */
   public async getODataReportEntity(accessToken: AccessToken, reportId: string, odataItem: ODataItem) {
-    const segments = odataItem?.url?.split('/');  // region, manifestId, entityType
-    if (segments?.length !== 3) {
+    const segments = odataItem.url.split('/');  // region, manifestId, entityType
+    if (segments.length !== 3) {
       return undefined;
     }
     let sequence = 0;
