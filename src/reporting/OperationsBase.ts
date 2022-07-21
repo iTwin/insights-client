@@ -3,12 +3,19 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import isomorphicFetch from 'cross-fetch';
-import { ECProperty } from './interfaces/mappingInterfaces/GroupProperties';
+import { DataType, ECProperty } from './interfaces/mappingInterfaces/GroupProperties';
 
-export const BASE_PATH = 'https://api.bentley.com/insights/reporting';
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 
 export class OperationsBase {
+
+  public readonly fetch = isomorphicFetch;
+  public readonly basePath;
+
+  constructor(basePath?: string) {
+    this.basePath = basePath ?? "https://api.bentley.com/insights/reporting";
+  }
+
   /**
    * Creates a request body and headers
    * @param {string} operation string specifying which opperation will be performed
@@ -37,8 +44,8 @@ export class OperationsBase {
    * @param {RequestInit} requestOptions information about the fetch
    * @memberof OperationsBase
    */
-  public async fetch<T>(nextUrl: string, requestOptions: RequestInit): Promise<T> {
-    return isomorphicFetch(
+  public async fetchData<T>(nextUrl: string, requestOptions: RequestInit): Promise<T> {
+    return this.fetch(
       nextUrl,
       requestOptions
     ).then((response) => {
@@ -58,7 +65,7 @@ export class OperationsBase {
    * @memberof OperationsBase
    */
   public isSimpleIdentifier(name: string): boolean {
-    const reg = /^[a-zA-Z_][0-9a-zA-Z _]*$/;
+    const reg = /^[a-zA-Z_][0-9a-zA-Z_]*$/;
     return (name? true : false) && name.length <= 128 && reg.test(name);
   }
   
@@ -76,10 +83,10 @@ export class OperationsBase {
    * @param {ECProperty} prop
    * @memberof OperationsBase
    */
-  public IsValid (prop: ECProperty): boolean {
+  public isValidECProperty (prop: ECProperty): boolean {
     return !this.isNullOrWhitespace(prop.ecSchemaName) &&
     !this.isNullOrWhitespace(prop.ecClassName) &&
     !this.isNullOrWhitespace(prop.ecPropertyName) &&
-    undefined != prop.ecPropertyType;
+    DataType.Undefined != prop.ecPropertyType;
   }
 }

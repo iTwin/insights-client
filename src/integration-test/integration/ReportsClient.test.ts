@@ -148,23 +148,6 @@ describe("Reports Client", () => {
     expect(response.status).to.be.equals(204);
   });
 
-  it("Reports - Create unsuccessfully", async function () {
-    this.timeout(0);
-    let newReport: ReportCreate = {
-      displayName: "",
-      projectId: projectId
-    };
-    await expect(reportsClient.createReport(accessToken, newReport)).to.be.rejectedWith(
-      'Required field displayName of report was null or undefined when calling createReport.'
-    );
-    
-    newReport.displayName = "Test";
-    newReport.projectId = "";
-    await expect(reportsClient.createReport(accessToken, newReport)).to.be.rejectedWith(
-      'Required field of report was null or undefined when calling createReport.'
-    );
-  });
-
   it("Reports - Get", async function () {
     this.timeout(0);
     let report = await reportsClient.getReport(accessToken, reportIds[reportIds.length - 1]);
@@ -178,19 +161,6 @@ describe("Reports Client", () => {
     }
     let report = await reportsClient.updateReport(accessToken, reportIds[reportIds.length - 1], reportUpdate);
     expect(report).to.not.be.undefined;
-  });
-
-  it("Reports - Update unsuccessfully", async function () {
-    this.timeout(0);
-    let reportUpdate: ReportUpdate = {};
-    await expect(reportsClient.updateReport(accessToken, reportIds[reportIds.length - 1], reportUpdate)).to.be.rejectedWith(
-      'All fields of report were null or undefined when calling updateReport.'
-    );
-    
-    reportUpdate.displayName = "";
-    await expect(reportsClient.updateReport(accessToken, reportIds[reportIds.length - 1], reportUpdate)).to.be.rejectedWith(
-      'Field display of report was empty when calling createReportMapping.'
-    );
   });
 
   it("Reports - Get all", async function () {
@@ -245,23 +215,6 @@ describe("Reports Client", () => {
     response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop() ?? "");
     expect(response.status).to.be.equals(204);
   })
-
-  it("Report mappings - Create unsuccessfully", async function () {
-    this.timeout(0);
-    let newReportMapping: ReportMappingCreate = {
-      mappingId: "",
-      imodelId: "Not empty"
-    }
-    await expect(reportsClient.createReportMapping(accessToken, reportIds[reportIds.length-1], newReportMapping)).to.be.rejectedWith(
-      'Required field mappingId of reportMapping was null or undefined when calling createReportMapping.'
-    );
-  
-    newReportMapping.mappingId = "Not empty";
-    newReportMapping.imodelId = "";
-    await expect(reportsClient.createReportMapping(accessToken, reportIds[reportIds.length-1], newReportMapping)).to.be.rejectedWith(
-      'Required field imodelId of reportMapping was null or undefined when calling createReportMapping.'
-    );
-  });
 
   it("Report mappings - Get all", async function () {
     this.timeout(0);

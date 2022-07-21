@@ -148,15 +148,5 @@ describe("OData Client", () => {
     const oDataEntity = await oDataClient.getODataReportEntity(accessToken, reportId, oDataItem);
     expect(oDataEntity).to.not.be.undefined;
   });
-
-  it("get faulty OData report entity", async function() {
-    this.timeout(0);
-    const faultyODataItem: ODataItem = {
-      name: "test",
-      url: "123/123"
-    }
-    const oDataEntity = await oDataClient.getODataReportEntity(accessToken, reportId, faultyODataItem);
-    expect(oDataEntity).to.be.undefined;
-  });
-
 });
+

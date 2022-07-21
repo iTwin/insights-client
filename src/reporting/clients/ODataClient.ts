@@ -5,8 +5,7 @@
 import { AccessToken } from "@itwin/core-bentley";
 import { ODataResponse, ODataItem, ODataEntityResponse } from "../interfaces/OData";
 import isomorphicFetch from 'cross-fetch';
-import { BASE_PATH, OperationsBase } from "../OperationsBase";
-import { Dictionary } from "../../test/imodels-client-management/src/base";
+import { OperationsBase } from "../OperationsBase";
 
 export interface ODataClientInterface{
   getODataReport(
@@ -33,9 +32,9 @@ export class ODataClient extends OperationsBase implements ODataClientInterface{
    * @link https://developer.bentley.com/apis/insights/operations/odata/
    */
   public async getODataReport(accessToken: AccessToken, reportId: string): Promise<ODataResponse> {
-    const url = `${BASE_PATH}/odata/${encodeURIComponent(reportId)}`;
+    const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch<ODataResponse>(url, requestOptions);
+    return this.fetchData<ODataResponse>(url, requestOptions);
   }
 
   /**
@@ -52,14 +51,15 @@ export class ODataClient extends OperationsBase implements ODataClientInterface{
       return undefined;
     }
     let sequence = 0;
-    const reportData: Array<Dictionary<string>> = [];
+    const reportData: Array<{[key: string]: string}> = [];
     let response: ODataEntityResponse;
+    let url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${encodeURIComponent(segments[0])}/${encodeURIComponent(segments[1])}/${encodeURIComponent(segments[2])}?sequence=${encodeURIComponent(sequence)}`;
     do {
-      let url = `${BASE_PATH}/odata/${encodeURIComponent(reportId)}/${encodeURIComponent(segments[0])}/${encodeURIComponent(segments[1])}/${encodeURIComponent(segments[2])}?sequence=${encodeURIComponent(sequence)}`;
       const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-      response = await this.fetch(url, requestOptions);
+      response = await this.fetchData(url, requestOptions);
       response.value && reportData.push(...response.value);
       sequence++;
+      url = response["@odata.nextLink"] ? response["@odata.nextLink"] : "";
     } while (response["@odata.nextLink"]);
 
     return reportData;
@@ -73,9 +73,9 @@ export class ODataClient extends OperationsBase implements ODataClientInterface{
    * @link https://developer.bentley.com/apis/insights/operations/odata-metadata/
    */
   public async getODataReportMetadata(accessToken: AccessToken, reportId: string): Promise<Response> {
-    const url = `${BASE_PATH}/odata/${encodeURIComponent(reportId)}/$metadata`;
+    const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/$metadata`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return isomorphicFetch(url, requestOptions).then((response) => {
+    return this.fetch(url, requestOptions).then((response) => {
       if (response.status >= 200 && response.status < 300) {
         return response;
       } else {

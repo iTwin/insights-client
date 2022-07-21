@@ -7,7 +7,7 @@ import { RequiredError } from "../interfaces/Errors";
 import { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
 import { collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
-import { BASE_PATH, OperationsBase } from "../OperationsBase";
+import { OperationsBase } from "../OperationsBase";
 import { Report, ReportCollection, ReportSingle, ReportCreate, ReportUpdate, ReportMapping, ReportMappingCollection, ReportMappingCreate, ReportMappingSingle } from "../interfaces/Reports";
 
 export interface ReportsClientInterface{
@@ -87,13 +87,13 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
   public getReportsIterator(accessToken: AccessToken, projectId: string, top?: number): EntityListIterator<Report> {
-    let url: string = `${BASE_PATH}/reports?projectId=${encodeURIComponent(projectId)}`;
+    let url: string = `${this.basePath}/reports?projectId=${encodeURIComponent(projectId)}`;
     url += top ? `&%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Report>(
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: ReportCollection = await this.fetch<ReportCollection>(url, requestOptions);
+        let response: ReportCollection = await this.fetchData<ReportCollection>(url, requestOptions);
         return {
           values: response.reports,
           _links: response._links,
@@ -109,9 +109,9 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @link https://developer.bentley.com/apis/insights/operations/get-report/
    */
   public async getReport(accessToken: AccessToken, reportId: string): Promise<Report> {
-    const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}`;
+    const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return (await this.fetch<ReportSingle>(url, requestOptions)).report;;
+    return (await this.fetchData<ReportSingle>(url, requestOptions)).report;;
   }
 
   /**
@@ -135,9 +135,9 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
       );
     }
 
-    const url = `${BASE_PATH}/reports/`;
+    const url = `${this.basePath}/reports/`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(report));
-    return (await this.fetch<ReportSingle>(url, requestOptions)).report;
+    return (await this.fetchData<ReportSingle>(url, requestOptions)).report;
   }
 
   /**
@@ -162,9 +162,9 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
       );
     }
 
-    const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}`;
+    const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(report));
-    return (await this.fetch<ReportSingle>(url, requestOptions)).report;
+    return (await this.fetchData<ReportSingle>(url, requestOptions)).report;
   }
 
   /**
@@ -175,9 +175,9 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @link https://developer.bentley.com/apis/insights/operations/delete-report/
    */
   public async deleteReport(accessToken: AccessToken, reportId: string): Promise<Response> {
-    const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}`;
+    const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetch<Response>(url, requestOptions);
+    return this.fetchData<Response>(url, requestOptions);
   }
 
   /**
@@ -206,13 +206,13 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
    */
   public getReportMappingsIterator(accessToken: AccessToken, reportId: string, top?: number): EntityListIterator<ReportMapping> {
-    let url: string = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
+    let url: string = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ReportMapping>(
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: ReportMappingCollection = await this.fetch<ReportMappingCollection>(url, requestOptions);
+        let response: ReportMappingCollection = await this.fetchData<ReportMappingCollection>(url, requestOptions);
         return {
           values: response.mappings,
           _links: response._links,
@@ -246,9 +246,9 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
       );
     }
 
-    const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
+    const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(reportMapping));
-    return (await this.fetch<ReportMappingSingle>(url, requestOptions)).mapping;
+    return (await this.fetchData<ReportMappingSingle>(url, requestOptions)).mapping;
   }
 
   /**
@@ -260,9 +260,9 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @link https://developer.bentley.com/apis/insights/operations/delete-report-mapping/
    */
   public async deleteReportMapping(accessToken: AccessToken, reportId: string, reportMappingId: string): Promise<Response> {
-    const url = `${BASE_PATH}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings/${encodeURIComponent(reportMappingId)}`;
+    const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings/${encodeURIComponent(reportMappingId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetch<Response>(url, requestOptions);
+    return this.fetchData<Response>(url, requestOptions);
   }
 
 }

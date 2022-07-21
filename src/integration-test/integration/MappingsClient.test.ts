@@ -93,7 +93,7 @@ describe("Mapping Client", () => {
     let ecProperty: ECProperty = {
       ecClassName: "class",
       ecPropertyName: "property",
-      ecPropertyType: "String",
+      ecPropertyType: DataType.String,
       ecSchemaName: "schema",
     };
     let newProperty: GroupPropertyCreate = {
@@ -186,33 +186,12 @@ describe("Mapping Client", () => {
     expect(response.status).to.be.equals(204);
   });
 
-  it("Mappings - Create unsuccessfully", async function () {
-    let newMapping: MappingCreate = {
-      mappingName: "",
-    }
-    await expect(mappingsClient.createMapping(accessToken, testIModel.id, newMapping)).to.be.rejectedWith(
-      'Required field mappingName of mapping was missing or invalid when calling createMapping.',
-    );
-  });
-
   it("Mappings - Update", async function () {
     const mappingUpdate: MappingUpdate = {
       description: "Updated description"
     }
     let mapping = await mappingsClient.updateMapping(accessToken, testIModel.id, mappingIds[0], mappingUpdate);
     expect(mapping).to.not.be.undefined;
-  });
-
-  it("Mappings - Update unsuccessfully", async function () {
-    const mappingUpdate: MappingUpdate = {}
-    await expect(mappingsClient.updateMapping(accessToken, testIModel.id, mappingIds[0], mappingUpdate)).to.be.rejectedWith(
-      'All properties of mapping were missing when calling updateMapping.',
-    );
-    mappingUpdate.description = "Valid description",
-    mappingUpdate.mappingName = "";
-    await expect(mappingsClient.updateMapping(accessToken, testIModel.id, mappingIds[0], mappingUpdate)).to.be.rejectedWith(
-      'Required field mappingName of mapping was invalid when calling createMapping.',
-    );
   });
 
   it("Mappings - Copy", async function () {
@@ -225,24 +204,6 @@ describe("Mapping Client", () => {
 
     let response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mapping.id);
     expect(response.status).to.be.equals(204);
-  });
-
-  it("Mappings - Copy unsuccessfully", async function () {
-    let mappingCopy: MappingCopy = {
-      targetIModelId: testIModel.id,
-      mappingName: "",
-    };
-    await expect(mappingsClient.copyMapping(accessToken, testIModel.id, mappingIds[0], mappingCopy)).to.be.rejectedWith(
-      'Field mappingName of mappingCopy was invalid when calling copyMapping.',
-    );
-
-    mappingCopy = {
-      targetIModelId: "",
-      mappingName: "Test",
-    };
-    await expect(mappingsClient.copyMapping(accessToken, testIModel.id, mappingIds[0], mappingCopy)).to.be.rejectedWith(
-      'Required field targetiModelId of mappingCopy was missing when calling copyMapping.',
-    );
   });
 
   it("Mappings - Get", async function () {
@@ -295,45 +256,12 @@ describe("Mapping Client", () => {
     expect(response.status).to.be.equals(204);
   });
 
-  it("Groups - Create unsuccessfully", async function () {
-    let newGroup: GroupCreate = {
-      groupName: "Test",
-      query: ""
-    }
-    await expect(mappingsClient.createGroup(accessToken, testIModel.id, mappingIds[0], newGroup)).to.be.rejectedWith(
-      'Required field query of group was null or undefined when calling createGroup.',
-    );
-    newGroup.groupName = "";
-    newGroup.query = "Valid query";
-    await expect(mappingsClient.createGroup(accessToken, testIModel.id, mappingIds[0], newGroup)).to.be.rejectedWith(
-      'Required field mappingName of group was null or undefined when calling createGroup.',
-    );
-  });
-
   it("Groups - Update", async function () {
     const groupUpdate: GroupUpdate = {
       description: "Updated description"
     }
     let group = await mappingsClient.updateGroup(accessToken, testIModel.id, mappingIds[0], groupId, groupUpdate);
     expect(group).to.not.be.undefined;
-  });
-
-  it("Groups - Update unsuccessfully", async function () {
-    let groupUpdate: GroupUpdate = {};
-    await expect(mappingsClient.updateGroup(accessToken, testIModel.id, mappingIds[0], groupId, groupUpdate)).to.be.rejectedWith(
-      'All properties of group were missing when calling updateGroup.',
-    );
-    groupUpdate.groupName = "";
-    await expect(mappingsClient.updateGroup(accessToken, testIModel.id, mappingIds[0], groupId, groupUpdate)).to.be.rejectedWith(
-      'Field groupName of group was invalid when calling copyGroup.',
-    );
-    groupUpdate = {
-      description: "Valid description",
-      query: "",
-    };
-    await expect(mappingsClient.updateGroup(accessToken, testIModel.id, mappingIds[0], groupId, groupUpdate)).to.be.rejectedWith(
-      'Required field query of group was null or undefined when calling updateGroup.',
-    );
   });
 
   it("Groups - Get", async function () {
@@ -378,7 +306,7 @@ describe("Mapping Client", () => {
     let ecProperty: ECProperty = {
       ecClassName: "class",
       ecPropertyName: "property",
-      ecPropertyType: "String",
+      ecPropertyType: DataType.String,
       ecSchemaName: "schema",
     };
     let newProperty: GroupPropertyCreate = {
@@ -394,61 +322,11 @@ describe("Mapping Client", () => {
     expect(response.status).to.be.equals(204);
   });
 
-  it("Group properties - Create unsuccessfully", async function () {
-    let ecProperty: ECProperty = {
-      ecClassName: "class",
-      ecPropertyName: "property",
-      ecPropertyType: "String",
-      ecSchemaName: "schema",
-    };
-    let newProperty: GroupPropertyCreate = {
-      propertyName: "",
-      dataType: DataType.Number,
-      quantityType: QuantityType.Distance,
-      ecProperties: new Array(ecProperty),
-    };
-    await expect(mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty)).to.be.rejectedWith(
-      'Field propertyName of groupProperty was invalid when calling createGroupProperty.',
-    );
-
-    newProperty.propertyName = "Valid name";
-    newProperty.dataType = DataType.Undefined;
-    await expect(mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty)).to.be.rejectedWith(
-      'Required field dataType of groupProperty was null or undefined when calling createGroupProperty.',
-    );
-
-    newProperty.dataType = DataType.Number;
-    newProperty.ecProperties = [];
-    await expect(mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty)).to.be.rejectedWith(
-      'Required field ecProperties of groupProperty was null or empty when calling createGroupProperty.',
-    );
-
-    ecProperty.ecClassName = "";
-    newProperty.ecProperties = new Array(ecProperty);
-    await expect(mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty)).to.be.rejectedWith(
-      'Field ecProperties of groupProperty was invalid when calling createGroupProperty.',
-    );
-
-    ecProperty.ecClassName = "Class";
-    ecProperty.ecPropertyName = "";
-    newProperty.ecProperties = new Array(ecProperty);
-    await expect(mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty)).to.be.rejectedWith(
-      'Field ecProperties of groupProperty was invalid when calling createGroupProperty.',
-    );
-
-    ecProperty.ecPropertyName = "Property";
-    ecProperty.ecSchemaName = ""
-    newProperty.ecProperties = new Array(ecProperty);
-    await expect(mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty)).to.be.rejectedWith(
-      'Field ecProperties of groupProperty was invalid when calling createGroupProperty.',
-    );
-  });
-
   it("Group properties - Update", async function () {
     let ecProperty: ECProperty = {
       ecClassName: "class",
       ecPropertyName: "property",
-      ecPropertyType: "String",
+      ecPropertyType: DataType.String,
       ecSchemaName: "schema",
     };
     const groupPropertyUpdate: GroupPropertyUpdate = {
@@ -459,56 +337,6 @@ describe("Mapping Client", () => {
     };
     let property = await mappingsClient.updateGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, groupPropertyId, groupPropertyUpdate);
     expect(property).to.not.be.undefined;
-  });
-
-  it("Group properties - Update unsuccessfully", async function () {
-    let ecProperty: ECProperty = {
-      ecClassName: "class",
-      ecPropertyName: "property",
-      ecPropertyType: "String",
-      ecSchemaName: "schema",
-    };
-    let newProperty: GroupPropertyUpdate = {
-      propertyName: "",
-      dataType: DataType.Number,
-      quantityType: QuantityType.Distance,
-      ecProperties: new Array(ecProperty),
-    };
-    await expect(mappingsClient.updateGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, groupPropertyId, newProperty)).to.be.rejectedWith(
-      'Field propertyName of groupProperty was invalid when calling updateGroupProperty.',
-    );
-
-    newProperty.propertyName = "Valid name";
-    newProperty.dataType = DataType.Undefined;
-    await expect(mappingsClient.updateGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, groupPropertyId, newProperty)).to.be.rejectedWith(
-      'Required field dataType of groupProperty was null or undefined when calling updateGroupProperty.',
-    );
-
-    newProperty.dataType = DataType.Number;
-    newProperty.ecProperties = [];
-    await expect(mappingsClient.updateGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, groupPropertyId, newProperty)).to.be.rejectedWith(
-      'Required field ecProperties of groupProperty was null or empty when calling updateGroupProperty.',
-    );
-
-    ecProperty.ecClassName = "";
-    newProperty.ecProperties = new Array(ecProperty);
-    await expect(mappingsClient.updateGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, groupPropertyId, newProperty)).to.be.rejectedWith(
-      'Field ecProperties of groupProperty was invalid when calling updateGroupProperty.',
-    );
-
-    ecProperty.ecClassName = "Class";
-    ecProperty.ecPropertyName = "";
-    newProperty.ecProperties = new Array(ecProperty);
-    await expect(mappingsClient.updateGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, groupPropertyId, newProperty)).to.be.rejectedWith(
-      'Field ecProperties of groupProperty was invalid when calling updateGroupProperty.',
-    );
-
-    ecProperty.ecPropertyName = "Property";
-    ecProperty.ecSchemaName = ""
-    newProperty.ecProperties = new Array(ecProperty);
-    await expect(mappingsClient.updateGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, groupPropertyId, newProperty)).to.be.rejectedWith(
-      'Field ecProperties of groupProperty was invalid when calling updateGroupProperty.',
-    );
   });
 
   it("Group properties - Get", async function () {
@@ -561,45 +389,12 @@ describe("Mapping Client", () => {
     expect(response.status).to.be.equals(204);
   });
 
-  it("Calculated properties - Create unsuccessfully", async function () {
-    let newProperty: CalculatedPropertyCreate = {
-      propertyName: "",
-      type: CalculatedPropertyType.Length,
-    }
-    await expect(mappingsClient.createCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty)).to.be.rejectedWith(
-      'Field propertyName of property was invalid when calling createCalculatedProperty.',
-    );
-
-    newProperty.propertyName = "Test";
-    newProperty.type = CalculatedPropertyType.Undefined;
-    await expect(mappingsClient.createCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty)).to.be.rejectedWith(
-      'Required field type of property was null or undefined when calling createCalculatedProperty.',
-    );
-  });
-
   it("Calculated properties - Update", async function () {
     const calcPropertyUpdate: CalculatedPropertyUpdate = {
       propertyName: "UpdatedCP",
     };
     let property = await mappingsClient.updateCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, calculatedPropertyId, calcPropertyUpdate);
     expect(property).to.not.be.undefined;
-  });
-
-  it("Calculated properties - Update unsuccessfully", async function () {
-    const calcPropertyUpdate: CalculatedPropertyUpdate = {};
-    await expect(mappingsClient.updateCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, calculatedPropertyId, calcPropertyUpdate)).to.be.rejectedWith(
-      'All properties of property were missing when calling updateCalculatedProperty.',
-    );
-    calcPropertyUpdate.propertyName = "";
-    await expect(mappingsClient.updateCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, calculatedPropertyId, calcPropertyUpdate)).to.be.rejectedWith(
-      'Field propertyName of property was invalid when calling updateCalculatedProperty.',
-    );
-
-    calcPropertyUpdate.propertyName = "Test";
-    calcPropertyUpdate.type = CalculatedPropertyType.Undefined;
-    await expect(mappingsClient.updateCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, calculatedPropertyId, calcPropertyUpdate)).to.be.rejectedWith(
-      'Required field type of property was null or undefined when calling updateCalculatedProperty.',
-    );
   });
 
   it("Calculated properties - Get", async function () {
@@ -653,45 +448,12 @@ describe("Mapping Client", () => {
     expect(response.status).to.be.equals(204);
   });
 
-  it("Custom calculations - Create unsuccessfully", async function () {
-    let newCalculation: CustomCalculationCreate = {
-      propertyName: "",
-      formula: "1+1",
-      quantityType: QuantityType.Distance
-    }
-    await expect(mappingsClient.createCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, newCalculation)).to.be.rejectedWith(
-      'Field propertyName of property was invalid when calling createCustomCalculation.',
-    );
-
-    newCalculation.propertyName = "Test";
-    newCalculation.formula = "";
-    await expect(mappingsClient.createCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, newCalculation)).to.be.rejectedWith(
-      'Required field formula of property was null or undefined when calling createCustomCalculation.',
-    );
-  });
-
   it("Custom calculations - Update", async function () {
     const custCalculationUpdate: CustomCalculationUpdate = {
       propertyName: "UpdatedCC",
     };
     let calculation = await mappingsClient.updateCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, customCalculationId, custCalculationUpdate);
     expect(calculation).to.not.be.undefined;
-  });
-
-  it("Custom calculations - Update unsuccessfully", async function () {
-    const custCalculationUpdate: CustomCalculationUpdate = {};
-    await expect(mappingsClient.updateCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, customCalculationId, custCalculationUpdate)).to.be.rejectedWith(
-      'All properties of property were missing when calling updateProperty.',
-    );
-    custCalculationUpdate.propertyName = "";
-    await expect(mappingsClient.updateCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, customCalculationId, custCalculationUpdate)).to.be.rejectedWith(
-      'Field propertyName of property was invalid when calling updateCustomCalculation.',
-    );
-    custCalculationUpdate.propertyName = "Test";
-    custCalculationUpdate.formula = "";
-    await expect(mappingsClient.updateCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, customCalculationId, custCalculationUpdate)).to.be.rejectedWith(
-      'Required field formula of property was null or undefined when calling updateCustomCalculation.',
-    );
   });
 
   it("Custom calculations - Get", async function () {

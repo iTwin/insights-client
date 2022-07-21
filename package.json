@@ -9,14 +9,14 @@
     "build": "npm run -s build:cjs && npm run -s build:esm && npm run copy",
     "build:cjs": "tsc 1>&2 --outDir lib/cjs",
     "build:esm": "tsc 1>&2 --module es6 --outDir lib/esm",
-    "copy": "copyfiles -u 4 src/test/imodels-client-test-utils/src/assets/* src/test/imodels-client-test-utils/src/assets/changesets/* lib/cjs/test/imodels-client-test-utils/src",
+    "copy": "copyfiles -u 4 src/integration-test/imodels-client-test-utils/src/assets/* src/integration-test/imodels-client-test-utils/src/assets/changesets/* lib/cjs/integration-test/imodels-client-test-utils/src",
     "lint": "eslint \"*/**/*.{js,ts}\"",
     "lint:fix": "npm run lint -- --fix",
     "lint:copyright": "node scripts/copyright-linter.js",
     "pack": "npm pack",
-    "cover": "nyc mocha lib/cjs/**/*.test.js",
-    "test:integration": "mocha lib/cjs/**/*.test.js --color",
-    "test:unit": "mocha lib/cjs/**/unit.test.js --color"
+    "cover": "nyc mocha lib/cjs/test/**/*.test.js",
+    "test:integration": "mocha lib/cjs/integration-test/**/*.test.js --color",
+    "test:unit": "mocha lib/cjs/test/**/*.test.js --color"
   },
   "keywords": [
     "Bentley",
@@ -45,8 +45,10 @@
     "copyfiles": "^2.4.1",
     "cross-fetch": "^3.1.4",
     "inversify": "^6.0.1",
+    "isomorphic-fetch": "^3.0.0",
     "node-fetch": "^3.2.6",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "sinon": "^14.0.0"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
@@ -56,8 +58,9 @@
     "@itwin/oidc-signin-tool": "^3.2.0",
     "@types/chai": "^4.1.4",
     "@types/chai-as-promised": "^7.1.5",
-    "@types/mocha": "^8.2.2",
+    "@types/mocha": "^8.2.3",
     "@types/node": "^14.18.22",
+    "@types/sinon": "^10.0.13",
     "chai": "^4.1.2",
     "dotenv": "^10.0.0",
     "dotenv-expand": "^5.1.0",
@@ -81,7 +84,9 @@
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
-    "exclude": "**/test/*",
+    "exclude": [
+      "**/test/*"
+    ],
     "check-coverage": true,
     "report-dir": "lib/test/coverage",
     "reporter": [

@@ -33,7 +33,7 @@ export interface ECProperty {
    * @type {string}
    * @memberof ECProperty
    */
-  ecPropertyType: string;
+  ecPropertyType: DataType;
 }
 
 /**
