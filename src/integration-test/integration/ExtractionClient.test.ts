@@ -24,7 +24,6 @@ describe("Extraction Client", () => {
   let testIModelFileProvider: TestIModelFileProvider;
 
   let extractionId: string;
-  let mappingId: string;
 
   before( async function () {
     this.timeout(0);
@@ -49,9 +48,16 @@ describe("Extraction Client", () => {
     const reusableTestIModelProvider = container.get(ReusableTestIModelProvider);
     testIModel = await reusableTestIModelProvider.getOrCreate();
 
+    const newMap: MappingCreate = {
+      mappingName: "Test",
+    }
+    const map = await mappingsClient.createMapping(accessToken, testIModel.id, newMap);
+
     const extraction: ExtractionRun = await extractionClient.runExtraction(accessToken, testIModel.id);
     expect(extraction).to.not.be.undefined;
     extractionId = extraction.id;
+
+    mappingsClient.deleteMapping(accessToken, testIModel.id, map.id);
   });
 
   after(async function () {

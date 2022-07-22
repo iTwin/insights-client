@@ -14,7 +14,7 @@
     "lint:fix": "npm run lint -- --fix",
     "lint:copyright": "node scripts/copyright-linter.js",
     "pack": "npm pack",
-    "cover": "nyc mocha lib/cjs/test/**/*.test.js",
+    "cover": "nyc mocha lib/cjs/integration-test/**/*.test.js",
     "test:integration": "mocha lib/cjs/integration-test/**/*.test.js --color",
     "test:unit": "mocha lib/cjs/test/**/*.test.js --color"
   },
