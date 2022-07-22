@@ -36,3 +36,16 @@ export async function getEntityCollectionPage<TEntity>(
     next: response._links.next ? async () => getEntityCollectionPage<TEntity>(response._links.next!.href!, requestOptions, getNextBatch) : undefined
   };
 }
+
+/**
+ * Loads all entities from an iterator into an array.
+ * @param {AsyncIterableIterator<TEntity>} iterator entity iterator.
+ * @returns {Promise<TEntity[]>} entity array.
+ */
+ export async function toArray<TEntity>(iterator: AsyncIterableIterator<TEntity>): Promise<TEntity[]> {
+  const result: TEntity[] = [];
+  for await (const entity of iterator)
+    result.push(entity);
+
+  return result;
+}

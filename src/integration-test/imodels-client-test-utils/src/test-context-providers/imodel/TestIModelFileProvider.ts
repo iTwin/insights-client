@@ -35,28 +35,11 @@ export class TestIModelFileProvider {
   private _baselineFile: TestIModelBaselineFile | undefined;
   private _changesetFiles: TestChangesetFile[] | undefined;
 
-  public get iModel(): TestIModelBaselineFile {
-    return this._baselineFile ?? this.initializeBaselineFile();
-  }
-
   public get changesets(): TestChangesetFile[] {
     return this._changesetFiles ?? this.initializeChangesetFiles();
   }
 
-  private initializeBaselineFile(): TestIModelBaselineFile {
-    const fileNamesInDirectory = fs.readdirSync(this._iModelDataRootPath);
-    const bimFile = fileNamesInDirectory.find((fileName) => fileName.indexOf(".bim") >= 0);
-    if (!bimFile)
-      throw new TestSetupError("Baseline file for test iModel not found.");
-
-    this._baselineFile = {
-      filePath: `${this._iModelDataRootPath}/${bimFile}`
-    };
-    return this._baselineFile;
-  }
-
   private initializeChangesetFiles(): TestChangesetFile[] {
-    //TODO: ask about this
     const changesetDescriptorFilePath = `${this._iModelDataRootPath}/changesets.json`;
     if (!fs.existsSync(changesetDescriptorFilePath))
       throw new TestSetupError("Changeset descriptor file for test iModel not found.");

@@ -35,24 +35,12 @@ export class IModelsApiUrlFormatter {
     return `${this.baseUrl}${this.formQueryString({ ...params.urlParams })}`;
   }
 
-  public getSingleBriefcaseUrl(params: { iModelId: string } & { briefcaseId: number }): string {
-    return `${this.baseUrl}/${params.iModelId}/briefcases/${params.briefcaseId}`;
-  }
-
   public getBriefcaseListUrl(params: { iModelId: string, urlParams?: GetBriefcaseListUrlParams }): string {
     return `${this.baseUrl}/${params.iModelId}/briefcases${this.formQueryString({ ...params.urlParams })}`;
   }
 
-  public getSingleChangesetUrl(params: { iModelId: string } & ChangesetIdOrIndex): string {
-    return `${this.baseUrl}/${params.iModelId}/changesets/${params.changesetId ?? params.changesetIndex}`;
-  }
-
   public getChangesetListUrl(params: { iModelId: string, urlParams?: GetChangesetListUrlParams }): string {
     return `${this.baseUrl}/${params.iModelId}/changesets${this.formQueryString({ ...params.urlParams })}`;
-  }
-
-  public getSingleNamedVersionUrl(params: { iModelId: string } & { namedVersionId: string }): string {
-    return `${this.baseUrl}/${params.iModelId}/namedversions/${params.namedVersionId}`;
   }
 
   public getNamedVersionListUrl(params: { iModelId: string, urlParams?: GetNamedVersionListUrlParams }): string {
@@ -65,34 +53,6 @@ export class IModelsApiUrlFormatter {
       : `changesets/${params.changesetId ?? params.changesetIndex}`;
 
     return `${this.baseUrl}/${params.iModelId}/${parentEntityUrlPath}/checkpoint`;
-  }
-
-  public getUserListUrl(params: { iModelId: string, urlParams?: CollectionRequestParams }): string {
-    return `${this.baseUrl}/${params.iModelId}/users${this.formQueryString({ ...params.urlParams })}`;
-  }
-
-  public getSingleUserUrl(params: { iModelId: string } & { userId: string }): string {
-    return `${this.baseUrl}/${params.iModelId}/users/${params.userId}`;
-  }
-
-  public getUserPermissionsUrl(params: { iModelId: string }): string {
-    return `${this.baseUrl}/${params.iModelId}/permissions`;
-  }
-
-  public parseCheckpointUrl(url: string): { iModelId: string, changesetIndex: number } {
-    const matchedGroups: Dictionary<string> = this._checkpointUrlRegex.exec(url)!.groups!;
-    return {
-      iModelId: matchedGroups[this._groupNames.iModelId],
-      changesetIndex: parseInt(matchedGroups[this._groupNames.changesetIndex], 10)
-    };
-  }
-
-  public parseNamedVersionUrl(url: string): { iModelId: string, namedVersionId: string } {
-    const matchedGroups: Dictionary<string> = this._namedVersionUrlRegex.exec(url)!.groups!;
-    return {
-      iModelId: matchedGroups[this._groupNames.iModelId],
-      namedVersionId: matchedGroups[this._groupNames.namedVersionId]
-    };
   }
 
   protected formQueryString(urlParameters: Dictionary<UrlParameterValue> | undefined): string {

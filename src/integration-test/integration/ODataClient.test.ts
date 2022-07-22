@@ -8,8 +8,8 @@ import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, Extra
 import "reflect-metadata";
 import { getTestRunId, Constants, getTestDIContainer } from "../utils/index";
 import { IModelsClient, IModelsClientOptions } from "../imodels-client-authoring/src/IModelsClient";
-import { AuthorizationCallback, sleep } from "../imodels-client-management/src/IModelsClientExports";
-import { TestUtilTypes, TestIModelGroup, TestIModelGroupFactory, BaseIntegrationTestsConfig, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider, TestProjectProvider } from "../imodels-client-test-utils/src/iModelsClientTestUtilsExports";
+import { AuthorizationCallback } from "../imodels-client-management/src/IModelsClientExports";
+import { TestUtilTypes, TestIModelGroup, TestIModelGroupFactory, BaseIntegrationTestsConfig, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider, TestProjectProvider, sleep } from "../imodels-client-test-utils/src/iModelsClientTestUtilsExports";
 import { report } from "process";
 
 chai.should();
@@ -25,7 +25,6 @@ describe("OData Client", () => {
 
   let deletionTracker: Array<string> = [];
 
-  let iModelsClient: IModelsClient;
   let authorization: AuthorizationCallback;
   let testIModelGroup: TestIModelGroup;
   let testIModel: IModelMetadata;
@@ -35,9 +34,6 @@ describe("OData Client", () => {
     this.timeout(0);
 
     const container = getTestDIContainer();
-
-    const iModelsClientOptions = container.get<IModelsClientOptions>(TestUtilTypes.IModelsClientOptions);
-    iModelsClient = new IModelsClient(iModelsClientOptions);
     
     const authorizationProvider = container.get(TestAuthorizationProvider);
     authorization = authorizationProvider.getAdmin1Authorization();

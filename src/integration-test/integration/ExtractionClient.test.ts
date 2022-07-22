@@ -17,7 +17,6 @@ describe("Extraction Client", () => {
   const mappingsClient: MappingsClient = new MappingsClient();
   let accessToken: string;
 
-  let iModelsClient: IModelsClient;
   let authorization: AuthorizationCallback;
   let testIModelGroup: TestIModelGroup;
   let testIModel: IModelMetadata;
@@ -29,9 +28,6 @@ describe("Extraction Client", () => {
     this.timeout(0);
 
     const container = getTestDIContainer();
-
-    const iModelsClientOptions = container.get<IModelsClientOptions>(TestUtilTypes.IModelsClientOptions);
-    iModelsClient = new IModelsClient(iModelsClientOptions);
     
     const authorizationProvider = container.get(TestAuthorizationProvider);
     authorization = authorizationProvider.getAdmin1Authorization();

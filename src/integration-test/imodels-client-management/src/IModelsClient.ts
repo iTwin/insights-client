@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import { ApiOptions, AxiosRestClient, RecursiveRequired, RestClient } from "./base";
 import { Constants } from "./Constants";
-import { BriefcaseOperations, ChangesetOperations, IModelOperations, NamedVersionOperations, UserOperations, UserPermissionOperations } from "./operations";
+import { BriefcaseOperations, ChangesetOperations, IModelOperations, NamedVersionOperations } from "./operations";
 import { CheckpointOperations } from "./operations/checkpoint/CheckpointOperations";
 import { IModelsApiUrlFormatter } from "./operations/IModelsApiUrlFormatter";
 import { OperationOptions } from "./operations/OperationOptions";
@@ -25,56 +25,6 @@ export interface IModelsClientOptions {
  * {@link https://developer.bentley.com/apis/imodels/ iModels API documentation page}.
  */
 export class IModelsClient {
-  protected _operationsOptions: OperationOptions;
-
-  /**
-   * Class constructor.
-   * @param {iModelsClientOptions} options client options. If `options` are `undefined` or if some of the properties
-   * are `undefined` the client uses defaults. See {@link iModelsClientOptions}.
-   */
-  constructor(options?: IModelsClientOptions) {
-    const filledIModelsClientOptions = IModelsClient.fillConfiguration(options);
-    this._operationsOptions = {
-      ...filledIModelsClientOptions,
-      urlFormatter: new IModelsApiUrlFormatter(filledIModelsClientOptions.api.baseUrl)
-    };
-  }
-
-  /** iModel operations. See {@link iModelOperations}. */
-  public get iModels(): IModelOperations<OperationOptions> {
-    return new IModelOperations(this._operationsOptions);
-  }
-
-  /** Briefcase operations. See {@link BriefcaseOperations}. */
-  public get briefcases(): BriefcaseOperations<OperationOptions> {
-    return new BriefcaseOperations(this._operationsOptions);
-  }
-
-  /** Changeset operations. See {@link ChangesetOperations}. */
-  public get changesets(): ChangesetOperations<OperationOptions> {
-    return new ChangesetOperations(this._operationsOptions, this.namedVersions, this.checkpoints);
-  }
-
-  /** Named version operations. See {@link NamedVersionOperations}. */
-  public get namedVersions(): NamedVersionOperations<OperationOptions> {
-    return new NamedVersionOperations(this._operationsOptions);
-  }
-
-  /** Checkpoint operations. See {@link CheckpointOperations}. */
-  public get checkpoints(): CheckpointOperations<OperationOptions> {
-    return new CheckpointOperations(this._operationsOptions);
-  }
-
-  /** User operations. See {@link UserOperations}. */
-  public get users(): UserOperations<OperationOptions> {
-    return new UserOperations(this._operationsOptions);
-  }
-
-  /** User Permission operations. See {@link UserPermissionOperations}. */
-  public get userPermissions(): UserPermissionOperations<OperationOptions> {
-    return new UserPermissionOperations(this._operationsOptions);
-  }
-
   /**
    * Creates a required configuration instance from user provided options and applying default ones for not specified
    * options. See {@link iModelsClientOptions}.

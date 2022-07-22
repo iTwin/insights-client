@@ -3,7 +3,8 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
-import { GetBriefcaseListParams, GetLockListParams, GetNamedVersionListParams, IModel, Lock, NamedVersion, toArray } from "../../../../imodels-client-authoring/src/IModelsClientExports";
+import { toArray } from "../../../../../reporting/iterators/IteratorUtil";
+import { GetBriefcaseListParams, GetLockListParams, GetNamedVersionListParams, IModel, Lock, NamedVersion } from "../../../../imodels-client-authoring/src/IModelsClientExports";
 import { TestSetupError } from "../../CommonTestUtils";
 import { TestAuthorizationProvider } from "../auth/TestAuthorizationProvider";
 import { TestProjectProvider } from "../project/TestProjectProvider";

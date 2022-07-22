@@ -25,20 +25,6 @@ export class BriefcaseOperations<TOptions extends OperationOptions> extends Mana
     return acquireBriefcaseResponse.briefcase;
   }
 
-  /**
-   * Releases the specified Briefcase. Wraps the
-   * {@link https://developer.bentley.com/apis/imodels/operations/release-imodel-briefcase/ Release iModel Briefcase}
-   * operation from iModels API.
-   * @param {ReleaseBriefcaseParams} params parameters for this operation. See {@link ReleaseBriefcaseParams}.
-   * @returns {Promise<Briefcase>} a promise that resolves after operation completes.
-   */
-  public async release(params: ReleaseBriefcaseParams): Promise<void> {
-    return this.sendDeleteRequest({
-      authorization: params.authorization,
-      url: this._options.urlFormatter.getSingleBriefcaseUrl({ iModelId: params.iModelId, briefcaseId: params.briefcaseId })
-    });
-  }
-
   private getAcquireBriefcaseRequestBody(briefcaseProperties: BriefcaseProperties | undefined): object | undefined {
     if (!briefcaseProperties)
       return undefined;

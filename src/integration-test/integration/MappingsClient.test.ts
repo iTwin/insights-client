@@ -8,7 +8,7 @@ import { MappingsClient, MappingCreate, GroupCreate, GroupPropertyCreate, Calcul
 import "reflect-metadata";
 import { getTestRunId, Constants, getTestDIContainer } from "../utils/index";
 import { IModelsClient, IModelsClientOptions } from "../imodels-client-authoring/src/IModelsClient";
-import { AuthorizationCallback, EntityListIterator } from "../imodels-client-management/src/IModelsClientExports";
+import { AuthorizationCallback } from "../imodels-client-management/src/IModelsClientExports";
 import { TestUtilTypes, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider } from "../imodels-client-test-utils/src/iModelsClientTestUtilsExports";
 
 chai.should();
@@ -22,7 +22,6 @@ describe("Mapping Client", () => {
   let calculatedPropertyId: string;
   let customCalculationId: string;
 
-  let iModelsClient: IModelsClient;
   let authorization: AuthorizationCallback;
   let testIModelGroup: TestIModelGroup;
   let testIModel: IModelMetadata;
@@ -32,9 +31,6 @@ describe("Mapping Client", () => {
     this.timeout(0);
 
     const container = getTestDIContainer();
-
-    const iModelsClientOptions = container.get<IModelsClientOptions>(TestUtilTypes.IModelsClientOptions);
-    iModelsClient = new IModelsClient(iModelsClientOptions);
     
     const authorizationProvider = container.get(TestAuthorizationProvider);
     authorization = authorizationProvider.getAdmin1Authorization();

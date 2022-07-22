@@ -36,47 +36,8 @@ export class AzureSdkFileHandler implements FileHandler {
     await blockBlobClient.uploadFile(params.sourceFilePath, uploadOptions);
   }
 
-  public async downloadFile(params: DownloadFileParams): Promise<void> {
-    if (this.isUrlExpired(params.downloadUrl))
-      throw new Error("AzureSdkFileHandler: cannot download file because SAS url is expired.");
-
-    const blockBlobClient = new BlockBlobClient(params.downloadUrl, new AnonymousCredential());
-
-    let downloadOptions: BlobDownloadOptions | undefined;
-    if (params.progressCallback) {
-      const blobProperties: BlobGetPropertiesResponse = await blockBlobClient.getProperties();
-      const fileSize = blobProperties.contentLength!;
-      downloadOptions = {
-        onProgress: this.adaptProgressCallback(params.progressCallback, fileSize)
-      };
-    }
-
-    await blockBlobClient.downloadToFile(params.targetFilePath, undefined, undefined, downloadOptions);
-  }
-
-  public exists(filePath: string): boolean {
-    return fs.existsSync(filePath);
-  }
-
   public getFileSize(filePath: string): number {
     return fs.statSync(filePath).size;
-  }
-
-  public unlink(filePath: string): void {
-    return fs.unlinkSync(filePath);
-  }
-
-  public createDirectory(directoryPath: string): void {
-    if (fs.existsSync(directoryPath))
-      return;
-
-    const parentDirectory = path.dirname(directoryPath);
-    this.createDirectory(parentDirectory);
-    fs.mkdirSync(directoryPath);
-  }
-
-  public join(...paths: string[]): string {
-    return path.join(...paths);
   }
 
   private isUrlExpired(url: string): boolean {

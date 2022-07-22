@@ -3,7 +3,9 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 
-import { OperationsBase, EntityListIterator, EntityListIteratorImpl } from "../../../../imodels-client-management/src/IModelsClientExports";
+import { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
+import { EntityListIteratorImpl } from "../../../../../reporting/iterators/EntityListIteratorImpl";
+import { OperationsBase } from "../../../../imodels-client-management/src/IModelsClientExports";
 import { Lock, LockResponse, LocksResponse } from "../../base";
 import { OperationOptions } from "../OperationOptions";
 import { GetLockListParams, UpdateLockParams } from "./LockOperationParams";

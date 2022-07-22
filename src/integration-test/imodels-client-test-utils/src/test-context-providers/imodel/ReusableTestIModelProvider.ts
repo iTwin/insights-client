@@ -55,5 +55,4 @@ export class ReusableTestIModelProvider {
     };
     return this._iModelsClient.iModels.delete(deleteIModelParams);
   }
-
 }

@@ -47,42 +47,9 @@ export interface FileHandler {
   uploadFile(params: UploadFileParams): Promise<void>;
 
   /**
-   * Downloads file from the remote target to the local source and reports progress via the user-passed progress callback.
-   * @param {DownloadFileParams} params parameters for this operation. See {@link DownloadFileParams}.
-   * @returns a promise that resolves after operation completes.
-   */
-  downloadFile(params: DownloadFileParams): Promise<void>;
-
-  /**
-   * Determines if a file with the specified path exists in the file system.
-   * @param {string} filePath path of the file.
-   * @returns `true` if the file exists, `false` otherwise.
-   */
-  exists(filePath: string): boolean;
-
-  /**
    * Determines size of the specified file.
    * @param {string} filePath path of the file.
    * @returns file size in bytes.
    */
   getFileSize(filePath: string): number;
-
-  /**
-   * Deletes the specified file.
-   * @param {string} filePath path of the file.
-   */
-  unlink(filePath: string): void;
-
-  /**
-   * Creates specified directory recursively.
-   * @param {string} directoryPath directory to create.
-   */
-  createDirectory(directoryPath: string): void;
-
-  /**
-   * Joins all path segments together into a normalized path.
-   * @param {string[]} paths path segments to join.
-   * @returns normalized path.
-   */
-  join(...paths: string[]): string;
 }

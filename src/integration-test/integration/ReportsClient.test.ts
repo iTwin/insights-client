@@ -19,7 +19,6 @@ describe("Reports Client", () => {
   const mappingsClient: MappingsClient = new MappingsClient();
   let accessToken: string;
 
-  let iModelsClient: IModelsClient;
   let authorization: AuthorizationCallback;
   let testIModelGroup: TestIModelGroup;
   let testIModel: IModelMetadata;
@@ -34,9 +33,6 @@ describe("Reports Client", () => {
     this.timeout(0);
 
     const container = getTestDIContainer();
-
-    const iModelsClientOptions = container.get<IModelsClientOptions>(TestUtilTypes.IModelsClientOptions);
-    iModelsClient = new IModelsClient(iModelsClientOptions);
     
     const authorizationProvider = container.get(TestAuthorizationProvider);
     authorization = authorizationProvider.getAdmin1Authorization();
@@ -56,6 +52,24 @@ describe("Reports Client", () => {
     const reusableTestIModelProvider = container.get(ReusableTestIModelProvider);
     testIModel = await reusableTestIModelProvider.getOrCreate();
 
+    //create mappings for tests
+    const newMapping: MappingCreate = {
+      mappingName: "Test1"
+    }
+    let mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
+    expect(mapping).to.not.be.undefined;
+    mappingIds.push(mapping.id);
+
+    newMapping.mappingName = "Test2";
+    mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
+    expect(mapping).to.not.be.undefined;
+    mappingIds.push(mapping.id);
+
+    newMapping.mappingName = "Test3";
+    mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
+    expect(mapping).to.not.be.undefined;
+    mappingIds.push(mapping.id);
+
     //create reports for tests
     const newReport: ReportCreate = {
       displayName: "Test1",
@@ -74,24 +88,6 @@ describe("Reports Client", () => {
     report = await reportsClient.createReport(accessToken, newReport);
     expect(report).to.not.be.undefined;
     reportIds.push(report.id);
-
-    //create mappings for tests
-    const newMapping: MappingCreate = {
-      mappingName: "Test1"
-    }
-    let mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    expect(mapping).to.not.be.undefined;
-    mappingIds.push(mapping.id);
-
-    newMapping.mappingName = "Test2";
-    mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    expect(mapping).to.not.be.undefined;
-    mappingIds.push(mapping.id);
-
-    newMapping.mappingName = "Test3";
-    mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    expect(mapping).to.not.be.undefined;
-    mappingIds.push(mapping.id);
 
     //create reportMappings for tests
     let newReportMapping: ReportMappingCreate = {
