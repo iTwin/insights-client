@@ -6,3 +6,5 @@ export * from "./IModelsClientsTestsConfig";
 export * from "./Constants";
 export * from "./GlobalSetup.test";
 export * from "./TestDiContainerProvider";
+export * from "./imodels-client-test-utils/iModelsClientTestUtilsExports";
+export * from "./imodels-client-authoring/IModelsClientExports";

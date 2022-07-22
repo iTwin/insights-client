@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 import * as dotenv from "dotenv";
 import { injectable } from "inversify";
-import { BaseIntegrationTestsConfig, AuthConfigValues, ApisConfigValues, TestUsersConfigValues, BehaviorOptions } from "../imodels-client-test-utils/src/BaseIntegrationTestsConfig";
-import { TestSetupError } from "../imodels-client-test-utils/src/CommonTestUtils";
+import { BaseIntegrationTestsConfig, AuthConfigValues, ApisConfigValues, TestUsersConfigValues, BehaviorOptions } from "../utils/imodels-client-test-utils/BaseIntegrationTestsConfig";
+import { TestSetupError } from "../utils/imodels-client-test-utils/CommonTestUtils";
 
 @injectable()
 export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {

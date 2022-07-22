@@ -4,12 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 const chai = require('chai').use(require('chai-as-promised'));
 import { expect } from "chai";
-import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, ExtractionStatusSingle, GroupCollection, GroupCreate, MappingCreate, MappingsClient } from "../../reporting";
+import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, MappingCreate, MappingsClient } from "../../reporting";
 import "reflect-metadata";
-import { getTestRunId, Constants, getTestDIContainer } from "../utils/index";
-import { IModelsClient, IModelsClientOptions } from "../imodels-client-authoring/src/IModelsClient";
-import { AuthorizationCallback } from "../imodels-client-management/src/IModelsClientExports";
-import { TestUtilTypes, TestIModelGroup, TestIModelGroupFactory, BaseIntegrationTestsConfig, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider } from "../imodels-client-test-utils/src/iModelsClientTestUtilsExports";
+import { getTestRunId, TestConstants, getTestDIContainer, AuthorizationCallback, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider } from "../utils";
 
 chai.should();
 describe("Extraction Client", () => {
@@ -36,7 +33,7 @@ describe("Extraction Client", () => {
     testIModelFileProvider = container.get(TestIModelFileProvider);
 
     const testIModelGroupFactory = container.get(TestIModelGroupFactory);
-    testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: Constants.PackagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
+    testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: TestConstants.PackagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
 
     const testIModelCreator = container.get(TestIModelCreator);
     testIModel = await testIModelCreator.createEmptyAndUploadChangesets(testIModelGroup.getPrefixedUniqueIModelName("Test iModel for write"));

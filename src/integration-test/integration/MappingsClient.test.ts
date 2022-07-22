@@ -4,12 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 const chai = require('chai').use(require('chai-as-promised'))
 import { expect } from "chai";
-import { MappingsClient, MappingCreate, GroupCreate, GroupPropertyCreate, CalculatedPropertyCreate, CustomCalculationCreate, MappingUpdate, ECProperty, GroupUpdate, CalculatedPropertyUpdate, CustomCalculationUpdate, GroupPropertyUpdate, MappingCopy, DataType, QuantityType, CalculatedPropertyType, Mapping } from "../../reporting";
+import { MappingsClient, MappingCreate, GroupCreate, GroupPropertyCreate, CalculatedPropertyCreate, CustomCalculationCreate, MappingUpdate, ECProperty, GroupUpdate, CalculatedPropertyUpdate, CustomCalculationUpdate, GroupPropertyUpdate, MappingCopy, DataType, QuantityType, CalculatedPropertyType } from "../../reporting";
 import "reflect-metadata";
-import { getTestRunId, Constants, getTestDIContainer } from "../utils/index";
-import { IModelsClient, IModelsClientOptions } from "../imodels-client-authoring/src/IModelsClient";
-import { AuthorizationCallback } from "../imodels-client-management/src/IModelsClientExports";
-import { TestUtilTypes, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider } from "../imodels-client-test-utils/src/iModelsClientTestUtilsExports";
+import { AuthorizationCallback, getTestRunId, TestConstants, getTestDIContainer, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider } from "../utils/";
 
 chai.should();
 describe("Mapping Client", () => {
@@ -39,7 +36,7 @@ describe("Mapping Client", () => {
     testIModelFileProvider = container.get(TestIModelFileProvider);
 
     const testIModelGroupFactory = container.get(TestIModelGroupFactory);
-    testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: Constants.PackagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
+    testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: TestConstants.PackagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
 
     const testIModelCreator = container.get(TestIModelCreator);
     testIModel = await testIModelCreator.createEmptyAndUploadChangesets(testIModelGroup.getPrefixedUniqueIModelName("Test iModel for write"));

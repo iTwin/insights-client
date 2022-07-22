@@ -4,13 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 const chai = require('chai').use(require('chai-as-promised'))
 import { expect } from "chai";
-import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, ExtractionStatusSingle, ExtractorState, GroupCollection, GroupCreate, MappingCreate, MappingsClient, ODataClient, ODataItem, ReportCreate, ReportMappingCreate, ReportsClient } from "../../reporting";
+import { ExtractionClient, ExtractionStatus, ExtractorState, GroupCreate, MappingCreate, MappingsClient, ODataClient, ODataItem, ReportCreate, ReportMappingCreate, ReportsClient } from "../../reporting";
 import "reflect-metadata";
-import { getTestRunId, Constants, getTestDIContainer } from "../utils/index";
-import { IModelsClient, IModelsClientOptions } from "../imodels-client-authoring/src/IModelsClient";
-import { AuthorizationCallback } from "../imodels-client-management/src/IModelsClientExports";
-import { TestUtilTypes, TestIModelGroup, TestIModelGroupFactory, BaseIntegrationTestsConfig, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider, TestProjectProvider, sleep } from "../imodels-client-test-utils/src/iModelsClientTestUtilsExports";
-import { report } from "process";
+import { getTestRunId, TestConstants, getTestDIContainer, AuthorizationCallback, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider, TestProjectProvider, sleep } from "../utils";
 
 chai.should();
 describe("OData Client", () => {
@@ -45,7 +41,7 @@ describe("OData Client", () => {
     projectId = await testProjectProvider.getOrCreate();
 
     const testIModelGroupFactory = container.get(TestIModelGroupFactory);
-    testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: Constants.PackagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
+    testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: TestConstants.PackagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
 
     const testIModelCreator = container.get(TestIModelCreator);
     testIModel = await testIModelCreator.createEmptyAndUploadChangesets(testIModelGroup.getPrefixedUniqueIModelName("Test iModel for write"));

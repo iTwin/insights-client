@@ -5,13 +5,8 @@
 const chai = require('chai').use(require('chai-as-promised'))
 import { expect } from "chai";
 import "reflect-metadata";
-import { getTestRunId, Constants, getTestDIContainer } from "../utils/index";
-import { IModelsClient, IModelsClientOptions } from "../imodels-client-authoring/src/IModelsClient";
-import { AuthorizationCallback } from "../imodels-client-management/src/IModelsClientExports";
-import { TestUtilTypes, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider, TestProjectProvider } from "../imodels-client-test-utils/src/iModelsClientTestUtilsExports";
+import { AuthorizationCallback, getTestRunId, TestConstants, getTestDIContainer, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider, TestProjectProvider } from "../utils";
 import { MappingCreate, MappingsClient, Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate, RequiredError } from "../../reporting";
-import { createPipelineFromOptions } from "@azure/core-http";
-import { report } from "process";
 
 chai.should();
 describe("Reports Client", () => {
@@ -44,7 +39,7 @@ describe("Reports Client", () => {
     testIModelFileProvider = container.get(TestIModelFileProvider);
 
     const testIModelGroupFactory = container.get(TestIModelGroupFactory);
-    testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: Constants.PackagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
+    testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: TestConstants.PackagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
 
     const testIModelCreator = container.get(TestIModelCreator);
     testIModel = await testIModelCreator.createEmptyAndUploadChangesets(testIModelGroup.getPrefixedUniqueIModelName("Test iModel for write"));

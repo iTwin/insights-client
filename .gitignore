@@ -14,3 +14,5 @@ pnpm-debug.log
 
 # Mac specfic
 .DS_Store
+
+.nyc_output

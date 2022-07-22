@@ -9,13 +9,13 @@
     "build": "npm run -s build:cjs && npm run -s build:esm && npm run copy",
     "build:cjs": "tsc 1>&2 --outDir lib/cjs",
     "build:esm": "tsc 1>&2 --module es6 --outDir lib/esm",
-    "copy": "copyfiles -u 4 src/integration-test/imodels-client-test-utils/src/assets/* src/integration-test/imodels-client-test-utils/src/assets/changesets/* lib/cjs/integration-test/imodels-client-test-utils/src",
+    "copy": "copyfiles -u 4 src/integration-test/utils/imodels-client-test-utils/assets/* src/integration-test/utils/imodels-client-test-utils/assets/changesets/* lib/cjs/integration-test/utils/imodels-client-test-utils",
     "lint": "eslint \"*/**/*.{js,ts}\"",
     "lint:fix": "npm run lint -- --fix",
     "lint:copyright": "node scripts/copyright-linter.js",
     "pack": "npm pack",
-    "cover": "nyc mocha lib/cjs/integration-test/**/*.test.js",
-    "test:integration": "mocha lib/cjs/integration-test/**/ReportsClient.test.js --color",
+    "cover": "nyc mocha lib/cjs/test/**/*.test.js",
+    "test:integration": "mocha lib/cjs/integration-test/**/*.test.js --color",
     "test:unit": "mocha lib/cjs/test/**/*.test.js --color"
   },
   "keywords": [
