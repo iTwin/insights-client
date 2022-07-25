@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { CalculatedPropertyLinks } from "./CalculatedProperties";
-import { PagedResponseLinks } from "../Links";
+import { PagedResponseLinks } from "./Links";
 import { DataType, QuantityType } from "./GroupProperties";
 
 /**
@@ -31,13 +31,13 @@ export interface CustomCalculation {
    */
   formula: string;
   /**
-   * The data type of the CustomCalculation. One of 'Boolean', 'Number', 'String', or 'Undefined'.
+   * The data type of the CustomCalculation.
    * @type {string}
    * @memberof CustomCalculation
    */
   dataType: DataType;
   /**
-   * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
+   * The quantity type of the CustomCalculation.
    * @type {string}
    * @memberof CustomCalculation
    */
@@ -89,7 +89,7 @@ export interface CustomCalculationCreate {
    */
   formula: string;
   /**
-   * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'. Default is 'Undefined'.
+   * The quantity type of the CustomCalculation.
    * @type {string}
    * @memberof CustomCalculationCreate
    */
@@ -129,7 +129,7 @@ export interface CustomCalculationUpdate {
    */
   formula?: string;
   /**
-   * The quantity type of the CustomCalculation. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
+   * The quantity type of the CustomCalculation.
    * @type {string}
    * @memberof CustomCalculationUpdate
    */

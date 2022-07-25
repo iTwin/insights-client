@@ -23,7 +23,7 @@ export interface ErrorDetails {
 }
 
 /**
- * Gives details for an error that occurred while handling the request. Note that clients MUST NOT assume that every failed request will produce an object of this schema, or that all of the properties in the response will be non-null, as the error may have prevented this response from being constructed.
+ * Gives details for an error that occurred while handling the request.
  * @export
  * @interface ErrorResponse
  */

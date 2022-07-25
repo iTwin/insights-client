@@ -8,11 +8,11 @@ import { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { OperationsBase } from "../OperationsBase";
-import { CalculatedProperty, CalculatedPropertyCollection, CalculatedPropertySingle, CalculatedPropertyCreate, CalculatedPropertyUpdate, CalculatedPropertyType } from "../interfaces/mappingInterfaces/CalculatedProperties";
-import { CustomCalculation, CustomCalculationCollection, CustomCalculationSingle, CustomCalculationCreate, CustomCalculationUpdate } from "../interfaces/mappingInterfaces/CustumCalculations";
-import { GroupProperty, GroupPropertyCollection, GroupPropertySingle, GroupPropertyCreate, GroupPropertyUpdate, DataType } from "../interfaces/mappingInterfaces/GroupProperties";
-import { Group, GroupCollection, GroupCreate, GroupSingle, GroupUpdate } from "../interfaces/mappingInterfaces/Groups";
-import { Mapping, MappingCollection, MappingSingle, MappingCreate, MappingUpdate, MappingCopy } from "../interfaces/mappingInterfaces/Mappings";
+import { CalculatedProperty, CalculatedPropertyCollection, CalculatedPropertySingle, CalculatedPropertyCreate, CalculatedPropertyUpdate, CalculatedPropertyType } from "../interfaces/CalculatedProperties";
+import { CustomCalculation, CustomCalculationCollection, CustomCalculationSingle, CustomCalculationCreate, CustomCalculationUpdate } from "../interfaces/CustomCalculations";
+import { GroupProperty, GroupPropertyCollection, GroupPropertySingle, GroupPropertyCreate, GroupPropertyUpdate, DataType } from "../interfaces/GroupProperties";
+import { Group, GroupCollection, GroupCreate, GroupSingle, GroupUpdate } from "../interfaces/Groups";
+import { Mapping, MappingCollection, MappingSingle, MappingCreate, MappingUpdate, MappingCopy } from "../interfaces/Mappings";
 
 export interface MappingsClientInterface {
   getMappings(

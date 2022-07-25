@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { AccessToken } from "@itwin/core-bentley";
-import { ODataResponse, ODataItem, ODataEntityResponse } from "../interfaces/OData";
+import { ODataResponse, ODataItem, ODataEntityResponse, ODataEntityValue } from "../interfaces/OData";
 import { OperationsBase } from "../OperationsBase";
 
 export interface ODataClientInterface{
@@ -15,7 +15,7 @@ export interface ODataClientInterface{
     accessToken: AccessToken,
     reportId: string,
     odataItem: ODataItem
-  ): Promise<{[key: string]: string;}[] | undefined>,
+  ): Promise<ODataEntityValue | undefined>,
   getODataReportMetadata(
     accessToken: AccessToken,
     reportId: string
@@ -50,7 +50,7 @@ export class ODataClient extends OperationsBase implements ODataClientInterface{
       return undefined;
     }
     let sequence = 0;
-    const reportData: Array<{[key: string]: string}> = [];
+    const reportData: ODataEntityValue = [];
     let response: ODataEntityResponse;
     let url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${encodeURIComponent(segments[0])}/${encodeURIComponent(segments[1])}/${encodeURIComponent(segments[2])}?sequence=${encodeURIComponent(sequence)}`;
     do {

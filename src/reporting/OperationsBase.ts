@@ -3,12 +3,11 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import isomorphicFetch from 'cross-fetch';
-import { DataType, ECProperty } from './interfaces/mappingInterfaces/GroupProperties';
+import { DataType, ECProperty } from './interfaces/GroupProperties';
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 
 export class OperationsBase {
-
   public readonly fetch = isomorphicFetch;
   public readonly basePath;
 
@@ -26,20 +25,16 @@ export class OperationsBase {
   public createRequest(operation: string, accessToken: string, content?: string): RequestInit {
     const request: RequestInit = {
       method: operation,
-      headers: {
-        Authorization: String(accessToken),
-        Accept: ACCEPT,
-      }
     };
-    if (content) {
-      const header: HeadersInit = {
-        'Content-Type': "application/json",
-        Authorization: String(accessToken),
-        Accept: ACCEPT,
-      }
-      request.body = content;
-      request.headers = header;
+    const header: HeadersInit = {
+      Authorization: accessToken,
+      Accept: ACCEPT,
     }
+    if (content) {
+      header['Content-Type'] = "application/json",
+      request.body = content;
+    }
+    request.headers = header;
     return request;
   }
 
@@ -79,7 +74,7 @@ export class OperationsBase {
    * @param {string} input
    * @memberof OperationsBase
    */
-  public isNullOrWhitespace(input: string) {
+  public isNullOrWhitespace(input: string | null | undefined) {
     return !input || !input.trim();
   }
   
@@ -90,8 +85,8 @@ export class OperationsBase {
    */
   public isValidECProperty (prop: ECProperty): boolean {
     return !this.isNullOrWhitespace(prop.ecSchemaName) &&
-    !this.isNullOrWhitespace(prop.ecClassName) &&
-    !this.isNullOrWhitespace(prop.ecPropertyName) &&
-    DataType.Undefined != prop.ecPropertyType;
+      !this.isNullOrWhitespace(prop.ecClassName) &&
+      !this.isNullOrWhitespace(prop.ecPropertyName) &&
+      DataType.Undefined != prop.ecPropertyType;
   }
 }

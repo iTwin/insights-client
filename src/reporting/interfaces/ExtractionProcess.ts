@@ -7,15 +7,29 @@ import { Link, PagedResponseLinks } from "./Links";
 /**
  * Contains contextual hyperlinks to related data.
  * @export
- * @interface ExtractionLinks
+ * @interface ExtractionStatusLinks
  */
-export interface ExtractionLinks {
+export interface ExtractionStatusLinks {
   /**
    *
    * @type {Link}
-   * @memberof ExtractionLinks
+   * @memberof ExtractionStatusLinks
    */
   logs: Link;
+}
+
+/**
+ * Contains contextual hyperlinks to related data.
+ * @export
+ * @interface ExtractionRunLinks
+ */
+ export interface ExtractionRunLinks {
+  /**
+   *
+   * @type {Link}
+   * @memberof ExtractionRunLinks
+   */
+  status: Link;
 }
 
 /**
@@ -155,7 +169,7 @@ export interface ExtractionStatusSingle {
  */
 export interface ExtractionStatus {
   /**
-   * Current state of the Extraction Run - 'Running', 'Succeeded', or 'Failed'.
+   * Current state of the Extraction Run.
    * @type {string}
    * @memberof ExtractionStatus
    */
@@ -177,7 +191,7 @@ export interface ExtractionStatus {
    * @type {ExtractionLinks}
    * @memberof ExtractionStatus
    */
-  _links: ExtractionLinks;
+  _links: ExtractionStatusLinks;
 }
 
 export enum ExtractorState {

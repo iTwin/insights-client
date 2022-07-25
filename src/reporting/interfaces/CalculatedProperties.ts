@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { Link, PagedResponseLinks } from "../Links";
+import { Link, PagedResponseLinks } from "./Links";
 import { QuantityType } from "./GroupProperties";
 
 /**
@@ -24,13 +24,13 @@ export interface CalculatedProperty {
    */
   propertyName: string;
   /**
-   * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
+   * The type of the CalculatedProperty.
    * @type {string}
    * @memberof CalculatedProperty
    */
   type: CalculatedPropertyType;
   /**
-   * The quantity type of the CalculatedProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
+   * The quantity type of the CalculatedProperty.
    * @type {string}
    * @memberof CalculatedProperty
    */
@@ -76,7 +76,7 @@ export interface CalculatedPropertyCreate {
    */
   propertyName: string;
   /**
-   * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
+   * The type of the CalculatedProperty.
    * @type {string}
    * @memberof CalculatedPropertyCreate
    */
@@ -137,7 +137,7 @@ export interface CalculatedPropertyUpdate {
    */
   propertyName?: string;
   /**
-   * The type of the CalculatedProperty. One of 'Area', 'Length', 'Volume', 'BoundingBoxLongestEdgeLength', 'BoundingBoxIntermediateEdgeLength', 'BoundingBoxShortestEdgeLength', 'BoundingBoxDiagonalLength', 'BoundingBoxLongestFaceDiagonalLength', 'BoundingBoxIntermediateFaceDiagonalLength', 'BoundingBoxShortestFaceDiagonalLength'.
+   * The type of the CalculatedProperty.
    * @type {string}
    * @memberof CalculatedPropertyUpdate
    */

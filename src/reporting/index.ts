@@ -16,16 +16,16 @@
  */
 
 export * from "./clients/ReportsClient";
-export * from "./interfaces/mappingInterfaces/CalculatedProperties";
-export * from "./interfaces/mappingInterfaces/CustumCalculations";
+export * from "./interfaces/CalculatedProperties";
+export * from "./interfaces/CustomCalculations";
 export * from "./clients/MappingsClient";
 export * from "./interfaces/Errors";
 export * from "./interfaces/ExtractionProcess";
 export * from "./clients/ExtractionClient";
-export * from "./interfaces/mappingInterfaces/GroupProperties";
-export * from "./interfaces/mappingInterfaces/Groups";
+export * from "./interfaces/GroupProperties";
+export * from "./interfaces/Groups";
 export * from "./interfaces/Links";
-export * from "./interfaces/mappingInterfaces/Mappings";
+export * from "./interfaces/Mappings";
 export * from "./interfaces/OData";
 export * from "./clients/ODataClient";
 export * from "./interfaces/Reports";

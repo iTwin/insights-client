@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { PagedResponseLinks } from "../Links";
+import { PagedResponseLinks } from "./Links";
 
 /**
  * Defines a target ECProperty for a Group. This is used to determine what properties will be read from the query response of a Group.
@@ -37,7 +37,7 @@ export interface ECProperty {
 }
 
 /**
- * Defines a one-to-many property mapping to a set of ECProperties for a Group - to be used when a Group query will return data from multiple ECClasses.
+ * Defines a mapping for a group and some number of distinct ECProperties.
  * @export
  * @interface GroupProperty
  */
@@ -55,13 +55,13 @@ export interface GroupProperty {
    */
   propertyName: string;
   /**
-   * The data type of the GroupProperty. One of 'Boolean', 'Number', 'String', or 'Undefined'.
+   * The data type of the GroupProperty.
    * @type {string}
    * @memberof GroupProperty
    */
   dataType: DataType;
   /**
-   * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
+   * The quantity type of the GroupProperty.
    * @type {string}
    * @memberof GroupProperty
    */
@@ -107,13 +107,13 @@ export interface GroupPropertyCreate {
    */
   propertyName: string;
   /**
-   * The data type of the GroupProperty. One of 'Boolean', 'Number', 'String', or 'Undefined'.
+   * The data type of the GroupProperty.
    * @type {string}
    * @memberof GroupPropertyCreate
    */
   dataType: DataType;
   /**
-   * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
+   * The quantity type of the GroupProperty.
    * @type {string}
    * @memberof GroupPropertyCreate
    */
@@ -153,13 +153,13 @@ export interface GroupPropertyUpdate {
    */
   propertyName: string;
   /**
-   * The data type of the GroupProperty. One of 'Boolean', 'Number', 'String', or 'Undefined'.
+   * The data type of the GroupProperty.
    * @type {string}
    * @memberof GroupPropertyUpdate
    */
   dataType: DataType;
   /**
-   * The quantity type of the GroupProperty. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', 'Volume, or 'Undefined'.
+   * The quantity type of the GroupProperty.
    * @type {string}
    * @memberof GroupPropertyUpdate
    */

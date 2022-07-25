@@ -5,7 +5,7 @@
 import * as chaiAsPromised from 'chai-as-promised';
 import { expect, use } from 'chai';
 import * as sinon from "sinon";
-import { ODataClient, ODataItem, ODataEntityResponse } from "../reporting";
+import { ODataClient, ODataItem, ODataEntityResponse, ODataEntityValue } from "../reporting";
 use(chaiAsPromised);
 
 describe("OData Client", () => {
@@ -99,9 +99,9 @@ describe("OData Client", () => {
     }
     fetchStub.resolves(returns2);
     fetchStub.onCall(0).resolves(returns1);
-    let report: {[key: string]: string;}[] | undefined = await oDataClient.getODataReportEntity("-", "-", item);
+    let report: ODataEntityValue | undefined = await oDataClient.getODataReportEntity("-", "-", item);
     expect(report).to.not.be.undefined;
-    const validReport: {[key: string]: string;}[] = report ?? [];
+    const validReport: ODataEntityValue = report ?? [];
     expect(validReport.length).to.be.eq(4);
     expect(validReport[0]["one"]).to.be.eq("1");
     expect(validReport[3]["four"]).to.be.eq("4");
