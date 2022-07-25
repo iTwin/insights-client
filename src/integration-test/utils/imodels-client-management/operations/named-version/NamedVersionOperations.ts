@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 import { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../../../../reporting/iterators/EntityListIteratorImpl";
-import { MinimalNamedVersion, NamedVersion, NamedVersionResponse, NamedVersionsResponse, OperationsBase, PreferReturn } from "../../base";
+import { NamedVersion, NamedVersionResponse, NamedVersionsResponse, OperationsBase, PreferReturn } from "../../base";
 import { OperationOptions } from "../OperationOptions";
-import { CreateNamedVersionParams, GetNamedVersionListParams, GetSingleNamedVersionParams, NamedVersionPropertiesForCreate, NamedVersionPropertiesForUpdate, UpdateNamedVersionParams } from "./NamedVersionOperationParams";
+import { CreateNamedVersionParams, GetNamedVersionListParams, NamedVersionPropertiesForCreate } from "./NamedVersionOperationParams";
 
 export class NamedVersionOperations<TOptions extends OperationOptions> extends OperationsBase<TOptions> {
   /**
@@ -44,7 +44,7 @@ export class NamedVersionOperations<TOptions extends OperationOptions> extends O
     return createNamedVersionResponse.namedVersion;
   }
 
-  private getCreateNamedVersionRequestBody(namedVersionProperties: NamedVersionPropertiesForCreate): object {
+  private getCreateNamedVersionRequestBody(namedVersionProperties: NamedVersionPropertiesForCreate): Record<string, unknown> {
     return {
       name: namedVersionProperties.name,
       description: namedVersionProperties.description,

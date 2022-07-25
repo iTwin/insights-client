@@ -6,7 +6,7 @@ import { AccessToken } from "@itwin/core-bentley";
 import { RequiredError } from "../interfaces/Errors";
 import { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
-import { collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
+import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { OperationsBase } from "../OperationsBase";
 import { CalculatedProperty, CalculatedPropertyCollection, CalculatedPropertySingle, CalculatedPropertyCreate, CalculatedPropertyUpdate, CalculatedPropertyType } from "../interfaces/mappingInterfaces/CalculatedProperties";
 import { CustomCalculation, CustomCalculationCollection, CustomCalculationSingle, CustomCalculationCreate, CustomCalculationUpdate } from "../interfaces/mappingInterfaces/CustumCalculations";
@@ -236,13 +236,13 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
    * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
    */
   public getMappingsIterator(accessToken: AccessToken, iModelId: string, top?: number): EntityListIterator<Mapping> {
-    let url: string = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
+    let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
     url += top ?  `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Mapping>(
       url,
       this.createRequest("GET", accessToken),
-      async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: MappingCollection = await this.fetchData<MappingCollection>(url, requestOptions);
+      async (url: string, requestOptions: RequestInit): Promise<Collection<Mapping>> => {
+        const response: MappingCollection = await this.fetchData<MappingCollection>(url, requestOptions);
         return {
           values: response.mappings,
           _links: response._links,
@@ -319,7 +319,7 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(mapping));
-    return (await this.fetchData<MappingSingle>(url, requestOptions)).mapping;;
+    return (await this.fetchData<MappingSingle>(url, requestOptions)).mapping;
   }
 
   /**
@@ -411,13 +411,13 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     mappingId: string,
     top?: number
   ): EntityListIterator<Group> {
-    let url: string = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
+    let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Group>(
       url,
       this.createRequest("GET", accessToken),
-      async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: GroupCollection = await this.fetchData<GroupCollection>(url, requestOptions);
+      async (url: string, requestOptions: RequestInit): Promise<Collection<Group>> => {
+        const response: GroupCollection = await this.fetchData<GroupCollection>(url, requestOptions);
         return {
           values: response.groups,
           _links: response._links,
@@ -583,13 +583,13 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     groupId: string,
     top?: number
   ): EntityListIterator<GroupProperty> {
-    let url: string = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
+    let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<GroupProperty>(
       url,
       this.createRequest("GET", accessToken),
-      async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: GroupPropertyCollection = await this.fetchData<GroupPropertyCollection>(url, requestOptions);
+      async (url: string, requestOptions: RequestInit): Promise<Collection<GroupProperty>> => {
+        const response: GroupPropertyCollection = await this.fetchData<GroupPropertyCollection>(url, requestOptions);
         return {
           values: response.properties,
           _links: response._links,
@@ -783,13 +783,13 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     groupId: string,
     top?: number
   ): EntityListIterator<CalculatedProperty> {
-    let url: string = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
+    let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<CalculatedProperty>(
       url,
       this.createRequest("GET", accessToken),
-      async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: CalculatedPropertyCollection = await this.fetchData<CalculatedPropertyCollection>(url, requestOptions);
+      async (url: string, requestOptions: RequestInit): Promise<Collection<CalculatedProperty>> => {
+        const response: CalculatedPropertyCollection = await this.fetchData<CalculatedPropertyCollection>(url, requestOptions);
         return {
           values: response.properties,
           _links: response._links,
@@ -960,13 +960,13 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     groupId: string,
     top?: number
   ): EntityListIterator<CustomCalculation> {
-    let url: string = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations`;
+    let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<CustomCalculation>(
       url,
       this.createRequest("GET", accessToken),
-      async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: CustomCalculationCollection = await this.fetchData<CustomCalculationCollection>(url, requestOptions);
+      async (url: string, requestOptions: RequestInit): Promise<Collection<CustomCalculation>> => {
+        const response: CustomCalculationCollection = await this.fetchData<CustomCalculationCollection>(url, requestOptions);
         return {
           values: response.customCalculations,
           _links: response._links,

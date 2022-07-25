@@ -2,13 +2,13 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-const chai = require('chai').use(require('chai-as-promised'));
-import { expect } from "chai";
+import * as chaiAsPromised from "chai-as-promised"
+import { expect, use } from "chai";
 import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, MappingCreate, MappingsClient } from "../../reporting";
 import "reflect-metadata";
-import { getTestRunId, TestConstants, getTestDIContainer, AuthorizationCallback, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider } from "../utils";
+import { getTestRunId, TestConstants, getTestDIContainer, AuthorizationCallback, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider } from "../utils";
+use(chaiAsPromised);
 
-chai.should();
 describe("Extraction Client", () => {
   const extractionClient: ExtractionClient = new ExtractionClient();
   const mappingsClient: MappingsClient = new MappingsClient();
@@ -17,7 +17,6 @@ describe("Extraction Client", () => {
   let authorization: AuthorizationCallback;
   let testIModelGroup: TestIModelGroup;
   let testIModel: IModelMetadata;
-  let testIModelFileProvider: TestIModelFileProvider;
 
   let extractionId: string;
 
@@ -29,8 +28,6 @@ describe("Extraction Client", () => {
     const authorizationProvider = container.get(TestAuthorizationProvider);
     authorization = authorizationProvider.getAdmin1Authorization();
     accessToken = "Bearer " + (await authorization()).token;
-
-    testIModelFileProvider = container.get(TestIModelFileProvider);
 
     const testIModelGroupFactory = container.get(TestIModelGroupFactory);
     testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: TestConstants.PackagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
@@ -86,6 +83,6 @@ describe("Extraction Client", () => {
     const extraction: ExtractionStatus = await extractionClient.getExtractionStatus(accessToken, extractionId);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
-    expect(extraction.state).to.not.be.equals("Failed");
+    expect(extraction.state).to.not.be.eq("Failed");
   });
 });

@@ -24,16 +24,21 @@ export class OperationsBase {
    * @memberof OperationsBase
    */
   public createRequest(operation: string, accessToken: string, content?: string): RequestInit {
-    const request: any = {
+    const request: RequestInit = {
       method: operation,
       headers: {
         Authorization: String(accessToken),
-        Accept: String(ACCEPT),
+        Accept: ACCEPT,
       }
     };
     if (content) {
-      request.headers['Content-Type'] = "application/json";
+      const header: HeadersInit = {
+        'Content-Type': "application/json",
+        Authorization: String(accessToken),
+        Accept: ACCEPT,
+      }
       request.body = content;
+      request.headers = header;
     }
     return request;
   }
@@ -51,7 +56,7 @@ export class OperationsBase {
     ).then((response) => {
       if (response.status >= 200 && response.status < 300) {
         if(response.status === 204)
-          return response;
+          {return response;}
         return response.json();
       } else {
         throw response;

@@ -4,10 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 import { ApiOptions, AxiosRestClient, RecursiveRequired, RestClient } from "./base";
 import { Constants } from "./Constants";
-import { BriefcaseOperations, ChangesetOperations, IModelOperations, NamedVersionOperations } from "./operations";
-import { CheckpointOperations } from "./operations/checkpoint/CheckpointOperations";
-import { IModelsApiUrlFormatter } from "./operations/IModelsApiUrlFormatter";
-import { OperationOptions } from "./operations/OperationOptions";
 
 /** User-configurable iModels client options. */
 export interface IModelsClientOptions {

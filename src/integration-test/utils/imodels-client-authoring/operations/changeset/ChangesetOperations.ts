@@ -2,10 +2,9 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { Changeset, ChangesetResponse, ChangesetState, IModelScopedOperationParams, IModelsErrorCode, IModelsErrorImpl, ChangesetOperations as ManagementChangesetOperations } from "../../../imodels-client-management/IModelsClientExports";
-import { DownloadedChangeset, TargetDirectoryParam } from "../../base";
+import { Changeset, ChangesetResponse, ChangesetState, ChangesetOperations as ManagementChangesetOperations } from "../../../imodels-client-management/IModelsClientExports";
 import { OperationOptions } from "../OperationOptions";
-import { ChangesetPropertiesForCreate, CreateChangesetParams, DownloadChangesetListParams, DownloadSingleChangesetParams } from "./ChangesetOperationParams";
+import { ChangesetPropertiesForCreate, CreateChangesetParams } from "./ChangesetOperationParams";
 
 export class ChangesetOperations<TOptions extends OperationOptions> extends ManagementChangesetOperations<TOptions>{
   /**
@@ -37,7 +36,7 @@ export class ChangesetOperations<TOptions extends OperationOptions> extends Mana
     return confirmUploadResponse.changeset;
   }
 
-  private getCreateChangesetRequestBody(changesetProperties: ChangesetPropertiesForCreate): object {
+  private getCreateChangesetRequestBody(changesetProperties: ChangesetPropertiesForCreate): Record<string, unknown> {
     return {
       id: changesetProperties.id,
       description: changesetProperties.description,
@@ -49,7 +48,7 @@ export class ChangesetOperations<TOptions extends OperationOptions> extends Mana
     };
   }
 
-  private getConfirmUploadRequestBody(changesetProperties: ChangesetPropertiesForCreate): object {
+  private getConfirmUploadRequestBody(changesetProperties: ChangesetPropertiesForCreate): Record<string, unknown> {
     return {
       state: ChangesetState.FileUploaded,
       briefcaseId: changesetProperties.briefcaseId

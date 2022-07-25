@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 import { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../../../../reporting/iterators/EntityListIteratorImpl";
-import { Briefcase, BriefcaseResponse, BriefcasesResponse, MinimalBriefcase, OperationsBase, PreferReturn } from "../../base";
+import { Briefcase, BriefcasesResponse, OperationsBase, PreferReturn } from "../../base";
 import { OperationOptions } from "../OperationOptions";
-import { GetBriefcaseListParams, GetSingleBriefcaseParams } from "./BriefcaseOperationParams";
+import { GetBriefcaseListParams } from "./BriefcaseOperationParams";
 
 export class BriefcaseOperations<TOptions extends OperationOptions> extends OperationsBase<TOptions> {
 

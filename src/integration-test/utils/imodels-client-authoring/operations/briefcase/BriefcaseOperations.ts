@@ -5,7 +5,7 @@
 import { Briefcase, BriefcaseResponse } from "../../../imodels-client-management/base";
 import { BriefcaseOperations as ManagementBriefcaseOperations } from "../../../imodels-client-management/IModelsClientExports"
 import { OperationOptions } from "../OperationOptions";
-import { AcquireBriefcaseParams, BriefcaseProperties, ReleaseBriefcaseParams } from "./BriefcaseOperationParams";
+import { AcquireBriefcaseParams, BriefcaseProperties } from "./BriefcaseOperationParams";
 
 export class BriefcaseOperations<TOptions extends OperationOptions> extends ManagementBriefcaseOperations<TOptions> {
   /**
@@ -25,9 +25,9 @@ export class BriefcaseOperations<TOptions extends OperationOptions> extends Mana
     return acquireBriefcaseResponse.briefcase;
   }
 
-  private getAcquireBriefcaseRequestBody(briefcaseProperties: BriefcaseProperties | undefined): object | undefined {
+  private getAcquireBriefcaseRequestBody(briefcaseProperties: BriefcaseProperties | undefined): Record<string, unknown> | undefined {
     if (!briefcaseProperties)
-      return undefined;
+      {return undefined;}
 
     return {
       deviceName: briefcaseProperties.deviceName

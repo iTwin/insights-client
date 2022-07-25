@@ -9,7 +9,6 @@ import { IModel, IModelLinks } from "../../../../imodels-client-management/base"
  * Links that belong to iModel entity returned from iModels API.
  * @deprecated
  */
-// eslint-disable-next-line deprecation/deprecation
 export type iModelLinks = IModelLinks;
 
 /**
@@ -17,6 +16,5 @@ export type iModelLinks = IModelLinks;
  * @deprecated
  */
 export interface IModelCreateResponse {
-  // eslint-disable-next-line deprecation/deprecation
   iModel: IModel & { _links: iModelLinks };
 }

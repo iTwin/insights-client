@@ -10,7 +10,7 @@ import "reflect-metadata";
 let container: Container;
 export function getTestDIContainer(): Container {
   if (container)
-    return container;
+    {return container;}
 
   container = new Container();
   TestUtilBootstrapper.bind(container);

@@ -20,36 +20,36 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
     dotenv.config();
     this.validateAllValuesPresent();
 
-    this.testProjectName = process.env.TEST_PROJECT_NAME!;
-    this.testIModelName = process.env.TEST_IMODEL_NAME!;
+    this.testProjectName = process.env.TEST_PROJECT_NAME ?? "";
+    this.testIModelName = process.env.TEST_IMODEL_NAME ?? "";
 
     this.auth = {
-      authority: process.env.AUTH_AUTHORITY!,
-      clientId: process.env.AUTH_CLIENT_ID!,
-      clientSecret: process.env.AUTH_CLIENT_SECRET!,
-      redirectUrl: process.env.AUTH_REDIRECT_URL!
+      authority: process.env.AUTH_AUTHORITY ?? "",
+      clientId: process.env.AUTH_CLIENT_ID ?? "",
+      clientSecret: process.env.AUTH_CLIENT_SECRET ?? "",
+      redirectUrl: process.env.AUTH_REDIRECT_URL ?? ""
     };
 
     this.apis = {
       iModels: {
-        baseUrl: process.env.APIS_IMODELS_BASE_URL!,
-        version: process.env.APIS_IMODELS_VERSION!,
-        scopes: process.env.APIS_IMODELS_SCOPES!
+        baseUrl: process.env.APIS_IMODELS_BASE_URL ?? "",
+        version: process.env.APIS_IMODELS_VERSION ?? "",
+        scopes: process.env.APIS_IMODELS_SCOPES ?? ""
       },
       projects: {
-        baseUrl: process.env.APIS_PROJECTS_BASE_URL!,
-        scopes: process.env.APIS_PROJECTS_SCOPES!
+        baseUrl: process.env.APIS_PROJECTS_BASE_URL ?? "",
+        scopes: process.env.APIS_PROJECTS_SCOPES ?? ""
       }
     };
 
     this.testUsers = {
       admin1: {
-        email: process.env.TEST_USERS_ADMIN1_EMAIL!,
-        password: process.env.TEST_USERS_ADMIN1_PASSWORD!
+        email: process.env.TEST_USERS_ADMIN1_EMAIL ?? "",
+        password: process.env.TEST_USERS_ADMIN1_PASSWORD ?? ""
       },
       admin2FullyFeatured: {
-        email: process.env.TEST_USERS_ADMIN2_FULLY_FEATURED_EMAIL!,
-        password: process.env.TEST_USERS_ADMIN2_FULLY_FEATURED_PASSWORD!
+        email: process.env.TEST_USERS_ADMIN2_FULLY_FEATURED_EMAIL ?? "",
+        password: process.env.TEST_USERS_ADMIN2_FULLY_FEATURED_PASSWORD ?? ""
       }
     };
 
@@ -83,6 +83,6 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
 
   private validateConfigValue(key: string): void {
     if (!process.env[key])
-      throw new TestSetupError(`Invalid configuration: missing ${key} value.`);
+      {throw new TestSetupError(`Invalid configuration: missing ${key} value.`);}
   }
 }

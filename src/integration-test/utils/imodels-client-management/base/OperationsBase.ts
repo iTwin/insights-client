@@ -57,10 +57,11 @@ export class OperationsBase<TOptions extends OperationsBaseOptions> {
     entityCollectionAccessor: (response: unknown) => TEntity[];
   }): Promise<EntityCollectionPage<TEntity>> {
     const response = await this.sendGetRequest<CollectionResponse>(params);
+    const nextLink = response._links.next;
     return {
       entities: params.entityCollectionAccessor(response),
-      next: response._links.next
-        ? async () => this.getEntityCollectionPage({ ...params, url: response._links.next!.href })
+      next: nextLink
+        ? async () => this.getEntityCollectionPage({ ...params, url: nextLink.href })
         : undefined
     };
   }
@@ -72,10 +73,10 @@ export class OperationsBase<TOptions extends OperationsBaseOptions> {
     headers[Constants.headers.accept] = `application/vnd.bentley.${this._options.api.version}+json`;
 
     if (params.preferReturn)
-      headers[Constants.headers.prefer] = `return=${params.preferReturn}`;
+      {headers[Constants.headers.prefer] = `return=${params.preferReturn}`;}
 
     if (params.containsBody)
-      headers[Constants.headers.contentType] = Constants.headers.values.contentType;
+      {headers[Constants.headers.contentType] = Constants.headers.values.contentType;}
 
     return headers;
   }

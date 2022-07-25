@@ -9,7 +9,7 @@ import { getTestDIContainer } from "./TestDiContainerProvider";
 let testRunId: string;
 export function getTestRunId(): string {
   if (!testRunId)
-    testRunId = createGuidValue();
+    {testRunId = createGuidValue();}
   return testRunId;
 }
 

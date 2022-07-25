@@ -185,4 +185,4 @@ export enum ExtractorState {
   Running = "Running",
   Succeeded = "Succeeded",
   Failed = "Failed"
-};
+}

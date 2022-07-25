@@ -4,8 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 import { PagedResponseLinks } from "../interfaces/Links";
 
-export interface collection {
-  values: Array<any>;
+export interface Collection<TEntity> {
+  values: Array<TEntity>;
   _links: PagedResponseLinks;
 }
 
@@ -21,19 +21,20 @@ export type EntityPageQueryFunc<TEntity> = () => Promise<EntityCollectionPage<TE
 export async function* flatten<TEntity>(pagedIterator: AsyncIterableIterator<TEntity[]>): AsyncIterableIterator<TEntity> {
   for await (const entityChunk of pagedIterator) {
     for (const entity of entityChunk)
-      yield entity;
+      {yield entity;}
   }
 }
 
 export async function getEntityCollectionPage<TEntity>(
   nextUrl: string,
   requestOptions: RequestInit,
-  getNextBatch: (url: string, requestOptions: RequestInit) => Promise<collection>
+  getNextBatch: (url: string, requestOptions: RequestInit) => Promise<Collection<TEntity>>
 ): Promise<EntityCollectionPage<TEntity>> {
-  const response: collection = await getNextBatch(nextUrl, requestOptions);
+  const response: Collection<TEntity> = await getNextBatch(nextUrl, requestOptions);
+  const nextLink = response._links.next;
   return {
     entities: response.values,
-    next: response._links.next ? async () => getEntityCollectionPage<TEntity>(response._links.next!.href!, requestOptions, getNextBatch) : undefined
+    next: nextLink ? async () => getEntityCollectionPage<TEntity>(nextLink.href, requestOptions, getNextBatch) : undefined
   };
 }
 
@@ -45,7 +46,7 @@ export async function getEntityCollectionPage<TEntity>(
  export async function toArray<TEntity>(iterator: AsyncIterableIterator<TEntity>): Promise<TEntity[]> {
   const result: TEntity[] = [];
   for await (const entity of iterator)
-    result.push(entity);
+    {result.push(entity);}
 
   return result;
 }

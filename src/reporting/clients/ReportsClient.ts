@@ -6,7 +6,7 @@ import { AccessToken } from "@itwin/core-bentley";
 import { RequiredError } from "../interfaces/Errors";
 import { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
-import { collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
+import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { OperationsBase } from "../OperationsBase";
 import { Report, ReportCollection, ReportSingle, ReportCreate, ReportUpdate, ReportMapping, ReportMappingCollection, ReportMappingCreate, ReportMappingSingle } from "../interfaces/Reports";
 
@@ -87,13 +87,13 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
   public getReportsIterator(accessToken: AccessToken, projectId: string, top?: number): EntityListIterator<Report> {
-    let url: string = `${this.basePath}/reports?projectId=${encodeURIComponent(projectId)}`;
+    let url = `${this.basePath}/reports?projectId=${encodeURIComponent(projectId)}`;
     url += top ? `&%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Report>(
       url,
       this.createRequest("GET", accessToken),
-      async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: ReportCollection = await this.fetchData<ReportCollection>(url, requestOptions);
+      async (url: string, requestOptions: RequestInit): Promise<Collection<Report>> => {
+        const response: ReportCollection = await this.fetchData<ReportCollection>(url, requestOptions);
         return {
           values: response.reports,
           _links: response._links,
@@ -111,7 +111,7 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
   public async getReport(accessToken: AccessToken, reportId: string): Promise<Report> {
     const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return (await this.fetchData<ReportSingle>(url, requestOptions)).report;;
+    return (await this.fetchData<ReportSingle>(url, requestOptions)).report;
   }
 
   /**
@@ -206,13 +206,13 @@ export class ReportsClient extends OperationsBase implements ReportsClientInterf
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
    */
   public getReportMappingsIterator(accessToken: AccessToken, reportId: string, top?: number): EntityListIterator<ReportMapping> {
-    let url: string = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
+    let url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ReportMapping>(
       url,
       this.createRequest("GET", accessToken),
-      async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: ReportMappingCollection = await this.fetchData<ReportMappingCollection>(url, requestOptions);
+      async (url: string, requestOptions: RequestInit): Promise<Collection<ReportMapping>> => {
+        const response: ReportMappingCollection = await this.fetchData<ReportMappingCollection>(url, requestOptions);
         return {
           values: response.mappings,
           _links: response._links,

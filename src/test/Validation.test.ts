@@ -1,8 +1,12 @@
-const chai = require('chai').use(require('chai-as-promised'));
-import { expect } from "chai";
-import { ReportsClient, MappingsClient, ReportCreate, MappingCreate, ReportMappingCreate, ReportUpdate, Report, ReportMapping, CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingUpdate, QuantityType, ODataClient, ODataItem } from "../reporting";
+/*---------------------------------------------------------------------------------------------
+* Copyright (c) Bentley Systems, Incorporated. All rights reserved.
+* See LICENSE.md in the project root for license terms and full copyright notice.
+*--------------------------------------------------------------------------------------------*/
+import * as chaiAsPromised from "chai-as-promised"
+import { expect, use } from "chai";
+import { ReportsClient, MappingsClient, ReportCreate, MappingCreate, ReportMappingCreate, ReportUpdate, CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingUpdate, QuantityType, ODataClient, ODataItem } from "../reporting";
+use(chaiAsPromised);
 
-chai.should();
 describe("Validation", () => {
   const reportsClient = new ReportsClient();
   const mappingsClient = new MappingsClient();
@@ -10,7 +14,7 @@ describe("Validation", () => {
 
   it("Reports - Create unsuccessfully", async function () {
     this.timeout(0);
-    let newReport: ReportCreate = {
+    const newReport: ReportCreate = {
       displayName: "",
       projectId: "-"
     };
@@ -27,7 +31,7 @@ describe("Validation", () => {
 
   it("Reports - Update unsuccessfully", async function () {
     this.timeout(0);
-    let reportUpdate: ReportUpdate = {};
+    const reportUpdate: ReportUpdate = {};
     await expect(reportsClient.updateReport("-", "-", reportUpdate)).to.be.rejectedWith(
       'All fields of report were null or undefined when calling updateReport.'
     );
@@ -40,7 +44,7 @@ describe("Validation", () => {
 
   it("Report mappings - Create unsuccessfully", async function () {
     this.timeout(0);
-    let newReportMapping: ReportMappingCreate = {
+    const newReportMapping: ReportMappingCreate = {
       mappingId: "",
       imodelId: "Not empty"
     }
@@ -56,7 +60,7 @@ describe("Validation", () => {
   });
 
   it("Mappings - Create unsuccessfully", async function () {
-    let newMapping: MappingCreate = {
+    const newMapping: MappingCreate = {
       mappingName: "",
     }
     await expect(mappingsClient.createMapping("-", "-", newMapping)).to.be.rejectedWith(
@@ -95,7 +99,7 @@ describe("Validation", () => {
   });
 
   it("Groups - Create unsuccessfully", async function () {
-    let newGroup: GroupCreate = {
+    const newGroup: GroupCreate = {
       groupName: "Test",
       query: ""
     }
@@ -128,13 +132,13 @@ describe("Validation", () => {
   });
 
   it("Group properties - Create unsuccessfully", async function () {
-    let ecProperty: ECProperty = {
+    const ecProperty: ECProperty = {
       ecClassName: "class",
       ecPropertyName: "property",
       ecPropertyType: DataType.String,
       ecSchemaName: "schema",
     };
-    let newProperty: GroupPropertyCreate = {
+    const newProperty: GroupPropertyCreate = {
       propertyName: "",
       dataType: DataType.Number,
       quantityType: QuantityType.Distance,
@@ -178,13 +182,13 @@ describe("Validation", () => {
   });
 
   it("Group properties - Update unsuccessfully", async function () {
-    let ecProperty: ECProperty = {
+    const ecProperty: ECProperty = {
       ecClassName: "class",
       ecPropertyName: "property",
       ecPropertyType: DataType.String,
       ecSchemaName: "schema",
     };
-    let newProperty: GroupPropertyUpdate = {
+    const newProperty: GroupPropertyUpdate = {
       propertyName: "",
       dataType: DataType.Number,
       quantityType: QuantityType.Distance,
@@ -228,7 +232,7 @@ describe("Validation", () => {
   });
 
   it("Calculated properties - Create unsuccessfully", async function () {
-    let newProperty: CalculatedPropertyCreate = {
+    const newProperty: CalculatedPropertyCreate = {
       propertyName: "",
       type: CalculatedPropertyType.Length,
     }
@@ -261,7 +265,7 @@ describe("Validation", () => {
   });
 
   it("Custom calculations - Create unsuccessfully", async function () {
-    let newCalculation: CustomCalculationCreate = {
+    const newCalculation: CustomCalculationCreate = {
       propertyName: "",
       formula: "1+1",
       quantityType: QuantityType.Distance
@@ -298,7 +302,7 @@ describe("Validation", () => {
       name: "Test",
       url: "1/2"
     }
-    let response = await oDataClient.getODataReportEntity("-", "-", item); 
+    const response = await oDataClient.getODataReportEntity("-", "-", item); 
     expect(response).to.be.undefined;
   });
 });

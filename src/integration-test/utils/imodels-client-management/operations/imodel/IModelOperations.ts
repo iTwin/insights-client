@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 import { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../../../../reporting/iterators/EntityListIteratorImpl";
-import { AuthorizationCallback, IModel, IModelResponse, IModelState, IModelsErrorCode, IModelsErrorImpl, IModelsResponse, MinimalIModel, OperationsBase, PreferReturn } from "../../base";
+import { AuthorizationCallback, IModel, IModelResponse, IModelsResponse, MinimalIModel, OperationsBase, PreferReturn } from "../../base";
 import { OperationOptions } from "../OperationOptions";
-import { CreateEmptyIModelParams, CreateIModelFromTemplateParams, DeleteIModelParams, GetIModelListParams, GetSingleIModelParams, IModelProperties, IModelPropertiesForCreateFromTemplate, IModelPropertiesForUpdate, UpdateIModelParams } from "./IModelOperationParams";
+import { CreateEmptyIModelParams, DeleteIModelParams, GetIModelListParams, IModelProperties } from "./IModelOperationParams";
 
 export class IModelOperations<TOptions extends OperationOptions> extends OperationsBase<TOptions> {
   /**
@@ -65,7 +65,7 @@ export class IModelOperations<TOptions extends OperationOptions> extends Operati
     });
   }
 
-  protected getCreateEmptyIModelRequestBody(iModelProperties: IModelProperties): object {
+  protected getCreateEmptyIModelRequestBody(iModelProperties: IModelProperties): Record<string, unknown> {
     return {
       projectId: iModelProperties.projectId,
       name: iModelProperties.name,
@@ -74,7 +74,7 @@ export class IModelOperations<TOptions extends OperationOptions> extends Operati
     };
   }
 
-  protected async sendIModelPostRequest(authorization: AuthorizationCallback, createIModelBody: object): Promise<IModel> {
+  protected async sendIModelPostRequest(authorization: AuthorizationCallback, createIModelBody: Record<string, unknown>): Promise<IModel> {
     const createIModelResponse = await this.sendPostRequest<IModelResponse>({
       authorization,
       url: this._options.urlFormatter.getCreateIModelUrl(),

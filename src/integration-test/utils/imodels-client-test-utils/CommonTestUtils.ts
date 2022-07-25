@@ -14,7 +14,7 @@ export class TestSetupError extends Error {
 
 export function createDirectory(directoryPath: string): void {
   if (fs.existsSync(directoryPath))
-    return;
+    {return;}
 
   const parentDirectory = path.dirname(directoryPath);
   createDirectory(parentDirectory);

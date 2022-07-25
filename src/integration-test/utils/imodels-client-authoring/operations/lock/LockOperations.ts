@@ -44,7 +44,7 @@ export class LockOperations<TOptions extends OperationOptions> extends Operation
     return updateLockResponse.lock;
   }
 
-  private getUpdateLockBody(params: UpdateLockParams): object {
+  private getUpdateLockBody(params: UpdateLockParams): Record<string, unknown> {
     return {
       briefcaseId: params.briefcaseId,
       changesetId: params.changesetId,

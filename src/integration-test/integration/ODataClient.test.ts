@@ -2,13 +2,13 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-const chai = require('chai').use(require('chai-as-promised'))
-import { expect } from "chai";
+import * as chaiAsPromised from "chai-as-promised"
+import { expect, use } from "chai";
 import { ExtractionClient, ExtractionStatus, ExtractorState, GroupCreate, MappingCreate, MappingsClient, ODataClient, ODataItem, ReportCreate, ReportMappingCreate, ReportsClient } from "../../reporting";
 import "reflect-metadata";
-import { getTestRunId, TestConstants, getTestDIContainer, AuthorizationCallback, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider, TestProjectProvider, sleep } from "../utils";
+import { getTestRunId, TestConstants, getTestDIContainer, AuthorizationCallback, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider, TestProjectProvider, sleep } from "../utils";
+use(chaiAsPromised);
 
-chai.should();
 describe("OData Client", () => {
   const oDataClient: ODataClient = new ODataClient();
   const reportsClient: ReportsClient = new ReportsClient();
@@ -19,12 +19,11 @@ describe("OData Client", () => {
   let reportId: string;
   let oDataItem: ODataItem;
 
-  let deletionTracker: Array<string> = [];
+  const deletionTracker: Array<string> = [];
 
   let authorization: AuthorizationCallback;
   let testIModelGroup: TestIModelGroup;
   let testIModel: IModelMetadata;
-  let testIModelFileProvider: TestIModelFileProvider;
 
   before(async function () {
     this.timeout(0);
@@ -34,8 +33,6 @@ describe("OData Client", () => {
     const authorizationProvider = container.get(TestAuthorizationProvider);
     authorization = authorizationProvider.getAdmin1Authorization();
     accessToken = "Bearer " + (await authorization()).token;
-
-    testIModelFileProvider = container.get(TestIModelFileProvider);
 
     const testProjectProvider = container.get(TestProjectProvider);
     projectId = await testProjectProvider.getOrCreate();
@@ -83,13 +80,15 @@ describe("OData Client", () => {
     const extraction = await extractionClient.runExtraction(accessToken, testIModel.id);
     expect(extraction).to.not.be.undefined;
 
+    let state = ExtractorState.Queued;
     let status: ExtractionStatus;
     for (const start = performance.now(); performance.now() - start < 6 * 60 * 1000; await sleep(3000)) {
       status = await extractionClient.getExtractionStatus(accessToken, extraction.id);
-      if(status.state !== ExtractorState.Queued && status.state.valueOf() !== ExtractorState.Running)
-        break;
+      state = status.state;
+      if(state !== ExtractorState.Queued && state.valueOf() !== ExtractorState.Running)
+        {break;}
     }
-    expect(status!.state).to.be.equals(ExtractorState.Succeeded);
+    expect(state).to.be.eq(ExtractorState.Succeeded);
 
     const oDataResponse = await oDataClient.getODataReport(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
@@ -104,15 +103,15 @@ describe("OData Client", () => {
     let i = 0;
     if(i < deletionTracker.length) {
       response = await mappingsClient.deleteMapping(accessToken, testIModel.id, deletionTracker[i]);
-      expect(response.status).to.be.equals(204);
+      expect(response.status).to.be.eq(204);
     }
     if(++i < deletionTracker.length) {
       response = await reportsClient.deleteReport(accessToken, deletionTracker[i]);
-      expect(response.status).to.be.equals(204);
+      expect(response.status).to.be.eq(204);
     }
     if(++i < deletionTracker.length) {
       response = await reportsClient.deleteReportMapping(accessToken, deletionTracker[i - 1], deletionTracker[i]);
-      expect(response.status).to.be.equals(204);
+      expect(response.status).to.be.eq(204);
     }
 
     await testIModelGroup.cleanupIModels();

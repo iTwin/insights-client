@@ -5,7 +5,7 @@
 import { AccessToken } from "@itwin/core-bentley";
 import { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
-import { collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
+import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { OperationsBase } from "../OperationsBase";
 import { ExtractionLog, ExtractionLogCollection, ExtractionRun, ExtractionRunSingle, ExtractionStatus, ExtractionStatusSingle } from "../interfaces/ExtractionProcess";
 
@@ -57,13 +57,13 @@ export class ExtractionClient extends OperationsBase implements ExtractionClient
    * @link https://developer.bentley.com/apis/insights/operations/get-extraction-logs/
    */
   public getExtractionLogsIterator(accessToken: AccessToken, jobId: string, top?: number): EntityListIterator<ExtractionLog> {
-    let url: string = `${this.basePath}/datasources/extraction/status/${encodeURIComponent(jobId)}/logs`;
+    let url = `${this.basePath}/datasources/extraction/status/${encodeURIComponent(jobId)}/logs`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ExtractionLog>(
       url,
       this.createRequest("GET", accessToken),
-      async (url: string, requestOptions: RequestInit): Promise<collection> => {
-        let response: ExtractionLogCollection = await this.fetchData(url, requestOptions);
+      async (url: string, requestOptions: RequestInit): Promise<Collection<ExtractionLog>> => {
+        const response: ExtractionLogCollection = await this.fetchData(url, requestOptions);
         return {
           values: response.logs,
           _links: response._links,

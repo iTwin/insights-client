@@ -4,7 +4,6 @@
 *--------------------------------------------------------------------------------------------*/
 import { AccessToken } from "@itwin/core-bentley";
 import { ODataResponse, ODataItem, ODataEntityResponse } from "../interfaces/OData";
-import isomorphicFetch from 'cross-fetch';
 import { OperationsBase } from "../OperationsBase";
 
 export interface ODataClientInterface{

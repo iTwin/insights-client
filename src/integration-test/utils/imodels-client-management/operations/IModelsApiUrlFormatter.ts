@@ -2,9 +2,9 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { CollectionRequestParams, OrderBy } from "../base/interfaces/CommonInterfaces";
+import { OrderBy } from "../base/interfaces/CommonInterfaces";
 import { Dictionary } from "../base/interfaces/UtilityTypes";
-import { ChangesetIdOrIndex, GetChangesetListUrlParams } from "./changeset/ChangesetOperationParams";
+import { GetChangesetListUrlParams } from "./changeset/ChangesetOperationParams";
 import { CheckpointParentEntityId, GetBriefcaseListUrlParams, GetIModelListUrlParams, GetNamedVersionListUrlParams } from ".";
 
 type OrderByForAnyEntity = OrderBy<{ [key: string]: unknown }, string>;
@@ -59,11 +59,11 @@ export class IModelsApiUrlFormatter {
     let queryString = "";
     for (const urlParameterKey in urlParameters) {
       if (!Object.prototype.hasOwnProperty.call(urlParameters, urlParameterKey))
-        continue;
+        {continue;}
 
       const urlParameterValue = urlParameters[urlParameterKey];
       if (!this.shouldAppendToUrl(urlParameterValue))
-        continue;
+        {continue;}
 
       queryString = this.appendToQueryString(queryString, urlParameterKey, urlParameterValue);
     }
@@ -73,10 +73,10 @@ export class IModelsApiUrlFormatter {
 
   private shouldAppendToUrl(urlParameterValue: UrlParameterValue): boolean {
     if (urlParameterValue === null || urlParameterValue === undefined)
-      return false;
+      {return false;}
 
     if (typeof urlParameterValue === "string" && !urlParameterValue.trim())
-      return false;
+      {return false;}
 
     return true;
   }
@@ -90,7 +90,7 @@ export class IModelsApiUrlFormatter {
     if (this.isOrderBy(urlParameterValue)) {
       let result: string = urlParameterValue.property;
       if (urlParameterValue.operator)
-        result += ` ${urlParameterValue.operator}`;
+        {result += ` ${urlParameterValue.operator}`;}
 
       return result;
     }

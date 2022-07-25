@@ -2,13 +2,13 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-const chai = require('chai').use(require('chai-as-promised'))
-import { expect } from "chai";
+import * as chaiAsPromised from "chai-as-promised"
+import { expect, use } from "chai";
 import "reflect-metadata";
-import { AuthorizationCallback, getTestRunId, TestConstants, getTestDIContainer, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestIModelFileProvider, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider, TestProjectProvider } from "../utils";
-import { MappingCreate, MappingsClient, Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate, RequiredError } from "../../reporting";
+import { AuthorizationCallback, getTestRunId, TestConstants, getTestDIContainer, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider, TestProjectProvider } from "../utils";
+import { MappingCreate, MappingsClient, Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../../reporting";
+use(chaiAsPromised);
 
-chai.should();
 describe("Reports Client", () => {
   const reportsClient: ReportsClient = new ReportsClient();
   const mappingsClient: MappingsClient = new MappingsClient();
@@ -17,12 +17,11 @@ describe("Reports Client", () => {
   let authorization: AuthorizationCallback;
   let testIModelGroup: TestIModelGroup;
   let testIModel: IModelMetadata;
-  let testIModelFileProvider: TestIModelFileProvider;
 
   let projectId: string;
-  let mappingIds: Array<string> = [];
-  let reportIds: Array<string> = [];
-  let reportMappingIds: Array<string> = [];
+  const mappingIds: Array<string> = [];
+  const reportIds: Array<string> = [];
+  const reportMappingIds: Array<string> = [];
 
   before(async function () {
     this.timeout(0);
@@ -35,8 +34,6 @@ describe("Reports Client", () => {
 
     const testProjectProvider = container.get(TestProjectProvider);
     projectId = await testProjectProvider.getOrCreate();
-
-    testIModelFileProvider = container.get(TestIModelFileProvider);
 
     const testIModelGroupFactory = container.get(TestIModelGroupFactory);
     testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: TestConstants.PackagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
@@ -85,7 +82,7 @@ describe("Reports Client", () => {
     reportIds.push(report.id);
 
     //create reportMappings for tests
-    let newReportMapping: ReportMappingCreate = {
+    const newReportMapping: ReportMappingCreate = {
       mappingId: mappingIds[mappingIds.length-3],
       imodelId: testIModel.id
     };
@@ -110,15 +107,15 @@ describe("Reports Client", () => {
     let response: Response;
     while(reportMappingIds.length > 0) {
       response = await reportsClient.deleteReportMapping(accessToken, reportIds[reportIds.length - 1], reportMappingIds.pop() ?? "");
-      expect(response.status).to.be.equals(204);
+      expect(response.status).to.be.eq(204);
     }
     while(mappingIds.length > 0) {
       response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop() ?? "");
-      expect(response.status).to.be.equals(204);
+      expect(response.status).to.be.eq(204);
     }
     while(reportIds.length > 0) {
       response = await reportsClient.deleteReport(accessToken, reportIds.pop() ?? "");
-      expect(response.status).to.be.equals(204);
+      expect(response.status).to.be.eq(204);
     }
 
     await testIModelGroup.cleanupIModels();
@@ -132,16 +129,16 @@ describe("Reports Client", () => {
       displayName: "Test",
       projectId: projectId
     }
-    let report = await reportsClient.createReport(accessToken, newReport);
+    const report = await reportsClient.createReport(accessToken, newReport);
     expect(report).to.not.be.undefined;
 
-    let response: Response = await reportsClient.deleteReport(accessToken, report.id);
-    expect(response.status).to.be.equals(204);
+    const response: Response = await reportsClient.deleteReport(accessToken, report.id);
+    expect(response.status).to.be.eq(204);
   });
 
   it("Reports - Get", async function () {
     this.timeout(0);
-    let report = await reportsClient.getReport(accessToken, reportIds[reportIds.length - 1]);
+    const report = await reportsClient.getReport(accessToken, reportIds[reportIds.length - 1]);
     expect(report).to.not.be.undefined;
   });
 
@@ -150,20 +147,20 @@ describe("Reports Client", () => {
     const reportUpdate: ReportUpdate = {
       displayName: "Updated"
     }
-    let report = await reportsClient.updateReport(accessToken, reportIds[reportIds.length - 1], reportUpdate);
+    const report = await reportsClient.updateReport(accessToken, reportIds[reportIds.length - 1], reportUpdate);
     expect(report).to.not.be.undefined;
   });
 
   it("Reports - Get all", async function () {
     this.timeout(0);
-    let reports = await reportsClient.getReports(accessToken, projectId);
+    const reports = await reportsClient.getReports(accessToken, projectId);
     expect(reports).to.not.be.undefined;
     expect(reports.length).to.be.above(2);
   });
 
   it("Reports - Get 2 with iterator", async function () {
     this.timeout(0);
-    let reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
+    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
     let reports: Report = (await reportsIt.next()).value;
     expect(reports).to.not.be.undefined;
     reports = (await reportsIt.next()).value;
@@ -172,10 +169,10 @@ describe("Reports Client", () => {
 
   it("Reports - Get 2 pages", async function () {
     this.timeout(0);
-    let reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
+    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
     let reports: Array<Report> = (await reportsIt.byPage().next()).value;
     expect(reports).to.not.be.undefined;
-    expect(reports.length).to.be.equals(2);
+    expect(reports.length).to.be.eq(2);
     reports = (await reportsIt.byPage().next()).value;
     expect(reports).to.not.be.undefined;
     expect(reports.length).to.be.above(0);
@@ -188,7 +185,7 @@ describe("Reports Client", () => {
     const newMapping: MappingCreate = {
       mappingName: "Test"
     }
-    let mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
+    const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
     expect(mapping).to.not.be.undefined;
     mappingIds.push(mapping.id);
 
@@ -196,26 +193,26 @@ describe("Reports Client", () => {
       mappingId: mappingIds[mappingIds.length - 1],
       imodelId: testIModel.id
     };
-    let reportMapping = await reportsClient.createReportMapping(accessToken, reportIds[reportIds.length - 1], newReportMapping);
+    const reportMapping = await reportsClient.createReportMapping(accessToken, reportIds[reportIds.length - 1], newReportMapping);
     expect(reportMapping).to.not.be.undefined;
     reportMappingIds.push(reportMapping.mappingId);
 
     let response: Response;
     response = await reportsClient.deleteReportMapping(accessToken, reportIds[reportIds.length - 1], reportMappingIds.pop() ?? "");
-    expect(response.status).to.be.equals(204);
+    expect(response.status).to.be.eq(204);
     response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop() ?? "");
-    expect(response.status).to.be.equals(204);
+    expect(response.status).to.be.eq(204);
   })
 
   it("Report mappings - Get all", async function () {
     this.timeout(0);
-    let reportMappings: Array<ReportMapping> = await reportsClient.getReportMappings(accessToken, reportIds[reportIds.length - 1]);
+    const reportMappings: Array<ReportMapping> = await reportsClient.getReportMappings(accessToken, reportIds[reportIds.length - 1]);
     expect(reportMappings).to.not.be.undefined;
   });
 
   it("Report mappings - Get 3 with iterator", async function () {
     this.timeout(0);
-    let reportsIt = reportsClient.getReportMappingsIterator(accessToken, reportIds[reportIds.length - 1], 2);
+    const reportsIt = reportsClient.getReportMappingsIterator(accessToken, reportIds[reportIds.length - 1], 2);
     let reportMapping: ReportMapping = (await reportsIt.next()).value;
     expect(reportMapping).to.not.be.undefined;
     reportMapping = (await reportsIt.next()).value;
@@ -226,10 +223,10 @@ describe("Reports Client", () => {
 
   it("Report mappings - Get 2 pages with iterator", async function () {
     this.timeout(0);
-    let reportsIt = reportsClient.getReportMappingsIterator(accessToken, reportIds[reportIds.length - 1], 2);
+    const reportsIt = reportsClient.getReportMappingsIterator(accessToken, reportIds[reportIds.length - 1], 2);
     let reportMappings: Array<ReportMapping> = (await reportsIt.byPage().next()).value;
     expect(reportMappings).to.not.be.undefined;
-    expect(reportMappings.length).to.be.equals(2);
+    expect(reportMappings.length).to.be.eq(2);
 
     reportMappings = (await reportsIt.byPage().next()).value;
     expect(reportMappings).to.not.be.undefined;

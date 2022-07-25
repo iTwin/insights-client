@@ -46,7 +46,7 @@ export class TestIModelCreator {
     return {
       id: iModel.id,
       name: iModel.name,
-      description: iModel.description!
+      description: iModel.description ?? ""
     };
   }
 
@@ -144,7 +144,7 @@ export class TestIModelCreator {
 
     return {
       id: briefcase.briefcaseId,
-      deviceName: briefcase.deviceName!
+      deviceName: briefcase.deviceName ?? ""
     };
   }
 
@@ -182,10 +182,10 @@ export class TestIModelCreator {
       const checkpoint = await this._iModelsClient.checkpoints.getSingle(getSingleCheckpointParams);
 
       if (checkpoint.state === CheckpointState.Successful && checkpoint._links?.download !== undefined && checkpoint.containerAccessInfo !== null)
-        return;
+        {return;}
 
       if (checkpoint.state !== CheckpointState.Scheduled && checkpoint.state !== CheckpointState.Successful)
-        throw new TestSetupError(`Checkpoint generation failed with state: ${checkpoint.state}.`);
+        {throw new TestSetupError(`Checkpoint generation failed with state: ${checkpoint.state}.`);}
 
       await sleep(sleepPeriodInMs);
     }

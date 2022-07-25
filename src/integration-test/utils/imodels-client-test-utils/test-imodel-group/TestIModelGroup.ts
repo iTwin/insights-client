@@ -21,7 +21,7 @@ export class TestIModelGroup {
   ) {
     this._iModelNamePrefix = `[${testRunContext.testRunId}][${testRunContext.packageName}]`;
     if (testRunContext.testSuiteName)
-      this._iModelNamePrefix += `[${testRunContext.testSuiteName}]`;
+      {this._iModelNamePrefix += `[${testRunContext.testSuiteName}]`;}
   }
 
   public getPrefixedUniqueIModelName(iModelName: string): string {
@@ -37,11 +37,11 @@ export class TestIModelGroup {
       }
     });
     for await (const iModel of iModels)
-      if (this.doesIModelBelongToContext(iModel.displayName))
-        await this._iModelsClient.iModels.delete({
+      {if (this.doesIModelBelongToContext(iModel.displayName))
+        {await this._iModelsClient.iModels.delete({
           authorization: this._testAuthorizationProvider.getAdmin1Authorization(),
           iModelId: iModel.id
-        });
+        });}}
   }
 
   private doesIModelBelongToContext(iModelName: string): boolean {
