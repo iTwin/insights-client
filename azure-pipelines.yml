@@ -81,30 +81,30 @@ stages:
         displayName: 'Publish Insights client'
         condition: and(succeeded(), eq(variables['info.shouldPublish'], 'true'))
 
-  - stage: Test
-    displayName: Test
-    jobs:
-    - job: RunTests
-      strategy:
-        matrix:
-          linux:
-            imageName: 'ubuntu-latest'
-          mac:
-            imageName: 'macos-latest'
-          windows:
-            imageName: 'windows-latest'
-      pool:
-        vmImage: $(imageName)
-      steps:
-      - script: npm run test:integration
-    
-  - stage: Publish
-    displayName: Publish
-    condition: and(succeeded(), eq(dependencies.Build.outputs['BuildPackages.linux.info.shouldPublish'], 'true'))
-    dependsOn: Build
-    jobs:
-    - template: templates/npmjs-publish-deployment.yaml@build-pipeline-scripts
-        parameters:
-          path: '*.tgz'
-          artifactName: InsightsClient
-          name: InsightsClient
+- stage: Test
+  displayName: Test
+  jobs:
+  - job: RunTests
+    strategy:
+      matrix:
+        linux:
+          imageName: 'ubuntu-latest'
+        mac:
+          imageName: 'macos-latest'
+        windows:
+          imageName: 'windows-latest'
+    pool:
+      vmImage: $(imageName)
+    steps:
+    - script: npm run test:integration
+  
+- stage: Publish
+  displayName: Publish
+  condition: and(succeeded(), eq(dependencies.Build.outputs['BuildPackages.linux.info.shouldPublish'], 'true'))
+  dependsOn: Build
+  jobs:
+  - template: templates/npmjs-publish-deployment.yaml@build-pipeline-scripts
+      parameters:
+        path: '*.tgz'
+        artifactName: InsightsClient
+        name: InsightsClient
