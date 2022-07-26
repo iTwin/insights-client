@@ -39,6 +39,9 @@ stages:
       - script: npm run lint
         displayName: 'Lint'
 
+      - script: npm run test:unit
+        displayName: Run unit tests
+
       - script: npm pack
         displayName: 'Pack'
 
@@ -81,29 +84,11 @@ stages:
         displayName: 'Publish Insights client'
         condition: and(succeeded(), eq(variables['info.shouldPublish'], 'true'))
 
-- stage: Test
-  displayName: Test
-  jobs:
-  - job: RunTests
-    strategy:
-      matrix:
-        linux:
-          imageName: 'ubuntu-latest'
-        mac:
-          imageName: 'macos-latest'
-        windows:
-          imageName: 'windows-latest'
-    pool:
-      vmImage: $(imageName)
-    steps:
-    - script: npm ci
-      displayName: Run integration tests
-
-    - script: npm run build
-      displayName: Run integration tests
-    
-    - script: npm run test:unit
-      displayName: Run unit tests
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**/junit_results.xml'
+        displayName: "Publish test results"
   
 - stage: Publish
   displayName: Publish
