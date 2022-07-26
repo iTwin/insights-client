@@ -27,11 +27,9 @@ export class ODataClient extends OperationsBase implements IOdataClient{
         'odata item was invalid when calling updateCalculatedProperty.',
       );
     }
-    let response: ODataEntityResponse;
-    let url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${odataItem.url}?sequence=${encodeURIComponent(sequence)}`;
+    const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${odataItem.url}?sequence=${encodeURIComponent(sequence)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    response = await this.fetchData(url, requestOptions);
-    return response;
+    return this.fetchData(url, requestOptions);
   }
 
   public async getODataReportEntities(accessToken: AccessToken, reportId: string, odataItem: ODataItem): Promise<Array<ODataEntityValue>> {
@@ -51,7 +49,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
   }
 
   public getODataReportEntitiesIterator(accessToken: AccessToken, reportId: string, odataItem: ODataItem): EntityListIterator<ODataEntityValue> {
-    let url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${odataItem.url}`;
+    const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${odataItem.url}`;
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ODataEntityValue>(
       url,
       this.createRequest("GET", accessToken),
