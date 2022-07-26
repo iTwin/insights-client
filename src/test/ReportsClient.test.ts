@@ -68,13 +68,13 @@ describe("Reports Client", () => {
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/reports?projectId=-",
+      "https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false",
       "pass"
     )).to.be.eq(true);
 
     reports = await reportsClientNewBase.getReports("-", "-");
     expect(fetchStub.calledWith(
-      "BASE/reports?projectId=-",
+      "BASE/reports?projectId=-&deleted=false",
       "pass"
     )).to.be.eq(true);
   });
@@ -99,13 +99,13 @@ describe("Reports Client", () => {
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/reports?projectId=-&%24top=2",
+      "https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false&%24top=2",
       "pass"
     )).to.be.eq(true);
 
     reports = await reportsClientNewBase.getReports("-", "-", 2);
     expect(fetchStub.calledWith(
-      "BASE/reports?projectId=-&%24top=2",
+      "BASE/reports?projectId=-&deleted=false&%24top=2",
       "pass"
     )).to.be.eq(true);
   });
