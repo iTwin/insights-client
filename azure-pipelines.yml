@@ -96,7 +96,14 @@ stages:
     pool:
       vmImage: $(imageName)
     steps:
-    - script: npm run test:integration
+    - script: npm ci
+      displayName: Run integration tests
+
+    - script: npm run build
+      displayName: Run integration tests
+    
+    - script: npm run test:unit
+      displayName: Run unit tests
   
 - stage: Publish
   displayName: Publish
