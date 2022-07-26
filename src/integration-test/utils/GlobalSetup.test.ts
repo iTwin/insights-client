@@ -14,14 +14,12 @@ export function getTestRunId(): string {
 }
 
 before(async function () {
-  this.timeout(0);
   await cleanupIModelsInTestProject();
   createDirectory(TestConstants.TestDownloadDirectoryPath);
   cleanupDirectory(TestConstants.TestDownloadDirectoryPath);
 });
 
 after(async function () {
-  this.timeout(0);
   await cleanupIModelsInTestProject();
   cleanupDirectory(TestConstants.TestDownloadDirectoryPath);
 });

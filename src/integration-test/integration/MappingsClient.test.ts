@@ -24,8 +24,6 @@ describe("Mapping Client", () => {
   let testIModel: IModelMetadata;
 
   before( async function () {
-    this.timeout(0);
-
     const container = getTestDIContainer();
     
     const authorizationProvider = container.get(TestAuthorizationProvider);
@@ -64,7 +62,7 @@ describe("Mapping Client", () => {
 
     const newGroup: GroupCreate = {
       groupName: "Test1",
-      query: "select * from biscore.element"
+      query: "select * from biscore.element limit 10"
     }
     let group = await mappingsClient.createGroup(accessToken, testIModel.id, mappingIds[0], newGroup);
     expect(group).to.not.be.undefined;
@@ -90,7 +88,7 @@ describe("Mapping Client", () => {
       propertyName: "prop1",
       dataType: DataType.Number,
       quantityType: QuantityType.Distance,
-      ecProperties: new Array(ecProperty),
+      ecProperties: [ecProperty],
     };
     let property = await mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty);
     expect(property).to.not.be.undefined;
@@ -146,7 +144,6 @@ describe("Mapping Client", () => {
     let response: Response;
     while(mappingIds.length > 0) {
       response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop() ?? "");
-      expect(response.status).to.be.eq(204);
     }
     await testIModelGroup.cleanupIModels();
   });
@@ -154,11 +151,9 @@ describe("Mapping Client", () => {
   //mapping tests
   it("General - get all with iterator", async function () {
     const iterator = mappingsClient.getMappingsIterator(accessToken, testIModel.id);
-    let mapping = await iterator.next();
-    do {
-      expect(mapping.value).to.not.be.undefined;
-      mapping = await iterator.next();
-    } while(!mapping.done);
+    for await(const mapping of iterator) {
+      expect(mapping).to.not.be.undefined;
+    }
   });
 
   it("General - fail request", async function () {
@@ -182,6 +177,7 @@ describe("Mapping Client", () => {
     }
     const mapping = await mappingsClient.updateMapping(accessToken, testIModel.id, mappingIds[0], mappingUpdate);
     expect(mapping).to.not.be.undefined;
+    expect(mapping.description).to.be.eq("Updated description");
   });
 
   it("Mappings - Copy", async function () {
@@ -237,7 +233,7 @@ describe("Mapping Client", () => {
   it("Groups - Create and delete", async function () {
     const newGroup: GroupCreate = {
       groupName: "Test",
-      query: "select * from biscore.element"
+      query: "select * from biscore.element limit 10"
     }
     const group = await mappingsClient.createGroup(accessToken, testIModel.id, mappingIds[0], newGroup);
     expect(group).to.not.be.undefined;
@@ -252,6 +248,7 @@ describe("Mapping Client", () => {
     }
     const group = await mappingsClient.updateGroup(accessToken, testIModel.id, mappingIds[0], groupId, groupUpdate);
     expect(group).to.not.be.undefined;
+    expect(group.description).to.be.eq("Updated description");
   });
 
   it("Groups - Get", async function () {
@@ -303,7 +300,7 @@ describe("Mapping Client", () => {
       propertyName: "Test",
       dataType: DataType.Number,
       quantityType: QuantityType.Distance,
-      ecProperties: new Array(ecProperty),
+      ecProperties: [ecProperty],
     };
     const property = await mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty);
     expect(property).to.not.be.undefined;
@@ -323,10 +320,11 @@ describe("Mapping Client", () => {
       propertyName: "UpdatedGP",
       dataType: DataType.Number,
       quantityType: QuantityType.Distance,
-      ecProperties: new Array(ecProperty),
+      ecProperties: [ecProperty],
     };
     const property = await mappingsClient.updateGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, groupPropertyId, groupPropertyUpdate);
     expect(property).to.not.be.undefined;
+    expect(property.propertyName).to.be.eq("UpdatedGP");
   });
 
   it("Group properties - Get", async function () {
@@ -385,6 +383,7 @@ describe("Mapping Client", () => {
     };
     const property = await mappingsClient.updateCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, calculatedPropertyId, calcPropertyUpdate);
     expect(property).to.not.be.undefined;
+    expect(property.propertyName).to.be.eq("UpdatedCP");
   });
 
   it("Calculated properties - Get", async function () {
@@ -444,6 +443,7 @@ describe("Mapping Client", () => {
     };
     const calculation = await mappingsClient.updateCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, customCalculationId, custCalculationUpdate);
     expect(calculation).to.not.be.undefined;
+    expect(calculation.propertyName).to.be.eq("UpdatedCC");
   });
 
   it("Custom calculations - Get", async function () {

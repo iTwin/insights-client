@@ -26,8 +26,6 @@ describe("OData Client", () => {
   let testIModel: IModelMetadata;
 
   before(async function () {
-    this.timeout(0);
-
     const container = getTestDIContainer();
     
     const authorizationProvider = container.get(TestAuthorizationProvider);
@@ -55,7 +53,7 @@ describe("OData Client", () => {
 
     const newGroup: GroupCreate = {
       groupName: "Test",
-      query: "select * from biscore.element"
+      query: "select * from biscore.element limit 10"
     }
     const group = await mappingsClient.createGroup(accessToken, testIModel.id, mapping.id, newGroup);
     expect(group).to.not.be.undefined;
@@ -98,44 +96,36 @@ describe("OData Client", () => {
   });
 
   after(async function () {
-    this.timeout(0);
     let response: Response;
     let i = 0;
     if(i < deletionTracker.length) {
       response = await mappingsClient.deleteMapping(accessToken, testIModel.id, deletionTracker[i]);
-      expect(response.status).to.be.eq(204);
     }
     if(++i < deletionTracker.length) {
       response = await reportsClient.deleteReport(accessToken, deletionTracker[i]);
-      expect(response.status).to.be.eq(204);
     }
     if(++i < deletionTracker.length) {
       response = await reportsClient.deleteReportMapping(accessToken, deletionTracker[i - 1], deletionTracker[i]);
-      expect(response.status).to.be.eq(204);
     }
 
     await testIModelGroup.cleanupIModels();
   });
 
   it("get OData report", async function() {
-    this.timeout(0);
     const oDataResponse = await oDataClient.getODataReport(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
   });
 
   it("get OData report metadata", async function() {
-    this.timeout(0);
     const oDataResponse = await oDataClient.getODataReportMetadata(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
   });
 
   it("throw OData report metadata", async function() {
-    this.timeout(0);
     await expect(oDataClient.getODataReportMetadata(accessToken, "-")).to.be.rejected;
   });
 
   it("get OData report entity", async function() {
-    this.timeout(0);
     const oDataEntity = await oDataClient.getODataReportEntity(accessToken, reportId, oDataItem);
     expect(oDataEntity).to.not.be.undefined;
   });

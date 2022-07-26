@@ -24,8 +24,6 @@ describe("Reports Client", () => {
   const reportMappingIds: Array<string> = [];
 
   before(async function () {
-    this.timeout(0);
-
     const container = getTestDIContainer();
     
     const authorizationProvider = container.get(TestAuthorizationProvider);
@@ -102,20 +100,15 @@ describe("Reports Client", () => {
   });
 
   after(async function () {
-    this.timeout(0);
-
     let response: Response;
     while(reportMappingIds.length > 0) {
       response = await reportsClient.deleteReportMapping(accessToken, reportIds[reportIds.length - 1], reportMappingIds.pop() ?? "");
-      expect(response.status).to.be.eq(204);
     }
     while(mappingIds.length > 0) {
       response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop() ?? "");
-      expect(response.status).to.be.eq(204);
     }
     while(reportIds.length > 0) {
       response = await reportsClient.deleteReport(accessToken, reportIds.pop() ?? "");
-      expect(response.status).to.be.eq(204);
     }
 
     await testIModelGroup.cleanupIModels();
@@ -124,7 +117,6 @@ describe("Reports Client", () => {
   //reports tests
 
   it("Reports - Create and delete", async function () {
-    this.timeout(0);
     const newReport: ReportCreate = {
       displayName: "Test",
       projectId: projectId
@@ -137,29 +129,26 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get", async function () {
-    this.timeout(0);
     const report = await reportsClient.getReport(accessToken, reportIds[reportIds.length - 1]);
     expect(report).to.not.be.undefined;
   });
 
   it("Reports - Update", async function () {
-    this.timeout(0);
     const reportUpdate: ReportUpdate = {
       displayName: "Updated"
     }
     const report = await reportsClient.updateReport(accessToken, reportIds[reportIds.length - 1], reportUpdate);
     expect(report).to.not.be.undefined;
+    expect(report.displayName).to.be.eq("Updated")
   });
 
   it("Reports - Get all", async function () {
-    this.timeout(0);
     const reports = await reportsClient.getReports(accessToken, projectId);
     expect(reports).to.not.be.undefined;
     expect(reports.length).to.be.above(2);
   });
 
   it("Reports - Get 2 with iterator", async function () {
-    this.timeout(0);
     const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
     let reports: Report = (await reportsIt.next()).value;
     expect(reports).to.not.be.undefined;
@@ -168,7 +157,6 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get 2 pages", async function () {
-    this.timeout(0);
     const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
     let reports: Array<Report> = (await reportsIt.byPage().next()).value;
     expect(reports).to.not.be.undefined;
@@ -181,7 +169,6 @@ describe("Reports Client", () => {
   //report mapping tests
 
   it("Report mappings - Create and delete", async function() {
-    this.timeout(0);
     const newMapping: MappingCreate = {
       mappingName: "Test"
     }
@@ -205,13 +192,11 @@ describe("Reports Client", () => {
   })
 
   it("Report mappings - Get all", async function () {
-    this.timeout(0);
     const reportMappings: Array<ReportMapping> = await reportsClient.getReportMappings(accessToken, reportIds[reportIds.length - 1]);
     expect(reportMappings).to.not.be.undefined;
   });
 
   it("Report mappings - Get 3 with iterator", async function () {
-    this.timeout(0);
     const reportsIt = reportsClient.getReportMappingsIterator(accessToken, reportIds[reportIds.length - 1], 2);
     let reportMapping: ReportMapping = (await reportsIt.next()).value;
     expect(reportMapping).to.not.be.undefined;
@@ -222,7 +207,6 @@ describe("Reports Client", () => {
   });
 
   it("Report mappings - Get 2 pages with iterator", async function () {
-    this.timeout(0);
     const reportsIt = reportsClient.getReportMappingsIterator(accessToken, reportIds[reportIds.length - 1], 2);
     let reportMappings: Array<ReportMapping> = (await reportsIt.byPage().next()).value;
     expect(reportMappings).to.not.be.undefined;

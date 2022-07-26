@@ -19,10 +19,9 @@ describe("Extraction Client", () => {
   let testIModel: IModelMetadata;
 
   let extractionId: string;
+  let mappingId: string;
 
   before( async function () {
-    this.timeout(0);
-
     const container = getTestDIContainer();
     
     const authorizationProvider = container.get(TestAuthorizationProvider);
@@ -42,44 +41,39 @@ describe("Extraction Client", () => {
       mappingName: "Test",
     }
     const map = await mappingsClient.createMapping(accessToken, testIModel.id, newMap);
+    mappingId = map.id;
 
     const extraction: ExtractionRun = await extractionClient.runExtraction(accessToken, testIModel.id);
     expect(extraction).to.not.be.undefined;
     extractionId = extraction.id;
-
-    mappingsClient.deleteMapping(accessToken, testIModel.id, map.id);
   });
 
   after(async function () {
-    this.timeout(0);
+    await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingId);
     await testIModelGroup.cleanupIModels();
   });
 
   //run tests
 
   it("run extraction", async function () {
-    this.timeout(0);
     const extraction: ExtractionRun = await extractionClient.runExtraction(accessToken, testIModel.id);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
   });
 
   it("Get Logs", async function () {
-    this.timeout(0);
     const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
   });
 
   it("Get Logs with top", async function () {
-    this.timeout(0);
     const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId, 1);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
   });
 
   it("Get Status", async function () {
-    this.timeout(0);
     const extraction: ExtractionStatus = await extractionClient.getExtractionStatus(accessToken, extractionId);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;

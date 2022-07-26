@@ -13,7 +13,6 @@ describe("Validation", () => {
   const oDataClient = new ODataClient();
 
   it("Reports - Create unsuccessfully", async function () {
-    this.timeout(0);
     const newReport: ReportCreate = {
       displayName: "",
       projectId: "-"
@@ -30,7 +29,6 @@ describe("Validation", () => {
   });
 
   it("Reports - Update unsuccessfully", async function () {
-    this.timeout(0);
     const reportUpdate: ReportUpdate = {};
     await expect(reportsClient.updateReport("-", "-", reportUpdate)).to.be.rejectedWith(
       'All fields of report were null or undefined when calling updateReport.'
@@ -43,7 +41,6 @@ describe("Validation", () => {
   });
 
   it("Report mappings - Create unsuccessfully", async function () {
-    this.timeout(0);
     const newReportMapping: ReportMappingCreate = {
       mappingId: "",
       imodelId: "Not empty"
@@ -142,7 +139,7 @@ describe("Validation", () => {
       propertyName: "",
       dataType: DataType.Number,
       quantityType: QuantityType.Distance,
-      ecProperties: new Array(ecProperty),
+      ecProperties: [ecProperty],
     };
     await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
       'Field propertyName of groupProperty was invalid when calling createGroupProperty.',
@@ -161,21 +158,21 @@ describe("Validation", () => {
     );
 
     ecProperty.ecClassName = "";
-    newProperty.ecProperties = new Array(ecProperty);
+    newProperty.ecProperties = [ecProperty];
     await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
       'Field ecProperties of groupProperty was invalid when calling createGroupProperty.',
     );
 
     ecProperty.ecClassName = "Class";
     ecProperty.ecPropertyName = "";
-    newProperty.ecProperties = new Array(ecProperty);
+    newProperty.ecProperties = [ecProperty];
     await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
       'Field ecProperties of groupProperty was invalid when calling createGroupProperty.',
     );
 
     ecProperty.ecPropertyName = "Property";
     ecProperty.ecSchemaName = ""
-    newProperty.ecProperties = new Array(ecProperty);
+    newProperty.ecProperties = [ecProperty];
     await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
       'Field ecProperties of groupProperty was invalid when calling createGroupProperty.',
     );
@@ -192,7 +189,7 @@ describe("Validation", () => {
       propertyName: "",
       dataType: DataType.Number,
       quantityType: QuantityType.Distance,
-      ecProperties: new Array(ecProperty),
+      ecProperties: [ecProperty],
     };
     await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
       'Field propertyName of groupProperty was invalid when calling updateGroupProperty.',
@@ -211,21 +208,21 @@ describe("Validation", () => {
     );
 
     ecProperty.ecClassName = "";
-    newProperty.ecProperties = new Array(ecProperty);
+    newProperty.ecProperties = [ecProperty];
     await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
       'Field ecProperties of groupProperty was invalid when calling updateGroupProperty.',
     );
 
     ecProperty.ecClassName = "Class";
     ecProperty.ecPropertyName = "";
-    newProperty.ecProperties = new Array(ecProperty);
+    newProperty.ecProperties = [ecProperty];
     await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
       'Field ecProperties of groupProperty was invalid when calling updateGroupProperty.',
     );
 
     ecProperty.ecPropertyName = "Property";
     ecProperty.ecSchemaName = ""
-    newProperty.ecProperties = new Array(ecProperty);
+    newProperty.ecProperties = [ecProperty];
     await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
       'Field ecProperties of groupProperty was invalid when calling updateGroupProperty.',
     );

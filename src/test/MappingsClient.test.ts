@@ -505,7 +505,7 @@ describe("mappings Client", () => {
     const newGroupProperty: GroupPropertyCreate = {
       propertyName: "Test",
       dataType: DataType.Integer,
-      ecProperties: new Array(ecProperty),
+      ecProperties: [ecProperty],
       quantityType: QuantityType.Area
     }
     const returns = {
@@ -543,7 +543,7 @@ describe("mappings Client", () => {
     const newGroupProperty: GroupPropertyCreate = {
       propertyName: "Test",
       dataType: DataType.Integer,
-      ecProperties: new Array(ecProperty),
+      ecProperties: [ecProperty],
       quantityType: QuantityType.Area
     }
     const returns = {
