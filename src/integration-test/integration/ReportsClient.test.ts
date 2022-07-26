@@ -6,7 +6,7 @@ import * as chaiAsPromised from "chai-as-promised"
 import { expect, use } from "chai";
 import "reflect-metadata";
 import { testIModel, testIModelGroup, accessToken, projectId } from "../utils";
-import { MappingCreate, MappingsClient, Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../../reporting";
+import { MappingCreate, MappingsClient, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../../reporting";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {
@@ -82,15 +82,14 @@ describe("Reports Client", () => {
   });
 
   after(async function () {
-    let response: Response;
     while(reportMappingIds.length > 0) {
-      response = await reportsClient.deleteReportMapping(accessToken, reportIds[reportIds.length - 1], reportMappingIds.pop() ?? "");
+      await reportsClient.deleteReportMapping(accessToken, reportIds[reportIds.length - 1], reportMappingIds.pop() ?? "");
     }
     while(mappingIds.length > 0) {
-      response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop() ?? "");
+      await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop() ?? "");
     }
     while(reportIds.length > 0) {
-      response = await reportsClient.deleteReport(accessToken, reportIds.pop() ?? "");
+      await reportsClient.deleteReport(accessToken, reportIds.pop() ?? "");
     }
     await testIModelGroup.cleanupIModels();
   });
@@ -183,7 +182,7 @@ describe("Reports Client", () => {
     expect(reportMappings[0].mappingId).to.not.be.undefined;
   });
 
-  it("Report mappings - Get 3 with iterator", async function () {
+  it("Report mappings - Get with iterator", async function () {
     const reportsIt = reportsClient.getReportMappingsIterator(accessToken, reportIds[reportIds.length - 1], 2);
     for await(const reportMapping of reportsIt) {
       expect(reportMapping).to.not.be.undefined;
@@ -191,7 +190,7 @@ describe("Reports Client", () => {
     }
   });
 
-  it("Report mappings - Get 2 pages with iterator", async function () {
+  it("Report mappings - Get pages with iterator", async function () {
     const reportsIt = reportsClient.getReportMappingsIterator(accessToken, reportIds[reportIds.length - 1], 2);
     for await(const reportMappings of reportsIt.byPage()) {
       expect(reportMappings).to.not.be.undefined;

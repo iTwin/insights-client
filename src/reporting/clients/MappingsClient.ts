@@ -13,211 +13,9 @@ import { CustomCalculation, CustomCalculationCollection, CustomCalculationSingle
 import { GroupProperty, GroupPropertyCollection, GroupPropertySingle, GroupPropertyCreate, GroupPropertyUpdate, DataType } from "../interfaces/GroupProperties";
 import { Group, GroupCollection, GroupCreate, GroupSingle, GroupUpdate } from "../interfaces/Groups";
 import { Mapping, MappingCollection, MappingSingle, MappingCreate, MappingUpdate, MappingCopy } from "../interfaces/Mappings";
+import { IMappingsClient } from "./IMappingsClient";
 
-export interface MappingsClientInterface {
-  getMappings(
-    accessToken: AccessToken, 
-    iModelId: string,
-    top?: number
-  ): Promise<Mapping[]>,
-  getMappingsIterator(
-    accessToken: AccessToken, 
-    iModelId: string,
-    top?: number
-  ): EntityListIterator<Mapping>,
-  getMapping(accessToken: AccessToken, 
-    iModelId: string,
-    mappingId: string
-  ): Promise<Mapping>,
-  createMapping(accessToken: AccessToken, 
-    iModelId: string,
-    mapping: MappingCreate
-  ): Promise<Mapping>,
-  updateMapping(accessToken: AccessToken, 
-    iModelId: string,
-    mappingId: string, 
-    mapping: MappingUpdate
-  ): Promise<Mapping>,
-  deleteMapping(accessToken: AccessToken, 
-    iModelId: string,
-    mappingId: string
-  ): Promise<Response>,
-  copyMapping(accessToken: AccessToken, 
-    iModelId: string,
-    mappingId: string,
-    mappingCopy: MappingCopy
-  ): Promise<Mapping>,
-  getGroups(accessToken: AccessToken, 
-    iModelId: string,
-    mappingId: string,
-    top?: number
-  ): Promise<Group[]>,
-  getGroupsIterator(accessToken: AccessToken, 
-    iModelId: string,
-    mappingId: string,
-    top?: number
-  ): EntityListIterator<Group>,
-  getGroup(accessToken: AccessToken, 
-    iModelId: string,
-    mappingId: string,
-    groupId: string
-  ): Promise<Group>,
-  createGroup(accessToken: AccessToken, 
-    iModelId: string,
-    mappingId: string,
-    group: GroupCreate
-  ): Promise<Group>,
-  updateGroup(accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    group: GroupUpdate
-  ): Promise<Group>,
-  deleteGroup(accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string
-  ): Promise<Response>,
-  getGroupProperties(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    top?: number
-  ): Promise<GroupProperty[]>,
-  getGroupPropertiesIterator(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    top?: number
-  ): EntityListIterator<GroupProperty>,
-  getGroupProperty(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    propertyId: string
-  ): Promise<GroupProperty>,
-  createGroupProperty(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    groupProperty: GroupPropertyCreate
-  ): Promise<GroupProperty>,
-  updateGroupProperty(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    propertyId: string,
-    groupProperty: GroupPropertyUpdate
-  ): Promise<GroupProperty>,
-  deleteGroupProperty(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    propertyId: string
-  ): Promise<Response>,
-  getCalculatedProperties(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    top?: number
-  ): Promise<CalculatedProperty[]>,
-  getCalculatedPropertiesIterator(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    top?: number
-  ): EntityListIterator<CalculatedProperty>,
-  getCalculatedProperty(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    propertyId: string
-  ): Promise<CalculatedProperty>,
-  createCalculatedProperty(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    property: CalculatedPropertyCreate
-  ): Promise<CalculatedProperty>,
-  updateCalculatedProperty(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    propertyId: string,
-    property: CalculatedPropertyUpdate
-  ): Promise<CalculatedProperty>,
-  deleteCalculatedProperty(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    propertyId: string
-  ): Promise<Response>,
-  getCustomCalculations(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    top?: number
-  ): Promise<CustomCalculation[]>,
-  getCustomCalculationsIterator(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    top?: number
-  ): EntityListIterator<CustomCalculation>,
-  getCustomCalculation(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    propertyId: string
-  ): Promise<CustomCalculation>,
-  createCustomCalculation(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    property: CustomCalculationCreate
-  ): Promise<CustomCalculation>,
-  updateCustomCalculation(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    propertyId: string,
-    property: CustomCalculationUpdate
-  ): Promise<CustomCalculation>,
-  deleteCustomCalculation(
-    accessToken: AccessToken,
-    iModelId: string,
-    mappingId: string,
-    groupId: string,
-    propertyId: string
-  ): Promise<Response>,
-}
-
-export class MappingsClient extends OperationsBase implements MappingsClientInterface{
-  /**
-   * Gets all Mappings for an iModel.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
-   */
+export class MappingsClient extends OperationsBase implements IMappingsClient{
    public async getMappings(accessToken: AccessToken, iModelId: string, top?: number): Promise<Mapping[]> {
     const mappings: Array<Mapping> = [];
     const mapIterator = this.getMappingsIterator(accessToken, iModelId, top);
@@ -227,14 +25,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return mappings;
   }
 
-  /**
-   * Gets an async paged iterator of Mappings for an iModel.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
-   */
   public getMappingsIterator(accessToken: AccessToken, iModelId: string, top?: number): EntityListIterator<Mapping> {
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
     url += top ?  `/?%24top=${top}` : "";
@@ -250,28 +40,12 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }));
   }
 
-  /**
-   * Gets a Mapping for an iModel.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-mapping/
-   */
   public async getMapping(accessToken: AccessToken, iModelId: string, mappingId: string): Promise<Mapping> {
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     return (await this.fetchData<MappingSingle>(url, requestOptions)).mapping;
   }
 
-  /**
-   * Creates a Mapping for an iModel.
-   * @param {string} iModelId Id of the iModel for which to create a new Mapping.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {MappingCreate} mapping Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/create-mapping/
-   */
   public async createMapping(
     accessToken: AccessToken,
     iModelId: string,
@@ -289,15 +63,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<MappingSingle>(url, requestOptions)).mapping;
   }
 
-  /**
-   * Updates a Mapping for an iModel.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId Id of the Mapping to be updated.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {MappingUpdate} mapping Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/update-mapping/
-   */
   public async updateMapping(
     accessToken: AccessToken,
     iModelId: string,
@@ -322,14 +87,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<MappingSingle>(url, requestOptions)).mapping;
   }
 
-  /**
-   * Deletes a Mapping for an iModel.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId Id of the Mapping to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/delete-mapping/
-   */
   public async deleteMapping(
     accessToken: AccessToken,
     iModelId: string,
@@ -340,15 +97,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return this.fetchData<Response>(url, requestOptions);
   }
 
-  /**
-   * Copies a Mapping and all its Groups, GroupProperties, CalculatedProperties, and CustomCalculations to a target iModel.
-   * @param {string} iModelId Id of the source Mapping&#x27;s iModel.
-   * @param {string} mappingId Id of the source Mapping.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {MappingCopy} mappingCopy Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/copy-mapping/
-   */
   public async copyMapping(
     accessToken: AccessToken,
     iModelId: string,
@@ -373,15 +121,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<MappingSingle>(url, requestOptions)).mapping;
   }
 
-  /**
-   * Gets all Groups for a Mapping.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-groups/
-   */
   public async getGroups(
     accessToken: AccessToken,
     iModelId: string,
@@ -396,15 +135,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return groups;
   }
 
-  /**
-   * Gets an async paged iterator of Groups for a Mapping.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-groups/
-   */
   public getGroupsIterator(
     accessToken: AccessToken,
     iModelId: string,
@@ -423,19 +153,8 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
           _links: response._links,
         }
     }));
-
-
   }
 
-  /**
-   * Creates a Group for an iModel data source Mapping.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId Id of the Mapping for which to create a new Group.
-   * @param {string} AccessToken OAuth access token with scope `insights:modify`
-   * @param {GroupCreate} group Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/create-group/
-   */
   public async createGroup(
     accessToken: AccessToken,
     iModelId: string,
@@ -460,15 +179,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<GroupSingle>(url, requestOptions)).group;
   }
 
-  /**
-   * Gets a Group for a Mapping.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-group/
-   */
   public async getGroup(
     accessToken: AccessToken,
     iModelId: string,
@@ -480,16 +190,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<GroupSingle>(url, requestOptions)).group;
   }
 
-  /**
-   * Updates a Group for a Mapping.
-   * @param {string} iModelId Globally Unique Identifier of the target iModel.
-   * @param {string} mappingId Globally Unique Identifier of the target Mapping.
-   * @param {string} groupId Id of the Group to be updated.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {GroupUpdate} group Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/update-group/
-   */
   public async updateGroup(
     accessToken: AccessToken,
     iModelId: string,
@@ -521,15 +221,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<GroupSingle>(url, requestOptions)).group;
   }
 
-  /**
-   * Deletes a Group for a Mapping.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId Id of the Group to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/delete-group/
-   */
   public async deleteGroup(
     accessToken: AccessToken,
     iModelId: string,
@@ -541,16 +232,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return this.fetchData<Response>(url, requestOptions);
   }
 
-  /**
-   * Gets all GroupProperties for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-groupproperties/
-   */
   public async getGroupProperties(
     accessToken: AccessToken,
     iModelId: string,
@@ -566,16 +247,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return properties;
   }
 
-  /**
-   * Gets an async paged iterator of GroupProperties for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-groupproperties/
-   */
   public getGroupPropertiesIterator(
     accessToken: AccessToken,
     iModelId: string,
@@ -597,16 +268,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }));
   }
 
-  /**
-   * Gets a GroupProperty for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} propertyId The GroupProperty Id.
-   * @param {string} accessToken access token with scope `insights:read`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-groupproperty/
-   */
   public async getGroupProperty(
     accessToken: AccessToken,
     iModelId: string,
@@ -619,16 +280,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<GroupPropertySingle>(url, requestOptions)).property;
   }
 
-  /**
-   * Creates a GroupProperty for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId Id of the Group for which to create a new GroupProperty.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {GroupPropertyCreate} groupProperty Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/create-groupproperty/
-   */
   public async createGroupProperty(
     accessToken: AccessToken,
     iModelId: string,
@@ -668,17 +319,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<GroupPropertySingle>(url, requestOptions)).property;
   }
 
-  /**
-   * Updates a GroupProperty for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} propertyId Id of the GroupProperty to be updated.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {GroupPropertyUpdate} groupProperty Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/update-groupproperty/
-   */
   public async updateGroupProperty(
     accessToken: AccessToken,
     iModelId: string,
@@ -719,16 +359,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<GroupPropertySingle>(url, requestOptions)).property;
   }
 
-  /**
-   * Deletes a GroupProperty from a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} propertyId Id of the GroupProperty to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/delete-groupproperty/
-   */
   public async deleteGroupProperty(
     accessToken: AccessToken,
     iModelId: string,
@@ -741,16 +371,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return this.fetchData<Response>(url, requestOptions);
   }
 
-  /**
-   * Gets all CalculatedProperties for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-calculatedproperties/
-   */
   public async getCalculatedProperties(
     accessToken: AccessToken,
     iModelId: string,
@@ -766,16 +386,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return properties;
   }
 
-  /**
-   * Gets an async paged iterator of CalculatedProperties for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-calculatedproperties/
-   */
   public getCalculatedPropertiesIterator(
     accessToken: AccessToken,
     iModelId: string,
@@ -797,16 +407,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }));
   }
 
-  /**
-   * Gets a CalculatedProperty for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} propertyId The CalculatedProperty Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-calculatedproperty/
-   */
   public async getCalculatedProperty(
     accessToken: AccessToken,
     iModelId: string,
@@ -819,16 +419,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<CalculatedPropertySingle>(url, requestOptions)).property;
   }
 
-  /**
-   * Creates a CalculatedProperty for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId Id of the Group for which to create a new CalculatedProperty.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {CalculatedPropertyCreate} property Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/create-calculatedproperty/
-   */
   public async createCalculatedProperty(
     accessToken: AccessToken,
     iModelId: string,
@@ -853,17 +443,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<CalculatedPropertySingle>(url, requestOptions)).property;
   }
 
-  /**
-   * Updates a CalculatedProperty for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} propertyId Id of the CalculatedProperty to be updated.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {CalculatedPropertyUpdate} property Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/update-calculatedproperty/
-   */
   public async updateCalculatedProperty(
     accessToken: AccessToken,
     iModelId: string,
@@ -896,16 +475,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<CalculatedPropertySingle>(url, requestOptions)).property;
   }
 
-  /**
-   * Deletes a CalculatedProperty from a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} propertyId Id of the CalculatedProperty to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/delete-calculatedproperty/
-   */
   public async deleteCalculatedProperty(
     accessToken: AccessToken,
     iModelId: string,
@@ -918,16 +487,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return this.fetchData<Response>(url, requestOptions);
   }
 
-  /**
-   * Gets all CustomCalculations for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-customcalculations/
-   */
   public async getCustomCalculations(
     accessToken: AccessToken,
     iModelId: string,
@@ -943,16 +502,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return customCalculations;
   }
 
-  /**
-   * Gets an async paged iterator of CustomCalculations for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-customcalculations/
-   */
   public getCustomCalculationsIterator(
     accessToken: AccessToken,
     iModelId: string,
@@ -974,16 +523,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     }));
   }
 
-  /**
-   * Gets a CustomCalculation for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} propertyId The CustomCalculation Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-customcalculation/
-   */
   public async getCustomCalculation(
     accessToken: AccessToken,
     iModelId: string,
@@ -996,16 +535,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<CustomCalculationSingle>(url, requestOptions)).customCalculation;
   }
 
-  /**
-   * Creates a CustomCalculation for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId Id of the Group for which to create a new CustomCalculation.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {CustomCalculationCreate} property Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/create-customcalculation/
-   */
   public async createCustomCalculation(
     accessToken: AccessToken,
     iModelId: string,
@@ -1031,17 +560,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<CustomCalculationSingle>(url, requestOptions)).customCalculation;
   }
 
-  /**
-   * Updates a CustomCalculation for a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} customCalculationId Id of the CustomCalculation to be updated.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @param {CustomCalculationUpdate} property Request body.
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/update-customcalculation/
-   */
   public async updateCustomCalculation(
     accessToken: AccessToken,
     iModelId: string,
@@ -1074,16 +592,6 @@ export class MappingsClient extends OperationsBase implements MappingsClientInte
     return (await this.fetchData<CustomCalculationSingle>(url, requestOptions)).customCalculation;
   }
 
-  /**
-   * Deletes a CustomCalculation from a Group.
-   * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId The Group Id.
-   * @param {string} customCalculationId Id of the CustomCalculation to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
-   * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/delete-customcalculation/
-   */
   public async deleteCustomCalculation(
     accessToken: AccessToken,
     iModelId: string,

@@ -8,8 +8,8 @@ import { DataType, ECProperty } from './interfaces/GroupProperties';
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 
 export class OperationsBase {
-  public readonly fetch = isomorphicFetch;
-  public readonly basePath;
+  protected readonly fetch = isomorphicFetch;
+  protected readonly basePath;
 
   constructor(basePath?: string) {
     this.basePath = basePath ?? "https://api.bentley.com/insights/reporting";
@@ -64,9 +64,9 @@ export class OperationsBase {
    * @param {string} name
    * @memberof OperationsBase
    */
-  public isSimpleIdentifier(name: string): boolean {
+  public isSimpleIdentifier(name: string | null | undefined): boolean {
     const reg = /^[a-zA-Z_][0-9a-zA-Z_]*$/;
-    return (name? true : false) && name.length <= 128 && reg.test(name);
+    return name? (name.length <= 128 && reg.test(name)) : false;
   }
   
   /**

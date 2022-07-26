@@ -299,7 +299,11 @@ describe("Validation", () => {
       name: "Test",
       url: "1/2"
     }
-    const response = await oDataClient.getODataReportEntity("-", "-", item); 
-    expect(response).to.be.undefined;
+    await expect(oDataClient.getODataReportEntities("-", "-", item)).to.be.rejectedWith(
+      'odata item was invalid when calling updateCalculatedProperty.'
+    );
+    await expect(oDataClient.getODataReportEntityPage("-", "-", item, 0)).to.be.rejectedWith(
+      'odata item was invalid when calling updateCalculatedProperty.'
+    );
   });
 });

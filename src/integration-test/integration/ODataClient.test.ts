@@ -73,16 +73,15 @@ describe("OData Client", () => {
   });
 
   after(async function () {
-    let response: Response;
     let i = 0;
     if(i < deletionTracker.length) {
-      response = await mappingsClient.deleteMapping(accessToken, testIModel.id, deletionTracker[i]);
+      await mappingsClient.deleteMapping(accessToken, testIModel.id, deletionTracker[i]);
     }
     if(++i < deletionTracker.length) {
-      response = await reportsClient.deleteReport(accessToken, deletionTracker[i]);
+      await reportsClient.deleteReport(accessToken, deletionTracker[i]);
     }
     if(++i < deletionTracker.length) {
-      response = await reportsClient.deleteReportMapping(accessToken, deletionTracker[i - 1], deletionTracker[i]);
+      await reportsClient.deleteReportMapping(accessToken, deletionTracker[i - 1], deletionTracker[i]);
     }
     
     await testIModelGroup.cleanupIModels();
@@ -105,7 +104,13 @@ describe("OData Client", () => {
   });
 
   it("get OData report entity", async function() {
-    const oDataEntity = await oDataClient.getODataReportEntity(accessToken, reportId, oDataItem);
+    const oDataEntity = await oDataClient.getODataReportEntities(accessToken, reportId, oDataItem);
+    expect(oDataEntity).to.not.be.undefined;
+    expect(oDataEntity).to.not.be.empty;
+  });
+
+  it("get OData report entity page", async function () {
+    const oDataEntity = await oDataClient.getODataReportEntityPage(accessToken, reportId, oDataItem, 0);
     expect(oDataEntity).to.not.be.undefined;
     expect(oDataEntity).to.not.be.empty;
   });

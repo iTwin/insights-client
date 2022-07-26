@@ -52,7 +52,7 @@ describe("OData Client", () => {
       body: "Test",
     }
     requestStub.returns(request);
-    const fetchStub = sinon.stub(oDataClient, "fetch")
+    const fetchStub = sinon.stub(oDataClient, <any>"fetch") // eslint-disable-line @typescript-eslint/no-explicit-any
     const myOptions = { status: 200, statusText: "Test" };
     const body = {
       "Test": "test"
@@ -72,7 +72,7 @@ describe("OData Client", () => {
     )).to.be.eq(true);
 
     myOptions.status = 200;
-    const fetchStubNewBase = sinon.stub(oDataClientNewBase, "fetch")
+    const fetchStubNewBase = sinon.stub(oDataClientNewBase, <any>"fetch")  // eslint-disable-line @typescript-eslint/no-explicit-any
     response = new Response(JSON.stringify(body), myOptions);
     fetchStubNewBase.resolves(response);
     report = await oDataClientNewBase.getODataReportMetadata("-", "-");
@@ -99,20 +99,48 @@ describe("OData Client", () => {
     }
     fetchStub.resolves(returns2);
     fetchStub.onCall(0).resolves(returns1);
-    let report: ODataEntityValue | undefined = await oDataClient.getODataReportEntity("-", "-", item);
+    let report: Array<ODataEntityValue> = await oDataClient.getODataReportEntities("-", "-", item);
     expect(report).to.not.be.undefined;
-    const validReport: ODataEntityValue = report ?? [];
-    expect(validReport.length).to.be.eq(4);
-    expect(validReport[0]["one"]).to.be.eq("1");
-    expect(validReport[3]["four"]).to.be.eq("4");
+    expect(report.length).to.be.eq(4);
+    expect(report[0]["one"]).to.be.eq("1");
+    expect(report[3]["four"]).to.be.eq("4");
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/odata/-/1/2/3?sequence=0",
+      "https://api.bentley.com/insights/reporting/odata/-/1/2/3",
       "pass",
     )).to.be.eq(true);
 
-    report = await oDataClientNewBase.getODataReportEntity("-", "-", item);
+    report = await oDataClientNewBase.getODataReportEntities("-", "-", item);
     expect(fetchStub.calledWith(
-      "BASE/odata/-/1/2/3?sequence=0",
+      "BASE/odata/-/1/2/3",
+      "pass",
+    )).to.be.eq(true);
+  });
+
+  it("Get OData report Entity", async function () {
+    const item: ODataItem = {
+      name: "test",
+      url: "1/2/3"
+    }
+    const returns: ODataEntityResponse = {
+      "@odata.context": "-",
+      value: [{"one": "1", "two": "2"}, {"one": "1", "two": "2"}],
+      "@odata.nextLink": "url"
+    }
+    fetchStub.onCall(0).resolves(returns);
+    let report: ODataEntityResponse = await oDataClient.getODataReportEntityPage("-", "-", item, 1);
+    expect(report).to.not.be.undefined;
+    expect(report['@odata.context']).to.be.eq("-");
+    expect(report['@odata.nextLink']).to.be.eq("url");
+    expect(report.value[0]["one"]).to.be.eq("1");
+    expect(report.value[1]["two"]).to.be.eq("2");
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/insights/reporting/odata/-/1/2/3?sequence=1",
+      "pass",
+    )).to.be.eq(true);
+
+    report = await oDataClientNewBase.getODataReportEntityPage("-", "-", item, 1);
+    expect(fetchStub.calledWith(
+      "BASE/odata/-/1/2/3?sequence=1",
       "pass",
     )).to.be.eq(true);
   });

@@ -71,7 +71,7 @@ describe("OperationsBase", () => {
   });
 
   it("fetch", async () => {
-    const stub = sinon.stub(operationsBase, "fetch");
+    const stub = sinon.stub(operationsBase, <any>"fetch");  // eslint-disable-line @typescript-eslint/no-explicit-any
     let myOptions = { status: 200, statusText: "Test" };
     const body = {
       "Test": "test"
@@ -91,9 +91,6 @@ describe("OperationsBase", () => {
     response = new Response(JSON.stringify(body), myOptions);
     stub.resolves(response);
     await expect(operationsBase.fetchData("-", {})).to.be.rejected;
-
-    const isoFetch = operationsBase.fetch;
-    expect(isoFetch).to.not.be.undefined;
   });
 
   it("createRequest", () => {

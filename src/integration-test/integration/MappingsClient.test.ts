@@ -127,9 +127,8 @@ describe("Mapping Client", () => {
   });
 
   after(async () => {
-    let response: Response;
     while(mappingIds.length > 0) {
-      response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop() ?? "");
+      await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop() ?? "");
     }
     await testIModelGroup.cleanupIModels();
   });
