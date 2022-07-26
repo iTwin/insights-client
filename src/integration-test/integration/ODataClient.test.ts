@@ -6,7 +6,7 @@ import * as chaiAsPromised from "chai-as-promised"
 import { expect, use } from "chai";
 import { ExtractionClient, ExtractionStatus, ExtractorState, GroupCreate, MappingCreate, MappingsClient, ODataClient, ODataItem, ReportCreate, ReportMappingCreate, ReportsClient } from "../../reporting";
 import "reflect-metadata";
-import { getTestRunId, TestConstants, getTestDIContainer, AuthorizationCallback, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider, TestProjectProvider, sleep } from "../utils";
+import { sleep, testIModel, testIModelGroup, accessToken, projectId } from "../utils";
 use(chaiAsPromised);
 
 describe("OData Client", () => {
@@ -14,36 +14,13 @@ describe("OData Client", () => {
   const reportsClient: ReportsClient = new ReportsClient();
   const mappingsClient: MappingsClient = new MappingsClient();
   const extractionClient: ExtractionClient = new ExtractionClient(); 
-  let accessToken: string;
-  let projectId: string;
+
   let reportId: string;
   let oDataItem: ODataItem;
 
   const deletionTracker: Array<string> = [];
 
-  let authorization: AuthorizationCallback;
-  let testIModelGroup: TestIModelGroup;
-  let testIModel: IModelMetadata;
-
   before(async function () {
-    const container = getTestDIContainer();
-    
-    const authorizationProvider = container.get(TestAuthorizationProvider);
-    authorization = authorizationProvider.getAdmin1Authorization();
-    accessToken = "Bearer " + (await authorization()).token;
-
-    const testProjectProvider = container.get(TestProjectProvider);
-    projectId = await testProjectProvider.getOrCreate();
-
-    const testIModelGroupFactory = container.get(TestIModelGroupFactory);
-    testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: TestConstants.PackagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
-
-    const testIModelCreator = container.get(TestIModelCreator);
-    testIModel = await testIModelCreator.createEmptyAndUploadChangesets(testIModelGroup.getPrefixedUniqueIModelName("Test iModel for write"));
-
-    const reusableTestIModelProvider = container.get(ReusableTestIModelProvider);
-    testIModel = await reusableTestIModelProvider.getOrCreate();
-
     const newMapping: MappingCreate = {
       mappingName: "Test"
     };
@@ -90,7 +67,7 @@ describe("OData Client", () => {
 
     const oDataResponse = await oDataClient.getODataReport(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
-    expect(oDataResponse.value.length).to.be.above(0);
+    expect(oDataResponse.value).to.not.be.empty;
     oDataItem = oDataResponse.value[0];
 
   });
@@ -107,18 +84,20 @@ describe("OData Client", () => {
     if(++i < deletionTracker.length) {
       response = await reportsClient.deleteReportMapping(accessToken, deletionTracker[i - 1], deletionTracker[i]);
     }
-
+    
     await testIModelGroup.cleanupIModels();
   });
 
   it("get OData report", async function() {
     const oDataResponse = await oDataClient.getODataReport(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
+    expect(oDataResponse["@odata.context"]).to.not.be.undefined;
   });
 
   it("get OData report metadata", async function() {
     const oDataResponse = await oDataClient.getODataReportMetadata(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
+    expect(oDataResponse.status).to.not.be.undefined
   });
 
   it("throw OData report metadata", async function() {
@@ -128,6 +107,7 @@ describe("OData Client", () => {
   it("get OData report entity", async function() {
     const oDataEntity = await oDataClient.getODataReportEntity(accessToken, reportId, oDataItem);
     expect(oDataEntity).to.not.be.undefined;
+    expect(oDataEntity).to.not.be.empty;
   });
 });
 

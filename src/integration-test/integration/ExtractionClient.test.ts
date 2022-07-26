@@ -6,37 +6,17 @@ import * as chaiAsPromised from "chai-as-promised"
 import { expect, use } from "chai";
 import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, MappingCreate, MappingsClient } from "../../reporting";
 import "reflect-metadata";
-import { getTestRunId, TestConstants, getTestDIContainer, AuthorizationCallback, TestIModelGroup, TestIModelGroupFactory, IModelMetadata, TestAuthorizationProvider, TestIModelCreator, ReusableTestIModelProvider } from "../utils";
+import {testIModel, testIModelGroup, accessToken } from "../utils";
 use(chaiAsPromised);
 
 describe("Extraction Client", () => {
   const extractionClient: ExtractionClient = new ExtractionClient();
   const mappingsClient: MappingsClient = new MappingsClient();
-  let accessToken: string;
-
-  let authorization: AuthorizationCallback;
-  let testIModelGroup: TestIModelGroup;
-  let testIModel: IModelMetadata;
 
   let extractionId: string;
   let mappingId: string;
 
   before( async function () {
-    const container = getTestDIContainer();
-    
-    const authorizationProvider = container.get(TestAuthorizationProvider);
-    authorization = authorizationProvider.getAdmin1Authorization();
-    accessToken = "Bearer " + (await authorization()).token;
-
-    const testIModelGroupFactory = container.get(TestIModelGroupFactory);
-    testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: TestConstants.PackagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
-
-    const testIModelCreator = container.get(TestIModelCreator);
-    testIModel = await testIModelCreator.createEmptyAndUploadChangesets(testIModelGroup.getPrefixedUniqueIModelName("Test iModel for write"));
-
-    const reusableTestIModelProvider = container.get(ReusableTestIModelProvider);
-    testIModel = await reusableTestIModelProvider.getOrCreate();
-
     const newMap: MappingCreate = {
       mappingName: "Test",
     }
@@ -58,6 +38,7 @@ describe("Extraction Client", () => {
   it("run extraction", async function () {
     const extraction: ExtractionRun = await extractionClient.runExtraction(accessToken, testIModel.id);
     expect(extraction).to.not.be.undefined;
+    expect(extraction.id).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
   });
 
@@ -65,18 +46,19 @@ describe("Extraction Client", () => {
     const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
+    expect(extraction[0].category).to.not.be.undefined;
   });
 
   it("Get Logs with top", async function () {
     const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId, 1);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
+    expect(extraction[0].category).to.not.be.undefined;
   });
 
   it("Get Status", async function () {
     const extraction: ExtractionStatus = await extractionClient.getExtractionStatus(accessToken, extractionId);
     expect(extraction).to.not.be.undefined;
-    expect(extraction).to.not.be.empty;
     expect(extraction.state).to.not.be.eq("Failed");
   });
 });

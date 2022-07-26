@@ -15,7 +15,7 @@
     "lint:copyright": "node scripts/copyright-linter.js",
     "pack": "npm pack",
     "cover": "nyc mocha lib/cjs/test/**/*.test.js",
-    "test:integration": "mocha lib/cjs/integration-test/**/*.test.js --color",
+    "test:integration": "mocha lib/cjs/integration-test/**/*.test.js --color --require ./lib/cjs/integration-test/utils/GlobalSetup.js",
     "test:unit": "mocha lib/cjs/test/**/*.test.js --color"
   },
   "keywords": [
