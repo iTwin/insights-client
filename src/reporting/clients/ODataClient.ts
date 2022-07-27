@@ -57,11 +57,11 @@ export class ODataClient extends OperationsBase implements IOdataClient{
       );
     }
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${odataItem.url}`;
+    const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ODataEntityValue>(
       url,
-      this.createRequest("GET", accessToken),
-      async (url: string, requestOptions: RequestInit): Promise<Collection<ODataEntityValue>> => {
-        const response: ODataEntityResponse = await this.fetchJSON<ODataEntityResponse>(url, requestOptions);
+      async (url: string): Promise<Collection<ODataEntityValue>> => {
+        const response: ODataEntityResponse = await this.fetchJSON<ODataEntityResponse>(url, request);
         const link: PagedResponseLinks = {
           self: {
             href: url

@@ -211,11 +211,15 @@ describe("Mapping Client", () => {
 
   it("Mappings - Get pages with iterator", async function () {
     const mappingsIt = mappingsClient.getMappingsIterator(accessToken, testIModel.id, 2);
+    let elementCount = 0;
     for await(const mappings of mappingsIt.byPage()) {
       expect(mappings).to.not.be.undefined;
-      expect(mappings).to.not.be.empty;
-      expect(mappings[0].mappingName).to.not.be.undefined;
+      if(mappings.length) {
+        expect(mappings[0].mappingName).to.not.be.undefined;
+        elementCount += mappings.length;
+      }
     }
+    expect(elementCount).to.not.be.eq(0)
   });
 
   //group tests
@@ -272,11 +276,15 @@ describe("Mapping Client", () => {
 
   it("Groups - Get pages with iterator", async function () {
     const groupsIt = mappingsClient.getGroupsIterator(accessToken, testIModel.id, mappingIds[0], 2);
+    let elementCount = 0;
     for await(const groups of groupsIt.byPage()) {
       expect(groups).to.not.be.undefined;
-      expect(groups).to.not.be.empty;
-      expect(groups[0].groupName).to.not.be.undefined;
+      if(groups.length) {
+        expect(groups[0].groupName).to.not.be.undefined;
+        elementCount += groups.length;
+      }
     }
+    expect(elementCount).to.not.be.eq(0);
   });
 
   //group properties tests
@@ -350,11 +358,15 @@ describe("Mapping Client", () => {
 
   it("Group properties - Get pages with iterator", async function () {
     const propertiesIt = mappingsClient.getGroupPropertiesIterator(accessToken, testIModel.id, mappingIds[0], groupId, 2);
+    let elementCount = 0;
     for await(const properties of propertiesIt.byPage()) {
       expect(properties).to.not.be.undefined;
-      expect(properties).to.not.be.empty;
-      expect(properties[0].propertyName).to.not.be.undefined;
+      if(properties.length) {
+        expect(properties[0].propertyName).to.not.be.undefined;
+        elementCount += properties.length;
+      }
     }
+    expect(elementCount).to.not.be.eq(0);
   });
 
   //calculated properties tests
@@ -411,11 +423,15 @@ describe("Mapping Client", () => {
 
   it("Calculated properties - Get pages with iterator", async function () {
     const propertiesIt = mappingsClient.getCalculatedPropertiesIterator(accessToken, testIModel.id, mappingIds[0], groupId, 2);
+    let elementCount = 0;
     for await(const properties of propertiesIt.byPage()) {
       expect(properties).to.not.be.undefined;
-      expect(properties).to.not.be.empty;
-      expect(properties[0].propertyName).to.not.be.undefined;
+      if(properties.length) {
+        expect(properties[0].propertyName).to.not.be.undefined;
+        elementCount += properties.length;
+      }
     }
+    expect(elementCount).to.not.be.eq(0);
   });
 
   //custom calculations tests
@@ -473,10 +489,14 @@ describe("Mapping Client", () => {
 
   it("Custom calculations - Get pages with iterator", async function () {
     const calculationsIt = mappingsClient.getCustomCalculationsIterator(accessToken, testIModel.id, mappingIds[0], groupId, 2);
+    let elementCount = 0;
     for await(const calculations of calculationsIt.byPage()) {
       expect(calculations).to.not.be.undefined;
-      expect(calculations).to.not.be.empty;
-      expect(calculations[0].propertyName).to.not.be.undefined;
+      if(calculations.length) {
+        expect(calculations[0].propertyName).to.not.be.undefined;
+        elementCount += calculations.length;
+      }
     }
+    expect(elementCount).to.not.be.eq(0);
   });
 });

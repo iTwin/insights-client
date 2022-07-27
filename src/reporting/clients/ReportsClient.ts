@@ -30,11 +30,11 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     }
     let url = `${this.basePath}/reports?projectId=${encodeURIComponent(projectId)}&deleted=${encodeURIComponent(deleted)}`;
     url += top ? `&%24top=${top}` : "";
+    const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Report>(
       url,
-      this.createRequest("GET", accessToken),
-      async (url: string, requestOptions: RequestInit): Promise<Collection<Report>> => {
-        const response: ReportCollection = await this.fetchJSON<ReportCollection>(url, requestOptions);
+      async (url: string): Promise<Collection<Report>> => {
+        const response: ReportCollection = await this.fetchJSON<ReportCollection>(url, request);
         return {
           values: response.reports,
           _links: response._links,
@@ -110,11 +110,11 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     }
     let url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
     url += top ? `/?%24top=${top}` : "";
+    const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ReportMapping>(
       url,
-      this.createRequest("GET", accessToken),
-      async (url: string, requestOptions: RequestInit): Promise<Collection<ReportMapping>> => {
-        const response: ReportMappingCollection = await this.fetchJSON<ReportMappingCollection>(url, requestOptions);
+      async (url: string): Promise<Collection<ReportMapping>> => {
+        const response: ReportMappingCollection = await this.fetchJSON<ReportMappingCollection>(url, request);
         return {
           values: response.mappings,
           _links: response._links,

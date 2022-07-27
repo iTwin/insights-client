@@ -30,11 +30,11 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
     }
     let url = `${this.basePath}/datasources/extraction/status/${encodeURIComponent(jobId)}/logs`;
     url += top ? `/?%24top=${top}` : "";
+    const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ExtractionLog>(
       url,
-      this.createRequest("GET", accessToken),
-      async (url: string, requestOptions: RequestInit): Promise<Collection<ExtractionLog>> => {
-        const response: ExtractionLogCollection = await this.fetchJSON(url, requestOptions);
+      async (url: string): Promise<Collection<ExtractionLog>> => {
+        const response: ExtractionLogCollection = await this.fetchJSON(url, request);
         return {
           values: response.logs,
           _links: response._links,

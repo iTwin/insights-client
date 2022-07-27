@@ -149,11 +149,15 @@ describe("Reports Client", () => {
 
   it("Reports - Get pages", async function () {
     const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, false, 2);
+    let elementCount = 0;
     for await(const reports of reportsIt.byPage()) {
       expect(reports).to.not.be.undefined;
-      expect(reports).to.not.be.empty;
-      expect(reports[0].displayName).to.not.be.undefined;
+      if(reports.length) {
+        expect(reports[0].displayName).to.not.be.undefined;
+        elementCount += reports.length;
+      }
     }
+    expect(elementCount).to.not.be.eq(0);
   });
 
   //report mapping tests
@@ -199,10 +203,14 @@ describe("Reports Client", () => {
 
   it("Report mappings - Get pages with iterator", async function () {
     const reportsIt = reportsClient.getReportMappingsIterator(accessToken, reportIds[reportIds.length - 1], 2);
+    let elementCount = 0;
     for await(const reportMappings of reportsIt.byPage()) {
       expect(reportMappings).to.not.be.undefined;
-      expect(reportMappings).to.not.be.empty;
-      expect(reportMappings[0].mappingId).to.not.be.undefined;
+      if(reportMappings.length) {
+        expect(reportMappings[0].mappingId).to.not.be.undefined;
+        elementCount += reportMappings.length;
+      }
     }
+    expect(elementCount).to.not.be.eq(0);
   });
 });

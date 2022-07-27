@@ -28,14 +28,13 @@ export async function* flatten<TEntity>(pagedIterator: AsyncIterableIterator<TEn
 
 export async function getEntityCollectionPage<TEntity>(
   nextUrl: string,
-  requestOptions: RequestInit,
-  getNextBatch: (url: string, requestOptions: RequestInit) => Promise<Collection<TEntity>>
+  getNextBatch: (url: string) => Promise<Collection<TEntity>>
 ): Promise<EntityCollectionPage<TEntity>> {
-  const response: Collection<TEntity> = await getNextBatch(nextUrl, requestOptions);
+  const response: Collection<TEntity> = await getNextBatch(nextUrl);
   const nextLink = response._links.next;
   return {
     entities: response.values,
-    next: nextLink ? async () => getEntityCollectionPage<TEntity>(nextLink.href, requestOptions, getNextBatch) : undefined
+    next: nextLink ? async () => getEntityCollectionPage<TEntity>(nextLink.href, getNextBatch) : undefined
   };
 }
 
