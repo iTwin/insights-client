@@ -16,7 +16,7 @@ describe("Extraction Client", () => {
   let requestStub: sinon.SinonStub;
 
   beforeEach(() => {
-    fetchStub = sinon.stub(ExtractionClient.prototype, "fetchData");
+    fetchStub = sinon.stub(ExtractionClient.prototype, "fetchJSON");
     requestStub = sinon.stub(ExtractionClient.prototype, "createRequest");
     requestStub.returns("pass");
   })

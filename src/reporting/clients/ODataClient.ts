@@ -16,7 +16,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
   public async getODataReport(accessToken: AccessToken, reportId: string): Promise<ODataResponse> {
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetchData<ODataResponse>(url, requestOptions);
+    return this.fetchJSON<ODataResponse>(url, requestOptions);
   }
 
   public async getODataReportEntityPage(accessToken: AccessToken, reportId: string, odataItem: ODataItem, sequence: number) : Promise<ODataEntityResponse> {
@@ -24,12 +24,12 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     if (segments.length !== 3) {
       throw new RequiredError(
         'odataItem',
-        'odata item was invalid when calling updateCalculatedProperty.',
+        'odata item was invalid when calling getODataReportEntityPage.',
       );
     }
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${odataItem.url}?sequence=${encodeURIComponent(sequence)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetchData(url, requestOptions);
+    return this.fetchJSON(url, requestOptions);
   }
 
   public async getODataReportEntities(accessToken: AccessToken, reportId: string, odataItem: ODataItem): Promise<Array<ODataEntityValue>> {
@@ -37,7 +37,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     if (segments.length !== 3) {
       throw new RequiredError(
         'odataItem',
-        'odata item was invalid when calling updateCalculatedProperty.',
+        'odata item was invalid when calling getODataReportEntities.',
       );
     }
     const reportData: Array<ODataEntityValue> = [];
@@ -49,15 +49,22 @@ export class ODataClient extends OperationsBase implements IOdataClient{
   }
 
   public getODataReportEntitiesIterator(accessToken: AccessToken, reportId: string, odataItem: ODataItem): EntityListIterator<ODataEntityValue> {
+    const segments = odataItem.url.split('/');  // region, manifestId, entityType
+    if (segments.length !== 3) {
+      throw new RequiredError(
+        'odataItem',
+        'odata item was invalid when calling getODataReportEntitiesIterator.',
+      );
+    }
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${odataItem.url}`;
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ODataEntityValue>(
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<Collection<ODataEntityValue>> => {
-        const response: ODataEntityResponse = await this.fetchData<ODataEntityResponse>(url, requestOptions);
+        const response: ODataEntityResponse = await this.fetchJSON<ODataEntityResponse>(url, requestOptions);
         const link: PagedResponseLinks = {
           self: {
-            href: ""
+            href: url
           }
         };
         if(response["@odata.nextLink"]) {
@@ -75,12 +82,6 @@ export class ODataClient extends OperationsBase implements IOdataClient{
   public async getODataReportMetadata(accessToken: AccessToken, reportId: string): Promise<Response> {
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/$metadata`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetch(url, requestOptions).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        return response;
-      } else {
-        throw response;
-      }
-    });
+    return this.fetchXML(url, requestOptions);
   }
 }

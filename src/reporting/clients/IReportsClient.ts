@@ -11,6 +11,7 @@ export interface IReportsClient{
    * Gets all Reports within the context of a Project.
    * @param {string} projectId The Project Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
+   * @param {boolean} deleted parameter to specify whether to include deleted reports
    * @param {number} top the number of entities to pre-load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
@@ -18,19 +19,22 @@ export interface IReportsClient{
   getReports(
     accessToken: AccessToken, 
     projectId: string, 
+    deleted: boolean,
     top?: number
   ): Promise<Report[]>,
   /**
    * Gets an async paged iterator for Reports within the context of a Project.
    * @param {string} projectId The Project Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
+   * @param {boolean} deleted parameter to specify whether to include deleted reports
    * @param {number} top the number of entities to pre-load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
   getReportsIterator(
     accessToken: AccessToken, 
-    projectId: string, 
+    projectId: string,
+    deleted: boolean,
     top?: number
   ): EntityListIterator<Report>,
   /**

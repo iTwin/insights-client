@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import isomorphicFetch from 'cross-fetch';
+import { RequiredError } from '../insights-client';
 import { DataType, ECProperty } from './interfaces/GroupProperties';
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
@@ -44,19 +45,38 @@ export class OperationsBase {
    * @param {RequestInit} requestOptions information about the fetch
    * @memberof OperationsBase
    */
-  public async fetchData<T>(nextUrl: string, requestOptions: RequestInit): Promise<T> {
+  private async fetchData(nextUrl: string, requestOptions: RequestInit): Promise<Response> {
     return this.fetch(
       nextUrl,
       requestOptions
     ).then((response) => {
       if (response.status >= 200 && response.status < 300) {
-        if(response.status === 204)
-          {return response;}
-        return response.json();
+        return response;
       } else {
         throw response;
       }
     });
+  }
+
+  /**
+   * retrieves specified data
+   * @param {string} nextUrl url for the fetch
+   * @param {RequestInit} requestOptions information about the fetch
+   * @memberof OperationsBase
+   */
+   public async fetchJSON<T>(nextUrl: string, requestOptions: RequestInit): Promise<T> {
+    const response = await this.fetchData(nextUrl, requestOptions);
+    return response.status === 204 ? response : response.json();
+  }
+
+  /**
+   * retrieves specified data
+   * @param {string} nextUrl url for the fetch
+   * @param {RequestInit} requestOptions information about the fetch
+   * @memberof OperationsBase
+   */
+   public async fetchXML(nextUrl: string, requestOptions: RequestInit): Promise<Response> {
+    return await this.fetchData(nextUrl, requestOptions);
   }
 
   /**
@@ -88,5 +108,19 @@ export class OperationsBase {
       !this.isNullOrWhitespace(prop.ecClassName) &&
       !this.isNullOrWhitespace(prop.ecPropertyName) &&
       DataType.Undefined != prop.ecPropertyType;
+  }
+
+  /**
+   * checks if given number is in a range
+   * @param {number | undefined} top
+   * @memberof OperationsBase
+   */
+  public topInRangeValidation(top: number | undefined) {
+    if(top !== undefined && (top <= 0 || top > 1000)) {
+      throw new RequiredError(
+        'top',
+        'Parameter top was outside of the valid range [1-1000].',
+      )
+    }
   }
 }

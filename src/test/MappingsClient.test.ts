@@ -16,7 +16,7 @@ describe("mappings Client", () => {
   let requestStub: sinon.SinonStub;
   
   beforeEach(() => {
-    fetchStub = sinon.stub(MappingsClient.prototype, "fetchData");
+    fetchStub = sinon.stub(MappingsClient.prototype, "fetchJSON");
     requestStub = sinon.stub(MappingsClient.prototype, "createRequest");
     requestStub.returns("pass");
   })

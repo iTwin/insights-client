@@ -16,7 +16,7 @@ describe("OData Client", () => {
   let requestStub: sinon.SinonStub;
   
   beforeEach(() => {
-    fetchStub = sinon.stub(ODataClient.prototype, "fetchData");
+    fetchStub = sinon.stub(ODataClient.prototype, "fetchJSON");
     requestStub = sinon.stub(ODataClient.prototype, "createRequest");
     requestStub.returns("pass");
   })
@@ -48,11 +48,11 @@ describe("OData Client", () => {
   });
 
   it("Get OData report metadata", async function () {
+    const fetchStub = sinon.stub(ODataClient.prototype, "fetchXML")
     const request: RequestInit = {
       body: "Test",
     }
     requestStub.returns(request);
-    const fetchStub = sinon.stub(oDataClient, <any>"fetch") // eslint-disable-line @typescript-eslint/no-explicit-any
     const myOptions = { status: 200, statusText: "Test" };
     const body = {
       "Test": "test"
@@ -64,19 +64,19 @@ describe("OData Client", () => {
 
     myOptions.status = 400;
     response = new Response(JSON.stringify(body), myOptions);
-    fetchStub.resolves(response);
+    fetchStub.throws(response);
     await expect(oDataClient.getODataReportMetadata("-", "-")).to.be.rejected;
+    
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/odata/-/$metadata",
       request,
     )).to.be.eq(true);
 
     myOptions.status = 200;
-    const fetchStubNewBase = sinon.stub(oDataClientNewBase, <any>"fetch")  // eslint-disable-line @typescript-eslint/no-explicit-any
     response = new Response(JSON.stringify(body), myOptions);
-    fetchStubNewBase.resolves(response);
+    fetchStub.resolves(response);
     report = await oDataClientNewBase.getODataReportMetadata("-", "-");
-    expect(fetchStubNewBase.calledWith(
+    expect(fetchStub.calledWith(
       "BASE/odata/-/$metadata",
       request,
     )).to.be.eq(true);

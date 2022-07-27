@@ -81,9 +81,10 @@
     }
   },
   "nyc": {
-    "nycrc-path": "../../node_modules/@itwin/build-tools/.nycrc",
+    "nycrc-path": "./node_modules/@itwin/build-tools/.nycrc",
     "exclude": [
-      "**/test/*"
+      "**/test/*",
+      "**/oneClickLCA/*"
     ],
     "check-coverage": true,
     "report-dir": "lib/test/coverage",

@@ -26,13 +26,14 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   }
 
   public getMappingsIterator(accessToken: AccessToken, iModelId: string, top?: number): EntityListIterator<Mapping> {
+    this.topInRangeValidation(top);
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
     url += top ?  `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Mapping>(
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<Collection<Mapping>> => {
-        const response: MappingCollection = await this.fetchData<MappingCollection>(url, requestOptions);
+        const response: MappingCollection = await this.fetchJSON<MappingCollection>(url, requestOptions);
         return {
           values: response.mappings,
           _links: response._links,
@@ -43,7 +44,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   public async getMapping(accessToken: AccessToken, iModelId: string, mappingId: string): Promise<Mapping> {
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return (await this.fetchData<MappingSingle>(url, requestOptions)).mapping;
+    return (await this.fetchJSON<MappingSingle>(url, requestOptions)).mapping;
   }
 
   public async createMapping(
@@ -60,7 +61,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(mapping));
-    return (await this.fetchData<MappingSingle>(url, requestOptions)).mapping;
+    return (await this.fetchJSON<MappingSingle>(url, requestOptions)).mapping;
   }
 
   public async updateMapping(
@@ -84,7 +85,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(mapping));
-    return (await this.fetchData<MappingSingle>(url, requestOptions)).mapping;
+    return (await this.fetchJSON<MappingSingle>(url, requestOptions)).mapping;
   }
 
   public async deleteMapping(
@@ -94,7 +95,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<Response> {
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetchData<Response>(url, requestOptions);
+    return this.fetchJSON<Response>(url, requestOptions);
   }
 
   public async copyMapping(
@@ -118,7 +119,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/copy`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(mappingCopy));
-    return (await this.fetchData<MappingSingle>(url, requestOptions)).mapping;
+    return (await this.fetchJSON<MappingSingle>(url, requestOptions)).mapping;
   }
 
   public async getGroups(
@@ -141,13 +142,14 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     mappingId: string,
     top?: number
   ): EntityListIterator<Group> {
+    this.topInRangeValidation(top);
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Group>(
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<Collection<Group>> => {
-        const response: GroupCollection = await this.fetchData<GroupCollection>(url, requestOptions);
+        const response: GroupCollection = await this.fetchJSON<GroupCollection>(url, requestOptions);
         return {
           values: response.groups,
           _links: response._links,
@@ -176,7 +178,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
     const requestOptions: RequestInit =  this.createRequest("POST", accessToken, JSON.stringify(group));
-    return (await this.fetchData<GroupSingle>(url, requestOptions)).group;
+    return (await this.fetchJSON<GroupSingle>(url, requestOptions)).group;
   }
 
   public async getGroup(
@@ -187,7 +189,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<Group> {
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return (await this.fetchData<GroupSingle>(url, requestOptions)).group;
+    return (await this.fetchJSON<GroupSingle>(url, requestOptions)).group;
   }
 
   public async updateGroup(
@@ -218,7 +220,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(group));
-    return (await this.fetchData<GroupSingle>(url, requestOptions)).group;
+    return (await this.fetchJSON<GroupSingle>(url, requestOptions)).group;
   }
 
   public async deleteGroup(
@@ -229,7 +231,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<Response> {
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetchData<Response>(url, requestOptions);
+    return this.fetchJSON<Response>(url, requestOptions);
   }
 
   public async getGroupProperties(
@@ -254,13 +256,14 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     groupId: string,
     top?: number
   ): EntityListIterator<GroupProperty> {
+    this.topInRangeValidation(top);
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<GroupProperty>(
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<Collection<GroupProperty>> => {
-        const response: GroupPropertyCollection = await this.fetchData<GroupPropertyCollection>(url, requestOptions);
+        const response: GroupPropertyCollection = await this.fetchJSON<GroupPropertyCollection>(url, requestOptions);
         return {
           values: response.properties,
           _links: response._links,
@@ -277,7 +280,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<GroupProperty> {
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return (await this.fetchData<GroupPropertySingle>(url, requestOptions)).property;
+    return (await this.fetchJSON<GroupPropertySingle>(url, requestOptions)).property;
   }
 
   public async createGroupProperty(
@@ -316,7 +319,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(groupProperty));
-    return (await this.fetchData<GroupPropertySingle>(url, requestOptions)).property;
+    return (await this.fetchJSON<GroupPropertySingle>(url, requestOptions)).property;
   }
 
   public async updateGroupProperty(
@@ -356,7 +359,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("PUT", accessToken, JSON.stringify(groupProperty));
-    return (await this.fetchData<GroupPropertySingle>(url, requestOptions)).property;
+    return (await this.fetchJSON<GroupPropertySingle>(url, requestOptions)).property;
   }
 
   public async deleteGroupProperty(
@@ -368,7 +371,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<Response> {
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetchData<Response>(url, requestOptions);
+    return this.fetchJSON<Response>(url, requestOptions);
   }
 
   public async getCalculatedProperties(
@@ -393,13 +396,14 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     groupId: string,
     top?: number
   ): EntityListIterator<CalculatedProperty> {
+    this.topInRangeValidation(top);
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<CalculatedProperty>(
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<Collection<CalculatedProperty>> => {
-        const response: CalculatedPropertyCollection = await this.fetchData<CalculatedPropertyCollection>(url, requestOptions);
+        const response: CalculatedPropertyCollection = await this.fetchJSON<CalculatedPropertyCollection>(url, requestOptions);
         return {
           values: response.properties,
           _links: response._links,
@@ -416,7 +420,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<CalculatedProperty> {
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return (await this.fetchData<CalculatedPropertySingle>(url, requestOptions)).property;
+    return (await this.fetchJSON<CalculatedPropertySingle>(url, requestOptions)).property;
   }
 
   public async createCalculatedProperty(
@@ -440,7 +444,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     }
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(property));
-    return (await this.fetchData<CalculatedPropertySingle>(url, requestOptions)).property;
+    return (await this.fetchJSON<CalculatedPropertySingle>(url, requestOptions)).property;
   }
 
   public async updateCalculatedProperty(
@@ -472,7 +476,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(property));
-    return (await this.fetchData<CalculatedPropertySingle>(url, requestOptions)).property;
+    return (await this.fetchJSON<CalculatedPropertySingle>(url, requestOptions)).property;
   }
 
   public async deleteCalculatedProperty(
@@ -484,7 +488,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<Response> {
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetchData<Response>(url, requestOptions);
+    return this.fetchJSON<Response>(url, requestOptions);
   }
 
   public async getCustomCalculations(
@@ -509,13 +513,14 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     groupId: string,
     top?: number
   ): EntityListIterator<CustomCalculation> {
+    this.topInRangeValidation(top);
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<CustomCalculation>(
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<Collection<CustomCalculation>> => {
-        const response: CustomCalculationCollection = await this.fetchData<CustomCalculationCollection>(url, requestOptions);
+        const response: CustomCalculationCollection = await this.fetchJSON<CustomCalculationCollection>(url, requestOptions);
         return {
           values: response.customCalculations,
           _links: response._links,
@@ -532,7 +537,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<CustomCalculation> {
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return (await this.fetchData<CustomCalculationSingle>(url, requestOptions)).customCalculation;
+    return (await this.fetchJSON<CustomCalculationSingle>(url, requestOptions)).customCalculation;
   }
 
   public async createCustomCalculation(
@@ -557,7 +562,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(property));
-    return (await this.fetchData<CustomCalculationSingle>(url, requestOptions)).customCalculation;
+    return (await this.fetchJSON<CustomCalculationSingle>(url, requestOptions)).customCalculation;
   }
 
   public async updateCustomCalculation(
@@ -589,7 +594,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(property));
-    return (await this.fetchData<CustomCalculationSingle>(url, requestOptions)).customCalculation;
+    return (await this.fetchJSON<CustomCalculationSingle>(url, requestOptions)).customCalculation;
   }
 
   public async deleteCustomCalculation(
@@ -601,6 +606,6 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<Response> {
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetchData<Response>(url, requestOptions);
+    return this.fetchJSON<Response>(url, requestOptions);
   }
 }

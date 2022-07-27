@@ -125,15 +125,22 @@ describe("Reports Client", () => {
     expect(report.displayName).to.be.eq("Updated")
   });
 
-  it("Reports - Get all", async function () {
+  it("Reports - Get all non deleted", async function () {
     const reports = await reportsClient.getReports(accessToken, projectId);
     expect(reports).to.not.be.undefined;
     expect(reports.length).to.be.above(2);
     expect(reports[0].displayName).to.not.be.undefined;
   });
 
+  it("Reports - Get all", async function () {
+    const reports = await reportsClient.getReports(accessToken, projectId, true, undefined);
+    expect(reports).to.not.be.undefined;
+    expect(reports.length).to.be.above(2);
+    expect(reports[0].displayName).to.not.be.undefined;
+  });
+
   it("Reports - Get with iterator", async function () {
-    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
+    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, false, 2);
     for await(const report of reportsIt) {
       expect(report).to.not.be.undefined;
       expect(report.displayName).to.not.be.undefined;
@@ -141,7 +148,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get pages", async function () {
-    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
+    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, false, 2);
     for await(const reports of reportsIt.byPage()) {
       expect(reports).to.not.be.undefined;
       expect(reports).to.not.be.empty;

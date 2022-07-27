@@ -300,10 +300,22 @@ describe("Validation", () => {
       url: "1/2"
     }
     await expect(oDataClient.getODataReportEntities("-", "-", item)).to.be.rejectedWith(
-      'odata item was invalid when calling updateCalculatedProperty.'
+      'odata item was invalid when calling getODataReportEntities.'
     );
     await expect(oDataClient.getODataReportEntityPage("-", "-", item, 0)).to.be.rejectedWith(
-      'odata item was invalid when calling updateCalculatedProperty.'
+      'odata item was invalid when calling getODataReportEntityPage.'
+    );
+    expect(() => oDataClient.getODataReportEntitiesIterator("-", "-", item)).to.throw(
+      'odata item was invalid when calling getODataReportEntitiesIterator.'
+    );
+  });
+
+  it("General - Faulty top value", async function () {
+    await expect(mappingsClient.getMappings("-", "-", 0)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000].'
+    );
+    await expect(mappingsClient.getMappings("-", "-", 1001)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000].'
     );
   });
 });

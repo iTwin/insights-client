@@ -21,13 +21,14 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
   }
 
   public getExtractionLogsIterator(accessToken: AccessToken, jobId: string, top?: number): EntityListIterator<ExtractionLog> {
+    this.topInRangeValidation(top);
     let url = `${this.basePath}/datasources/extraction/status/${encodeURIComponent(jobId)}/logs`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ExtractionLog>(
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<Collection<ExtractionLog>> => {
-        const response: ExtractionLogCollection = await this.fetchData(url, requestOptions);
+        const response: ExtractionLogCollection = await this.fetchJSON(url, requestOptions);
         return {
           values: response.logs,
           _links: response._links,
@@ -38,12 +39,12 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
   public async runExtraction(accessToken: AccessToken, iModelId: string): Promise<ExtractionRun> {
     const url = `${this.basePath}/datasources/imodels/${iModelId}/extraction/run`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken);
-    return (await this.fetchData<ExtractionRunSingle>(url, requestOptions)).run;
+    return (await this.fetchJSON<ExtractionRunSingle>(url, requestOptions)).run;
   }
 
   public async getExtractionStatus(accessToken: AccessToken, jobId: string): Promise<ExtractionStatus> {
     const url = `${this.basePath}/datasources/extraction/status/${encodeURIComponent(jobId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return (await this.fetchData<ExtractionStatusSingle>(url, requestOptions)).status;
+    return (await this.fetchJSON<ExtractionStatusSingle>(url, requestOptions)).status;
   }
 }

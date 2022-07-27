@@ -20,8 +20,9 @@ export type EntityPageQueryFunc<TEntity> = () => Promise<EntityCollectionPage<TE
 
 export async function* flatten<TEntity>(pagedIterator: AsyncIterableIterator<TEntity[]>): AsyncIterableIterator<TEntity> {
   for await (const entityChunk of pagedIterator) {
-    for (const entity of entityChunk)
-      {yield entity;}
+    for (const entity of entityChunk) {
+      yield entity;
+    }
   }
 }
 
@@ -45,8 +46,8 @@ export async function getEntityCollectionPage<TEntity>(
  */
  export async function toArray<TEntity>(iterator: AsyncIterableIterator<TEntity>): Promise<TEntity[]> {
   const result: TEntity[] = [];
-  for await (const entity of iterator)
-    {result.push(entity);}
-
+  for await (const entity of iterator) {
+    result.push(entity);
+  }
   return result;
 }

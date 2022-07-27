@@ -78,19 +78,30 @@ describe("OperationsBase", () => {
     }
     let response: Response = new Response(JSON.stringify(body), myOptions);
     stub.resolves(response);
-    let realResponse = await operationsBase.fetchData("-", {});
+    let realResponse = await operationsBase.fetchJSON("-", {});
     expect(realResponse).to.not.be.undefined;
 
     myOptions = { status: 204, statusText: "Test" };
     response = new Response(JSON.stringify(body), myOptions);
     stub.resolves(response);
-    realResponse = await operationsBase.fetchData("-", {});
+    realResponse = await operationsBase.fetchJSON("-", {});
     expect(realResponse).to.not.be.undefined;
 
     myOptions = { status: 400, statusText: "Test" };
     response = new Response(JSON.stringify(body), myOptions);
     stub.resolves(response);
-    await expect(operationsBase.fetchData("-", {})).to.be.rejected;
+    await expect(operationsBase.fetchJSON("-", {})).to.be.rejected;
+
+    myOptions = { status: 204, statusText: "Test" };
+    response = new Response(JSON.stringify(body), myOptions);
+    stub.resolves(response);
+    realResponse = await operationsBase.fetchXML("-", {});
+    expect(realResponse).to.not.be.undefined;
+
+    myOptions = { status: 400, statusText: "Test" };
+    response = new Response(JSON.stringify(body), myOptions);
+    stub.resolves(response);
+    await expect(operationsBase.fetchXML("-", {})).to.be.rejected;
   });
 
   it("createRequest", () => {

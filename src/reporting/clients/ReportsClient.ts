@@ -12,23 +12,24 @@ import { Report, ReportCollection, ReportSingle, ReportCreate, ReportUpdate, Rep
 import { IReportsClient } from "./IReportsClient";
 
 export class ReportsClient extends OperationsBase implements IReportsClient{
-  public async getReports(accessToken: AccessToken, projectId: string, top?: number): Promise<Report[]> {
+  public async getReports(accessToken: AccessToken, projectId: string, deleted = false, top?: number): Promise<Report[]> {
     const reports: Array<Report> = [];
-    const reportIterator = this.getReportsIterator(accessToken, projectId, top);
+    const reportIterator = this.getReportsIterator(accessToken, projectId, deleted, top);
     for await(const report of reportIterator) {
       reports.push(report);
     }
     return reports;
   }
 
-  public getReportsIterator(accessToken: AccessToken, projectId: string, top?: number): EntityListIterator<Report> {
-    let url = `${this.basePath}/reports?projectId=${encodeURIComponent(projectId)}&deleted=false`;
+  public getReportsIterator(accessToken: AccessToken, projectId: string, deleted = false, top?: number): EntityListIterator<Report> {
+    this.topInRangeValidation(top);
+    let url = `${this.basePath}/reports?projectId=${encodeURIComponent(projectId)}&deleted=${encodeURIComponent(deleted)}`;
     url += top ? `&%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Report>(
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<Collection<Report>> => {
-        const response: ReportCollection = await this.fetchData<ReportCollection>(url, requestOptions);
+        const response: ReportCollection = await this.fetchJSON<ReportCollection>(url, requestOptions);
         return {
           values: response.reports,
           _links: response._links,
@@ -39,7 +40,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
   public async getReport(accessToken: AccessToken, reportId: string): Promise<Report> {
     const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return (await this.fetchData<ReportSingle>(url, requestOptions)).report;
+    return (await this.fetchJSON<ReportSingle>(url, requestOptions)).report;
   }
 
   public async createReport(accessToken: AccessToken, report: ReportCreate): Promise<Report>{
@@ -58,7 +59,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
 
     const url = `${this.basePath}/reports/`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(report));
-    return (await this.fetchData<ReportSingle>(url, requestOptions)).report;
+    return (await this.fetchJSON<ReportSingle>(url, requestOptions)).report;
   }
 
   public async updateReport(accessToken: AccessToken, reportId: string, report: ReportUpdate): Promise<Report> {
@@ -77,13 +78,13 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
 
     const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(report));
-    return (await this.fetchData<ReportSingle>(url, requestOptions)).report;
+    return (await this.fetchJSON<ReportSingle>(url, requestOptions)).report;
   }
 
   public async deleteReport(accessToken: AccessToken, reportId: string): Promise<Response> {
     const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetchData<Response>(url, requestOptions);
+    return this.fetchJSON<Response>(url, requestOptions);
   }
 
   public async getReportMappings(accessToken: AccessToken, reportId: string, top?: number): Promise<ReportMapping[]> {
@@ -96,13 +97,14 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
   }
 
   public getReportMappingsIterator(accessToken: AccessToken, reportId: string, top?: number): EntityListIterator<ReportMapping> {
+    this.topInRangeValidation(top);
     let url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ReportMapping>(
       url,
       this.createRequest("GET", accessToken),
       async (url: string, requestOptions: RequestInit): Promise<Collection<ReportMapping>> => {
-        const response: ReportMappingCollection = await this.fetchData<ReportMappingCollection>(url, requestOptions);
+        const response: ReportMappingCollection = await this.fetchJSON<ReportMappingCollection>(url, requestOptions);
         return {
           values: response.mappings,
           _links: response._links,
@@ -130,12 +132,12 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
 
     const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(reportMapping));
-    return (await this.fetchData<ReportMappingSingle>(url, requestOptions)).mapping;
+    return (await this.fetchJSON<ReportMappingSingle>(url, requestOptions)).mapping;
   }
 
   public async deleteReportMapping(accessToken: AccessToken, reportId: string, reportMappingId: string): Promise<Response> {
     const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings/${encodeURIComponent(reportMappingId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetchData<Response>(url, requestOptions);
+    return this.fetchJSON<Response>(url, requestOptions);
   }
 }

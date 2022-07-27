@@ -6,6 +6,8 @@ import * as chaiAsPromised from "chai-as-promised"
 import { expect, use } from "chai";
 import * as sinon from "sinon";
 import { ReportsClient, Report, ReportCreate, ReportUpdate, ReportMapping, ReportMappingCreate } from "../reporting";
+import * as utils from "../reporting/iterators/IteratorUtil";
+import { getEntityCollectionPage } from "../reporting/iterators/IteratorUtil";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {
@@ -16,7 +18,7 @@ describe("Reports Client", () => {
   let requestStub: sinon.SinonStub;
   
   beforeEach(() => {
-    fetchStub = sinon.stub(ReportsClient.prototype, "fetchData");
+    fetchStub = sinon.stub(ReportsClient.prototype, "fetchJSON");
     requestStub = sinon.stub(ReportsClient.prototype, "createRequest");
     requestStub.returns("pass");
   })
@@ -48,7 +50,7 @@ describe("Reports Client", () => {
     )).to.be.eq(true);
   });
 
-  it("Reports - Get all", async function () {
+  it("Reports - Get all non deleted", async function () {
     const returns1 = {
       reports: [1, 2],
       _links: {
@@ -79,6 +81,62 @@ describe("Reports Client", () => {
     )).to.be.eq(true);
   });
 
+  it("Get iterator with and without top", async function () {
+    const returns = {
+      reports: [1, 2],
+      _links: {
+        next: undefined,
+      }
+    }
+    fetchStub.resolves(returns);
+    let it = reportsClient.getReportsIterator("-", "-");
+    expect(it).to.not.be.undefined;
+    await it.next();
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false",
+      "pass"
+    )).to.be.eq(true);
+    
+    it = reportsClient.getReportsIterator("-", "-", false, 2);
+    expect(it).to.not.be.undefined;
+    await it.next();
+    expect(fetchStub.calledWith(
+      `https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false&%24top=2`,
+      "pass"
+    )).to.be.eq(true);
+  })
+
+  it("Reports - Get all", async function () {
+    const returns1 = {
+      reports: [1, 2],
+      _links: {
+        next: "url",
+      }
+    }
+    const returns2 = {
+      reports: [3, 4],
+      _links: {
+        next: undefined,
+      }
+    }
+    fetchStub.resolves(returns2);
+    fetchStub.onCall(0).resolves(returns1);
+    let reports: Array<Report> = await reportsClient.getReports("-", "-", true);
+    expect(reports.length).to.be.eq(4);
+    expect(reports[0]).to.be.eq(1);
+    expect(reports[3]).to.be.eq(4);
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=true",
+      "pass"
+    )).to.be.eq(true);
+
+    reports = await reportsClientNewBase.getReports("-", "-", true);
+    expect(fetchStub.calledWith(
+      "BASE/reports?projectId=-&deleted=true",
+      "pass"
+    )).to.be.eq(true);
+  });
+
   it("Reports - get all with top", async function () {
     const returns1 = {
       reports: [1, 2],
@@ -94,7 +152,7 @@ describe("Reports Client", () => {
     }
     fetchStub.resolves(returns2);
     fetchStub.onCall(0).resolves(returns1);
-    let reports: Array<Report> = await reportsClient.getReports("-", "-", 2);
+    let reports: Array<Report> = await reportsClient.getReports("-", "-", false, 2);
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
@@ -103,7 +161,7 @@ describe("Reports Client", () => {
       "pass"
     )).to.be.eq(true);
 
-    reports = await reportsClientNewBase.getReports("-", "-", 2);
+    reports = await reportsClientNewBase.getReports("-", "-", false, 2);
     expect(fetchStub.calledWith(
       "BASE/reports?projectId=-&deleted=false&%24top=2",
       "pass"
