@@ -9,6 +9,7 @@ import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { OperationsBase } from "../OperationsBase";
 import { ExtractionLog, ExtractionLogCollection, ExtractionRun, ExtractionRunSingle, ExtractionStatus, ExtractionStatusSingle } from "../interfaces/ExtractionProcess";
 import { IExtractionClient } from "./IExtractionClient";
+import { RequiredError } from "../interfaces/Errors";
 
 export class ExtractionClient extends OperationsBase implements IExtractionClient {
   public async getExtractionLogs(accessToken: AccessToken, jobId: string, top?: number): Promise<ExtractionLog[]> {
@@ -21,7 +22,12 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
   }
 
   public getExtractionLogsIterator(accessToken: AccessToken, jobId: string, top?: number): EntityListIterator<ExtractionLog> {
-    this.topInRangeValidation(top);
+    if(!this.topIsValid(top)) {
+      throw new RequiredError(
+        'top',
+        'Parameter top was outside of the valid range [1-1000] when calling getExtractionLogsIterator.'
+      )
+    }
     let url = `${this.basePath}/datasources/extraction/status/${encodeURIComponent(jobId)}/logs`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ExtractionLog>(

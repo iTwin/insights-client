@@ -4,13 +4,14 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised"
 import { expect, use } from "chai";
-import { ReportsClient, MappingsClient, ReportCreate, MappingCreate, ReportMappingCreate, ReportUpdate, CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingUpdate, QuantityType, ODataClient, ODataItem } from "../reporting";
+import { ReportsClient, MappingsClient, ReportCreate, MappingCreate, ReportMappingCreate, ReportUpdate, CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingUpdate, QuantityType, ODataClient, ODataItem, ExtractionClient } from "../reporting";
 use(chaiAsPromised);
 
 describe("Validation", () => {
   const reportsClient = new ReportsClient();
   const mappingsClient = new MappingsClient();
   const oDataClient = new ODataClient();
+  const extractionClient = new ExtractionClient();
 
   it("Reports - Create unsuccessfully", async function () {
     const newReport: ReportCreate = {
@@ -40,6 +41,15 @@ describe("Validation", () => {
     );
   });
 
+  it("Reports - Faulty top value", async function () {
+    await expect(reportsClient.getReports("-", "-", false, 0)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getReportsIterator.'
+    );
+    await expect(reportsClient.getReports("-", "-", false, 1001)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getReportsIterator.'
+    );
+  });
+
   it("Report mappings - Create unsuccessfully", async function () {
     const newReportMapping: ReportMappingCreate = {
       mappingId: "",
@@ -53,6 +63,15 @@ describe("Validation", () => {
     newReportMapping.imodelId = "";
     await expect(reportsClient.createReportMapping("-", "-", newReportMapping)).to.be.rejectedWith(
       'Required field imodelId of reportMapping was null or undefined when calling createReportMapping.'
+    );
+  });
+
+  it("Report mappings - Faulty top value", async function () {
+    await expect(reportsClient.getReportMappings("-", "-", 0)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getReportMappingsIterator.'
+    );
+    await expect(reportsClient.getReportMappings("-", "-", 1001)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getReportMappingsIterator.'
     );
   });
 
@@ -74,6 +93,15 @@ describe("Validation", () => {
       mappingUpdate.mappingName = "";
     await expect(mappingsClient.updateMapping("-", "-", "-", mappingUpdate)).to.be.rejectedWith(
       'Required field mappingName of mapping was invalid when calling createMapping.',
+    );
+  });
+
+  it("Mappings - Faulty top value", async function () {
+    await expect(mappingsClient.getMappings("-", "-", 0)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getMappingsIterator.'
+    );
+    await expect(mappingsClient.getMappings("-", "-", 1001)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getMappingsIterator.'
     );
   });
 
@@ -125,6 +153,15 @@ describe("Validation", () => {
     };
     await expect(mappingsClient.updateGroup("-", "-", "-", "-", groupUpdate)).to.be.rejectedWith(
       'Required field query of group was null or undefined when calling updateGroup.',
+    );
+  });
+
+  it("Groups - Faulty top value", async function () {
+    await expect(mappingsClient.getGroups("-", "-", "-", 0)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getGroupsIterator.'
+    );
+    await expect(mappingsClient.getGroups("-", "-", "-", 1001)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getGroupsIterator.'
     );
   });
 
@@ -228,6 +265,15 @@ describe("Validation", () => {
     );
   });
 
+  it("Group properties - Faulty top value", async function () {
+    await expect(mappingsClient.getGroupProperties("-", "-", "-", "-", 0)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getGroupPropertiesIterator.'
+    );
+    await expect(mappingsClient.getGroupProperties("-", "-", "-", "-", 1001)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getGroupPropertiesIterator.'
+    );
+  });
+
   it("Calculated properties - Create unsuccessfully", async function () {
     const newProperty: CalculatedPropertyCreate = {
       propertyName: "",
@@ -258,6 +304,15 @@ describe("Validation", () => {
     calcPropertyUpdate.type = CalculatedPropertyType.Undefined;
     await expect(mappingsClient.updateCalculatedProperty("-", "-", "-", "-", "-", calcPropertyUpdate)).to.be.rejectedWith(
       'Required field type of property was null or undefined when calling updateCalculatedProperty.',
+    );
+  });
+
+  it("Calculated properties - Faulty top value", async function () {
+    await expect(mappingsClient.getCalculatedProperties("-", "-", "-", "-", 0)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getCalculatedPropertiesIterator.'
+    );
+    await expect(mappingsClient.getCalculatedProperties("-", "-", "-", "-", 1001)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getCalculatedPropertiesIterator.'
     );
   });
 
@@ -294,6 +349,24 @@ describe("Validation", () => {
     );
   });
 
+  it("Custom calculations - Faulty top value", async function () {
+    await expect(mappingsClient.getCustomCalculations("-", "-", "-", "-", 0)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getCustomCalculationsIterator.'
+    );
+    await expect(mappingsClient.getCustomCalculations("-", "-", "-", "-", 1001)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getCustomCalculationsIterator.'
+    );
+  });
+
+  it("Extraction logs - Faulty top value", async function () {
+    await expect(extractionClient.getExtractionLogs("-", "-", 0)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getExtractionLogsIterator.'
+    );
+    await expect(extractionClient.getExtractionLogs("-", "-", 1001)).to.be.rejectedWith(
+      'Parameter top was outside of the valid range [1-1000] when calling getExtractionLogsIterator.'
+    );
+  });
+
   it("Odata - Faulty odata item", async function () {
     const item: ODataItem = {
       name: "Test",
@@ -307,15 +380,6 @@ describe("Validation", () => {
     );
     expect(() => oDataClient.getODataReportEntitiesIterator("-", "-", item)).to.throw(
       'odata item was invalid when calling getODataReportEntitiesIterator.'
-    );
-  });
-
-  it("General - Faulty top value", async function () {
-    await expect(mappingsClient.getMappings("-", "-", 0)).to.be.rejectedWith(
-      'Parameter top was outside of the valid range [1-1000].'
-    );
-    await expect(mappingsClient.getMappings("-", "-", 1001)).to.be.rejectedWith(
-      'Parameter top was outside of the valid range [1-1000].'
     );
   });
 });

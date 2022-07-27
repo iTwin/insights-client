@@ -6,8 +6,6 @@ import * as chaiAsPromised from "chai-as-promised"
 import { expect, use } from "chai";
 import * as sinon from "sinon";
 import { ReportsClient, Report, ReportCreate, ReportUpdate, ReportMapping, ReportMappingCreate } from "../reporting";
-import * as utils from "../reporting/iterators/IteratorUtil";
-import { getEntityCollectionPage } from "../reporting/iterators/IteratorUtil";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {

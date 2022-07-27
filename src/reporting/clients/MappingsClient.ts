@@ -26,7 +26,12 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   }
 
   public getMappingsIterator(accessToken: AccessToken, iModelId: string, top?: number): EntityListIterator<Mapping> {
-    this.topInRangeValidation(top);
+    if(!this.topIsValid(top)) {
+      throw new RequiredError(
+        'top',
+        'Parameter top was outside of the valid range [1-1000] when calling getMappingsIterator.'
+      )
+    }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
     url += top ?  `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Mapping>(
@@ -142,7 +147,12 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     mappingId: string,
     top?: number
   ): EntityListIterator<Group> {
-    this.topInRangeValidation(top);
+    if(!this.topIsValid(top)) {
+      throw new RequiredError(
+        'top',
+        'Parameter top was outside of the valid range [1-1000] when calling getGroupsIterator.'
+      )
+    }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Group>(
@@ -256,7 +266,12 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     groupId: string,
     top?: number
   ): EntityListIterator<GroupProperty> {
-    this.topInRangeValidation(top);
+    if(!this.topIsValid(top)) {
+      throw new RequiredError(
+        'top',
+        'Parameter top was outside of the valid range [1-1000] when calling getGroupPropertiesIterator.'
+      )
+    }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<GroupProperty>(
@@ -396,7 +411,12 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     groupId: string,
     top?: number
   ): EntityListIterator<CalculatedProperty> {
-    this.topInRangeValidation(top);
+    if(!this.topIsValid(top)) {
+      throw new RequiredError(
+        'top',
+        'Parameter top was outside of the valid range [1-1000] when calling getCalculatedPropertiesIterator.'
+      )
+    }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<CalculatedProperty>(
@@ -513,7 +533,12 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     groupId: string,
     top?: number
   ): EntityListIterator<CustomCalculation> {
-    this.topInRangeValidation(top);
+    if(!this.topIsValid(top)) {
+      throw new RequiredError(
+        'top',
+        'Parameter top was outside of the valid range [1-1000] when calling getCustomCalculationsIterator.'
+      )
+    }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<CustomCalculation>(

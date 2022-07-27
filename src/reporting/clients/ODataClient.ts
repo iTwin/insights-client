@@ -82,6 +82,6 @@ export class ODataClient extends OperationsBase implements IOdataClient{
   public async getODataReportMetadata(accessToken: AccessToken, reportId: string): Promise<Response> {
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/$metadata`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetchXML(url, requestOptions);
+    return this.fetchData(url, requestOptions);
   }
 }

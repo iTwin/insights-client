@@ -48,7 +48,7 @@ describe("OData Client", () => {
   });
 
   it("Get OData report metadata", async function () {
-    const fetchStub = sinon.stub(ODataClient.prototype, "fetchXML")
+    const fetchStub = sinon.stub(ODataClient.prototype, "fetchData")
     const request: RequestInit = {
       body: "Test",
     }

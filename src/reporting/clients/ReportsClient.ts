@@ -22,7 +22,12 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
   }
 
   public getReportsIterator(accessToken: AccessToken, projectId: string, deleted = false, top?: number): EntityListIterator<Report> {
-    this.topInRangeValidation(top);
+    if(!this.topIsValid(top)) {
+      throw new RequiredError(
+        'top',
+        'Parameter top was outside of the valid range [1-1000] when calling getReportsIterator.'
+      )
+    }
     let url = `${this.basePath}/reports?projectId=${encodeURIComponent(projectId)}&deleted=${encodeURIComponent(deleted)}`;
     url += top ? `&%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Report>(
@@ -97,7 +102,12 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
   }
 
   public getReportMappingsIterator(accessToken: AccessToken, reportId: string, top?: number): EntityListIterator<ReportMapping> {
-    this.topInRangeValidation(top);
+    if(!this.topIsValid(top)) {
+      throw new RequiredError(
+        'top',
+        'Parameter top was outside of the valid range [1-1000] when calling getReportMappingsIterator.'
+      )
+    }
     let url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
     url += top ? `/?%24top=${top}` : "";
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ReportMapping>(
