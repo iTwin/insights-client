@@ -146,6 +146,12 @@ export interface ExtractionRun {
    * @memberof ExtractionRun
    */
   id: string;
+  /**
+   * 
+   * @type {ExtractionRunLinks}
+   * @memberof ExtractionRun
+   */
+  _links: ExtractionRunLinks;
 }
 
 /**
