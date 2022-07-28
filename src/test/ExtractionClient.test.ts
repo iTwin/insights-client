@@ -15,8 +15,8 @@ describe("Extraction Client", () => {
   let requestStub: sinon.SinonStub;
 
   beforeEach(() => {
-    fetchStub = sinon.stub(ExtractionClient.prototype, "fetchJSON");
-    requestStub = sinon.stub(ExtractionClient.prototype, "createRequest");
+    fetchStub = sinon.stub(ExtractionClient.prototype, <any>"fetchJSON"); // eslint-disable-line @typescript-eslint/no-explicit-any
+    requestStub = sinon.stub(ExtractionClient.prototype, <any>"createRequest"); // eslint-disable-line @typescript-eslint/no-explicit-any
     requestStub.returns("pass");
   })
 

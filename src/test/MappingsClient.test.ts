@@ -15,8 +15,8 @@ describe("mappings Client", () => {
   let requestStub: sinon.SinonStub;
   
   beforeEach(() => {
-    fetchStub = sinon.stub(MappingsClient.prototype, "fetchJSON");
-    requestStub = sinon.stub(MappingsClient.prototype, "createRequest");
+    fetchStub = sinon.stub(MappingsClient.prototype, <any>"fetchJSON"); // eslint-disable-line @typescript-eslint/no-explicit-any
+    requestStub = sinon.stub(MappingsClient.prototype, <any>"createRequest"); // eslint-disable-line @typescript-eslint/no-explicit-any
     requestStub.returns("pass");
   })
 

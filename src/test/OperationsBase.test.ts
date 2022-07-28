@@ -10,8 +10,18 @@ import { OperationsBase } from '../reporting/OperationsBase';
 import 'isomorphic-fetch';
 use(chaiAsPromised)
 
+interface IOperationsBase {
+  createRequest(operation: string, accessToken: string, content?: string): RequestInit,
+  fetchData(nextUrl: string, requestOptions: RequestInit): Promise<Response>,
+  fetchJSON<T>(nextUrl: string, requestOptions: RequestInit): Promise<T>,
+  isSimpleIdentifier(name: string | null | undefined): boolean,
+  isNullOrWhitespace(input: string | null | undefined): boolean,
+  isValidECProperty (prop: ECProperty): boolean,
+  topIsValid(top: number | undefined): boolean
+}
+
 describe("OperationsBase", () => {
-  const operationsBase = new OperationsBase();
+  const operationsBase = <IOperationsBase><unknown>new OperationsBase();
 
   afterEach(() => {
     sinon.restore();
@@ -42,7 +52,7 @@ describe("OperationsBase", () => {
   });
 
   it("isValid", () => {
-    const stub = sinon.stub(OperationsBase.prototype, "isNullOrWhitespace");
+    const stub = sinon.stub(operationsBase, "isNullOrWhitespace");
     stub.returns(false);
     stub.withArgs("").returns(true);
 

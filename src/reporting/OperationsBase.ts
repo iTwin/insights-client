@@ -23,7 +23,7 @@ export class OperationsBase {
    * @param {string} content request body
    * @memberof OperationsBase
    */
-  public createRequest(operation: string, accessToken: string, content?: string): RequestInit {
+  protected createRequest(operation: string, accessToken: string, content?: string): RequestInit {
     const request: RequestInit = {
       method: operation,
     };
@@ -45,7 +45,7 @@ export class OperationsBase {
    * @param {RequestInit} requestOptions information about the fetch
    * @memberof OperationsBase
    */
-  public async fetchData(nextUrl: string, requestOptions: RequestInit): Promise<Response> {
+  protected async fetchData(nextUrl: string, requestOptions: RequestInit): Promise<Response> {
     return this.fetch(
       nextUrl,
       requestOptions
@@ -64,7 +64,7 @@ export class OperationsBase {
    * @param {RequestInit} requestOptions information about the fetch
    * @memberof OperationsBase
    */
-   public async fetchJSON<T>(nextUrl: string, requestOptions: RequestInit): Promise<T> {
+   protected async fetchJSON<T>(nextUrl: string, requestOptions: RequestInit): Promise<T> {
     const response = await this.fetchData(nextUrl, requestOptions);
     return response.status === 204 ? response : response.json();
   }
@@ -74,7 +74,7 @@ export class OperationsBase {
    * @param {string} name
    * @memberof OperationsBase
    */
-  public isSimpleIdentifier(name: string | null | undefined): boolean {
+  protected isSimpleIdentifier(name: string | null | undefined): boolean {
     const reg = /^[\p{L}\p{Nl}_][\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,}$/u;
     return name ? (name.length <= 128 && reg.test(name)) : false;
   }
@@ -84,7 +84,7 @@ export class OperationsBase {
    * @param {string} input
    * @memberof OperationsBase
    */
-  public isNullOrWhitespace(input: string | null | undefined) {
+  protected isNullOrWhitespace(input: string | null | undefined): boolean {
     return !input || !input.trim();
   }
   
@@ -93,7 +93,7 @@ export class OperationsBase {
    * @param {ECProperty} prop
    * @memberof OperationsBase
    */
-  public isValidECProperty (prop: ECProperty): boolean {
+  protected isValidECProperty (prop: ECProperty): boolean {
     return !this.isNullOrWhitespace(prop.ecSchemaName) &&
       !this.isNullOrWhitespace(prop.ecClassName) &&
       !this.isNullOrWhitespace(prop.ecPropertyName) &&
@@ -105,7 +105,7 @@ export class OperationsBase {
    * @param {number | undefined} top
    * @memberof OperationsBase
    */
-  public topIsValid(top: number | undefined) {
+  protected topIsValid(top: number | undefined): boolean {
     return top !== undefined ? (top > 0 && top <= 1000) : true;
   }
 }

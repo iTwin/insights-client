@@ -15,8 +15,8 @@ describe("OData Client", () => {
   let requestStub: sinon.SinonStub;
   
   beforeEach(() => {
-    fetchStub = sinon.stub(ODataClient.prototype, "fetchJSON");
-    requestStub = sinon.stub(ODataClient.prototype, "createRequest");
+    fetchStub = sinon.stub(ODataClient.prototype, <any>"fetchJSON"); // eslint-disable-line @typescript-eslint/no-explicit-any
+    requestStub = sinon.stub(ODataClient.prototype, <any>"createRequest"); // eslint-disable-line @typescript-eslint/no-explicit-any
     requestStub.returns("pass");
   })
 
@@ -45,7 +45,7 @@ describe("OData Client", () => {
   });
 
   it("Get OData report metadata", async function () {
-    const fetchStub = sinon.stub(ODataClient.prototype, "fetchData")
+    const fetchStub = sinon.stub(ODataClient.prototype, <any>"fetchData") // eslint-disable-line @typescript-eslint/no-explicit-any
     const request: RequestInit = {
       body: "Test",
     }

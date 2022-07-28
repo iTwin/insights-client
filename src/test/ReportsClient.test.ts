@@ -15,8 +15,8 @@ describe("Reports Client", () => {
   let requestStub: sinon.SinonStub;
   
   beforeEach(() => {
-    fetchStub = sinon.stub(ReportsClient.prototype, "fetchJSON");
-    requestStub = sinon.stub(ReportsClient.prototype, "createRequest");
+    fetchStub = sinon.stub(ReportsClient.prototype, <any>"fetchJSON"); // eslint-disable-line @typescript-eslint/no-explicit-any
+    requestStub = sinon.stub(ReportsClient.prototype, <any>"createRequest"); // eslint-disable-line @typescript-eslint/no-explicit-any
     requestStub.returns("pass");
   })
 
