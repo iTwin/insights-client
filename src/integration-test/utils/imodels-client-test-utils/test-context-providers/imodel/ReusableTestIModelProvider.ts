@@ -30,7 +30,7 @@ export class ReusableTestIModelProvider {
 
   public async getOrCreate(): Promise<ReusableIModelMetadata> {
     if (!this._reusableIModel)
-      {this._reusableIModel = await this.get();}
+      this._reusableIModel = await this.get();
 
     return this._reusableIModel;
   }
@@ -38,7 +38,7 @@ export class ReusableTestIModelProvider {
   private async get(): Promise<ReusableIModelMetadata> {
     const existingReusableIModel = await this._testIModelRetriever.findIModelByName(this._config.testIModelName);
     if (!existingReusableIModel)
-      {return this._testIModelCreator.createReusable(this._config.testIModelName);}
+      return this._testIModelCreator.createReusable(this._config.testIModelName);
 
     if (this._config.behaviorOptions.recreateReusableIModel) {
       await this.deleteIModel(existingReusableIModel.id);

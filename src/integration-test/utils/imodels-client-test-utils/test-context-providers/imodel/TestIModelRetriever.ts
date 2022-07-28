@@ -63,7 +63,7 @@ export class TestIModelRetriever {
     };
     const briefcases = await toArray(this._iModelsClient.briefcases.getRepresentationList(getBriefcaseListParams));
     if (briefcases.length !== 1)
-      {throw new TestSetupError(`${briefcases.length} is an unexpected briefcase count for reusable test IModel.`);}
+      throw new TestSetupError(`${briefcases.length} is an unexpected briefcase count for reusable test IModel.`);
 
     return { id: briefcases[0].briefcaseId, deviceName: briefcases[0].deviceName ?? "" };
   }
@@ -75,13 +75,13 @@ export class TestIModelRetriever {
     };
     const namedVersions: NamedVersion[] = await toArray(this._iModelsClient.namedVersions.getRepresentationList(getNamedVersionListParams));
     if (namedVersions.length !== TestIModelCreator.namedVersions.length)
-      {throw new TestSetupError(`${namedVersions.length} is an unexpected named version count for reusable test iModel.`);}
+      throw new TestSetupError(`${namedVersions.length} is an unexpected named version count for reusable test iModel.`);
 
     let mappedNamedVersions = [];
     for(const namedVersion of namedVersions) {
       const changesetFile = this._testIModelFileProvider.changesets.find((cs) => cs.id === namedVersion.changesetId);
       if(!changesetFile)
-        {throw new TestSetupError("Reusable test iModel contains changeset that is not found");}
+        throw new TestSetupError("Reusable test iModel contains changeset that is not found");
       mappedNamedVersions.push({
         id: namedVersion.id,
         name: namedVersion.name,
@@ -92,10 +92,10 @@ export class TestIModelRetriever {
     mappedNamedVersions = mappedNamedVersions.sort((nv1, nv2) => nv1.changesetIndex - nv2.changesetIndex);
 
     if (!mappedNamedVersions.every((nv, i) => nv.name === TestIModelCreator.namedVersions[i].name))
-      {throw new TestSetupError("Reusable test iModel contains unexpected named versions - names do not match");}
+      throw new TestSetupError("Reusable test iModel contains unexpected named versions - names do not match");
 
     if (!mappedNamedVersions.every((nv, i) => nv.changesetIndex === TestIModelCreator.namedVersions[i].changesetIndex))
-      {throw new TestSetupError("Reusable test iModel contains unexpected named versions - Changeset indexes do not match.");}
+      throw new TestSetupError("Reusable test iModel contains unexpected named versions - Changeset indexes do not match.");
 
     return mappedNamedVersions;
   }
@@ -107,7 +107,7 @@ export class TestIModelRetriever {
     };
     const locks: Lock[] = await toArray(this._iModelsClient.locks.getList(getLockListParams));
     if (locks.length !== 1)
-      {throw new TestSetupError(`${locks.length} is an unexpected lock count for reusable test iModel.`);}
+      throw new TestSetupError(`${locks.length} is an unexpected lock count for reusable test iModel.`);
 
     return locks[0];
   }

@@ -9,7 +9,6 @@ import { OperationOptions } from "../OperationOptions";
 import { GetBriefcaseListParams } from "./BriefcaseOperationParams";
 
 export class BriefcaseOperations<TOptions extends OperationOptions> extends OperationsBase<TOptions> {
-
   /**
    * Gets Briefcases of a specific iModel. This method returns Briefcases in their full representation. The returned iterator
    * internally queries entities in pages. Wraps the

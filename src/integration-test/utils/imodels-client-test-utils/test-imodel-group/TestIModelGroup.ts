@@ -21,7 +21,7 @@ export class TestIModelGroup {
   ) {
     this._iModelNamePrefix = `[${testRunContext.testRunId}][${testRunContext.packageName}]`;
     if (testRunContext.testSuiteName)
-      {this._iModelNamePrefix += `[${testRunContext.testSuiteName}]`;}
+      this._iModelNamePrefix += `[${testRunContext.testSuiteName}]`;
   }
 
   public getPrefixedUniqueIModelName(iModelName: string): string {

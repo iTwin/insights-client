@@ -42,11 +42,11 @@ export class IModelsErrorParser {
 
   public static parse(response: { statusCode?: number, body?: unknown }): Error {
     if (!response.statusCode)
-      {return new IModelsErrorImpl({ code: IModelsErrorCode.Unknown, message: IModelsErrorParser._defaultErrorMessage });}
+      return new IModelsErrorImpl({ code: IModelsErrorCode.Unknown, message: IModelsErrorParser._defaultErrorMessage });
 
     // TODO: remove the special handling when APIM team fixes incorrect error body
     if (response.statusCode === 401)
-      {return new IModelsErrorImpl({ code: IModelsErrorCode.Unauthorized, message: "The user is unauthorized. Please provide valid authentication credentials." });}
+      return new IModelsErrorImpl({ code: IModelsErrorCode.Unauthorized, message: "The user is unauthorized. Please provide valid authentication credentials." });
 
     const errorFromApi: IModelsApiErrorWrapper | undefined = response.body as IModelsApiErrorWrapper;
     const errorCode: IModelsErrorCode = IModelsErrorParser.parseCode(errorFromApi?.error?.code);
@@ -62,12 +62,12 @@ export class IModelsErrorParser {
 
   private static parseCode(errorCode: string | undefined): IModelsErrorCode {
     if (!errorCode)
-      {return IModelsErrorCode.Unrecognized;}
+      return IModelsErrorCode.Unrecognized;
 
     const adjustedErrorCode = IModelsErrorParser.adjustErrorCodeCaseToMatchEnum(errorCode);
     let parsedCode: IModelsErrorCode | undefined = IModelsErrorCode[adjustedErrorCode as keyof typeof IModelsErrorCode];
     if (!parsedCode)
-      {parsedCode = IModelsErrorCode.Unrecognized;}
+      parsedCode = IModelsErrorCode.Unrecognized;
 
     return parsedCode;
   }
@@ -78,10 +78,12 @@ export class IModelsErrorParser {
 
   private static parseDetails(details: IModelsApiErrorDetail[] | undefined): IModelsErrorDetail[] | undefined {
     if (!details)
-      {return undefined;}
+      return undefined;
 
     return details.map((unparsedDetail) => {
-      return { ...unparsedDetail, code: this.parseCode(unparsedDetail.code) };
+      return { 
+        ...unparsedDetail, code: this.parseCode(unparsedDetail.code)
+      };
     });
   }
 
@@ -93,8 +95,9 @@ export class IModelsErrorParser {
     result += " Details:\n";
     for (let i = 0; i < errorDetails.length; i++) {
       result += `${i + 1}. ${errorDetails[i].code}: ${errorDetails[i].message}`;
-      if (errorDetails[i].target)
-        {result += ` Target: ${errorDetails[i].target}.`;}
+      if (errorDetails[i].target) {
+        result += ` Target: ${errorDetails[i].target}.`;
+      }
       result += "\n";
     }
 

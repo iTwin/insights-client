@@ -20,7 +20,7 @@ type AzureProgressCallback = (progress: AzureProgressCallbackData) => void;
 export class AzureSdkFileHandler implements FileHandler {
   public async uploadFile(params: UploadFileParams): Promise<void> {
     if (this.isUrlExpired(params.uploadUrl))
-      {throw new Error("AzureSdkFileHandler: cannot upload file because SAS url is expired.");}
+      throw new Error("AzureSdkFileHandler: cannot upload file because SAS url is expired.");
 
     const blockBlobClient = new BlockBlobClient(params.uploadUrl, new AnonymousCredential());
 

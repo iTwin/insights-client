@@ -60,7 +60,7 @@ describe("OData Client", () => {
       status = await extractionClient.getExtractionStatus(accessToken, extraction.id);
       state = status.state;
       if(state !== ExtractorState.Queued && state.valueOf() !== ExtractorState.Running)
-        {break;}
+        break;
     }
     expect(state).to.be.eq(ExtractorState.Succeeded);
 

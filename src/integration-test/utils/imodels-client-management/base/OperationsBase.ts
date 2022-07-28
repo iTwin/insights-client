@@ -2,9 +2,10 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
+import { EntityCollectionPage } from "../../../../reporting/iterators/IteratorUtil";
 import { Constants } from "../Constants";
 import { AuthorizationParam, CollectionResponse, PreferReturn } from "./interfaces/CommonInterfaces";
-import { Dictionary, EntityCollectionPage } from "./interfaces/UtilityTypes";
+import { Dictionary } from "./interfaces/UtilityTypes";
 import { RestClient } from "./rest/RestClient";
 
 type SendGetRequestParams = AuthorizationParam & { url: string, preferReturn?: PreferReturn };
@@ -73,10 +74,10 @@ export class OperationsBase<TOptions extends OperationsBaseOptions> {
     headers[Constants.headers.accept] = `application/vnd.bentley.${this._options.api.version}+json`;
 
     if (params.preferReturn)
-      {headers[Constants.headers.prefer] = `return=${params.preferReturn}`;}
+      headers[Constants.headers.prefer] = `return=${params.preferReturn}`;
 
     if (params.containsBody)
-      {headers[Constants.headers.contentType] = Constants.headers.values.contentType;}
+      headers[Constants.headers.contentType] = Constants.headers.values.contentType;
 
     return headers;
   }

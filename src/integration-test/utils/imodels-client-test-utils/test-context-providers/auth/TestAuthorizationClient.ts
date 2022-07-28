@@ -146,7 +146,7 @@ export class TestAuthorizationClient {
   private getCodeFromUrl(redirectUrl: string): string {
     const urlQuery: ParsedUrlQuery = parse(redirectUrl, true).query;
     if (!urlQuery.code)
-      {throw new TestSetupError("Sign in failed: could not parse code from url.");}
+      throw new TestSetupError("Sign in failed: could not parse code from url.");
 
     return urlQuery.code.toString();
   }
@@ -154,7 +154,7 @@ export class TestAuthorizationClient {
   private async captureElement(browserPage: puppeteer.Page, selector: string): Promise<puppeteer.ElementHandle<Element>> {
     const element = await browserPage.waitForSelector(selector);
     if (!element)
-      {throw new TestSetupError(`Sign in failed: could not find element with selector '${selector}'.`);}
+      throw new TestSetupError(`Sign in failed: could not find element with selector '${selector}'.`);
 
     return element;
   }
