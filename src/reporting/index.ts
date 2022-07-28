@@ -28,3 +28,4 @@ export * from "./clients/IMappingsClient";
 export * from "./clients/IReportsClient";
 export * from "./clients/IODataClient";
 export * from "./clients/IExtractionClient";
+export * from "./OperationsBase";

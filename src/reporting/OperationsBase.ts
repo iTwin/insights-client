@@ -6,13 +6,14 @@ import isomorphicFetch from 'cross-fetch';
 import { DataType, ECProperty } from './interfaces/GroupProperties';
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
+export const REPORTING_BASE_PATH = "https://api.bentley.com/insights/reporting";
 
 export class OperationsBase {
   protected readonly fetch = isomorphicFetch;
   protected readonly basePath;
 
   constructor(basePath?: string) {
-    this.basePath = basePath ?? "https://api.bentley.com/insights/reporting";
+    this.basePath = basePath ?? REPORTING_BASE_PATH;
   }
 
   /**
