@@ -9,7 +9,6 @@ import { ExtractionLog, ExtractionClient, ExtractorState } from "../reporting";
 use(chaiAsPromised);
 
 describe("Extraction Client", () => {
-
   const extractionClient: ExtractionClient = new ExtractionClient();
   const extractionClientNewBase: ExtractionClient = new ExtractionClient("BASE");
   let fetchStub: sinon.SinonStub;
@@ -25,8 +24,6 @@ describe("Extraction Client", () => {
     sinon.restore();
   })
 
-  //run tests
-
   it("run extraction", async function () {
     const returns = {
       run: {
@@ -39,20 +36,22 @@ describe("Extraction Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/imodels/-/extraction/run",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
 
     extraction = await extractionClientNewBase.runExtraction("-", "-");
     expect(fetchStub.calledWith(
       "BASE/datasources/imodels/-/extraction/run",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Get Logs", async function () {
     const returns1 = {
       logs: [1, 2],
       _links: {
-        next: "url",
+        next: {
+          href: "url",
+        },
       }
     }
     const returns2 = {
@@ -61,8 +60,10 @@ describe("Extraction Client", () => {
         next: undefined,
       }
     }
-    fetchStub.resolves(returns2);
-    fetchStub.onCall(0).resolves(returns1);
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/extraction/status/-/logs", "pass").resolves(returns1)
+      .withArgs("url", "pass").resolves(returns2)
+      .withArgs("BASE/datasources/extraction/status/-/logs", "pass").resolves(returns2);
+
     let extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs("-", "-");
     expect(extraction.length).to.be.eq(4);
     expect(extraction[0]).to.be.eq(1);
@@ -70,20 +71,22 @@ describe("Extraction Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/extraction/status/-/logs",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
 
     extraction = await extractionClientNewBase.getExtractionLogs("-", "-");
     expect(fetchStub.calledWith(
       "BASE/datasources/extraction/status/-/logs",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Get Logs with top", async function () {
     const returns1 = {
       logs: [1, 2],
       _links: {
-        next: "url",
+        next: {
+          href: "url",
+        },
       }
     }
     const returns2 = {
@@ -92,8 +95,10 @@ describe("Extraction Client", () => {
         next: undefined,
       }
     }
-    fetchStub.resolves(returns2);
-    fetchStub.onCall(0).resolves(returns1);
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/extraction/status/-/logs/?%24top=2", "pass").resolves(returns1)
+      .withArgs("url", "pass").resolves(returns2)
+      .withArgs("BASE/datasources/extraction/status/-/logs/?%24top=2", "pass").resolves(returns2);
+    
     let extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs("-", "-", 2);
     expect(extraction.length).to.be.eq(4);
     expect(extraction[0]).to.be.eq(1);
@@ -101,13 +106,13 @@ describe("Extraction Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/extraction/status/-/logs/?%24top=2",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
 
     extraction = await extractionClientNewBase.getExtractionLogs("-", "-", 2);
     expect(fetchStub.calledWith(
       "BASE/datasources/extraction/status/-/logs/?%24top=2",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Get Status", async function () {
@@ -122,12 +127,12 @@ describe("Extraction Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/extraction/status/-",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
 
     extraction = await extractionClientNewBase.getExtractionStatus("-", "-");
     expect(fetchStub.calledWith(
       "BASE/datasources/extraction/status/-",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 });

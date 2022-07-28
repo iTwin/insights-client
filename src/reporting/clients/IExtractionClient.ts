@@ -8,10 +8,10 @@ import { EntityListIterator } from "../iterators/EntityListIterator";
 
 export interface IExtractionClient {
   /**
-   * Gets Logs of an Extraction Run.
+   * Gets Logs of an Extraction Run. This method returns the full list of extraction logs
    * @param {string} jobId Unique Identifier of the Extraction Run.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
+   * @param {number} top the number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-extraction-logs/
    */
@@ -20,11 +20,13 @@ export interface IExtractionClient {
     jobId: string,
     top?: number
   ): Promise<ExtractionLog[]>,
+
   /**
    * Gets an async paged iterator of logs for an Extraction Run.
+   * This method returns an iterator which loads pages of extraction logs as it is being iterated over.
    * @param {string} jobId Unique Identifier of the Extraction Run.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
+   * @param {number} top the number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-extraction-logs/
    */
@@ -33,6 +35,7 @@ export interface IExtractionClient {
     jobId: string,
     top?: number
   ): EntityListIterator<ExtractionLog>,
+
   /**
    * Manually run Extraction of data from an iModel.
    * @param {string} iModelId The iModel Id.
@@ -44,6 +47,7 @@ export interface IExtractionClient {
     accessToken: AccessToken,
     iModelId: string
   ): Promise<ExtractionRun>,
+
   /**
    * Gets the Status of an Extraction Run.
    * @param {string} jobId Unique Identifier of the Extraction Run.

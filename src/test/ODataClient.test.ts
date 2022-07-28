@@ -9,7 +9,6 @@ import { ODataClient, ODataItem, ODataEntityResponse, ODataEntityValue } from ".
 use(chaiAsPromised);
 
 describe("OData Client", () => {
-
   const oDataClient: ODataClient = new ODataClient();
   const oDataClientNewBase: ODataClient = new ODataClient("BASE");
   let fetchStub: sinon.SinonStub;
@@ -25,8 +24,6 @@ describe("OData Client", () => {
     sinon.restore();
   })
 
-  //run tests
-
   it("Get OData report", async function () {
     const returns = {
       value: [1, 2],
@@ -38,13 +35,13 @@ describe("OData Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/odata/-",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
 
     report = await oDataClientNewBase.getODataReport("-", "-");
     expect(fetchStub.calledWith(
       "BASE/odata/-",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Get OData report metadata", async function () {
@@ -70,7 +67,7 @@ describe("OData Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/odata/-/$metadata",
       request,
-    )).to.be.eq(true);
+    )).to.be.true;
 
     myOptions.status = 200;
     response = new Response(JSON.stringify(body), myOptions);
@@ -79,7 +76,7 @@ describe("OData Client", () => {
     expect(fetchStub.calledWith(
       "BASE/odata/-/$metadata",
       request,
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Get OData report Entity", async function () {
@@ -97,8 +94,10 @@ describe("OData Client", () => {
       value: [{"three": "3", "four": "4"}, {"three": "3", "four": "4"}],
       "@odata.nextLink": undefined
     }
-    fetchStub.resolves(returns2);
-    fetchStub.onCall(0).resolves(returns1);
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/odata/-/1/2/3", "pass").resolves(returns1)
+      .withArgs("url", "pass").resolves(returns2)
+      .withArgs("BASE/odata/-/1/2/3", "pass").resolves(returns2);
+    
     let report: Array<ODataEntityValue> = await oDataClient.getODataReportEntities("-", "-", item);
     expect(report).to.not.be.undefined;
     expect(report.length).to.be.eq(4);
@@ -107,13 +106,13 @@ describe("OData Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/odata/-/1/2/3",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
 
     report = await oDataClientNewBase.getODataReportEntities("-", "-", item);
     expect(fetchStub.calledWith(
       "BASE/odata/-/1/2/3",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Get OData report Entity", async function () {
@@ -136,12 +135,12 @@ describe("OData Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/odata/-/1/2/3?sequence=1",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
 
     report = await oDataClientNewBase.getODataReportEntityPage("-", "-", item, 1);
     expect(fetchStub.calledWith(
       "BASE/odata/-/1/2/3?sequence=1",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 });

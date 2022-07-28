@@ -18,27 +18,27 @@ describe("OperationsBase", () => {
   })
 
   it("isSimpleIdentifier", () => {
-    expect(operationsBase.isSimpleIdentifier("")).to.be.eq(false);
-    expect(operationsBase.isSimpleIdentifier(" Test")).to.be.eq(false);
-    expect(operationsBase.isSimpleIdentifier("Test 1")).to.be.eq(false);
-    expect(operationsBase.isSimpleIdentifier("Test!")).to.be.eq(false);
-    expect(operationsBase.isSimpleIdentifier("!Test")).to.be.eq(false);
-    expect(operationsBase.isSimpleIdentifier("0Test")).to.be.eq(false);
+    expect(operationsBase.isSimpleIdentifier("")).to.be.false;
+    expect(operationsBase.isSimpleIdentifier(" Test")).to.be.false;
+    expect(operationsBase.isSimpleIdentifier("Test 1")).to.be.false;
+    expect(operationsBase.isSimpleIdentifier("Test!")).to.be.false;
+    expect(operationsBase.isSimpleIdentifier("!Test")).to.be.false;
+    expect(operationsBase.isSimpleIdentifier("0Test")).to.be.false;
     expect(operationsBase.isSimpleIdentifier(
       "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest"
-      )).to.be.eq(false);
-    expect(operationsBase.isSimpleIdentifier("Test")).to.be.eq(true);
-    expect(operationsBase.isSimpleIdentifier("_Test")).to.be.eq(true);
-    expect(operationsBase.isSimpleIdentifier("Test0")).to.be.eq(true);
-    expect(operationsBase.isSimpleIdentifier("Test_name")).to.be.eq(true);
-    expect(operationsBase.isSimpleIdentifier("_")).to.be.eq(true);
+      )).to.be.false;
+    expect(operationsBase.isSimpleIdentifier("Test")).to.be.true;
+    expect(operationsBase.isSimpleIdentifier("_Test")).to.be.true;
+    expect(operationsBase.isSimpleIdentifier("Test0")).to.be.true;
+    expect(operationsBase.isSimpleIdentifier("Test_name")).to.be.true;
+    expect(operationsBase.isSimpleIdentifier("_")).to.be.true;
   });
 
   it("isNullOrWhitespace", () => {
-    expect(operationsBase.isNullOrWhitespace("")).to.be.eq(true);
-    expect(operationsBase.isNullOrWhitespace("       ")).to.be.eq(true);
-    expect(operationsBase.isNullOrWhitespace("Test")).to.be.eq(false);
-    expect(operationsBase.isNullOrWhitespace("  Test  ")).to.be.eq(false);
+    expect(operationsBase.isNullOrWhitespace("")).to.be.true;
+    expect(operationsBase.isNullOrWhitespace("       ")).to.be.true;
+    expect(operationsBase.isNullOrWhitespace("Test")).to.be.false;
+    expect(operationsBase.isNullOrWhitespace("  Test  ")).to.be.false;
   });
 
   it("isValid", () => {
@@ -52,55 +52,55 @@ describe("OperationsBase", () => {
       ecPropertyName: "Property",
       ecPropertyType: DataType.Integer
     };
-    expect(operationsBase.isValidECProperty(prop)).to.be.eq(true);
+    expect(operationsBase.isValidECProperty(prop)).to.be.true;
 
     prop.ecClassName = "";
-    expect(operationsBase.isValidECProperty(prop)).to.be.eq(false);
+    expect(operationsBase.isValidECProperty(prop)).to.be.false;
 
     prop.ecClassName = "Class";
     prop.ecPropertyName = "";
-    expect(operationsBase.isValidECProperty(prop)).to.be.eq(false);
+    expect(operationsBase.isValidECProperty(prop)).to.be.false;
 
     prop.ecPropertyName = "Property";
     prop.ecSchemaName = "";
-    expect(operationsBase.isValidECProperty(prop)).to.be.eq(false);
+    expect(operationsBase.isValidECProperty(prop)).to.be.false;
 
     prop.ecSchemaName = "Name";
     prop.ecPropertyType = DataType.Undefined;
-    expect(operationsBase.isValidECProperty(prop)).to.be.eq(false);
+    expect(operationsBase.isValidECProperty(prop)).to.be.false;
   });
 
   it("fetch", async () => {
-    const stub = sinon.stub(operationsBase, <any>"fetch");  // eslint-disable-line @typescript-eslint/no-explicit-any
+    const fetchStub = sinon.stub(operationsBase, <any>"fetch");  // eslint-disable-line @typescript-eslint/no-explicit-any
     let myOptions = { status: 200, statusText: "Test" };
     const body = {
       "Test": "test"
     }
     let response: Response = new Response(JSON.stringify(body), myOptions);
-    stub.resolves(response);
+    fetchStub.resolves(response);
     let realResponse = await operationsBase.fetchJSON("-", {});
     expect(realResponse).to.not.be.undefined;
 
     myOptions = { status: 204, statusText: "Test" };
-    response = new Response(JSON.stringify(body), myOptions);
-    stub.resolves(response);
+    response = new Response("", myOptions);
+    fetchStub.resolves(response);
     realResponse = await operationsBase.fetchJSON("-", {});
     expect(realResponse).to.not.be.undefined;
 
     myOptions = { status: 400, statusText: "Test" };
     response = new Response(JSON.stringify(body), myOptions);
-    stub.resolves(response);
+    fetchStub.resolves(response);
     await expect(operationsBase.fetchJSON("-", {})).to.be.rejected;
 
-    myOptions = { status: 204, statusText: "Test" };
+    myOptions = { status: 200, statusText: "Test" };
     response = new Response(JSON.stringify(body), myOptions);
-    stub.resolves(response);
+    fetchStub.resolves(response);
     realResponse = await operationsBase.fetchData("-", {});
     expect(realResponse).to.not.be.undefined;
 
     myOptions = { status: 400, statusText: "Test" };
     response = new Response(JSON.stringify(body), myOptions);
-    stub.resolves(response);
+    fetchStub.resolves(response);
     await expect(operationsBase.fetchData("-", {})).to.be.rejected;
   });
 

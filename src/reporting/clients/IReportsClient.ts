@@ -8,11 +8,11 @@ import { EntityListIterator } from "../iterators/EntityListIterator";
 
 export interface IReportsClient{
   /**
-   * Gets all Reports within the context of a Project.
+   * Gets all Reports within the context of a Project. This method returns the full list of reports.
    * @param {string} projectId The Project Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
    * @param {boolean} deleted parameter to specify whether to include deleted reports
-   * @param {number} top the number of entities to pre-load.
+   * @param {number} top the number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
@@ -22,12 +22,14 @@ export interface IReportsClient{
     deleted: boolean,
     top?: number
   ): Promise<Report[]>,
+  
   /**
    * Gets an async paged iterator for Reports within the context of a Project.
+   * This method returns an iterator which loads pages of reports as it is being iterated over.
    * @param {string} projectId The Project Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
    * @param {boolean} deleted parameter to specify whether to include deleted reports
-   * @param {number} top the number of entities to pre-load.
+   * @param {number} top the number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
@@ -37,6 +39,7 @@ export interface IReportsClient{
     deleted: boolean,
     top?: number
   ): EntityListIterator<Report>,
+  
   /**
    * Gets a single Report.
    * @param {string} reportId The Report Id.
@@ -48,6 +51,7 @@ export interface IReportsClient{
     accessToken: AccessToken,
     reportId: string
   ): Promise<Report>,
+  
   /**
    * Creates a Report within the context of a Project.
    * @param {string} accessToken OAuth access token with scope `insights:modify`
@@ -59,6 +63,7 @@ export interface IReportsClient{
     accessToken: AccessToken,
     report: ReportCreate
   ): Promise<Report>,
+  
   /**
    * Updates a Report.
    * @param {string} reportId Id of the Report to be updated.
@@ -72,6 +77,7 @@ export interface IReportsClient{
     reportId: string,
     report: ReportUpdate
   ): Promise<Report>,
+  
   /**
    * Marks a Report for deletetion.
    * @param {string} reportId Id of the Report to be deleted.
@@ -83,11 +89,12 @@ export interface IReportsClient{
     accessToken: AccessToken,
     reportId: string
   ): Promise<Response>,
+  
   /**
-   * Gets all Report Mappings for a Report.
+   * Gets all Report Mappings for a Report. This method returns the full list of report mappings.
    * @param {string} reportId The Report Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
+   * @param {number} top the number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
    */
@@ -96,11 +103,13 @@ export interface IReportsClient{
     reportId: string,
     top?: number
   ): Promise<ReportMapping[]>,
+  
   /**
    * Gets an async paged iterator of Report Mappings for a Report.
+   * This method returns an iterator which loads pages of report mappings as it is being iterated over.
    * @param {string} reportId The Report Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to pre-load.
+   * @param {number} top the number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
    */
@@ -109,6 +118,7 @@ export interface IReportsClient{
     reportId: string,
     top?: number
   ): EntityListIterator<ReportMapping>,
+  
   /**
    * Creates a Report Mapping.
    * @param {string} reportId The Report Id.
@@ -122,6 +132,7 @@ export interface IReportsClient{
     reportId: string,
     reportMapping: ReportMappingCreate
   ): Promise<ReportMapping>,
+  
   /**
    * Deletes a Report Mapping from a Report.
    * @param {string} reportId The Report Id.
@@ -134,5 +145,5 @@ export interface IReportsClient{
     accessToken: AccessToken,
     reportId: string,
     reportMappingId: string
-  ): Promise<Response>,
+  ): Promise<Response>
 }

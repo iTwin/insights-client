@@ -9,7 +9,6 @@ import { ReportsClient, Report, ReportCreate, ReportUpdate, ReportMapping, Repor
 use(chaiAsPromised);
 
 describe("Reports Client", () => {
-
   const reportsClient: ReportsClient = new ReportsClient();
   const reportsClientNewBase: ReportsClient = new ReportsClient("BASE");
   let fetchStub: sinon.SinonStub;
@@ -25,8 +24,6 @@ describe("Reports Client", () => {
     sinon.restore();
   })
 
-  //run tests
-
   it("Reports - Get", async function () {
     const returns = {
       report: {
@@ -39,20 +36,22 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/-",
       "pass"
-    )).to.be.eq(true);
+    )).to.be.true;
 
     report = await reportsClientNewBase.getReport("-", "-");
     expect(fetchStub.calledWith(
       "BASE/reports/-",
       "pass"
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Reports - Get all non deleted", async function () {
     const returns1 = {
       reports: [1, 2],
       _links: {
-        next: "url",
+        next: {
+          href: "url",
+        },
       }
     }
     const returns2 = {
@@ -61,8 +60,10 @@ describe("Reports Client", () => {
         next: undefined,
       }
     }
-    fetchStub.resolves(returns2);
-    fetchStub.onCall(0).resolves(returns1);
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false", "pass").resolves(returns1)
+      .withArgs("url", "pass").resolves(returns2)
+      .withArgs("BASE/reports?projectId=-&deleted=false", "pass").resolves(returns2);
+    
     let reports: Array<Report> = await reportsClient.getReports("-", "-");
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
@@ -70,13 +71,13 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false",
       "pass"
-    )).to.be.eq(true);
+    )).to.be.true;
 
     reports = await reportsClientNewBase.getReports("-", "-");
     expect(fetchStub.calledWith(
       "BASE/reports?projectId=-&deleted=false",
       "pass"
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Get iterator with and without top", async function () {
@@ -93,7 +94,7 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false",
       "pass"
-    )).to.be.eq(true);
+    )).to.be.true;
     
     it = reportsClient.getReportsIterator("-", "-", false, 2);
     expect(it).to.not.be.undefined;
@@ -101,14 +102,16 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       `https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false&%24top=2`,
       "pass"
-    )).to.be.eq(true);
+    )).to.be.true;
   })
 
   it("Reports - Get all", async function () {
     const returns1 = {
       reports: [1, 2],
       _links: {
-        next: "url",
+        next: {
+          href: "url",
+        },
       }
     }
     const returns2 = {
@@ -117,8 +120,10 @@ describe("Reports Client", () => {
         next: undefined,
       }
     }
-    fetchStub.resolves(returns2);
-    fetchStub.onCall(0).resolves(returns1);
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=true", "pass").resolves(returns1)
+      .withArgs("url", "pass").resolves(returns2)
+      .withArgs("BASE/reports?projectId=-&deleted=true", "pass").resolves(returns2);
+    
     let reports: Array<Report> = await reportsClient.getReports("-", "-", true);
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
@@ -126,20 +131,22 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=true",
       "pass"
-    )).to.be.eq(true);
+    )).to.be.true;
 
     reports = await reportsClientNewBase.getReports("-", "-", true);
     expect(fetchStub.calledWith(
       "BASE/reports?projectId=-&deleted=true",
       "pass"
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Reports - get all with top", async function () {
     const returns1 = {
       reports: [1, 2],
       _links: {
-        next: "url",
+        next: {
+          href: "url",
+        },
       }
     }
     const returns2 = {
@@ -148,8 +155,10 @@ describe("Reports Client", () => {
         next: undefined,
       }
     }
-    fetchStub.resolves(returns2);
-    fetchStub.onCall(0).resolves(returns1);
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false&%24top=2", "pass").resolves(returns1)
+      .withArgs("url", "pass").resolves(returns2)
+      .withArgs("BASE/reports?projectId=-&deleted=false&%24top=2", "pass").resolves(returns2);
+    
     let reports: Array<Report> = await reportsClient.getReports("-", "-", false, 2);
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
@@ -157,13 +166,13 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false&%24top=2",
       "pass"
-    )).to.be.eq(true);
+    )).to.be.true;
 
     reports = await reportsClientNewBase.getReports("-", "-", false, 2);
     expect(fetchStub.calledWith(
       "BASE/reports?projectId=-&deleted=false&%24top=2",
       "pass"
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Reports - Create", async function () {
@@ -182,18 +191,18 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
     expect(requestStub.calledWith(
       "POST",
       "-",
       JSON.stringify(newReport)
-    )).to.be.eq(true);
+    )).to.be.true;
 
     report = await reportsClientNewBase.createReport("-", newReport);
     expect(fetchStub.calledWith(
       "BASE/reports/",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Reports - Update", async function () {
@@ -211,18 +220,18 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/-",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
     expect(requestStub.calledWith(
       "PATCH",
       "-",
       JSON.stringify(newReport)
-    )).to.be.eq(true);
+    )).to.be.true;
 
     report = await reportsClientNewBase.updateReport("-", "-", newReport);
     expect(fetchStub.calledWith(
       "BASE/reports/-",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Reports - Delete", async function () {
@@ -235,20 +244,22 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/-",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
 
     report = await reportsClientNewBase.deleteReport("-", "-");
     expect(fetchStub.calledWith(
       "BASE/reports/-",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Report Mappings - Get all", async function () {
     const returns1 = {
       mappings: [1, 2],
       _links: {
-        next: "url",
+        next: {
+          href: "url",
+        },
       }
     }
     const returns2 = {
@@ -257,8 +268,10 @@ describe("Reports Client", () => {
         next: undefined,
       }
     }
-    fetchStub.resolves(returns2);
-    fetchStub.onCall(0).resolves(returns1);
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports/-/datasources/imodelMappings", "pass").resolves(returns1)
+      .withArgs("url", "pass").resolves(returns2)
+      .withArgs("BASE/reports/-/datasources/imodelMappings", "pass").resolves(returns2);
+    
     let reports: Array<ReportMapping> = await reportsClient.getReportMappings("-", "-");
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
@@ -266,20 +279,22 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/-/datasources/imodelMappings",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
 
     reports = await reportsClientNewBase.getReportMappings("-", "-");
     expect(fetchStub.calledWith(
       "BASE/reports/-/datasources/imodelMappings",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Report Mappings - get all with top", async function () {
     const returns1 = {
       mappings: [1, 2],
       _links: {
-        next: "url",
+        next: {
+          href: "url",
+        },
       }
     }
     const returns2 = {
@@ -288,8 +303,10 @@ describe("Reports Client", () => {
         next: undefined,
       }
     }
-    fetchStub.resolves(returns2);
-    fetchStub.onCall(0).resolves(returns1);
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports/-/datasources/imodelMappings/?%24top=2", "pass").resolves(returns1)
+      .withArgs("url", "pass").resolves(returns2)
+      .withArgs("BASE/reports/-/datasources/imodelMappings/?%24top=2", "pass").resolves(returns2);
+    
     let reports: Array<ReportMapping> = await reportsClient.getReportMappings("-", "-", 2);
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
@@ -297,13 +314,13 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/-/datasources/imodelMappings/?%24top=2",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
 
     reports = await reportsClientNewBase.getReportMappings("-", "-", 2);
     expect(fetchStub.calledWith(
       "BASE/reports/-/datasources/imodelMappings/?%24top=2",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Report Mappings - Create", async function () {
@@ -322,18 +339,18 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/-/datasources/imodelMappings",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
     expect(requestStub.calledWith(
       "POST",
       "-",
       JSON.stringify(newMapping)
-    )).to.be.eq(true);
+    )).to.be.true;
 
     report = await reportsClientNewBase.createReportMapping("-", "-", newMapping);
     expect(fetchStub.calledWith(
       "BASE/reports/-/datasources/imodelMappings",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 
   it("Report Mappings - Delete", async function () {
@@ -346,12 +363,12 @@ describe("Reports Client", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/-/datasources/imodelMappings/--",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
 
     report = await reportsClientNewBase.deleteReportMapping("-", "-", "--");
     expect(fetchStub.calledWith(
       "BASE/reports/-/datasources/imodelMappings/--",
       "pass",
-    )).to.be.eq(true);
+    )).to.be.true;
   });
 });

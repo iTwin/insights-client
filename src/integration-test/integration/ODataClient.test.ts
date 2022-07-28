@@ -17,7 +17,6 @@ describe("OData Client", () => {
 
   let reportId: string;
   let oDataItem: ODataItem;
-
   const deletionTracker: Array<string> = [];
 
   before(async function () {

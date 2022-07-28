@@ -75,8 +75,8 @@ export class OperationsBase {
    * @memberof OperationsBase
    */
   public isSimpleIdentifier(name: string | null | undefined): boolean {
-    const reg = /^[a-zA-Z_][0-9a-zA-Z_]*$/;
-    return name? (name.length <= 128 && reg.test(name)) : false;
+    const reg = /^[\p{L}\p{Nl}_][\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,}$/u;
+    return name ? (name.length <= 128 && reg.test(name)) : false;
   }
   
   /**
@@ -106,6 +106,6 @@ export class OperationsBase {
    * @memberof OperationsBase
    */
   public topIsValid(top: number | undefined) {
-    return top !== undefined? (top > 0 && top <= 1000) : true;
+    return top !== undefined ? (top > 0 && top <= 1000) : true;
   }
 }

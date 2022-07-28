@@ -20,7 +20,6 @@ describe("Mapping Client", () => {
 
   before( async function () {
     //create mappings
-
     const newMapping: MappingCreate = {
       mappingName: "Test1"
     };

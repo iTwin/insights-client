@@ -9,7 +9,6 @@ import { toArray } from "../reporting/iterators/IteratorUtil"
 use(chaiAsPromised);
 
 describe("mappings Client", () => {
-
   it("toArray", async () => {
     const it = new EntityListIteratorImpl(async () => {
       return {

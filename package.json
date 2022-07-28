@@ -87,7 +87,7 @@
       "**/oneClickLCA/*"
     ],
     "check-coverage": true,
-    "report-dir": "lib/test/coverage",
+    "report-dir": "test/coverage",
     "reporter": [
       "text-summary",
       "lcov",

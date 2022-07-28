@@ -18,6 +18,7 @@ export interface IOdataClient{
     accessToken: AccessToken,
     reportId: string
   ): Promise<ODataResponse>,
+  
   /**
    * Lists the specified page of raw table data for a Report Entity.
    * @param {string} reportId The Report Id.
@@ -31,9 +32,10 @@ export interface IOdataClient{
     reportId: string,
     odataItem: ODataItem,
     sequence: number
-  ): Promise<ODataEntityResponse>
+  ): Promise<ODataEntityResponse>,
+
   /**
-   * Lists the raw table data for a Report Entity.
+   * Lists the raw table data for a Report Entity. This method returns the full list of OData report entities.
    * @param {string} reportId The Report Id.
    * @param {ODataItem} odataItem Reference to a table exported to your Report. Use {@link getODataReport()} to fetch a list of ODataItems in the report.
    * @param {string} accessToken OAuth access token with scope `insights:read`
@@ -44,9 +46,11 @@ export interface IOdataClient{
     accessToken: AccessToken,
     reportId: string,
     odataItem: ODataItem
-  ): Promise<Array<ODataEntityValue>>
+  ): Promise<Array<ODataEntityValue>>,
+
   /**
    * Gets an async iterator for the raw table data for a Report Entity.
+   * This method returns an iterator which loads pages of OData report entities as it is being iterated over.
    * @param {string} reportId The Report Id.
    * @param {ODataItem} odataItem Reference to a table exported to your Report. Use {@link getODataReport()} to fetch a list of ODataItems in the report.
    * @param {string} accessToken OAuth access token with scope `insights:read`
@@ -57,7 +61,8 @@ export interface IOdataClient{
     accessToken: AccessToken,
     reportId: string,
     odataItem: ODataItem
-  ): EntityListIterator<ODataEntityValue>
+  ): EntityListIterator<ODataEntityValue>,
+
   /**
    * Lists schemas for all Entities tied to a Report.
    * @param {string} reportId The Report Id.
@@ -68,5 +73,5 @@ export interface IOdataClient{
   getODataReportMetadata(
     accessToken: AccessToken,
     reportId: string
-  ): Promise<Response>,
+  ): Promise<Response>
 }
