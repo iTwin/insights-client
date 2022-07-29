@@ -4,8 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import type { EntityListIterator } from "./EntityListIterator";
 import { EntityPageListIterator } from "./EntityPageListIterator";
-import type { EntityPageQueryFunc} from "./IteratorUtil";
-import { flatten } from "./IteratorUtil";
+import { EntityPageQueryFunc, flatten } from "./IteratorUtil";
 
 export class EntityListIteratorImpl<TEntity> implements EntityListIterator<TEntity> {
   private _entityPages: EntityPageListIterator<TEntity>;

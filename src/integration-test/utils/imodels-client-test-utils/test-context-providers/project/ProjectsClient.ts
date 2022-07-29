@@ -2,8 +2,7 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import type { AxiosResponse } from "axios";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { inject, injectable } from "inversify";
 import type { AuthorizationParam } from "../../../imodels-client-management/base/interfaces/CommonInterfaces";
 import { ProjectsClientConfig } from "./ProjectsClientConfig";

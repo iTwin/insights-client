@@ -1,0 +1,8 @@
+{
+  "extends": "plugin:@itwin/itwinjs-recommended",
+  "plugins": [
+      "@itwin"
+  ],
+  "rules": {
+  }
+}

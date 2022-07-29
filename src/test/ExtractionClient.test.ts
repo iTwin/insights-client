@@ -5,8 +5,7 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import type { ExtractionLog} from "../reporting";
-import { ExtractionClient, ExtractorState } from "../reporting";
+import { ExtractionClient, ExtractionLog, ExtractorState } from "../reporting";
 use(chaiAsPromised);
 
 describe("Extraction Client", () => {

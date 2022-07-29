@@ -5,8 +5,7 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import type { Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../reporting";
-import { ReportsClient } from "../reporting";
+import { Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../reporting";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {

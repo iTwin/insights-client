@@ -8,8 +8,7 @@ import type { PagedResponseLinks } from "../interfaces/Links";
 import type { ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse } from "../interfaces/OData";
 import type { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
-import type { Collection } from "../iterators/IteratorUtil";
-import { getEntityCollectionPage } from "../iterators/IteratorUtil";
+import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { OperationsBase } from "../OperationsBase";
 import type { IOdataClient } from "./IODataClient";
 

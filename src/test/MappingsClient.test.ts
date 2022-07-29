@@ -5,8 +5,7 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import type { CalculatedProperty, CalculatedPropertyCreate, CustomCalculation, CustomCalculationCreate, ECProperty, Group, GroupCreate, GroupProperty, GroupPropertyCreate, GroupUpdate, Mapping, MappingCopy, MappingCreate, MappingUpdate } from "../reporting";
-import { CalculatedPropertyType, DataType, MappingsClient, QuantityType } from "../reporting";
+import { CalculatedProperty, CalculatedPropertyCreate, CalculatedPropertyType, CustomCalculation, CustomCalculationCreate, DataType, ECProperty, Group, GroupCreate, GroupProperty, GroupPropertyCreate, GroupUpdate, Mapping, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, QuantityType } from "../reporting";
 use(chaiAsPromised);
 
 describe("mappings Client", () => {

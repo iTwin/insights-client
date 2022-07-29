@@ -4,8 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import * as fs from "fs";
 import { URL } from "url";
-import type { BlockBlobParallelUploadOptions } from "@azure/storage-blob";
-import { AnonymousCredential, BlockBlobClient } from "@azure/storage-blob";
+import { AnonymousCredential, BlockBlobClient, BlockBlobParallelUploadOptions } from "@azure/storage-blob";
 import type { FileHandler, ProgressCallback, UploadFileParams } from "./FileHandler";
 
 interface AzureProgressCallbackData {

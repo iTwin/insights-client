@@ -5,8 +5,7 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import type { ODataEntityResponse, ODataEntityValue, ODataItem } from "../reporting";
-import { ODataClient } from "../reporting";
+import { ODataClient, ODataEntityResponse, ODataEntityValue, ODataItem } from "../reporting";
 use(chaiAsPromised);
 
 describe("OData Client", () => {

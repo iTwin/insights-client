@@ -4,8 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import type { ExtractionStatus, GroupCreate, MappingCreate, ODataItem, ReportCreate, ReportMappingCreate} from "../../reporting";
-import { ExtractionClient, ExtractorState, MappingsClient, ODataClient, ReportsClient } from "../../reporting";
+import { ExtractionClient, ExtractionStatus, ExtractorState, GroupCreate, MappingCreate, MappingsClient, ODataClient, ODataItem, ReportCreate, ReportMappingCreate, ReportsClient} from "../../reporting";
 import "reflect-metadata";
 import { accessToken, projectId, sleep, testIModel, testIModelGroup } from "../utils";
 use(chaiAsPromised);
@@ -26,6 +25,7 @@ describe("OData Client", () => {
     };
     const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
     expect(mapping).to.not.be.undefined;
+    expect(mapping.mappingName).to.be.eq("Test");
     deletionTracker.push(mapping.id);
 
     const newGroup: GroupCreate = {
@@ -34,6 +34,7 @@ describe("OData Client", () => {
     };
     const group = await mappingsClient.createGroup(accessToken, testIModel.id, mapping.id, newGroup);
     expect(group).to.not.be.undefined;
+    expect(group.groupName).to.be.eq("Test");
 
     const newReport: ReportCreate = {
       displayName: "Test",
@@ -41,6 +42,7 @@ describe("OData Client", () => {
     };
     const report = await reportsClient.createReport(accessToken, newReport);
     expect(report).to.not.be.undefined;
+    expect(report.displayName).to.be.eq("Test");
     deletionTracker.push(report.id);
     reportId = report.id;
 
@@ -50,6 +52,7 @@ describe("OData Client", () => {
     };
     const reportMapping = await reportsClient.createReportMapping(accessToken, report.id, newReportMapping);
     expect(reportMapping).to.not.be.undefined;
+    expect(reportMapping.mappingId).to.be.eq(mapping.id);
     deletionTracker.push(reportMapping.mappingId);
 
     const extraction = await extractionClient.runExtraction(accessToken, testIModel.id);

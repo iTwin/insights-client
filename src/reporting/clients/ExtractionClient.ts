@@ -5,8 +5,7 @@
 import type { AccessToken } from "@itwin/core-bentley";
 import type { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
-import type { Collection} from "../iterators/IteratorUtil";
-import { getEntityCollectionPage } from "../iterators/IteratorUtil";
+import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { OperationsBase } from "../OperationsBase";
 import type { ExtractionLog, ExtractionLogCollection, ExtractionRun, ExtractionRunSingle, ExtractionStatus, ExtractionStatusSingle } from "../interfaces/ExtractionProcess";
 import type { IExtractionClient } from "./IExtractionClient";

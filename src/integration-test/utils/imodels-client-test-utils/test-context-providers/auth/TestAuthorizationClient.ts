@@ -4,8 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import type { ParsedUrlQuery } from "querystring";
 import { parse, URLSearchParams } from "url";
-import type { AxiosResponse } from "axios";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { inject, injectable } from "inversify";
 import * as puppeteer from "puppeteer";
 import { TestSetupError } from "../../CommonTestUtils";
