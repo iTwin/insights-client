@@ -2,7 +2,7 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { Link } from "../CommonInterfaces";
+import type { Link } from "../CommonInterfaces";
 
 /** Possible Checkpoint states. */
 export enum CheckpointState {
@@ -51,6 +51,7 @@ export interface Checkpoint {
   /** Information to access storage container which stores the Checkpoint in blocks. See {@link ContainerAccessInfo}. */
   containerAccessInfo: ContainerAccessInfo | null;
   /** Checkpoint links. See {@link CheckpointLinks}. */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: CheckpointLinks | null;
 }
 

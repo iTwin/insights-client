@@ -1,6 +1,7 @@
 import { inject, injectable } from "inversify";
-import { BaseIntegrationTestsConfig } from "../../BaseIntegrationTestsConfig";
-import { TestUtilTypes } from "../../TestUtilTypes";
+import type { BaseIntegrationTestsConfig } from "../../BaseIntegrationTestsConfig";
+import { testUtilTypes } from "../../TestUtilTypes";
+import "reflect-metadata";
 
 @injectable()
 export class TestAuthorizationClientConfig {
@@ -10,7 +11,7 @@ export class TestAuthorizationClientConfig {
   public redirectUrl: string;
 
   constructor(
-    @inject(TestUtilTypes.BaseIntegrationTestsConfig)
+  @inject(testUtilTypes.baseIntegrationTestsConfig)
     config: BaseIntegrationTestsConfig
   ) {
     this.authority = config.auth.authority;

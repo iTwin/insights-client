@@ -2,7 +2,8 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { ApiOptions, AxiosRestClient, RecursiveRequired, RestClient } from "./base";
+import type { ApiOptions, RecursiveRequired, RestClient } from "./base";
+import { AxiosRestClient } from "./base/rest/AxiosRestClient";
 import { Constants } from "./Constants";
 
 /** User-configurable iModels client options. */
@@ -32,8 +33,8 @@ export class IModelsClient {
       restClient: options?.restClient ?? new AxiosRestClient(),
       api: {
         baseUrl: options?.api?.baseUrl ?? Constants.api.baseUrl,
-        version: options?.api?.version ?? Constants.api.version
-      }
+        version: options?.api?.version ?? Constants.api.version,
+      },
     };
   }
 }

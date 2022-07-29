@@ -2,9 +2,10 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { ContainingChanges, IModelScopedOperationParams, SynchronizationInfo } from "../../../imodels-client-management/base";
-import { GetSingleChangesetParams, GetChangesetListParams } from "../../../imodels-client-management/operations";
-import { TargetDirectoryParam } from "../../base";
+import type { IModelScopedOperationParams } from "../../../imodels-client-management/base/interfaces/CommonInterfaces";
+import type { ContainingChanges, SynchronizationInfo } from "../../../imodels-client-management/base/interfaces/apiEntities/ChangesetInterfaces";
+import type { GetChangesetListParams, GetSingleChangesetParams } from "../../../imodels-client-management/operations/changeset/ChangesetOperationParams";
+import type { TargetDirectoryParam } from "../../base/interfaces/CommonInterfaces";
 
 export type SynchronizationInfoForCreate = Omit<SynchronizationInfo, "changedFiles"> & {
   /** Optional list of files that were processed by the synchronization. The array, if specified, must not be empty. */

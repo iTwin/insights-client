@@ -4,8 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 import * as fs from "fs";
 import { URL } from "url";
-import { AnonymousCredential, BlockBlobClient, BlockBlobParallelUploadOptions } from "@azure/storage-blob";
-import { FileHandler, ProgressCallback, UploadFileParams } from "./FileHandler";
+import type { BlockBlobParallelUploadOptions } from "@azure/storage-blob";
+import { AnonymousCredential, BlockBlobClient } from "@azure/storage-blob";
+import type { FileHandler, ProgressCallback, UploadFileParams } from "./FileHandler";
 
 interface AzureProgressCallbackData {
   loadedBytes: number;
@@ -28,7 +29,7 @@ export class AzureSdkFileHandler implements FileHandler {
     if (params.progressCallback) {
       const fileSize = this.getFileSize(params.sourceFilePath);
       uploadOptions = {
-        onProgress: this.adaptProgressCallback(params.progressCallback, fileSize)
+        onProgress: this.adaptProgressCallback(params.progressCallback, fileSize),
       };
     }
 
@@ -41,8 +42,7 @@ export class AzureSdkFileHandler implements FileHandler {
 
   private isUrlExpired(url: string): boolean {
     const signedExpiryUrlParam = new URL(url).searchParams.get("se");
-    if (!signedExpiryUrlParam)
-      {return false;}
+    if (!signedExpiryUrlParam) {return false;}
 
     const expiryUtc = new Date(signedExpiryUrlParam);
     const currentUtc = new Date(new Date().toUTCString());

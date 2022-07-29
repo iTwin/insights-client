@@ -3,14 +3,14 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
-import { BaseIntegrationTestsConfig } from "../../BaseIntegrationTestsConfig";
-import { TestUtilTypes } from "../../TestUtilTypes";
+import type { BaseIntegrationTestsConfig } from "../../BaseIntegrationTestsConfig";
+import { testUtilTypes } from "../../TestUtilTypes";
 
 @injectable()
 export class TestProjectProviderConfig {
   public testProjectName: string;
 
-  constructor(@inject(TestUtilTypes.BaseIntegrationTestsConfig) config: BaseIntegrationTestsConfig) {
+  constructor(@inject(testUtilTypes.baseIntegrationTestsConfig) config: BaseIntegrationTestsConfig) {
     this.testProjectName = config.testProjectName;
   }
 }

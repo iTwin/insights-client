@@ -3,8 +3,8 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
-import { BaseIntegrationTestsConfig, TestUsersConfigValues } from "../../BaseIntegrationTestsConfig";
-import { TestUtilTypes } from "../../TestUtilTypes";
+import type { BaseIntegrationTestsConfig, TestUsersConfigValues } from "../../BaseIntegrationTestsConfig";
+import { testUtilTypes } from "../../TestUtilTypes";
 
 interface ApiScopes {
   iModels: string;
@@ -17,13 +17,13 @@ export class TestAuthorizationProviderConfig {
   public apiScopes: ApiScopes;
 
   constructor(
-    @inject(TestUtilTypes.BaseIntegrationTestsConfig)
+  @inject(testUtilTypes.baseIntegrationTestsConfig)
     config: BaseIntegrationTestsConfig
   ) {
     this.testUsers = config.testUsers;
     this.apiScopes = {
       iModels: config.apis.iModels.scopes,
-      projects: config.apis.projects.scopes
+      projects: config.apis.projects.scopes,
     };
   }
 }

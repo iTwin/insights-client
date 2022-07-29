@@ -2,8 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import isomorphicFetch from 'cross-fetch';
-import { DataType, ECProperty } from './interfaces/GroupProperties';
+import isomorphicFetch from "cross-fetch";
+import type { ECProperty } from "./interfaces/GroupProperties";
+import { DataType } from "./interfaces/GroupProperties";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 export const REPORTING_BASE_PATH = "https://api.bentley.com/insights/reporting";
@@ -28,11 +29,13 @@ export class OperationsBase {
       method: operation,
     };
     const header: HeadersInit = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       Authorization: accessToken,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       Accept: ACCEPT,
-    }
+    };
     if (content) {
-      header['Content-Type'] = "application/json",
+      header["Content-Type"] = "application/json",
       request.body = content;
     }
     request.headers = header;
@@ -64,7 +67,7 @@ export class OperationsBase {
    * @param {RequestInit} requestOptions information about the fetch
    * @memberof OperationsBase
    */
-   protected async fetchJSON<T>(nextUrl: string, requestOptions: RequestInit): Promise<T> {
+  protected async fetchJSON<T>(nextUrl: string, requestOptions: RequestInit): Promise<T> {
     const response = await this.fetchData(nextUrl, requestOptions);
     return response.status === 204 ? response : response.json();
   }
@@ -78,7 +81,7 @@ export class OperationsBase {
     const reg = /^[\p{L}\p{Nl}_][\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,}$/u;
     return name ? (name.length <= 128 && reg.test(name)) : false;
   }
-  
+
   /**
    * checks if given string is null or whitespace
    * @param {string} input
@@ -87,17 +90,17 @@ export class OperationsBase {
   protected isNullOrWhitespace(input: string | null | undefined): boolean {
     return !input || !input.trim();
   }
-  
+
   /**
    * checks if given ECProperty is valid
    * @param {ECProperty} prop
    * @memberof OperationsBase
    */
-  protected isValidECProperty (prop: ECProperty): boolean {
+  protected isValidECProperty(prop: ECProperty): boolean {
     return !this.isNullOrWhitespace(prop.ecSchemaName) &&
       !this.isNullOrWhitespace(prop.ecClassName) &&
       !this.isNullOrWhitespace(prop.ecPropertyName) &&
-      DataType.Undefined != prop.ecPropertyType;
+      DataType.Undefined !== prop.ecPropertyType;
   }
 
   /**

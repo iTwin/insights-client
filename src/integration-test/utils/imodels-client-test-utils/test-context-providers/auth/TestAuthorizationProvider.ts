@@ -3,7 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
-import { Authorization, AuthorizationCallback } from "../../../imodels-client-authoring/IModelsClientExports";
+import type { Authorization, AuthorizationCallback } from "../../../imodels-client-management/base/interfaces/CommonInterfaces";
 import { TestAuthorizationClient } from "./TestAuthorizationClient";
 import { TestAuthorizationProviderConfig } from "./TestAuthorizationProviderConfig";
 

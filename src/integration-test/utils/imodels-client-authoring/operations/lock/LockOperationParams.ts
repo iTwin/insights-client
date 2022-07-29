@@ -2,8 +2,8 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { CollectionRequestParams, IModelScopedOperationParams } from "../../../imodels-client-management/IModelsClientExports";
-import { LockedObjects } from "../../base";
+import type { CollectionRequestParams, IModelScopedOperationParams } from "../../../imodels-client-management/base/interfaces/CommonInterfaces";
+import type { LockedObjects } from "../../base/interfaces/apiEntities/LockInterfaces";
 
 /** Url parameters supported in Lock list query. */
 export interface GetLockListUrlParams extends CollectionRequestParams {

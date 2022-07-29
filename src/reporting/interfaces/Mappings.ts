@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { Link, PagedResponseLinks } from "./Links";
+import type { Link, PagedResponseLinks } from "./Links";
 
 /**
  * Defines a Mapping for an iModel. Each mapping represents a collection of 'Groups', sets of iModel elements, and their properties of interest.
@@ -63,6 +63,7 @@ export interface Mapping {
    * @type {MappingLinks}
    * @memberof Mapping
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: MappingLinks;
 }
 
@@ -83,6 +84,7 @@ export interface MappingCollection {
    * @type {PagedResponseLinks}
    * @memberof MappingCollection
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: PagedResponseLinks;
 }
 

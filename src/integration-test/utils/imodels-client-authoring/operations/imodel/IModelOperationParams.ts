@@ -3,7 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 
-import { IModelProperties, CreateEmptyIModelParams } from "../../../imodels-client-management/operations";
+import type { CreateEmptyIModelParams, IModelProperties } from "../../../imodels-client-management/operations/imodel/IModelOperationParams";
 
 /** Properties that should be specified when creating a new iModel from baseline file. */
 export interface IModelPropertiesForCreateFromBaseline extends IModelProperties {

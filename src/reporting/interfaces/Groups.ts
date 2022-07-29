@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { PagedResponseLinks } from "./Links";
+import type { PagedResponseLinks } from "./Links";
 
 /**
  * Defines a single Group (collection of iModel elements) in an iModel Mapping.
@@ -53,6 +53,7 @@ export interface GroupCollection {
    * @type {PagedResponseLinks}
    * @memberof GroupCollection
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: PagedResponseLinks;
 }
 

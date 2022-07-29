@@ -3,12 +3,12 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 
-import { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
+import type { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../../../../reporting/iterators/EntityListIteratorImpl";
-import { OperationsBase } from "../../../imodels-client-management/IModelsClientExports";
-import { Lock, LockResponse, LocksResponse } from "../../base";
-import { OperationOptions } from "../OperationOptions";
-import { GetLockListParams, UpdateLockParams } from "./LockOperationParams";
+import { OperationsBase } from "../../../imodels-client-management/base/OperationsBase";
+import type { Lock, LockResponse, LocksResponse } from "../../base/interfaces/apiEntities/LockInterfaces";
+import type { OperationOptions } from "../OperationOptions";
+import type { GetLockListParams, UpdateLockParams } from "./LockOperationParams";
 
 export class LockOperations<TOptions extends OperationOptions> extends OperationsBase<TOptions> {
   /**
@@ -23,7 +23,7 @@ export class LockOperations<TOptions extends OperationOptions> extends Operation
     return new EntityListIteratorImpl(async () => this.getEntityCollectionPage<Lock>({
       authorization: params.authorization,
       url: this._options.urlFormatter.getLockListUrl({ iModelId: params.iModelId, urlParams: params.urlParams }),
-      entityCollectionAccessor: (response: unknown) => (response as LocksResponse).locks
+      entityCollectionAccessor: (response: unknown) => (response as LocksResponse).locks,
     }));
   }
 
@@ -39,7 +39,7 @@ export class LockOperations<TOptions extends OperationOptions> extends Operation
     const updateLockResponse = await this.sendPatchRequest<LockResponse>({
       authorization: params.authorization,
       url: this._options.urlFormatter.getLockListUrl({ iModelId: params.iModelId }),
-      body: updateLockBody
+      body: updateLockBody,
     });
     return updateLockResponse.lock;
   }
@@ -48,7 +48,7 @@ export class LockOperations<TOptions extends OperationOptions> extends Operation
     return {
       briefcaseId: params.briefcaseId,
       changesetId: params.changesetId,
-      lockedObjects: params.lockedObjects
+      lockedObjects: params.lockedObjects,
     };
   }
 }

@@ -2,21 +2,24 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { AccessToken } from "@itwin/core-bentley";
+import type { AccessToken } from "@itwin/core-bentley";
 import { RequiredError } from "../interfaces/Errors";
-import { EntityListIterator } from "../iterators/EntityListIterator";
+import type { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
-import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
+import type { Collection} from "../iterators/IteratorUtil";
+import { getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { OperationsBase } from "../OperationsBase";
-import { CalculatedProperty, CalculatedPropertyCollection, CalculatedPropertySingle, CalculatedPropertyCreate, CalculatedPropertyUpdate, CalculatedPropertyType } from "../interfaces/CalculatedProperties";
-import { CustomCalculation, CustomCalculationCollection, CustomCalculationSingle, CustomCalculationCreate, CustomCalculationUpdate } from "../interfaces/CustomCalculations";
-import { GroupProperty, GroupPropertyCollection, GroupPropertySingle, GroupPropertyCreate, GroupPropertyUpdate, DataType } from "../interfaces/GroupProperties";
-import { Group, GroupCollection, GroupCreate, GroupSingle, GroupUpdate } from "../interfaces/Groups";
-import { Mapping, MappingCollection, MappingSingle, MappingCreate, MappingUpdate, MappingCopy } from "../interfaces/Mappings";
-import { IMappingsClient } from "./IMappingsClient";
+import type { CalculatedProperty, CalculatedPropertyCollection, CalculatedPropertyCreate, CalculatedPropertySingle, CalculatedPropertyUpdate} from "../interfaces/CalculatedProperties";
+import { CalculatedPropertyType } from "../interfaces/CalculatedProperties";
+import type { CustomCalculation, CustomCalculationCollection, CustomCalculationCreate, CustomCalculationSingle, CustomCalculationUpdate } from "../interfaces/CustomCalculations";
+import type { GroupProperty, GroupPropertyCollection, GroupPropertyCreate, GroupPropertySingle, GroupPropertyUpdate} from "../interfaces/GroupProperties";
+import { DataType } from "../interfaces/GroupProperties";
+import type { Group, GroupCollection, GroupCreate, GroupSingle, GroupUpdate } from "../interfaces/Groups";
+import type { Mapping, MappingCollection, MappingCopy, MappingCreate, MappingSingle, MappingUpdate } from "../interfaces/Mappings";
+import type { IMappingsClient } from "./IMappingsClient";
 
 export class MappingsClient extends OperationsBase implements IMappingsClient{
-   public async getMappings(accessToken: AccessToken, iModelId: string, top?: number): Promise<Mapping[]> {
+  public async getMappings(accessToken: AccessToken, iModelId: string, top?: number): Promise<Mapping[]> {
     const mappings: Array<Mapping> = [];
     const mapIterator = this.getMappingsIterator(accessToken, iModelId, top);
     for await(const map of mapIterator) {
@@ -28,22 +31,23 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   public getMappingsIterator(accessToken: AccessToken, iModelId: string, top?: number): EntityListIterator<Mapping> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
-        'top',
-        'Parameter top was outside of the valid range [1-1000] when calling getMappingsIterator.'
-      )
+        "top",
+        "Parameter top was outside of the valid range [1-1000] when calling getMappingsIterator."
+      );
     }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
     url += top ?  `/?%24top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Mapping>(
       url,
-      async (url: string): Promise<Collection<Mapping>> => {
-        const response: MappingCollection = await this.fetchJSON<MappingCollection>(url, request);
+      async (nextUrl: string): Promise<Collection<Mapping>> => {
+        const response: MappingCollection = await this.fetchJSON<MappingCollection>(nextUrl, request);
         return {
           values: response.mappings,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           _links: response._links,
-        }
-    }));
+        };
+      }));
   }
 
   public async getMapping(accessToken: AccessToken, iModelId: string, mappingId: string): Promise<Mapping> {
@@ -59,8 +63,8 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<Mapping> {
     if (!this.isSimpleIdentifier(mapping.mappingName)) {
       throw new RequiredError(
-        'mappingName',
-        'Required field mappingName of mapping was missing or invalid when calling createMapping.',
+        "mappingName",
+        "Required field mappingName of mapping was missing or invalid when calling createMapping.",
       );
     }
 
@@ -77,14 +81,14 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<Mapping> {
     if (mapping.description == null && mapping.extractionEnabled == null && mapping.mappingName == null) {
       throw new RequiredError(
-        'mapping',
-        'All properties of mapping were missing when calling updateMapping.',
+        "mapping",
+        "All properties of mapping were missing when calling updateMapping.",
       );
     }
     if (mapping.mappingName != null && !this.isSimpleIdentifier(mapping.mappingName)) {
       throw new RequiredError(
-        'mappingName',
-        'Required field mappingName of mapping was invalid when calling createMapping.',
+        "mappingName",
+        "Required field mappingName of mapping was invalid when calling createMapping.",
       );
     }
 
@@ -111,14 +115,14 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<Mapping> {
     if (null != mappingCopy.mappingName && !this.isSimpleIdentifier(mappingCopy.mappingName)) {
       throw new RequiredError(
-        'mappingName',
-        'Field mappingName of mappingCopy was invalid when calling copyMapping.',
+        "mappingName",
+        "Field mappingName of mappingCopy was invalid when calling copyMapping.",
       );
     }
     if(this.isNullOrWhitespace(mappingCopy.targetIModelId)) {
       throw new RequiredError(
-        'targetiModelId',
-        'Required field targetiModelId of mappingCopy was missing when calling copyMapping.',
+        "targetiModelId",
+        "Required field targetiModelId of mappingCopy was missing when calling copyMapping.",
       );
     }
 
@@ -149,22 +153,23 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): EntityListIterator<Group> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
-        'top',
-        'Parameter top was outside of the valid range [1-1000] when calling getGroupsIterator.'
-      )
+        "top",
+        "Parameter top was outside of the valid range [1-1000] when calling getGroupsIterator."
+      );
     }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
     url += top ? `/?%24top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Group>(
       url,
-      async (url: string): Promise<Collection<Group>> => {
-        const response: GroupCollection = await this.fetchJSON<GroupCollection>(url, request);
+      async (nextUrl: string): Promise<Collection<Group>> => {
+        const response: GroupCollection = await this.fetchJSON<GroupCollection>(nextUrl, request);
         return {
           values: response.groups,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           _links: response._links,
-        }
-    }));
+        };
+      }));
   }
 
   public async createGroup(
@@ -175,14 +180,14 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<Group> {
     if(!this.isSimpleIdentifier(group.groupName)) {
       throw new RequiredError(
-        'groupName',
-        'Required field mappingName of group was null or undefined when calling createGroup.',
+        "groupName",
+        "Required field mappingName of group was null or undefined when calling createGroup.",
       );
     }
     if(this.isNullOrWhitespace(group.query)) {
       throw new RequiredError(
-        'query',
-        'Required field query of group was null or undefined when calling createGroup.',
+        "query",
+        "Required field query of group was null or undefined when calling createGroup.",
       );
     }
 
@@ -211,20 +216,20 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<Group> {
     if(null == group.groupName && null == group.description && null == group.query) {
       throw new RequiredError(
-        'group',
-        'All properties of group were missing when calling updateGroup.',
+        "group",
+        "All properties of group were missing when calling updateGroup.",
       );
     }
     if (null != group.groupName && !this.isSimpleIdentifier(group.groupName)) {
       throw new RequiredError(
-        'groupName',
-        'Field groupName of group was invalid when calling copyGroup.',
+        "groupName",
+        "Field groupName of group was invalid when calling copyGroup.",
       );
     }
     if (null != group.query && this.isNullOrWhitespace(group.query)) {
       throw new RequiredError(
-        'query',
-        'Required field query of group was null or undefined when calling updateGroup.',
+        "query",
+        "Required field query of group was null or undefined when calling updateGroup.",
       );
     }
 
@@ -268,22 +273,23 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): EntityListIterator<GroupProperty> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
-        'top',
-        'Parameter top was outside of the valid range [1-1000] when calling getGroupPropertiesIterator.'
-      )
+        "top",
+        "Parameter top was outside of the valid range [1-1000] when calling getGroupPropertiesIterator."
+      );
     }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
     url += top ? `/?%24top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<GroupProperty>(
       url,
-      async (url: string): Promise<Collection<GroupProperty>> => {
-        const response: GroupPropertyCollection = await this.fetchJSON<GroupPropertyCollection>(url, request);
+      async (nextUrl: string): Promise<Collection<GroupProperty>> => {
+        const response: GroupPropertyCollection = await this.fetchJSON<GroupPropertyCollection>(nextUrl, request);
         return {
           values: response.properties,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           _links: response._links,
-        }
-    }));
+        };
+      }));
   }
 
   public async getGroupProperty(
@@ -307,27 +313,27 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<GroupProperty> {
     if (!this.isSimpleIdentifier(groupProperty.propertyName)) {
       throw new RequiredError(
-        'propertyName',
-        'Field propertyName of groupProperty was invalid when calling createGroupProperty.',
+        "propertyName",
+        "Field propertyName of groupProperty was invalid when calling createGroupProperty.",
       );
     }
-    if (groupProperty.dataType == DataType.Undefined) {
+    if (groupProperty.dataType === DataType.Undefined) {
       throw new RequiredError(
-        'dataType',
-        'Required field dataType of groupProperty was null or undefined when calling createGroupProperty.',
+        "dataType",
+        "Required field dataType of groupProperty was null or undefined when calling createGroupProperty.",
       );
     }
-    if (groupProperty.ecProperties == null || groupProperty.ecProperties.length == 0) {
+    if (groupProperty.ecProperties == null || groupProperty.ecProperties.length === 0) {
       throw new RequiredError(
-        'ecProperties',
-        'Required field ecProperties of groupProperty was null or empty when calling createGroupProperty.',
+        "ecProperties",
+        "Required field ecProperties of groupProperty was null or empty when calling createGroupProperty.",
       );
     }
     for(const i of groupProperty.ecProperties) {
       if (!this.isValidECProperty(i)) {
         throw new RequiredError(
-          'ecProperties',
-          'Field ecProperties of groupProperty was invalid when calling createGroupProperty.',
+          "ecProperties",
+          "Field ecProperties of groupProperty was invalid when calling createGroupProperty.",
         );
       }
     }
@@ -347,27 +353,27 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<GroupProperty> {
     if(!this.isSimpleIdentifier(groupProperty.propertyName)) {
       throw new RequiredError(
-        'propertyName',
-        'Field propertyName of groupProperty was invalid when calling updateGroupProperty.',
+        "propertyName",
+        "Field propertyName of groupProperty was invalid when calling updateGroupProperty.",
       );
     }
-    if(groupProperty.dataType == DataType.Undefined) {
+    if(groupProperty.dataType === DataType.Undefined) {
       throw new RequiredError(
-        'dataType',
-        'Required field dataType of groupProperty was null or undefined when calling updateGroupProperty.',
+        "dataType",
+        "Required field dataType of groupProperty was null or undefined when calling updateGroupProperty.",
       );
     }
-    if (groupProperty.ecProperties == null || groupProperty.ecProperties.length == 0) {
+    if (groupProperty.ecProperties == null || groupProperty.ecProperties.length === 0) {
       throw new RequiredError(
-        'ecProperties',
-        'Required field ecProperties of groupProperty was null or empty when calling updateGroupProperty.',
+        "ecProperties",
+        "Required field ecProperties of groupProperty was null or empty when calling updateGroupProperty.",
       );
     }
     for(const i of groupProperty.ecProperties) {
       if (!this.isValidECProperty(i)) {
         throw new RequiredError(
-          'ecProperties',
-          'Field ecProperties of groupProperty was invalid when calling updateGroupProperty.',
+          "ecProperties",
+          "Field ecProperties of groupProperty was invalid when calling updateGroupProperty.",
         );
       }
     }
@@ -413,22 +419,23 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): EntityListIterator<CalculatedProperty> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
-        'top',
-        'Parameter top was outside of the valid range [1-1000] when calling getCalculatedPropertiesIterator.'
-      )
+        "top",
+        "Parameter top was outside of the valid range [1-1000] when calling getCalculatedPropertiesIterator."
+      );
     }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
     url += top ? `/?%24top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<CalculatedProperty>(
       url,
-      async (url: string): Promise<Collection<CalculatedProperty>> => {
-        const response: CalculatedPropertyCollection = await this.fetchJSON<CalculatedPropertyCollection>(url, request);
+      async (nextUrl: string): Promise<Collection<CalculatedProperty>> => {
+        const response: CalculatedPropertyCollection = await this.fetchJSON<CalculatedPropertyCollection>(nextUrl, request);
         return {
           values: response.properties,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           _links: response._links,
-        }
-    }));
+        };
+      }));
   }
 
   public async getCalculatedProperty(
@@ -452,14 +459,14 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<CalculatedProperty> {
     if(!this.isSimpleIdentifier(property.propertyName)) {
       throw new RequiredError(
-        'propertyName',
-        'Field propertyName of property was invalid when calling createCalculatedProperty.',
+        "propertyName",
+        "Field propertyName of property was invalid when calling createCalculatedProperty.",
       );
     }
-    if(property.type == CalculatedPropertyType.Undefined) {
+    if(property.type === CalculatedPropertyType.Undefined) {
       throw new RequiredError(
-        'type',
-        'Required field type of property was null or undefined when calling createCalculatedProperty.',
+        "type",
+        "Required field type of property was null or undefined when calling createCalculatedProperty.",
       );
     }
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
@@ -477,21 +484,21 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<CalculatedProperty> {
     if(null == property.propertyName && null == property.type) {
       throw new RequiredError(
-        'property',
-        'All properties of property were missing when calling updateCalculatedProperty.',
+        "property",
+        "All properties of property were missing when calling updateCalculatedProperty.",
       );
     }
     if(null != property.propertyName && !this.isSimpleIdentifier(property.propertyName)) {
       throw new RequiredError(
-        'propertyName',
-        'Field propertyName of property was invalid when calling updateCalculatedProperty.',
+        "propertyName",
+        "Field propertyName of property was invalid when calling updateCalculatedProperty.",
       );
     }
-    if(null != property.type && property.type == CalculatedPropertyType.Undefined) {
+    if(null != property.type && property.type === CalculatedPropertyType.Undefined) {
       throw new RequiredError(
-        'type',
-        'Required field type of property was null or undefined when calling updateCalculatedProperty.',
-        );
+        "type",
+        "Required field type of property was null or undefined when calling updateCalculatedProperty.",
+      );
     }
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties/${encodeURIComponent(propertyId)}`;
@@ -535,22 +542,23 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): EntityListIterator<CustomCalculation> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
-        'top',
-        'Parameter top was outside of the valid range [1-1000] when calling getCustomCalculationsIterator.'
-      )
+        "top",
+        "Parameter top was outside of the valid range [1-1000] when calling getCustomCalculationsIterator."
+      );
     }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations`;
     url += top ? `/?%24top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<CustomCalculation>(
       url,
-      async (url: string): Promise<Collection<CustomCalculation>> => {
-        const response: CustomCalculationCollection = await this.fetchJSON<CustomCalculationCollection>(url, request);
+      async (nextUrl: string): Promise<Collection<CustomCalculation>> => {
+        const response: CustomCalculationCollection = await this.fetchJSON<CustomCalculationCollection>(nextUrl, request);
         return {
           values: response.customCalculations,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           _links: response._links,
-        }
-    }));
+        };
+      }));
   }
 
   public async getCustomCalculation(
@@ -574,14 +582,14 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<CustomCalculation> {
     if(!this.isSimpleIdentifier(property.propertyName)) {
       throw new RequiredError(
-        'propertyName',
-        'Field propertyName of property was invalid when calling createCustomCalculation.',
+        "propertyName",
+        "Field propertyName of property was invalid when calling createCustomCalculation.",
       );
     }
     if(this.isNullOrWhitespace(property.formula)) {
       throw new RequiredError(
-        'formula',
-        'Required field formula of property was null or undefined when calling createCustomCalculation.',
+        "formula",
+        "Required field formula of property was null or undefined when calling createCustomCalculation.",
       );
     }
 
@@ -600,20 +608,20 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
   ): Promise<CustomCalculation> {
     if(null == property.formula && null == property.propertyName && null == property.quantityType) {
       throw new RequiredError(
-        'property',
-        'All properties of property were missing when calling updateProperty.',
+        "property",
+        "All properties of property were missing when calling updateProperty.",
       );
     }
     if(null != property.propertyName && !this.isSimpleIdentifier(property.propertyName)) {
       throw new RequiredError(
-        'propertyName',
-        'Field propertyName of property was invalid when calling updateCustomCalculation.',
+        "propertyName",
+        "Field propertyName of property was invalid when calling updateCustomCalculation.",
       );
     }
     if(null != property.formula && this.isNullOrWhitespace(property.formula)) {
       throw new RequiredError(
-        'formula',
-        'Required field formula of property was null or undefined when calling updateCustomCalculation.',
+        "formula",
+        "Required field formula of property was null or undefined when calling updateCustomCalculation.",
       );
     }
 

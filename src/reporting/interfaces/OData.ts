@@ -54,7 +54,7 @@ export interface ODataEntityResponse {
    * @type {Array<[key: string]: string>}
    * @memberof ODataResponseStatus
    */
-  value: Array<ODataEntityValue>
+  value: Array<ODataEntityValue>;
   /**
    *
    * @type {string}
@@ -63,4 +63,4 @@ export interface ODataEntityResponse {
   "@odata.nextLink"?: string;
 }
 
-export type ODataEntityValue = { [key: string]: string | number | boolean | null}
+export interface ODataEntityValue { [key: string]: string | number | boolean | null}

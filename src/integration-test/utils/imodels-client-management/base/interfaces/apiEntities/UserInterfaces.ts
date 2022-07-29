@@ -2,7 +2,7 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { CollectionResponse, Link } from "../CommonInterfaces";
+import type { CollectionResponse, Link } from "../CommonInterfaces";
 
 /** Links that belong to Minimal User entity. */
 export interface MinimalUserLinks {
@@ -17,6 +17,7 @@ export interface MinimalUser {
   /** User display name. Corresponds to {@link User.email} property. */
   displayName: string;
   /** Minimal User links. See {@link MinimalUserLinks}. */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: MinimalUserLinks;
 }
 

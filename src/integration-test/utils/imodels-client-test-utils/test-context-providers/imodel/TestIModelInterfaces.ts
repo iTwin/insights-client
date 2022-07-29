@@ -2,7 +2,9 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { AuthorizationParam, IModelsClient, Lock } from "../../../imodels-client-authoring/IModelsClientExports";
+import type { IModelsClient } from "../../../imodels-client-authoring/IModelsClient";
+import type { Lock } from "../../../imodels-client-authoring/base/interfaces/apiEntities/LockInterfaces";
+import type { AuthorizationParam } from "../../../imodels-client-management/base/interfaces/CommonInterfaces";
 
 export interface BriefcaseMetadata {
   id: number;

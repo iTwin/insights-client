@@ -2,11 +2,13 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
+import type { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../../../../reporting/iterators/EntityListIteratorImpl";
-import { NamedVersion, NamedVersionResponse, NamedVersionsResponse, OperationsBase, PreferReturn } from "../../base";
-import { OperationOptions } from "../OperationOptions";
-import { CreateNamedVersionParams, GetNamedVersionListParams, NamedVersionPropertiesForCreate } from "./NamedVersionOperationParams";
+import type { NamedVersion, NamedVersionResponse, NamedVersionsResponse} from "../../base";
+import { OperationsBase } from "../../base/OperationsBase";
+import { PreferReturn } from "../../base/interfaces/CommonInterfaces";
+import type { OperationOptions } from "../OperationOptions";
+import type { CreateNamedVersionParams, GetNamedVersionListParams, NamedVersionPropertiesForCreate } from "./NamedVersionOperationParams";
 
 export class NamedVersionOperations<TOptions extends OperationOptions> extends OperationsBase<TOptions> {
   /**
@@ -23,7 +25,7 @@ export class NamedVersionOperations<TOptions extends OperationOptions> extends O
       authorization: params.authorization,
       url: this._options.urlFormatter.getNamedVersionListUrl({ iModelId: params.iModelId, urlParams: params.urlParams }),
       preferReturn: PreferReturn.Representation,
-      entityCollectionAccessor: (response: unknown) => (response as NamedVersionsResponse<NamedVersion>).namedVersions
+      entityCollectionAccessor: (response: unknown) => (response as NamedVersionsResponse<NamedVersion>).namedVersions,
     }));
   }
 
@@ -39,7 +41,7 @@ export class NamedVersionOperations<TOptions extends OperationOptions> extends O
     const createNamedVersionResponse = await this.sendPostRequest<NamedVersionResponse>({
       authorization: params.authorization,
       url: this._options.urlFormatter.getNamedVersionListUrl({ iModelId: params.iModelId }),
-      body: createNamedVersionBody
+      body: createNamedVersionBody,
     });
     return createNamedVersionResponse.namedVersion;
   }
@@ -48,7 +50,7 @@ export class NamedVersionOperations<TOptions extends OperationOptions> extends O
     return {
       name: namedVersionProperties.name,
       description: namedVersionProperties.description,
-      changesetId: namedVersionProperties.changesetId
+      changesetId: namedVersionProperties.changesetId,
     };
   }
 }

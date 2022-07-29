@@ -2,9 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { AccessToken } from "@itwin/core-bentley";
-import { ExtractionLog, ExtractionRun, ExtractionStatus } from "../interfaces/ExtractionProcess";
-import { EntityListIterator } from "../iterators/EntityListIterator";
+import type { AccessToken } from "@itwin/core-bentley";
+import type { ExtractionLog, ExtractionRun, ExtractionStatus } from "../interfaces/ExtractionProcess";
+import type { EntityListIterator } from "../iterators/EntityListIterator";
 
 export interface IExtractionClient {
   /**
@@ -19,7 +19,7 @@ export interface IExtractionClient {
     accessToken: AccessToken,
     jobId: string,
     top?: number
-  ): Promise<ExtractionLog[]>,
+  ): Promise<ExtractionLog[]>;
 
   /**
    * Gets an async paged iterator of logs for an Extraction Run.
@@ -34,7 +34,7 @@ export interface IExtractionClient {
     accessToken: AccessToken,
     jobId: string,
     top?: number
-  ): EntityListIterator<ExtractionLog>,
+  ): EntityListIterator<ExtractionLog>;
 
   /**
    * Manually run Extraction of data from an iModel.
@@ -46,7 +46,7 @@ export interface IExtractionClient {
   runExtraction(
     accessToken: AccessToken,
     iModelId: string
-  ): Promise<ExtractionRun>,
+  ): Promise<ExtractionRun>;
 
   /**
    * Gets the Status of an Extraction Run.
@@ -58,5 +58,5 @@ export interface IExtractionClient {
   getExtractionStatus(
     accessToken: AccessToken,
     jobId: string
-  ): Promise<ExtractionStatus>,
+  ): Promise<ExtractionStatus>;
 }

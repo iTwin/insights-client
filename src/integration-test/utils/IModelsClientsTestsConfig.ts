@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import * as dotenv from "dotenv";
 import { injectable } from "inversify";
-import { BaseIntegrationTestsConfig, AuthConfigValues, ApisConfigValues, TestUsersConfigValues, BehaviorOptions } from "../utils/imodels-client-test-utils/BaseIntegrationTestsConfig";
+import type { ApisConfigValues, AuthConfigValues, BaseIntegrationTestsConfig, BehaviorOptions, TestUsersConfigValues } from "../utils/imodels-client-test-utils/BaseIntegrationTestsConfig";
 import { TestSetupError } from "../utils/imodels-client-test-utils/CommonTestUtils";
 
 @injectable()
@@ -27,34 +27,34 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
       authority: process.env.AUTH_AUTHORITY ?? "",
       clientId: process.env.AUTH_CLIENT_ID ?? "",
       clientSecret: process.env.AUTH_CLIENT_SECRET ?? "",
-      redirectUrl: process.env.AUTH_REDIRECT_URL ?? ""
+      redirectUrl: process.env.AUTH_REDIRECT_URL ?? "",
     };
 
     this.apis = {
       iModels: {
         baseUrl: process.env.APIS_IMODELS_BASE_URL ?? "",
         version: process.env.APIS_IMODELS_VERSION ?? "",
-        scopes: process.env.APIS_IMODELS_SCOPES ?? ""
+        scopes: process.env.APIS_IMODELS_SCOPES ?? "",
       },
       projects: {
         baseUrl: process.env.APIS_PROJECTS_BASE_URL ?? "",
-        scopes: process.env.APIS_PROJECTS_SCOPES ?? ""
-      }
+        scopes: process.env.APIS_PROJECTS_SCOPES ?? "",
+      },
     };
 
     this.testUsers = {
       admin1: {
         email: process.env.TEST_USERS_ADMIN1_EMAIL ?? "",
-        password: process.env.TEST_USERS_ADMIN1_PASSWORD ?? ""
+        password: process.env.TEST_USERS_ADMIN1_PASSWORD ?? "",
       },
       admin2FullyFeatured: {
         email: process.env.TEST_USERS_ADMIN2_FULLY_FEATURED_EMAIL ?? "",
-        password: process.env.TEST_USERS_ADMIN2_FULLY_FEATURED_PASSWORD ?? ""
-      }
+        password: process.env.TEST_USERS_ADMIN2_FULLY_FEATURED_PASSWORD ?? "",
+      },
     };
 
     this.behaviorOptions = {
-      recreateReusableIModel: process.env?.TEST_BEHAVIOR_OPTIONS_RECREATE_IMODEL === "1"
+      recreateReusableIModel: process.env?.TEST_BEHAVIOR_OPTIONS_RECREATE_IMODEL === "1",
     };
   }
 
@@ -82,7 +82,6 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
   }
 
   private validateConfigValue(key: string): void {
-    if (!process.env[key])
-      {throw new TestSetupError(`Invalid configuration: missing ${key} value.`);}
+    if (!process.env[key]) {throw new TestSetupError(`Invalid configuration: missing ${key} value.`);}
   }
 }

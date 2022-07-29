@@ -2,11 +2,13 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
+import type { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../../../../reporting/iterators/EntityListIteratorImpl";
-import { AuthorizationCallback, IModel, IModelResponse, IModelsResponse, MinimalIModel, OperationsBase, PreferReturn } from "../../base";
-import { OperationOptions } from "../OperationOptions";
-import { CreateEmptyIModelParams, DeleteIModelParams, GetIModelListParams, IModelProperties } from "./IModelOperationParams";
+import type { AuthorizationCallback, IModel, IModelResponse, IModelsResponse, MinimalIModel} from "../../base";
+import { OperationsBase } from "../../base/OperationsBase";
+import { PreferReturn } from "../../base/interfaces/CommonInterfaces";
+import type { OperationOptions } from "../OperationOptions";
+import type { CreateEmptyIModelParams, DeleteIModelParams, GetIModelListParams, IModelProperties } from "./IModelOperationParams";
 
 export class IModelOperations<TOptions extends OperationOptions> extends OperationsBase<TOptions> {
   /**
@@ -21,7 +23,7 @@ export class IModelOperations<TOptions extends OperationOptions> extends Operati
       authorization: params.authorization,
       url: this._options.urlFormatter.getIModelListUrl({ urlParams: params.urlParams }),
       preferReturn: PreferReturn.Minimal,
-      entityCollectionAccessor: (response: unknown) => (response as IModelsResponse<MinimalIModel>).iModels
+      entityCollectionAccessor: (response: unknown) => (response as IModelsResponse<MinimalIModel>).iModels,
     }));
   }
 
@@ -37,7 +39,7 @@ export class IModelOperations<TOptions extends OperationOptions> extends Operati
       authorization: params.authorization,
       url: this._options.urlFormatter.getIModelListUrl({ urlParams: params.urlParams }),
       preferReturn: PreferReturn.Representation,
-      entityCollectionAccessor: (response: unknown) => (response as IModelsResponse<IModel>).iModels
+      entityCollectionAccessor: (response: unknown) => (response as IModelsResponse<IModel>).iModels,
     }));
   }
 
@@ -61,7 +63,7 @@ export class IModelOperations<TOptions extends OperationOptions> extends Operati
   public async delete(params: DeleteIModelParams): Promise<void> {
     return this.sendDeleteRequest({
       authorization: params.authorization,
-      url: this._options.urlFormatter.getSingleIModelUrl({ iModelId: params.iModelId })
+      url: this._options.urlFormatter.getSingleIModelUrl({ iModelId: params.iModelId }),
     });
   }
 
@@ -70,7 +72,7 @@ export class IModelOperations<TOptions extends OperationOptions> extends Operati
       projectId: iModelProperties.projectId,
       name: iModelProperties.name,
       description: iModelProperties.description,
-      extent: iModelProperties.extent
+      extent: iModelProperties.extent,
     };
   }
 
@@ -78,7 +80,7 @@ export class IModelOperations<TOptions extends OperationOptions> extends Operati
     const createIModelResponse = await this.sendPostRequest<IModelResponse>({
       authorization,
       url: this._options.urlFormatter.getCreateIModelUrl(),
-      body: createIModelBody
+      body: createIModelBody,
     });
     return createIModelResponse.iModel;
   }

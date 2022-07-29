@@ -2,7 +2,7 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { Application, CollectionResponse, Link } from "../CommonInterfaces";
+import type { Application, CollectionResponse, Link } from "../CommonInterfaces";
 
 /** Possible Named Version states. */
 export enum NamedVersionState {
@@ -55,6 +55,7 @@ export interface NamedVersion extends MinimalNamedVersion {
   /** Information about the application that created the Named Version. */
   application: Application | null;
   /** Named Version links. See {@link NamedVersionLinks}. */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: NamedVersionLinks;
 }
 

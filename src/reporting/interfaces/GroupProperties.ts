@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { PagedResponseLinks } from "./Links";
+import type { PagedResponseLinks } from "./Links";
 
 /**
  * Defines a target ECProperty for a Group. This is used to determine what properties will be read from the query response of a Group.
@@ -91,6 +91,7 @@ export interface GroupPropertyCollection {
    * @type {PagedResponseLinks}
    * @memberof GroupPropertyCollection
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: PagedResponseLinks;
 }
 
@@ -178,6 +179,7 @@ export interface GroupPropertyUpdate {
 * @enum DataType
 */
 export enum DataType {
+  // eslint-disable-next-line id-blacklist
   Undefined = "Undefined",
   Boolean = "Boolean",
   Number = "Number", // Deprecated - treated as Double by the extractor.
@@ -192,6 +194,7 @@ export enum DataType {
 * @enum QuantityType
 */
 export enum QuantityType{
+  // eslint-disable-next-line id-blacklist
   Undefined = "Undefined",
   Area = "Area",
   Distance = "Distance",

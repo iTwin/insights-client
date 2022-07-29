@@ -3,19 +3,21 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
-import { CheckpointState, GetSingleCheckpointParams, Lock, LockLevel, LockedObjects } from "../../../imodels-client-authoring/IModelsClientExports";
+import type { GetSingleCheckpointParams, Lock, LockedObjects } from "../../../imodels-client-authoring/IModelsClientExports";
+import { LockLevel } from "../../../imodels-client-authoring/base/interfaces/apiEntities/LockInterfaces";
+import { CheckpointState } from "../../../imodels-client-management/base/interfaces/apiEntities/CheckpointInterfaces";
 import { sleep, TestSetupError } from "../../CommonTestUtils";
 import { TestAuthorizationProvider } from "../auth/TestAuthorizationProvider";
 import { TestProjectProvider } from "../project/TestProjectProvider";
 import { TestIModelFileProvider } from "./TestIModelFileProvider";
-import { BriefcaseMetadata, IModelMetadata, NamedVersionMetadata, ReusableIModelMetadata } from "./TestIModelInterfaces";
+import type { BriefcaseMetadata, IModelMetadata, NamedVersionMetadata, ReusableIModelMetadata } from "./TestIModelInterfaces";
 import { TestIModelsClient } from "./TestIModelsClient";
 
 @injectable()
 export class TestIModelCreator {
   public static namedVersions = [
     { name: "Named version 5", changesetIndex: 5 },
-    { name: "Named version 10", changesetIndex: 10 }
+    { name: "Named version 10", changesetIndex: 10 },
   ];
 
   private readonly _iModelDescription = "Some description";
@@ -39,14 +41,14 @@ export class TestIModelCreator {
       iModelProperties: {
         projectId,
         name: iModelName,
-        description: this._iModelDescription
-      }
+        description: this._iModelDescription,
+      },
     });
 
     return {
       id: iModel.id,
       name: iModel.name,
-      description: iModel.description ?? ""
+      description: iModel.description ?? "",
     };
   }
 
@@ -68,7 +70,7 @@ export class TestIModelCreator {
       ...iModel,
       briefcase,
       namedVersions,
-      lock
+      lock,
     };
   }
 
@@ -95,19 +97,19 @@ export class TestIModelCreator {
     const testIModelLocks: LockedObjects[] = [
       {
         lockLevel: LockLevel.Exclusive,
-        objectIds: ["0x1", "0xa"]
+        objectIds: ["0x1", "0xa"],
       },
       {
         lockLevel: LockLevel.Shared,
-        objectIds: ["0x2", "0xb"]
-      }
+        objectIds: ["0x2", "0xb"],
+      },
     ];
 
     const acquiredLocks: Lock = await this._iModelsClient.locks.update({
       authorization: this._testAuthorizationProvider.getAdmin1Authorization(),
       iModelId,
       briefcaseId,
-      lockedObjects: testIModelLocks
+      lockedObjects: testIModelLocks,
     });
 
     return acquiredLocks;
@@ -127,8 +129,8 @@ export class TestIModelCreator {
             ? undefined
             : this._testIModelFileProvider.changesets[i - 1].id,
           synchronizationInfo: this._testIModelFileProvider.changesets[i].synchronizationInfo,
-          filePath: this._testIModelFileProvider.changesets[i].filePath
-        }
+          filePath: this._testIModelFileProvider.changesets[i].filePath,
+        },
       });
     }
   }
@@ -138,13 +140,13 @@ export class TestIModelCreator {
       authorization: this._testAuthorizationProvider.getAdmin1Authorization(),
       iModelId,
       briefcaseProperties: {
-        deviceName: this._briefcaseDeviceName
-      }
+        deviceName: this._briefcaseDeviceName,
+      },
     });
 
     return {
       id: briefcase.briefcaseId,
-      deviceName: briefcase.deviceName ?? ""
+      deviceName: briefcase.deviceName ?? "",
     };
   }
 
@@ -159,14 +161,14 @@ export class TestIModelCreator {
       iModelId,
       namedVersionProperties: {
         name: namedVersionName,
-        changesetId: changesetMetadata.id
-      }
+        changesetId: changesetMetadata.id,
+      },
     });
     return {
       id: namedVersion.id,
       name: namedVersion.name,
       changesetId: changesetMetadata.id,
-      changesetIndex: changesetMetadata.index
+      changesetIndex: changesetMetadata.index,
     };
   }
 
@@ -174,18 +176,17 @@ export class TestIModelCreator {
     const getSingleCheckpointParams: GetSingleCheckpointParams = {
       authorization: this._testAuthorizationProvider.getAdmin1Authorization(),
       iModelId,
-      namedVersionId
+      namedVersionId,
     };
     const sleepPeriodInMs = 1000;
     const timeOutInMs = 5 * 60 * 1000;
     for (let retries = timeOutInMs / sleepPeriodInMs; retries > 0; --retries) {
       const checkpoint = await this._iModelsClient.checkpoints.getSingle(getSingleCheckpointParams);
 
-      if (checkpoint.state === CheckpointState.Successful && checkpoint._links?.download !== undefined && checkpoint.containerAccessInfo !== null)
-        {return;}
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      if (checkpoint.state === CheckpointState.Successful && checkpoint._links?.download !== undefined && checkpoint.containerAccessInfo !== null) {return;}
 
-      if (checkpoint.state !== CheckpointState.Scheduled && checkpoint.state !== CheckpointState.Successful)
-        {throw new TestSetupError(`Checkpoint generation failed with state: ${checkpoint.state}.`);}
+      if (checkpoint.state !== CheckpointState.Scheduled && checkpoint.state !== CheckpointState.Successful) {throw new TestSetupError(`Checkpoint generation failed with state: ${checkpoint.state}.`);}
 
       await sleep(sleepPeriodInMs);
     }

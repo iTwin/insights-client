@@ -2,7 +2,8 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { IModelsError, IModelsErrorCode, IModelsErrorDetail } from "./interfaces/IModelsErrorInterfaces";
+import type { IModelsError, IModelsErrorDetail } from "./interfaces/IModelsErrorInterfaces";
+import { IModelsErrorCode } from "./interfaces/IModelsErrorInterfaces";
 
 interface IModelsApiErrorWrapper {
   error: IModelsApiError;
@@ -56,7 +57,7 @@ export class IModelsErrorParser {
     return new IModelsErrorImpl({
       code: errorCode,
       message: errorMessage,
-      details: errorDetails
+      details: errorDetails,
     });
   }
 
@@ -81,16 +82,15 @@ export class IModelsErrorParser {
       return undefined;
 
     return details.map((unparsedDetail) => {
-      return { 
-        ...unparsedDetail, code: this.parseCode(unparsedDetail.code)
+      return {
+        ...unparsedDetail, code: this.parseCode(unparsedDetail.code),
       };
     });
   }
 
   private static parseAndFormatMessage(message: string | undefined, errorDetails: IModelsErrorDetail[] | undefined): string {
     let result = message ?? IModelsErrorParser._defaultErrorMessage;
-    if (!errorDetails || errorDetails.length === 0)
-      {return result;}
+    if (!errorDetails || errorDetails.length === 0) {return result;}
 
     result += " Details:\n";
     for (let i = 0; i < errorDetails.length; i++) {

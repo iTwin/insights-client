@@ -2,10 +2,11 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import * as chaiAsPromised from "chai-as-promised"
+import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { MappingsClient, Mapping, MappingCreate, MappingUpdate, Group, GroupCreate, GroupUpdate, GroupProperty, GroupPropertyCreate, DataType, QuantityType, ECProperty, CalculatedProperty, CalculatedPropertyCreate, CalculatedPropertyType, CustomCalculation, CustomCalculationCreate, MappingCopy } from "../reporting";
+import type { CalculatedProperty, CalculatedPropertyCreate, CustomCalculation, CustomCalculationCreate, ECProperty, Group, GroupCreate, GroupProperty, GroupPropertyCreate, GroupUpdate, Mapping, MappingCopy, MappingCreate, MappingUpdate } from "../reporting";
+import { CalculatedPropertyType, DataType, MappingsClient, QuantityType } from "../reporting";
 use(chaiAsPromised);
 
 describe("mappings Client", () => {
@@ -13,23 +14,25 @@ describe("mappings Client", () => {
   const mappingsClientNewBase: MappingsClient = new MappingsClient("BASE");
   let fetchStub: sinon.SinonStub;
   let requestStub: sinon.SinonStub;
-  
+
   beforeEach(() => {
-    fetchStub = sinon.stub(MappingsClient.prototype, <any>"fetchJSON"); // eslint-disable-line @typescript-eslint/no-explicit-any
-    requestStub = sinon.stub(MappingsClient.prototype, <any>"createRequest"); // eslint-disable-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    fetchStub = sinon.stub(MappingsClient.prototype, "fetchJSON" as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    requestStub = sinon.stub(MappingsClient.prototype, "createRequest" as any);
     requestStub.returns("pass");
-  })
+  });
 
   afterEach(() => {
     sinon.restore();
-  })
+  });
 
   it("Mappings - Get", async function () {
     const returns = {
       mapping: {
         id: 1,
-      }
-    }
+      },
+    };
     fetchStub.resolves(returns);
     let mapping = await mappingsClient.getMapping("-", "-", "--");
     expect(mapping.id).to.be.eq(1);
@@ -48,22 +51,24 @@ describe("mappings Client", () => {
   it("Mappings - Get all", async function () {
     const returns1 = {
       mappings: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: {
           href: "url",
         },
-      }
-    }
+      },
+    };
     const returns2 = {
       mappings: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: undefined,
-      }
-    }
+      },
+    };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/datasources/imodels/-/mappings", "pass").resolves(returns2);
-    
+
     let mappings: Array<Mapping> = await mappingsClient.getMappings("-", "-");
     expect(mappings.length).to.be.eq(4);
     expect(mappings[0]).to.be.eq(1);
@@ -83,22 +88,24 @@ describe("mappings Client", () => {
   it("Mappings - Get all by page", async function () {
     const returns1 = {
       mappings: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: {
           href: "url",
         },
-      }
-    }
+      },
+    };
     const returns2 = {
       mappings: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: undefined,
-      }
-    }
+      },
+    };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/datasources/imodels/-/mappings", "pass").resolves(returns2);
-    
+
     let mappingIt = mappingsClient.getMappingsIterator("-", "-").byPage();
     for await(const i of mappingIt) {
       expect(i.length).to.be.eq(2);
@@ -121,22 +128,24 @@ describe("mappings Client", () => {
   it("Mappings - get all with top", async function () {
     const returns1 = {
       mappings: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: {
           href: "url",
         },
-      }
-    }
+      },
+    };
     const returns2 = {
       mappings: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: undefined,
-      }
-    }
+      },
+    };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/?%24top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/datasources/imodels/-/mappings/?%24top=2", "pass").resolves(returns2);
-    
+
     let mappings: Array<Mapping> = await mappingsClient.getMappings("-", "-", 2);
     expect(mappings.length).to.be.eq(4);
     expect(mappings[0]).to.be.eq(1);
@@ -156,12 +165,12 @@ describe("mappings Client", () => {
   it("Mappings - Create", async function () {
     const newMapping: MappingCreate = {
       mappingName: "Test",
-    }
+    };
     const returns = {
       mapping: {
-        id: "1"
-      }
-    }
+        id: "1",
+      },
+    };
     fetchStub.resolves(returns);
     let mapping = await mappingsClient.createMapping("-", "-", newMapping);
     expect(mapping.id).to.be.eq("1");
@@ -184,13 +193,13 @@ describe("mappings Client", () => {
 
   it("Mappings - Update", async function () {
     const newMapping: MappingUpdate = {
-      mappingName: "Test"
-    }
+      mappingName: "Test",
+    };
     const returns = {
       mapping: {
-        id: "1"
-      }
-    }
+        id: "1",
+      },
+    };
     fetchStub.resolves(returns);
     let mapping = await mappingsClient.updateMapping("-", "-", "--", newMapping);
     expect(mapping.id).to.be.eq("1");
@@ -213,8 +222,8 @@ describe("mappings Client", () => {
 
   it("Mappings - Delete", async function () {
     const returns = {
-      status: 200
-    }
+      status: 200,
+    };
     fetchStub.resolves(returns);
     let mapping = await mappingsClient.deleteMapping("-", "-", "--");
     expect(mapping.status).to.be.eq(200);
@@ -233,13 +242,13 @@ describe("mappings Client", () => {
   it("Mappings - Copy", async function () {
     const newMapping: MappingCopy = {
       mappingName: "Test",
-      targetIModelId: "-"
-    }
+      targetIModelId: "-",
+    };
     const returns = {
       mapping: {
-        id: "1"
-      }
-    }
+        id: "1",
+      },
+    };
     fetchStub.resolves(returns);
     let mapping = await mappingsClient.copyMapping("-", "-", "--", newMapping);
     expect(mapping.id).to.be.eq("1");
@@ -264,8 +273,8 @@ describe("mappings Client", () => {
     const returns = {
       group: {
         id: 1,
-      }
-    }
+      },
+    };
     fetchStub.resolves(returns);
     let group = await mappingsClient.getGroup("-", "-", "--", "---");
     expect(group.id).to.be.eq(1);
@@ -284,22 +293,24 @@ describe("mappings Client", () => {
   it("Groups - Get all", async function () {
     const returns1 = {
       groups: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: {
           href: "url",
         },
-      }
-    }
+      },
+    };
     const returns2 = {
       groups: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: undefined,
-      }
-    }
+      },
+    };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/datasources/imodels/-/mappings/--/groups", "pass").resolves(returns2);
-    
+
     let groups: Array<Group> = await mappingsClient.getGroups("-", "-", "--");
     expect(groups.length).to.be.eq(4);
     expect(groups[0]).to.be.eq(1);
@@ -319,22 +330,24 @@ describe("mappings Client", () => {
   it("Groups - get all with top", async function () {
     const returns1 = {
       groups: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: {
           href: "url",
         },
-      }
-    }
+      },
+    };
     const returns2 = {
       groups: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: undefined,
-      }
-    }
+      },
+    };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/?%24top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/datasources/imodels/-/mappings/--/groups/?%24top=2", "pass").resolves(returns2);
-    
+
     let groups: Array<Group> = await mappingsClient.getGroups("-", "-", "--", 2);
     expect(groups.length).to.be.eq(4);
     expect(groups[0]).to.be.eq(1);
@@ -354,13 +367,13 @@ describe("mappings Client", () => {
   it("Groups - Create", async function () {
     const newGroup: GroupCreate = {
       groupName: "Test",
-      query: "-"
-    }
+      query: "-",
+    };
     const returns = {
       group: {
-        id: "1"
-      }
-    }
+        id: "1",
+      },
+    };
     fetchStub.resolves(returns);
     let group = await mappingsClient.createGroup("-", "-", "--", newGroup);
     expect(group.id).to.be.eq("1");
@@ -383,13 +396,13 @@ describe("mappings Client", () => {
 
   it("Groups - Update", async function () {
     const newGroup: GroupUpdate = {
-      groupName: "Test"
-    }
+      groupName: "Test",
+    };
     const returns = {
       group: {
-        id: "1"
-      }
-    }
+        id: "1",
+      },
+    };
     fetchStub.resolves(returns);
     let group = await mappingsClient.updateGroup("-", "-", "--", "---", newGroup);
     expect(group.id).to.be.eq("1");
@@ -412,8 +425,8 @@ describe("mappings Client", () => {
 
   it("Groups - Delete", async function () {
     const returns = {
-      status: 200
-    }
+      status: 200,
+    };
     fetchStub.resolves(returns);
     let group = await mappingsClient.deleteGroup("-", "-", "--", "---");
     expect(group.status).to.be.eq(200);
@@ -433,8 +446,8 @@ describe("mappings Client", () => {
     const returns = {
       property: {
         id: 1,
-      }
-    }
+      },
+    };
     fetchStub.resolves(returns);
     let property = await mappingsClient.getGroupProperty("-", "-", "--", "---", "----");
     expect(property.id).to.be.eq(1);
@@ -453,22 +466,24 @@ describe("mappings Client", () => {
   it("Group properties - Get all", async function () {
     const returns1 = {
       properties: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: {
           href: "url",
         },
-      }
-    }
+      },
+    };
     const returns2 = {
       properties: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: undefined,
-      }
-    }
+      },
+    };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/properties", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/datasources/imodels/-/mappings/--/groups/---/properties", "pass").resolves(returns2);
-    
+
     let properties: Array<GroupProperty> = await mappingsClient.getGroupProperties("-", "-", "--", "---");
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
@@ -488,22 +503,24 @@ describe("mappings Client", () => {
   it("Group properties - get all with top", async function () {
     const returns1 = {
       properties: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: {
           href: "url",
         },
-      }
-    }
+      },
+    };
     const returns2 = {
       properties: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: undefined,
-      }
-    }
+      },
+    };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/properties/?%24top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/datasources/imodels/-/mappings/--/groups/---/properties/?%24top=2", "pass").resolves(returns2);
-    
+
     let properties: Array<GroupProperty> = await mappingsClient.getGroupProperties("-", "-", "--", "---", 2);
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
@@ -525,19 +542,19 @@ describe("mappings Client", () => {
       ecClassName: "Name",
       ecPropertyName: "Property",
       ecPropertyType: DataType.Integer,
-      ecSchemaName: "Schema"
-    }
+      ecSchemaName: "Schema",
+    };
     const newGroupProperty: GroupPropertyCreate = {
       propertyName: "Test",
       dataType: DataType.Integer,
       ecProperties: [ecProperty],
-      quantityType: QuantityType.Area
-    }
+      quantityType: QuantityType.Area,
+    };
     const returns = {
       property: {
-        id: "1"
-      }
-    }
+        id: "1",
+      },
+    };
     fetchStub.resolves(returns);
     let property = await mappingsClient.createGroupProperty("-", "-", "--", "---", newGroupProperty);
     expect(property.id).to.be.eq("1");
@@ -563,19 +580,19 @@ describe("mappings Client", () => {
       ecClassName: "Name",
       ecPropertyName: "Property",
       ecPropertyType: DataType.Integer,
-      ecSchemaName: "Schema"
-    }
+      ecSchemaName: "Schema",
+    };
     const newGroupProperty: GroupPropertyCreate = {
       propertyName: "Test",
       dataType: DataType.Integer,
       ecProperties: [ecProperty],
-      quantityType: QuantityType.Area
-    }
+      quantityType: QuantityType.Area,
+    };
     const returns = {
       property: {
-        id: "1"
-      }
-    }
+        id: "1",
+      },
+    };
     fetchStub.resolves(returns);
     let property = await mappingsClient.updateGroupProperty("-", "-", "--", "---", "----", newGroupProperty);
     expect(property.id).to.be.eq("1");
@@ -598,8 +615,8 @@ describe("mappings Client", () => {
 
   it("Group properties - Delete", async function () {
     const returns = {
-      status: 200
-    }
+      status: 200,
+    };
     fetchStub.resolves(returns);
     let property = await mappingsClient.deleteGroupProperty("-", "-", "--", "---", "----");
     expect(property.status).to.be.eq(200);
@@ -619,8 +636,8 @@ describe("mappings Client", () => {
     const returns = {
       property: {
         id: 1,
-      }
-    }
+      },
+    };
     fetchStub.resolves(returns);
     let property = await mappingsClient.getCalculatedProperty("-", "-", "--", "---", "----");
     expect(property.id).to.be.eq(1);
@@ -639,22 +656,24 @@ describe("mappings Client", () => {
   it("Calculated properties - Get all", async function () {
     const returns1 = {
       properties: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: {
           href: "url",
         },
-      }
-    }
+      },
+    };
     const returns2 = {
       properties: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: undefined,
-      }
-    }
+      },
+    };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/calculatedProperties", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/datasources/imodels/-/mappings/--/groups/---/calculatedProperties", "pass").resolves(returns2);
-    
+
     let properties: Array<CalculatedProperty> = await mappingsClient.getCalculatedProperties("-", "-", "--", "---");
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
@@ -674,22 +693,24 @@ describe("mappings Client", () => {
   it("Calculated properties - get all with top", async function () {
     const returns1 = {
       properties: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: {
           href: "url",
         },
-      }
-    }
+      },
+    };
     const returns2 = {
       properties: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: undefined,
-      }
-    }
+      },
+    };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/calculatedProperties/?%24top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/datasources/imodels/-/mappings/--/groups/---/calculatedProperties/?%24top=2", "pass").resolves(returns2);
-    
+
     let properties: Array<CalculatedProperty> = await mappingsClient.getCalculatedProperties("-", "-", "--", "---", 2);
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
@@ -709,13 +730,13 @@ describe("mappings Client", () => {
   it("Calculated properties - Create", async function () {
     const newCalculatedProperty: CalculatedPropertyCreate = {
       propertyName: "Test",
-      type: CalculatedPropertyType.Area
-    }
+      type: CalculatedPropertyType.Area,
+    };
     const returns = {
       property: {
-        id: "1"
-      }
-    }
+        id: "1",
+      },
+    };
     fetchStub.resolves(returns);
     let property = await mappingsClient.createCalculatedProperty("-", "-", "--", "---", newCalculatedProperty);
     expect(property.id).to.be.eq("1");
@@ -739,13 +760,13 @@ describe("mappings Client", () => {
   it("Calculated properties - Update", async function () {
     const newCalculatedProperty: CalculatedPropertyCreate = {
       propertyName: "Test",
-      type: CalculatedPropertyType.Area
-    }
+      type: CalculatedPropertyType.Area,
+    };
     const returns = {
       property: {
-        id: "1"
-      }
-    }
+        id: "1",
+      },
+    };
     fetchStub.resolves(returns);
     let property = await mappingsClient.updateCalculatedProperty("-", "-", "--", "---", "----", newCalculatedProperty);
     expect(property.id).to.be.eq("1");
@@ -768,8 +789,8 @@ describe("mappings Client", () => {
 
   it("Calculated properties - Delete", async function () {
     const returns = {
-      status: 200
-    }
+      status: 200,
+    };
     fetchStub.resolves(returns);
     let property = await mappingsClient.deleteCalculatedProperty("-", "-", "--", "---", "----");
     expect(property.status).to.be.eq(200);
@@ -789,8 +810,8 @@ describe("mappings Client", () => {
     const returns = {
       customCalculation: {
         id: 1,
-      }
-    }
+      },
+    };
     fetchStub.resolves(returns);
     let property = await mappingsClient.getCustomCalculation("-", "-", "--", "---", "----");
     expect(property.id).to.be.eq(1);
@@ -809,22 +830,24 @@ describe("mappings Client", () => {
   it("Custom calculations - Get all", async function () {
     const returns1 = {
       customCalculations: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: {
           href: "url",
         },
-      }
-    }
+      },
+    };
     const returns2 = {
       customCalculations: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: undefined,
-      }
-    }
+      },
+    };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/customCalculations", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/datasources/imodels/-/mappings/--/groups/---/customCalculations", "pass").resolves(returns2);
-    
+
     let properties: Array<CustomCalculation> = await mappingsClient.getCustomCalculations("-", "-", "--", "---");
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
@@ -844,22 +867,24 @@ describe("mappings Client", () => {
   it("Custom calculations - get all with top", async function () {
     const returns1 = {
       customCalculations: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: {
           href: "url",
         },
-      }
-    }
+      },
+    };
     const returns2 = {
       customCalculations: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       _links: {
         next: undefined,
-      }
-    }
+      },
+    };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/customCalculations/?%24top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/datasources/imodels/-/mappings/--/groups/---/customCalculations/?%24top=2", "pass").resolves(returns2);
-    
+
     let properties: Array<CustomCalculation> = await mappingsClient.getCustomCalculations("-", "-", "--", "---", 2);
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
@@ -880,13 +905,13 @@ describe("mappings Client", () => {
     const newCustomCalculation: CustomCalculationCreate = {
       propertyName: "Test",
       formula: "1+1",
-      quantityType: QuantityType.Area
-    }
+      quantityType: QuantityType.Area,
+    };
     const returns = {
       customCalculation: {
-        id: "1"
-      }
-    }
+        id: "1",
+      },
+    };
     fetchStub.resolves(returns);
     let property = await mappingsClient.createCustomCalculation("-", "-", "--", "---", newCustomCalculation);
     expect(property.id).to.be.eq("1");
@@ -911,13 +936,13 @@ describe("mappings Client", () => {
     const newCustomCalculation: CustomCalculationCreate = {
       propertyName: "Test",
       formula: "1+1",
-      quantityType: QuantityType.Area
-    }
+      quantityType: QuantityType.Area,
+    };
     const returns = {
       customCalculation: {
-        id: "1"
-      }
-    }
+        id: "1",
+      },
+    };
     fetchStub.resolves(returns);
     let property = await mappingsClient.updateCustomCalculation("-", "-", "--", "---", "----", newCustomCalculation);
     expect(property.id).to.be.eq("1");
@@ -940,8 +965,8 @@ describe("mappings Client", () => {
 
   it("Custom calculations - Delete", async function () {
     const returns = {
-      status: 200
-    }
+      status: 200,
+    };
     fetchStub.resolves(returns);
     let property = await mappingsClient.deleteCustomCalculation("-", "-", "--", "---", "----");
     expect(property.status).to.be.eq(200);

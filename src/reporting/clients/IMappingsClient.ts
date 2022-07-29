@@ -2,13 +2,13 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { AccessToken } from "@itwin/core-bentley";
-import { CalculatedProperty, CalculatedPropertyCreate, CalculatedPropertyUpdate } from "../interfaces/CalculatedProperties";
-import { CustomCalculation, CustomCalculationCreate, CustomCalculationUpdate } from "../interfaces/CustomCalculations";
-import { GroupProperty, GroupPropertyCreate, GroupPropertyUpdate } from "../interfaces/GroupProperties";
-import { Group, GroupCreate, GroupUpdate } from "../interfaces/Groups";
-import { Mapping, MappingCreate, MappingUpdate, MappingCopy } from "../interfaces/Mappings";
-import { EntityListIterator } from "../iterators/EntityListIterator";
+import type { AccessToken } from "@itwin/core-bentley";
+import type { CalculatedProperty, CalculatedPropertyCreate, CalculatedPropertyUpdate } from "../interfaces/CalculatedProperties";
+import type { CustomCalculation, CustomCalculationCreate, CustomCalculationUpdate } from "../interfaces/CustomCalculations";
+import type { GroupProperty, GroupPropertyCreate, GroupPropertyUpdate } from "../interfaces/GroupProperties";
+import type { Group, GroupCreate, GroupUpdate } from "../interfaces/Groups";
+import type { Mapping, MappingCopy, MappingCreate, MappingUpdate } from "../interfaces/Mappings";
+import type { EntityListIterator } from "../iterators/EntityListIterator";
 
 export interface IMappingsClient {
   /**
@@ -20,11 +20,11 @@ export interface IMappingsClient {
    * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
    */
   getMappings(
-    accessToken: AccessToken, 
+    accessToken: AccessToken,
     iModelId: string,
     top?: number
-  ): Promise<Mapping[]>,
-  
+  ): Promise<Mapping[]>;
+
   /**
    * Gets an async paged iterator of Mappings for an iModel.
    * This method returns an iterator which loads pages of mappings as it is being iterated over.
@@ -35,11 +35,11 @@ export interface IMappingsClient {
    * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
    */
   getMappingsIterator(
-    accessToken: AccessToken, 
+    accessToken: AccessToken,
     iModelId: string,
     top?: number
-  ): EntityListIterator<Mapping>,
-  
+  ): EntityListIterator<Mapping>;
+
   /**
    * Gets a Mapping for an iModel.
    * @param {string} iModelId The iModel Id.
@@ -48,11 +48,11 @@ export interface IMappingsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mapping/
    */
-  getMapping(accessToken: AccessToken, 
+  getMapping(accessToken: AccessToken,
     iModelId: string,
     mappingId: string
-  ): Promise<Mapping>,
-  
+  ): Promise<Mapping>;
+
   /**
    * Creates a Mapping for an iModel.
    * @param {string} iModelId Id of the iModel for which to create a new Mapping.
@@ -61,11 +61,11 @@ export interface IMappingsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-mapping/
    */
-  createMapping(accessToken: AccessToken, 
+  createMapping(accessToken: AccessToken,
     iModelId: string,
     mapping: MappingCreate
-  ): Promise<Mapping>,
-  
+  ): Promise<Mapping>;
+
   /**
    * Updates a Mapping for an iModel.
    * @param {string} iModelId The iModel Id.
@@ -75,12 +75,12 @@ export interface IMappingsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/update-mapping/
    */
-  updateMapping(accessToken: AccessToken, 
+  updateMapping(accessToken: AccessToken,
     iModelId: string,
-    mappingId: string, 
+    mappingId: string,
     mapping: MappingUpdate
-  ): Promise<Mapping>,
-  
+  ): Promise<Mapping>;
+
   /**
    * Deletes a Mapping for an iModel.
    * @param {string} iModelId The iModel Id.
@@ -89,11 +89,11 @@ export interface IMappingsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-mapping/
    */
-  deleteMapping(accessToken: AccessToken, 
+  deleteMapping(accessToken: AccessToken,
     iModelId: string,
     mappingId: string
-  ): Promise<Response>,
-  
+  ): Promise<Response>;
+
   /**
    * Copies a Mapping and all its Groups, GroupProperties, CalculatedProperties, and CustomCalculations to a target iModel.
    * @param {string} iModelId Id of the source Mapping&#x27;s iModel.
@@ -103,12 +103,12 @@ export interface IMappingsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/copy-mapping/
    */
-  copyMapping(accessToken: AccessToken, 
+  copyMapping(accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     mappingCopy: MappingCopy
-  ): Promise<Mapping>,
-  
+  ): Promise<Mapping>;
+
   /**
    * Gets all Groups for a Mapping. This method returns the full list of groups.
    * @param {string} iModelId The iModel Id.
@@ -118,12 +118,12 @@ export interface IMappingsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-groups/
    */
-  getGroups(accessToken: AccessToken, 
+  getGroups(accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     top?: number
-  ): Promise<Group[]>,
-  
+  ): Promise<Group[]>;
+
   /**
    * Gets an async paged iterator of Groups for a Mapping.
    * This method returns an iterator which loads pages of groups as it is being iterated over.
@@ -134,12 +134,12 @@ export interface IMappingsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-groups/
    */
-  getGroupsIterator(accessToken: AccessToken, 
+  getGroupsIterator(accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     top?: number
-  ): EntityListIterator<Group>,
-  
+  ): EntityListIterator<Group>;
+
   /**
    * Creates a Group for an iModel data source Mapping.
    * @param {string} iModelId The iModel Id.
@@ -149,12 +149,12 @@ export interface IMappingsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-group/
    */
-   createGroup(accessToken: AccessToken, 
+  createGroup(accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     group: GroupCreate
-  ): Promise<Group>,
-  
+  ): Promise<Group>;
+
   /**
    * Gets a Group for a Mapping.
    * @param {string} iModelId The iModel Id.
@@ -164,12 +164,12 @@ export interface IMappingsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-group/
    */
-   getGroup(accessToken: AccessToken, 
+  getGroup(accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     groupId: string
-  ): Promise<Group>,
-  
+  ): Promise<Group>;
+
   /**
    * Updates a Group for a Mapping.
    * @param {string} iModelId Globally Unique Identifier of the target iModel.
@@ -185,8 +185,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     group: GroupUpdate
-  ): Promise<Group>,
-  
+  ): Promise<Group>;
+
   /**
    * Deletes a Group for a Mapping.
    * @param {string} iModelId The iModel Id.
@@ -200,8 +200,8 @@ export interface IMappingsClient {
     iModelId: string,
     mappingId: string,
     groupId: string
-  ): Promise<Response>,
-  
+  ): Promise<Response>;
+
   /**
    * Gets all GroupProperties for a Group. This method returns the full list of group properties.
    * @param {string} iModelId The iModel Id.
@@ -218,8 +218,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     top?: number
-  ): Promise<GroupProperty[]>,
-  
+  ): Promise<GroupProperty[]>;
+
   /**
    * Gets an async paged iterator of GroupProperties for a Group.
    * This method returns an iterator which loads pages of group properties as it is being iterated over.
@@ -237,8 +237,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     top?: number
-  ): EntityListIterator<GroupProperty>,
-  
+  ): EntityListIterator<GroupProperty>;
+
   /**
    * Gets a GroupProperty for a Group.
    * @param {string} iModelId The iModel Id.
@@ -255,8 +255,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     propertyId: string
-  ): Promise<GroupProperty>,
-  
+  ): Promise<GroupProperty>;
+
   /**
    * Creates a GroupProperty for a Group.
    * @param {string} iModelId The iModel Id.
@@ -273,8 +273,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     groupProperty: GroupPropertyCreate
-  ): Promise<GroupProperty>,
-  
+  ): Promise<GroupProperty>;
+
   /**
    * Updates a GroupProperty for a Group.
    * @param {string} iModelId The iModel Id.
@@ -293,8 +293,8 @@ export interface IMappingsClient {
     groupId: string,
     propertyId: string,
     groupProperty: GroupPropertyUpdate
-  ): Promise<GroupProperty>,
-  
+  ): Promise<GroupProperty>;
+
   /**
    * Deletes a GroupProperty from a Group.
    * @param {string} iModelId The iModel Id.
@@ -311,8 +311,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     propertyId: string
-  ): Promise<Response>,
-  
+  ): Promise<Response>;
+
   /**
    * Gets all CalculatedProperties for a Group. This method returns the full list of calculated properties.
    * @param {string} iModelId The iModel Id.
@@ -329,8 +329,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     top?: number
-  ): Promise<CalculatedProperty[]>,
-  
+  ): Promise<CalculatedProperty[]>;
+
   /**
    * Gets an async paged iterator of CalculatedProperties for a Group.
    * This method returns an iterator which loads pages of calculated properties as it is being iterated over.
@@ -348,8 +348,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     top?: number
-  ): EntityListIterator<CalculatedProperty>,
-  
+  ): EntityListIterator<CalculatedProperty>;
+
   /**
    * Gets a CalculatedProperty for a Group.
    * @param {string} iModelId The iModel Id.
@@ -366,8 +366,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     propertyId: string
-  ): Promise<CalculatedProperty>,
-  
+  ): Promise<CalculatedProperty>;
+
   /**
    * Creates a CalculatedProperty for a Group.
    * @param {string} iModelId The iModel Id.
@@ -384,8 +384,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     property: CalculatedPropertyCreate
-  ): Promise<CalculatedProperty>,
-  
+  ): Promise<CalculatedProperty>;
+
   /**
    * Updates a CalculatedProperty for a Group.
    * @param {string} iModelId The iModel Id.
@@ -404,8 +404,8 @@ export interface IMappingsClient {
     groupId: string,
     propertyId: string,
     property: CalculatedPropertyUpdate
-  ): Promise<CalculatedProperty>,
-  
+  ): Promise<CalculatedProperty>;
+
   /**
    * Deletes a CalculatedProperty from a Group.
    * @param {string} iModelId The iModel Id.
@@ -422,8 +422,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     propertyId: string
-  ): Promise<Response>,
-  
+  ): Promise<Response>;
+
   /**
    * Gets all CustomCalculations for a Group. This method returns the full list of custom calculations.
    * @param {string} iModelId The iModel Id.
@@ -440,8 +440,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     top?: number
-  ): Promise<CustomCalculation[]>,
-  
+  ): Promise<CustomCalculation[]>;
+
   /**
    * Gets an async paged iterator of CustomCalculations for a Group.
    * This method returns an iterator which loads pages of custom calculations as it is being iterated over.
@@ -459,8 +459,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     top?: number
-  ): EntityListIterator<CustomCalculation>,
-  
+  ): EntityListIterator<CustomCalculation>;
+
   /**
    * Gets a CustomCalculation for a Group.
    * @param {string} iModelId The iModel Id.
@@ -477,8 +477,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     propertyId: string
-  ): Promise<CustomCalculation>,
-  
+  ): Promise<CustomCalculation>;
+
   /**
    * Creates a CustomCalculation for a Group.
    * @param {string} iModelId The iModel Id.
@@ -495,8 +495,8 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     property: CustomCalculationCreate
-  ): Promise<CustomCalculation>,
-  
+  ): Promise<CustomCalculation>;
+
   /**
    * Updates a CustomCalculation for a Group.
    * @param {string} iModelId The iModel Id.
@@ -515,8 +515,8 @@ export interface IMappingsClient {
     groupId: string,
     propertyId: string,
     property: CustomCalculationUpdate
-  ): Promise<CustomCalculation>,
-  
+  ): Promise<CustomCalculation>;
+
   /**
    * Deletes a CustomCalculation from a Group.
    * @param {string} iModelId The iModel Id.
@@ -533,5 +533,5 @@ export interface IMappingsClient {
     mappingId: string,
     groupId: string,
     propertyId: string
-  ): Promise<Response>
+  ): Promise<Response>;
 }

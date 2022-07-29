@@ -2,9 +2,9 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { Application, CollectionResponse, Link } from "../CommonInterfaces";
-import { Checkpoint } from "./CheckpointInterfaces";
-import { NamedVersion } from "./NamedVersionInterfaces";
+import type { Application, CollectionResponse, Link } from "../CommonInterfaces";
+import type { Checkpoint } from "./CheckpointInterfaces";
+import type { NamedVersion } from "./NamedVersionInterfaces";
 
 /** Possible Changeset states. */
 export enum ChangesetState {
@@ -66,6 +66,7 @@ export interface MinimalChangeset {
   /** Id of the Briefcase that was used to create the Changeset. */
   briefcaseId: number;
   /** Changeset links. See {@link MinimalChangesetLinks}. */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: MinimalChangesetLinks;
 }
 
@@ -96,6 +97,7 @@ export interface Changeset extends MinimalChangeset {
   /** Information about synchronization process that created the Changeset. */
   synchronizationInfo: SynchronizationInfo | null;
   /** Changeset links. See {@link ChangesetLinks}. */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: ChangesetLinks;
   /**
    * Function to query Named Version for the current Changeset. If the Changeset does not have a Named Version the

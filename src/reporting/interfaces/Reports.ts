@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { Link, PagedResponseLinks } from "./Links";
+import type { Link, PagedResponseLinks } from "./Links";
 
 /**
  * Defines a unit of data that can be exposed as an OData feed. The contents of a Report are defined in Report Mappings.
@@ -39,6 +39,7 @@ export interface Report {
    * @type {ReportLinks}
    * @memberof Report
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: ReportLinks;
 }
 
@@ -59,6 +60,7 @@ export interface ReportCollection {
    * @type {PagedResponseLinks}
    * @memberof ReportCollection
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: PagedResponseLinks;
 }
 
@@ -131,6 +133,7 @@ export interface ReportMapping {
    * @type {ReportMappingLinks}
    * @memberof ReportMapping
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: ReportMappingLinks;
 }
 
@@ -151,6 +154,7 @@ export interface ReportMappingCollection {
    * @type {PagedResponseLinks}
    * @memberof ReportMappingCollection
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: PagedResponseLinks;
 }
 

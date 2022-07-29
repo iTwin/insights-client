@@ -5,7 +5,7 @@
 import * as path from "path";
 
 export class TestConstants {
-  public static TestDownloadDirectoryPath = path.join(__dirname, "../testDownloads");
-  public static PackagePrefix = "IModelsClientsTests";
-  public static TestDeviceName = "Test device";
+  public static testDownloadDirectoryPath = path.join(__dirname, "../testDownloads");
+  public static packagePrefix = "IModelsClientsTests";
+  public static testDeviceName = "Test device";
 }

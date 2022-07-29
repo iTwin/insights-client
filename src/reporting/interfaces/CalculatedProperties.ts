@@ -2,8 +2,8 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { Link, PagedResponseLinks } from "./Links";
-import { QuantityType } from "./GroupProperties";
+import type { Link, PagedResponseLinks } from "./Links";
+import type { QuantityType } from "./GroupProperties";
 
 /**
  * Defines a CalculatedProperty or 'column' for a Group. It is calculated for each element returned by the Group's query.
@@ -40,6 +40,7 @@ export interface CalculatedProperty {
    * @type {CalculatedPropertyLinks}
    * @memberof CalculatedProperty
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: CalculatedPropertyLinks;
 }
 
@@ -60,6 +61,7 @@ export interface CalculatedPropertyCollection {
    * @type {PagedResponseLinks}
    * @memberof CalculatedPropertyCollection
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: PagedResponseLinks;
 }
 
@@ -145,6 +147,7 @@ export interface CalculatedPropertyUpdate {
 }
 
 export enum CalculatedPropertyType {
+  // eslint-disable-next-line id-blacklist
   Undefined = "Undefined",
   Volume = "Volume",
   Length = "Length",

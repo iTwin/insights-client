@@ -3,7 +3,9 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
-import { TestAuthorizationProvider, TestIModelsClient, TestProjectProvider } from "../test-context-providers";
+import { TestAuthorizationProvider } from "../test-context-providers/auth/TestAuthorizationProvider";
+import { TestIModelsClient } from "../test-context-providers/imodel/TestIModelsClient";
+import { TestProjectProvider } from "../test-context-providers/project/TestProjectProvider";
 import { TestIModelGroup } from "./TestIModelGroup";
 
 @injectable()

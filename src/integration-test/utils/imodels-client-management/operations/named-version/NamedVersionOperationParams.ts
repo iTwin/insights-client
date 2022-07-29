@@ -2,7 +2,9 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { AtLeastOneProperty, CollectionRequestParams, IModelScopedOperationParams, NamedVersion, NamedVersionState, OrderBy } from "../../base";
+import type { CollectionRequestParams, IModelScopedOperationParams, OrderBy } from "../../base/interfaces/CommonInterfaces";
+import type { AtLeastOneProperty } from "../../base/interfaces/UtilityTypes";
+import type { NamedVersion, NamedVersionState } from "../../base/interfaces/apiEntities/NamedVersionInterfaces";
 
 /**
  * Named Versions entity properties that are supported in $orderBy url parameter which specifies by what property

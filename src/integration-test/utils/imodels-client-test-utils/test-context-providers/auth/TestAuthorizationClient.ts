@@ -2,9 +2,10 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { ParsedUrlQuery } from "querystring";
-import { URLSearchParams, parse } from "url";
-import axios, { AxiosResponse } from "axios";
+import type { ParsedUrlQuery } from "querystring";
+import { parse, URLSearchParams } from "url";
+import type { AxiosResponse } from "axios";
+import axios from "axios";
 import { inject, injectable } from "inversify";
 import * as puppeteer from "puppeteer";
 import { TestSetupError } from "../../CommonTestUtils";
@@ -17,6 +18,7 @@ export interface TestUserCredentials {
 }
 
 interface AccessTokenResponse {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   access_token: string;
 }
 
@@ -28,13 +30,13 @@ export class TestAuthorizationClient {
   private _pageElementIds = {
     fields: {
       email: "#identifierInput",
-      password: "#password"
+      password: "#password",
     },
     buttons: {
       next: "#sign-in-button",
       signIn: "#sign-in-button",
-      consent: ".ping.button.normal.allow"
-    }
+      consent: ".ping.button.normal.allow",
+    },
   };
 
   constructor(
@@ -47,8 +49,8 @@ export class TestAuthorizationClient {
       headless: true,
       defaultViewport: {
         width: 800,
-        height: 1200
-      }
+        height: 1200,
+      },
     };
     const browser: puppeteer.Browser = await puppeteer.launch(browserLaunchOptions);
     const browserPage: puppeteer.Page = await browser.newPage();
@@ -85,35 +87,38 @@ export class TestAuthorizationClient {
     const signInButton = await this.captureElement(browserPage, this._pageElementIds.buttons.signIn);
     await Promise.all([
       signInButton.click(),
-      browserPage.waitForNavigation({ waitUntil: this._pageLoadedEvent })
+      browserPage.waitForNavigation({ waitUntil: this._pageLoadedEvent }),
     ]);
   }
 
   private async consentIfNeeded(browserPage: puppeteer.Page): Promise<void> {
     const isConsentPage = await browserPage.title() === this._consentPageTitle;
-    if (!isConsentPage)
-      {return;}
+    if (!isConsentPage) {return;}
 
     const consentButton = await this.captureElement(browserPage, this._pageElementIds.buttons.consent);
     await Promise.all([
       consentButton.click(),
-      browserPage.waitForNavigation({ waitUntil: this._pageLoadedEvent })
+      browserPage.waitForNavigation({ waitUntil: this._pageLoadedEvent }),
     ]);
   }
 
   private async exchangeAuthorizationCodeForAccessToken(authorizationCode: string): Promise<string> {
     const requestUrl = `${this._authConfig.authority}/connect/token`;
     const requestBody = new URLSearchParams({
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       grant_type: "authorization_code",
       code: authorizationCode,
-      redirect_uri: this._authConfig.redirectUrl
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      redirect_uri: this._authConfig.redirectUrl,
     });
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const encodedClientCredentials = Buffer.from(`${encodeURIComponent(this._authConfig.clientId)}:${encodeURIComponent(this._authConfig.clientSecret)}`).toString("base64");
     const requestConfig = {
       headers: {
         "content-type": "application/x-www-form-urlencoded",
-        "Authorization": `Basic ${encodedClientCredentials}`
-      }
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "Authorization": `Basic ${encodedClientCredentials}`,
+      },
     };
 
     const response: AxiosResponse<AccessTokenResponse> = await axios.post(requestUrl, requestBody, requestConfig);
@@ -125,9 +130,7 @@ export class TestAuthorizationClient {
     return new Promise<string>((resolve) => {
       browserPage.on("request", async (interceptedRequest) => {
         const currentRequestUrl = interceptedRequest.url();
-        if (!currentRequestUrl.startsWith(this._authConfig.redirectUrl))
-          {await interceptedRequest.continue();}
-        else {
+        if (!currentRequestUrl.startsWith(this._authConfig.redirectUrl)) {await interceptedRequest.continue();} else {
           await this.respondSuccess(interceptedRequest);
           resolve(this.getCodeFromUrl(currentRequestUrl));
         }
@@ -139,11 +142,12 @@ export class TestAuthorizationClient {
     await request.respond({
       status: 200,
       contentType: "text/html",
-      body: "OK"
+      body: "OK",
     });
   }
 
   private getCodeFromUrl(redirectUrl: string): string {
+    // eslint-disable-next-line deprecation/deprecation
     const urlQuery: ParsedUrlQuery = parse(redirectUrl, true).query;
     if (!urlQuery.code)
       throw new TestSetupError("Sign in failed: could not parse code from url.");

@@ -28,7 +28,7 @@ export class TestProjectProvider {
     const authorization = this._testAuthorizationProvider.getAdmin1AuthorizationForProjects();
     this._projectId = await this._projectsClient.getOrCreateProject({
       authorization,
-      projectName: this._testProjectProviderConfig.testProjectName
+      projectName: this._testProjectProviderConfig.testProjectName,
     });
     return this._projectId;
   }

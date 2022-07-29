@@ -2,11 +2,12 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import * as chaiAsPromised from "chai-as-promised"
+import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
-import { testIModel, testIModelGroup, accessToken, projectId } from "../utils";
-import { MappingCreate, MappingsClient, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../../reporting";
+import { accessToken, projectId, testIModel, testIModelGroup } from "../utils";
+import type { MappingCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../../reporting";
+import { MappingsClient, ReportsClient } from "../../reporting";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {
@@ -18,10 +19,10 @@ describe("Reports Client", () => {
   const reportMappingIds: Array<string> = [];
 
   before(async function () {
-    //create mappings for tests
+    // create mappings for tests
     const newMapping: MappingCreate = {
-      mappingName: "Test1"
-    }
+      mappingName: "Test1",
+    };
     let mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
     expect(mapping).to.not.be.undefined;
     mappingIds.push(mapping.id);
@@ -36,11 +37,11 @@ describe("Reports Client", () => {
     expect(mapping).to.not.be.undefined;
     mappingIds.push(mapping.id);
 
-    //create reports for tests
+    // create reports for tests
     const newReport: ReportCreate = {
       displayName: "Test1",
-      projectId: projectId
-    }
+      projectId,
+    };
     let report = await reportsClient.createReport(accessToken, newReport);
     expect(report).to.not.be.undefined;
     expect(report.displayName).to.not.be.undefined;
@@ -58,10 +59,10 @@ describe("Reports Client", () => {
     expect(report.displayName).to.not.be.undefined;
     reportIds.push(report.id);
 
-    //create reportMappings for tests
+    // create reportMappings for tests
     const newReportMapping: ReportMappingCreate = {
       mappingId: mappingIds[mappingIds.length-3],
-      imodelId: testIModel.id
+      imodelId: testIModel.id,
     };
     let reportMapping = await reportsClient.createReportMapping(accessToken, reportIds[reportIds.length-1], newReportMapping);
     expect(reportMapping).to.not.be.undefined;
@@ -94,13 +95,13 @@ describe("Reports Client", () => {
     await testIModelGroup.cleanupIModels();
   });
 
-  //reports tests
+  // reports tests
 
   it("Reports - Create and delete", async function () {
     const newReport: ReportCreate = {
       displayName: "Test",
-      projectId: projectId
-    }
+      projectId,
+    };
     const report = await reportsClient.createReport(accessToken, newReport);
     expect(report).to.not.be.undefined;
     expect(report.displayName).to.not.be.undefined;
@@ -117,12 +118,12 @@ describe("Reports Client", () => {
 
   it("Reports - Update", async function () {
     const reportUpdate: ReportUpdate = {
-      displayName: "Updated"
-    }
+      displayName: "Updated",
+    };
     const report = await reportsClient.updateReport(accessToken, reportIds[reportIds.length - 1], reportUpdate);
     expect(report).to.not.be.undefined;
     expect(report.displayName).to.not.be.undefined;
-    expect(report.displayName).to.be.eq("Updated")
+    expect(report.displayName).to.be.eq("Updated");
   });
 
   it("Reports - Get all non deleted", async function () {
@@ -160,19 +161,19 @@ describe("Reports Client", () => {
     expect(elementCount).to.not.be.eq(0);
   });
 
-  //report mapping tests
+  // report mapping tests
 
-  it("Report mappings - Create and delete", async function() {
+  it("Report mappings - Create and delete", async function () {
     const newMapping: MappingCreate = {
-      mappingName: "Test"
-    }
+      mappingName: "Test",
+    };
     const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
     expect(mapping).to.not.be.undefined;
     mappingIds.push(mapping.id);
 
     const newReportMapping: ReportMappingCreate = {
       mappingId: mappingIds[mappingIds.length - 1],
-      imodelId: testIModel.id
+      imodelId: testIModel.id,
     };
     const reportMapping = await reportsClient.createReportMapping(accessToken, reportIds[reportIds.length - 1], newReportMapping);
     expect(reportMapping).to.not.be.undefined;
@@ -184,7 +185,7 @@ describe("Reports Client", () => {
     expect(response.status).to.be.eq(204);
     response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop() ?? "");
     expect(response.status).to.be.eq(204);
-  })
+  });
 
   it("Report mappings - Get all", async function () {
     const reportMappings: Array<ReportMapping> = await reportsClient.getReportMappings(accessToken, reportIds[reportIds.length - 1]);

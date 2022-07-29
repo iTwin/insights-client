@@ -2,9 +2,10 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import axios, { AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
+import axios from "axios";
 import { inject, injectable } from "inversify";
-import { AuthorizationParam } from "../../../imodels-client-authoring/IModelsClientExports";
+import type { AuthorizationParam } from "../../../imodels-client-management/base/interfaces/CommonInterfaces";
 import { ProjectsClientConfig } from "./ProjectsClientConfig";
 
 interface Project {
@@ -30,19 +31,19 @@ export class ProjectsClient {
     const authorizationInfo = await params.authorization();
     const requestConfig = {
       headers: {
-        Authorization: `${authorizationInfo.scheme} ${authorizationInfo.token}`
-      }
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        Authorization: `${authorizationInfo.scheme} ${authorizationInfo.token}`,
+      },
     };
 
     const getProjectsWithNameUrl = `${this._config.baseUrl}?displayName=${params.projectName}`;
     const getProjectsWithNameResponse: AxiosResponse<ProjectsResponse> = await axios.get(getProjectsWithNameUrl, requestConfig);
-    if (getProjectsWithNameResponse.data.projects.length > 0)
-      {return getProjectsWithNameResponse.data.projects[0].id;}
+    if (getProjectsWithNameResponse.data.projects.length > 0) {return getProjectsWithNameResponse.data.projects[0].id;}
 
     const createProjectUrl = this._config.baseUrl;
     const createProjectBody = {
       displayName: params.projectName,
-      projectNumber: `${params.projectName} ${new Date()}`
+      projectNumber: `${params.projectName} ${new Date()}`,
     };
     const createProjectResponse: AxiosResponse<ProjectResponse> = await axios.post(createProjectUrl, createProjectBody, requestConfig);
     return createProjectResponse.data.project.id;

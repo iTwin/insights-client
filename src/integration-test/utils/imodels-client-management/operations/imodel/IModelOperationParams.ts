@@ -2,7 +2,9 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { AtLeastOneProperty, AuthorizationParam, CollectionRequestParams, Extent, IModel, IModelScopedOperationParams, OrderBy } from "../../base";
+import type { AuthorizationParam, CollectionRequestParams, IModelScopedOperationParams, OrderBy } from "../../base/interfaces/CommonInterfaces";
+import type { AtLeastOneProperty } from "../../base/interfaces/UtilityTypes";
+import type { Extent, IModel } from "../../base/interfaces/apiEntities/IModelInterfaces";
 
 /**
  * iModel entity properties that are supported in $orderBy url parameter which specifies by what property

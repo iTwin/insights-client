@@ -3,15 +3,16 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { decorate, inject, injectable } from "inversify";
-import { IModelsClient, IModelsClientOptions } from "../../../imodels-client-authoring/IModelsClientExports";
-import { TestUtilTypes } from "../../TestUtilTypes";
+import type { IModelsClientOptions } from "../../../imodels-client-authoring/IModelsClientExports";
+import { IModelsClient } from "../../../imodels-client-authoring/IModelsClient";
+import { testUtilTypes } from "../../TestUtilTypes";
 
 decorate(injectable(), IModelsClient);
 
 @injectable()
 export class TestIModelsClient extends IModelsClient {
   constructor(
-    @inject(TestUtilTypes.IModelsClientOptions)
+  @inject(testUtilTypes.iModelsClientOptions)
     options: IModelsClientOptions
   ) {
     super(options);

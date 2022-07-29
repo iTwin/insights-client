@@ -3,8 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 
-import { IModelScopedOperationParams } from "../../../imodels-client-management/base";
-
+import type { IModelScopedOperationParams } from "../../../imodels-client-management/base/interfaces/CommonInterfaces";
 
 /** Properties that should be specified when acquiring a new Briefcase. */
 export interface BriefcaseProperties {

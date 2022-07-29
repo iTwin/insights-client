@@ -106,6 +106,7 @@ export interface CollectionLinks {
 /** Common properties of all entity list page responses. */
 export interface CollectionResponse {
   /** Common entity list page response links. See {@link CollectionLinks}. */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: CollectionLinks;
 }
 

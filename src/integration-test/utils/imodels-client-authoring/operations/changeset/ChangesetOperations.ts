@@ -2,9 +2,11 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { Changeset, ChangesetResponse, ChangesetState, ChangesetOperations as ManagementChangesetOperations } from "../../../imodels-client-management/IModelsClientExports";
-import { OperationOptions } from "../OperationOptions";
-import { ChangesetPropertiesForCreate, CreateChangesetParams } from "./ChangesetOperationParams";
+import type { Changeset, ChangesetResponse} from "../../../imodels-client-management/IModelsClientExports";
+import { ChangesetState } from "../../../imodels-client-management/base/interfaces/apiEntities/ChangesetInterfaces";
+import { ChangesetOperations as ManagementChangesetOperations } from "../../../imodels-client-management/operations/changeset/ChangesetOperations";
+import type { OperationOptions } from "../OperationOptions";
+import type { ChangesetPropertiesForCreate, CreateChangesetParams } from "./ChangesetOperationParams";
 
 export class ChangesetOperations<TOptions extends OperationOptions> extends ManagementChangesetOperations<TOptions>{
   /**
@@ -20,7 +22,7 @@ export class ChangesetOperations<TOptions extends OperationOptions> extends Mana
     const createChangesetResponse = await this.sendPostRequest<ChangesetResponse>({
       authorization: params.authorization,
       url: this._options.urlFormatter.getChangesetListUrl({ iModelId: params.iModelId }),
-      body: createChangesetBody
+      body: createChangesetBody,
     });
 
     const uploadUrl = createChangesetResponse.changeset._links.upload.href;
@@ -29,8 +31,9 @@ export class ChangesetOperations<TOptions extends OperationOptions> extends Mana
     const confirmUploadBody = this.getConfirmUploadRequestBody(params.changesetProperties);
     const confirmUploadResponse = await this.sendPatchRequest<ChangesetResponse>({
       authorization: params.authorization,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       url: createChangesetResponse.changeset._links.complete.href,
-      body: confirmUploadBody
+      body: confirmUploadBody,
     });
 
     return confirmUploadResponse.changeset;
@@ -44,14 +47,14 @@ export class ChangesetOperations<TOptions extends OperationOptions> extends Mana
       briefcaseId: changesetProperties.briefcaseId,
       containingChanges: changesetProperties.containingChanges,
       fileSize: this._options.fileHandler.getFileSize(changesetProperties.filePath),
-      synchronizationInfo: changesetProperties.synchronizationInfo
+      synchronizationInfo: changesetProperties.synchronizationInfo,
     };
   }
 
   private getConfirmUploadRequestBody(changesetProperties: ChangesetPropertiesForCreate): Record<string, unknown> {
     return {
       state: ChangesetState.FileUploaded,
-      briefcaseId: changesetProperties.briefcaseId
+      briefcaseId: changesetProperties.briefcaseId,
     };
   }
 

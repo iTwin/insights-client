@@ -2,9 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { AccessToken } from "@itwin/core-bentley";
-import { ODataResponse, ODataItem, ODataEntityValue, ODataEntityResponse } from "../interfaces/OData";
-import { EntityListIterator } from "../iterators/EntityListIterator";
+import type { AccessToken } from "@itwin/core-bentley";
+import type { ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse } from "../interfaces/OData";
+import type { EntityListIterator } from "../iterators/EntityListIterator";
 
 export interface IOdataClient{
   /**
@@ -17,8 +17,8 @@ export interface IOdataClient{
   getODataReport(
     accessToken: AccessToken,
     reportId: string
-  ): Promise<ODataResponse>,
-  
+  ): Promise<ODataResponse>;
+
   /**
    * Lists the specified page of raw table data for a Report Entity.
    * @param {string} reportId The Report Id.
@@ -27,12 +27,12 @@ export interface IOdataClient{
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/odata-entity/
    */
-   getODataReportEntityPage(
+  getODataReportEntityPage(
     accessToken: AccessToken,
     reportId: string,
     odataItem: ODataItem,
     sequence: number
-  ): Promise<ODataEntityResponse>,
+  ): Promise<ODataEntityResponse>;
 
   /**
    * Lists the raw table data for a Report Entity. This method returns the full list of OData report entities.
@@ -46,7 +46,7 @@ export interface IOdataClient{
     accessToken: AccessToken,
     reportId: string,
     odataItem: ODataItem
-  ): Promise<Array<ODataEntityValue>>,
+  ): Promise<Array<ODataEntityValue>>;
 
   /**
    * Gets an async iterator for the raw table data for a Report Entity.
@@ -57,11 +57,11 @@ export interface IOdataClient{
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/odata-entity/
    */
-   getODataReportEntitiesIterator(
+  getODataReportEntitiesIterator(
     accessToken: AccessToken,
     reportId: string,
     odataItem: ODataItem
-  ): EntityListIterator<ODataEntityValue>,
+  ): EntityListIterator<ODataEntityValue>;
 
   /**
    * Lists schemas for all Entities tied to a Report.
@@ -73,5 +73,5 @@ export interface IOdataClient{
   getODataReportMetadata(
     accessToken: AccessToken,
     reportId: string
-  ): Promise<Response>
+  ): Promise<Response>;
 }

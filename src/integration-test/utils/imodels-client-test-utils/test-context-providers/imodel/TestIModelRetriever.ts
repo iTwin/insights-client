@@ -4,13 +4,18 @@
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
 import { toArray } from "../../../../../reporting/iterators/IteratorUtil";
-import { GetBriefcaseListParams, GetLockListParams, GetNamedVersionListParams, IModel, Lock, NamedVersion } from "../../../imodels-client-authoring/IModelsClientExports";
+import type { Lock } from "../../../imodels-client-authoring/base/interfaces/apiEntities/LockInterfaces";
+import type { GetLockListParams } from "../../../imodels-client-authoring/operations/lock/LockOperationParams";
+import type { IModel } from "../../../imodels-client-management/base/interfaces/apiEntities/IModelInterfaces";
+import type { NamedVersion } from "../../../imodels-client-management/base/interfaces/apiEntities/NamedVersionInterfaces";
+import type { GetBriefcaseListParams } from "../../../imodels-client-management/operations/briefcase/BriefcaseOperationParams";
+import type { GetNamedVersionListParams } from "../../../imodels-client-management/operations/named-version/NamedVersionOperationParams";
 import { TestSetupError } from "../../CommonTestUtils";
 import { TestAuthorizationProvider } from "../auth/TestAuthorizationProvider";
 import { TestProjectProvider } from "../project/TestProjectProvider";
 import { TestIModelCreator } from "./TestIModelCreator";
 import { TestIModelFileProvider } from "./TestIModelFileProvider";
-import { BriefcaseMetadata, NamedVersionMetadata, ReusableIModelMetadata } from "./TestIModelInterfaces";
+import type { BriefcaseMetadata, NamedVersionMetadata, ReusableIModelMetadata } from "./TestIModelInterfaces";
 import { TestIModelsClient } from "./TestIModelsClient";
 
 @injectable()
@@ -32,8 +37,8 @@ export class TestIModelRetriever {
       authorization: this._testAuthorizationProvider.getAdmin1Authorization(),
       urlParams: {
         projectId,
-        name: iModelName
-      }
+        name: iModelName,
+      },
     });
     const iModels = await toArray(iModelIterator);
     return iModels.length === 0
@@ -52,14 +57,14 @@ export class TestIModelRetriever {
       description: iModel.description ?? "",
       briefcase,
       namedVersions,
-      lock
+      lock,
     };
   }
 
   private async queryAndValidateBriefcase(iModelId: string): Promise<BriefcaseMetadata> {
     const getBriefcaseListParams: GetBriefcaseListParams = {
       authorization: this._testAuthorizationProvider.getAdmin1Authorization(),
-      iModelId
+      iModelId,
     };
     const briefcases = await toArray(this._iModelsClient.briefcases.getRepresentationList(getBriefcaseListParams));
     if (briefcases.length !== 1)
@@ -71,7 +76,7 @@ export class TestIModelRetriever {
   private async queryAndValidateNamedVersions(iModelId: string): Promise<NamedVersionMetadata[]> {
     const getNamedVersionListParams: GetNamedVersionListParams = {
       authorization: this._testAuthorizationProvider.getAdmin1Authorization(),
-      iModelId
+      iModelId,
     };
     const namedVersions: NamedVersion[] = await toArray(this._iModelsClient.namedVersions.getRepresentationList(getNamedVersionListParams));
     if (namedVersions.length !== TestIModelCreator.namedVersions.length)
@@ -103,7 +108,7 @@ export class TestIModelRetriever {
   private async queryAndValidateLock(iModelId: string): Promise<Lock> {
     const getLockListParams: GetLockListParams = {
       authorization: this._testAuthorizationProvider.getAdmin1Authorization(),
-      iModelId
+      iModelId,
     };
     const locks: Lock[] = await toArray(this._iModelsClient.locks.getList(getLockListParams));
     if (locks.length !== 1)

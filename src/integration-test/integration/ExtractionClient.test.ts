@@ -2,11 +2,12 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import * as chaiAsPromised from "chai-as-promised"
+import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, MappingCreate, MappingsClient } from "../../reporting";
+import type { ExtractionLog, ExtractionRun, ExtractionStatus, MappingCreate} from "../../reporting";
+import { ExtractionClient, MappingsClient } from "../../reporting";
 import "reflect-metadata";
-import {testIModel, testIModelGroup, accessToken } from "../utils";
+import {accessToken, testIModel, testIModelGroup } from "../utils";
 use(chaiAsPromised);
 
 describe("Extraction Client", () => {
@@ -19,7 +20,7 @@ describe("Extraction Client", () => {
   before( async function () {
     const newMap: MappingCreate = {
       mappingName: "Test",
-    }
+    };
     const map = await mappingsClient.createMapping(accessToken, testIModel.id, newMap);
     mappingId = map.id;
 
@@ -33,7 +34,7 @@ describe("Extraction Client", () => {
     await testIModelGroup.cleanupIModels();
   });
 
-  //run tests
+  // run tests
 
   it("run extraction", async function () {
     const extraction: ExtractionRun = await extractionClient.runExtraction(accessToken, testIModel.id);

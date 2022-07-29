@@ -2,13 +2,14 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { AccessToken } from "@itwin/core-bentley";
-import { EntityListIterator } from "../iterators/EntityListIterator";
+import type { AccessToken } from "@itwin/core-bentley";
+import type { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
-import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
+import type { Collection} from "../iterators/IteratorUtil";
+import { getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { OperationsBase } from "../OperationsBase";
-import { ExtractionLog, ExtractionLogCollection, ExtractionRun, ExtractionRunSingle, ExtractionStatus, ExtractionStatusSingle } from "../interfaces/ExtractionProcess";
-import { IExtractionClient } from "./IExtractionClient";
+import type { ExtractionLog, ExtractionLogCollection, ExtractionRun, ExtractionRunSingle, ExtractionStatus, ExtractionStatusSingle } from "../interfaces/ExtractionProcess";
+import type { IExtractionClient } from "./IExtractionClient";
 import { RequiredError } from "../interfaces/Errors";
 
 export class ExtractionClient extends OperationsBase implements IExtractionClient {
@@ -24,22 +25,23 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
   public getExtractionLogsIterator(accessToken: AccessToken, jobId: string, top?: number): EntityListIterator<ExtractionLog> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
-        'top',
-        'Parameter top was outside of the valid range [1-1000] when calling getExtractionLogsIterator.'
-      )
+        "top",
+        "Parameter top was outside of the valid range [1-1000] when calling getExtractionLogsIterator."
+      );
     }
     let url = `${this.basePath}/datasources/extraction/status/${encodeURIComponent(jobId)}/logs`;
     url += top ? `/?%24top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ExtractionLog>(
       url,
-      async (url: string): Promise<Collection<ExtractionLog>> => {
-        const response: ExtractionLogCollection = await this.fetchJSON(url, request);
+      async (nextUrl: string): Promise<Collection<ExtractionLog>> => {
+        const response: ExtractionLogCollection = await this.fetchJSON(nextUrl, request);
         return {
           values: response.logs,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           _links: response._links,
-        }
-    }));
+        };
+      }));
   }
 
   public async runExtraction(accessToken: AccessToken, iModelId: string): Promise<ExtractionRun> {

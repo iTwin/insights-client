@@ -2,18 +2,19 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import * as chaiAsPromised from "chai-as-promised"
+import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { ExtractionClient, ExtractionStatus, ExtractorState, GroupCreate, MappingCreate, MappingsClient, ODataClient, ODataItem, ReportCreate, ReportMappingCreate, ReportsClient } from "../../reporting";
+import type { ExtractionStatus, GroupCreate, MappingCreate, ODataItem, ReportCreate, ReportMappingCreate} from "../../reporting";
+import { ExtractionClient, ExtractorState, MappingsClient, ODataClient, ReportsClient } from "../../reporting";
 import "reflect-metadata";
-import { sleep, testIModel, testIModelGroup, accessToken, projectId } from "../utils";
+import { accessToken, projectId, sleep, testIModel, testIModelGroup } from "../utils";
 use(chaiAsPromised);
 
 describe("OData Client", () => {
   const oDataClient: ODataClient = new ODataClient();
   const reportsClient: ReportsClient = new ReportsClient();
   const mappingsClient: MappingsClient = new MappingsClient();
-  const extractionClient: ExtractionClient = new ExtractionClient(); 
+  const extractionClient: ExtractionClient = new ExtractionClient();
 
   let reportId: string;
   let oDataItem: ODataItem;
@@ -21,7 +22,7 @@ describe("OData Client", () => {
 
   before(async function () {
     const newMapping: MappingCreate = {
-      mappingName: "Test"
+      mappingName: "Test",
     };
     const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
     expect(mapping).to.not.be.undefined;
@@ -29,15 +30,15 @@ describe("OData Client", () => {
 
     const newGroup: GroupCreate = {
       groupName: "Test",
-      query: "select * from biscore.element limit 10"
-    }
+      query: "select * from biscore.element limit 10",
+    };
     const group = await mappingsClient.createGroup(accessToken, testIModel.id, mapping.id, newGroup);
     expect(group).to.not.be.undefined;
 
     const newReport: ReportCreate = {
       displayName: "Test",
-      projectId: projectId
-    }
+      projectId,
+    };
     const report = await reportsClient.createReport(accessToken, newReport);
     expect(report).to.not.be.undefined;
     deletionTracker.push(report.id);
@@ -46,7 +47,7 @@ describe("OData Client", () => {
     const newReportMapping: ReportMappingCreate = {
       mappingId: mapping.id,
       imodelId: testIModel.id,
-    }
+    };
     const reportMapping = await reportsClient.createReportMapping(accessToken, report.id, newReportMapping);
     expect(reportMapping).to.not.be.undefined;
     deletionTracker.push(reportMapping.mappingId);
@@ -82,27 +83,27 @@ describe("OData Client", () => {
     if(++i < deletionTracker.length) {
       await reportsClient.deleteReportMapping(accessToken, deletionTracker[i - 1], deletionTracker[i]);
     }
-    
+
     await testIModelGroup.cleanupIModels();
   });
 
-  it("get OData report", async function() {
+  it("get OData report", async function () {
     const oDataResponse = await oDataClient.getODataReport(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
     expect(oDataResponse["@odata.context"]).to.not.be.undefined;
   });
 
-  it("get OData report metadata", async function() {
+  it("get OData report metadata", async function () {
     const oDataResponse = await oDataClient.getODataReportMetadata(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
-    expect(oDataResponse.status).to.not.be.undefined
+    expect(oDataResponse.status).to.not.be.undefined;
   });
 
-  it("throw OData report metadata", async function() {
+  it("throw OData report metadata", async function () {
     await expect(oDataClient.getODataReportMetadata(accessToken, "-")).to.be.rejected;
   });
 
-  it("get OData report entity", async function() {
+  it("get OData report entity", async function () {
     const oDataEntity = await oDataClient.getODataReportEntities(accessToken, reportId, oDataItem);
     expect(oDataEntity).to.not.be.undefined;
     expect(oDataEntity).to.not.be.empty;

@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { Link, PagedResponseLinks } from "./Links";
+import type { Link, PagedResponseLinks } from "./Links";
 
 /**
  * Contains contextual hyperlinks to related data.
@@ -23,7 +23,7 @@ export interface ExtractionStatusLinks {
  * @export
  * @interface ExtractionRunLinks
  */
- export interface ExtractionRunLinks {
+export interface ExtractionRunLinks {
   /**
    *
    * @type {Link}
@@ -117,6 +117,7 @@ export interface ExtractionLogCollection {
    * @type {PagedResponseLinks}
    * @memberof ExtractionLogCollection
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: PagedResponseLinks;
 }
 
@@ -147,10 +148,11 @@ export interface ExtractionRun {
    */
   id: string;
   /**
-   * 
+   *
    * @type {ExtractionRunLinks}
    * @memberof ExtractionRun
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: ExtractionRunLinks;
 }
 
@@ -193,10 +195,11 @@ export interface ExtractionStatus {
    */
   containsIssues: boolean;
   /**
-   * 
+   *
    * @type {ExtractionLinks}
    * @memberof ExtractionStatus
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: ExtractionStatusLinks;
 }
 

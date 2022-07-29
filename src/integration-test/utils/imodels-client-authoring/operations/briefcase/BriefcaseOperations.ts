@@ -2,10 +2,10 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { Briefcase, BriefcaseResponse } from "../../../imodels-client-management/base";
-import { BriefcaseOperations as ManagementBriefcaseOperations } from "../../../imodels-client-management/IModelsClientExports"
-import { OperationOptions } from "../OperationOptions";
-import { AcquireBriefcaseParams, BriefcaseProperties } from "./BriefcaseOperationParams";
+import type { Briefcase, BriefcaseResponse } from "../../../imodels-client-management/base/interfaces/apiEntities/BriefcaseInterfaces";
+import { BriefcaseOperations as ManagementBriefcaseOperations } from "../../../imodels-client-management/operations/briefcase/BriefcaseOperations";
+import type { OperationOptions } from "../OperationOptions";
+import type { AcquireBriefcaseParams, BriefcaseProperties } from "./BriefcaseOperationParams";
 
 export class BriefcaseOperations<TOptions extends OperationOptions> extends ManagementBriefcaseOperations<TOptions> {
   /**
@@ -20,17 +20,16 @@ export class BriefcaseOperations<TOptions extends OperationOptions> extends Mana
     const acquireBriefcaseResponse = await this.sendPostRequest<BriefcaseResponse>({
       authorization: params.authorization,
       url: this._options.urlFormatter.getBriefcaseListUrl({ iModelId: params.iModelId }),
-      body: acquireBriefcaseBody
+      body: acquireBriefcaseBody,
     });
     return acquireBriefcaseResponse.briefcase;
   }
 
   private getAcquireBriefcaseRequestBody(briefcaseProperties: BriefcaseProperties | undefined): Record<string, unknown> | undefined {
-    if (!briefcaseProperties)
-      {return undefined;}
+    if (!briefcaseProperties) {return undefined;}
 
     return {
-      deviceName: briefcaseProperties.deviceName
+      deviceName: briefcaseProperties.deviceName,
     };
   }
 }

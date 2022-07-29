@@ -3,5 +3,5 @@
   "require": "ts-node/register",
   "ui": "bdd",
   "reporter": "./node_modules/@itwin/build-tools/mocha-reporter",
-  "reporter-options": "mochaFile=test/junit_results.xml"
+  "reporter-options": "mochaFile=test-results/junit_results.xml"
 }

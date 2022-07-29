@@ -2,10 +2,11 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { PagedResponseLinks } from "../interfaces/Links";
+import type { PagedResponseLinks } from "../interfaces/Links";
 
 export interface Collection<TEntity> {
   values: Array<TEntity>;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: PagedResponseLinks;
 }
 
@@ -31,10 +32,11 @@ export async function getEntityCollectionPage<TEntity>(
   getNextBatch: (url: string) => Promise<Collection<TEntity>>
 ): Promise<EntityCollectionPage<TEntity>> {
   const response: Collection<TEntity> = await getNextBatch(nextUrl);
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const nextLink = response._links.next;
   return {
     entities: response.values,
-    next: nextLink ? async () => getEntityCollectionPage<TEntity>(nextLink.href, getNextBatch) : undefined
+    next: nextLink ? async () => getEntityCollectionPage<TEntity>(nextLink.href, getNextBatch) : undefined,
   };
 }
 
@@ -43,7 +45,7 @@ export async function getEntityCollectionPage<TEntity>(
  * @param {AsyncIterableIterator<TEntity>} iterator entity iterator.
  * @returns {Promise<TEntity[]>} entity array.
  */
- export async function toArray<TEntity>(iterator: AsyncIterableIterator<TEntity>): Promise<TEntity[]> {
+export async function toArray<TEntity>(iterator: AsyncIterableIterator<TEntity>): Promise<TEntity[]> {
   const result: TEntity[] = [];
   for await (const entity of iterator) {
     result.push(entity);

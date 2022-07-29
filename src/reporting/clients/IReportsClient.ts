@@ -2,9 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { AccessToken } from "@itwin/core-bentley";
-import { Report, ReportCreate, ReportUpdate, ReportMapping, ReportMappingCreate } from "../interfaces/Reports";
-import { EntityListIterator } from "../iterators/EntityListIterator";
+import type { AccessToken } from "@itwin/core-bentley";
+import type { Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../interfaces/Reports";
+import type { EntityListIterator } from "../iterators/EntityListIterator";
 
 export interface IReportsClient{
   /**
@@ -17,12 +17,12 @@ export interface IReportsClient{
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
   getReports(
-    accessToken: AccessToken, 
-    projectId: string, 
+    accessToken: AccessToken,
+    projectId: string,
     deleted: boolean,
     top?: number
-  ): Promise<Report[]>,
-  
+  ): Promise<Report[]>;
+
   /**
    * Gets an async paged iterator for Reports within the context of a Project.
    * This method returns an iterator which loads pages of reports as it is being iterated over.
@@ -34,12 +34,12 @@ export interface IReportsClient{
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
   getReportsIterator(
-    accessToken: AccessToken, 
+    accessToken: AccessToken,
     projectId: string,
     deleted: boolean,
     top?: number
-  ): EntityListIterator<Report>,
-  
+  ): EntityListIterator<Report>;
+
   /**
    * Gets a single Report.
    * @param {string} reportId The Report Id.
@@ -50,8 +50,8 @@ export interface IReportsClient{
   getReport(
     accessToken: AccessToken,
     reportId: string
-  ): Promise<Report>,
-  
+  ): Promise<Report>;
+
   /**
    * Creates a Report within the context of a Project.
    * @param {string} accessToken OAuth access token with scope `insights:modify`
@@ -62,8 +62,8 @@ export interface IReportsClient{
   createReport(
     accessToken: AccessToken,
     report: ReportCreate
-  ): Promise<Report>,
-  
+  ): Promise<Report>;
+
   /**
    * Updates a Report.
    * @param {string} reportId Id of the Report to be updated.
@@ -76,8 +76,8 @@ export interface IReportsClient{
     accessToken: AccessToken,
     reportId: string,
     report: ReportUpdate
-  ): Promise<Report>,
-  
+  ): Promise<Report>;
+
   /**
    * Marks a Report for deletetion.
    * @param {string} reportId Id of the Report to be deleted.
@@ -88,8 +88,8 @@ export interface IReportsClient{
   deleteReport(
     accessToken: AccessToken,
     reportId: string
-  ): Promise<Response>,
-  
+  ): Promise<Response>;
+
   /**
    * Gets all Report Mappings for a Report. This method returns the full list of report mappings.
    * @param {string} reportId The Report Id.
@@ -102,8 +102,8 @@ export interface IReportsClient{
     accessToken: AccessToken,
     reportId: string,
     top?: number
-  ): Promise<ReportMapping[]>,
-  
+  ): Promise<ReportMapping[]>;
+
   /**
    * Gets an async paged iterator of Report Mappings for a Report.
    * This method returns an iterator which loads pages of report mappings as it is being iterated over.
@@ -117,8 +117,8 @@ export interface IReportsClient{
     accessToken: AccessToken,
     reportId: string,
     top?: number
-  ): EntityListIterator<ReportMapping>,
-  
+  ): EntityListIterator<ReportMapping>;
+
   /**
    * Creates a Report Mapping.
    * @param {string} reportId The Report Id.
@@ -131,8 +131,8 @@ export interface IReportsClient{
     accessToken: AccessToken,
     reportId: string,
     reportMapping: ReportMappingCreate
-  ): Promise<ReportMapping>,
-  
+  ): Promise<ReportMapping>;
+
   /**
    * Deletes a Report Mapping from a Report.
    * @param {string} reportId The Report Id.
@@ -145,5 +145,5 @@ export interface IReportsClient{
     accessToken: AccessToken,
     reportId: string,
     reportMappingId: string
-  ): Promise<Response>
+  ): Promise<Response>;
 }

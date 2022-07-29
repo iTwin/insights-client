@@ -3,15 +3,15 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
-import { BaseIntegrationTestsConfig } from "../../BaseIntegrationTestsConfig";
-import { TestUtilTypes } from "../../TestUtilTypes";
+import type { BaseIntegrationTestsConfig } from "../../BaseIntegrationTestsConfig";
+import { testUtilTypes } from "../../TestUtilTypes";
 
 @injectable()
 export class ProjectsClientConfig {
   public baseUrl: string;
 
   constructor(
-    @inject(TestUtilTypes.BaseIntegrationTestsConfig)
+  @inject(testUtilTypes.baseIntegrationTestsConfig)
     config: BaseIntegrationTestsConfig
   ) {
     this.baseUrl = config.apis.projects.baseUrl;

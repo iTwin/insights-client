@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import * as fs from "fs";
 import { injectable } from "inversify";
-import { SynchronizationInfoForCreate } from "../../../imodels-client-authoring/IModelsClientExports";
+import type { SynchronizationInfoForCreate } from "../../../imodels-client-authoring/operations/changeset/ChangesetOperationParams";
 import { TestSetupError } from "../../CommonTestUtils";
 
 export interface TestIModelBaselineFile {

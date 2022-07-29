@@ -2,9 +2,10 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios from "axios";
 import { IModelsErrorParser } from "../IModelsErrorParser";
-import { HttpRequestParams, HttpRequestWithBodyParams, ParseErrorFunc, RestClient } from "./RestClient";
+import type { HttpRequestParams, HttpRequestWithBodyParams, ParseErrorFunc, RestClient } from "./RestClient";
 
 /** Default implementation for {@link RestClient} interface that uses `axios` library for sending the requests. */
 export class AxiosRestClient implements RestClient {
@@ -16,7 +17,7 @@ export class AxiosRestClient implements RestClient {
 
   public async sendGetRequest<TResponse>(params: HttpRequestParams): Promise<TResponse> {
     const requestConfig: AxiosRequestConfig = {
-      headers: params.headers
+      headers: params.headers,
     };
 
     return axios.get(params.url, requestConfig)
@@ -26,7 +27,7 @@ export class AxiosRestClient implements RestClient {
 
   public async sendPostRequest<TResponse>(params: HttpRequestWithBodyParams): Promise<TResponse> {
     const requestConfig: AxiosRequestConfig = {
-      headers: params.headers
+      headers: params.headers,
     };
 
     return axios.post(params.url, params.body ?? {}, requestConfig)
@@ -36,7 +37,7 @@ export class AxiosRestClient implements RestClient {
 
   public async sendPatchRequest<TResponse>(params: HttpRequestWithBodyParams): Promise<TResponse> {
     const requestConfig: AxiosRequestConfig = {
-      headers: params.headers
+      headers: params.headers,
     };
 
     return axios.patch(params.url, params.body ?? {}, requestConfig)
@@ -46,7 +47,7 @@ export class AxiosRestClient implements RestClient {
 
   public async sendDeleteRequest<TResponse>(params: HttpRequestParams): Promise<TResponse> {
     const requestConfig: AxiosRequestConfig = {
-      headers: params.headers
+      headers: params.headers,
     };
 
     return axios.delete(params.url, requestConfig)

@@ -3,8 +3,8 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
-import { BaseIntegrationTestsConfig, BehaviorOptions } from "../../BaseIntegrationTestsConfig";
-import { TestUtilTypes } from "../../TestUtilTypes";
+import type { BaseIntegrationTestsConfig, BehaviorOptions } from "../../BaseIntegrationTestsConfig";
+import { testUtilTypes } from "../../TestUtilTypes";
 
 @injectable()
 export class ReusableTestIModelProviderConfig {
@@ -12,7 +12,7 @@ export class ReusableTestIModelProviderConfig {
   public behaviorOptions: Pick<BehaviorOptions, "recreateReusableIModel">;
 
   constructor(
-    @inject(TestUtilTypes.BaseIntegrationTestsConfig)
+  @inject(testUtilTypes.baseIntegrationTestsConfig)
     config: BaseIntegrationTestsConfig
   ) {
     this.testIModelName = config.testIModelName;

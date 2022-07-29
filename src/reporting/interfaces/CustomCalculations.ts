@@ -2,9 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { CalculatedPropertyLinks } from "./CalculatedProperties";
-import { PagedResponseLinks } from "./Links";
-import { DataType, QuantityType } from "./GroupProperties";
+import type { CalculatedPropertyLinks } from "./CalculatedProperties";
+import type { PagedResponseLinks } from "./Links";
+import type { DataType, QuantityType } from "./GroupProperties";
 
 /**
  * Defines a CustomCalculation or 'column' for a Group. It is calculated using the given formula for each element returned by the Group's query.
@@ -47,6 +47,7 @@ export interface CustomCalculation {
    * @type {CalculatedPropertyLinks}
    * @memberof CustomCalculation
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: CalculatedPropertyLinks;
 }
 
@@ -67,6 +68,7 @@ export interface CustomCalculationCollection {
    * @type {PagedResponseLinks}
    * @memberof CustomCalculationCollection
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: PagedResponseLinks;
 }
 

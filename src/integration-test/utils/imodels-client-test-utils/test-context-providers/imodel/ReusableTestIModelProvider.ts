@@ -3,11 +3,11 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
-import { DeleteIModelParams } from "../../../imodels-client-authoring/IModelsClientExports";
+import type { DeleteIModelParams } from "../../../imodels-client-management/operations/imodel/IModelOperationParams";
 import { TestAuthorizationProvider } from "../auth/TestAuthorizationProvider";
 import { ReusableTestIModelProviderConfig } from "./ReusableTestIModelProviderConfig";
 import { TestIModelCreator } from "./TestIModelCreator";
-import { ReusableIModelMetadata } from "./TestIModelInterfaces";
+import type { ReusableIModelMetadata } from "./TestIModelInterfaces";
 import { TestIModelRetriever } from "./TestIModelRetriever";
 import { TestIModelsClient } from "./TestIModelsClient";
 
@@ -51,7 +51,7 @@ export class ReusableTestIModelProvider {
   private async deleteIModel(iModelId: string): Promise<void> {
     const deleteIModelParams: DeleteIModelParams = {
       authorization: this._testAuthorizationProvider.getAdmin1Authorization(),
-      iModelId
+      iModelId,
     };
     return this._iModelsClient.iModels.delete(deleteIModelParams);
   }

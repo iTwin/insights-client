@@ -3,7 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 
-import { Link } from "../../../../imodels-client-management/base";
+import type { Link } from "../../../../imodels-client-management/base/interfaces/CommonInterfaces";
 
 /** Possible Baseline file states. */
 export enum BaselineFileState {
@@ -38,6 +38,7 @@ export interface BaselineFile {
   /** Baseline file state. See {@link BaselineFileState}. */
   state: BaselineFileState;
   /** Baseline file links. See {@link BaselineFileLinks}. */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: BaselineFileLinks;
 }
 

@@ -2,17 +2,20 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import {
-  CheckpointOperations,
-  IModelsClient as ManagementIModelsClient,
+import type {
   IModelsClientOptions as ManagementIModelsClientOptions,
-  NamedVersionOperations,
-  RecursiveRequired,
-} from "../imodels-client-management/IModelsClientExports";
-import { AzureSdkFileHandler, FileHandler } from "./base";
-import { BriefcaseOperations, ChangesetOperations, IModelOperations, LockOperations } from "./operations";
+  RecursiveRequired} from "../imodels-client-management/IModelsClientExports";
+import { IModelsClient as ManagementIModelsClient } from "../imodels-client-management/IModelsClient";
+import { CheckpointOperations } from "../imodels-client-management/operations/checkpoint/CheckpointOperations";
+import { NamedVersionOperations } from "../imodels-client-management/operations/named-version/NamedVersionOperations";
+import type { FileHandler } from "./base";
+import { AzureSdkFileHandler } from "./base/files/AzureSdkFileHandler";
+import { BriefcaseOperations } from "./operations/briefcase/BriefcaseOperations";
+import { ChangesetOperations } from "./operations/changeset/ChangesetOperations";
+import { IModelOperations } from "./operations/imodel/IModelOperations";
+import { LockOperations } from "./operations/lock/LockOperations";
 import { IModelsApiUrlFormatter } from "./operations/IModelsApiUrlFormatter";
-import { OperationOptions } from "./operations/OperationOptions";
+import type { OperationOptions } from "./operations/OperationOptions";
 
 /** User-configurable iModels client options. */
 export interface IModelsClientOptions extends ManagementIModelsClientOptions {
@@ -40,7 +43,7 @@ export class IModelsClient {
     const filledIModelsClientOptions = IModelsClient.fillConfiguration(options);
     this._operationsOptions = {
       ...filledIModelsClientOptions,
-      urlFormatter: new IModelsApiUrlFormatter(filledIModelsClientOptions.api.baseUrl)
+      urlFormatter: new IModelsApiUrlFormatter(filledIModelsClientOptions.api.baseUrl),
     };
   }
 
@@ -83,7 +86,7 @@ export class IModelsClient {
   public static fillConfiguration(options?: IModelsClientOptions): RecursiveRequired<IModelsClientOptions> {
     return {
       ...ManagementIModelsClient.fillConfiguration(options),
-      fileHandler: options?.fileHandler ?? new AzureSdkFileHandler()
+      fileHandler: options?.fileHandler ?? new AzureSdkFileHandler(),
     };
   }
 }

@@ -2,7 +2,7 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { CollectionResponse, Link } from "../CommonInterfaces";
+import type { CollectionResponse, Link } from "../CommonInterfaces";
 
 /** Possible iModel states. */
 export enum IModelState {
@@ -82,6 +82,7 @@ export interface IModel extends MinimalIModel {
   /** iModel extent. See {@link Extent}. */
   extent: Extent | null;
   /** iModel links. See {@link IModelLinks}.*/
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: IModelLinks;
 }
 

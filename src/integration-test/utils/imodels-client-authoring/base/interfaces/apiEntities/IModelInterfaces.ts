@@ -3,18 +3,13 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 
-import { IModel, IModelLinks } from "../../../../imodels-client-management/base";
-
-/**
- * Links that belong to iModel entity returned from iModels API.
- * @deprecated
- */
-export type iModelLinks = IModelLinks;
+import type { IModel, IModelLinks } from "../../../../imodels-client-management/base/interfaces/apiEntities/IModelInterfaces";
 
 /**
  * DTO to hold a single iModel API response returned by iModel creation operation.
  * @deprecated
  */
 export interface IModelCreateResponse {
-  iModel: IModel & { _links: iModelLinks };
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  iModel: IModel & { _links: IModelLinks };
 }

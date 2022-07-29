@@ -2,11 +2,13 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
+import type { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../../../../reporting/iterators/EntityListIteratorImpl";
-import { Briefcase, BriefcasesResponse, OperationsBase, PreferReturn } from "../../base";
-import { OperationOptions } from "../OperationOptions";
-import { GetBriefcaseListParams } from "./BriefcaseOperationParams";
+import type { Briefcase, BriefcasesResponse} from "../../base";
+import { OperationsBase } from "../../base/OperationsBase";
+import { PreferReturn } from "../../base/interfaces/CommonInterfaces";
+import type { OperationOptions } from "../OperationOptions";
+import type { GetBriefcaseListParams } from "./BriefcaseOperationParams";
 
 export class BriefcaseOperations<TOptions extends OperationOptions> extends OperationsBase<TOptions> {
   /**
@@ -22,7 +24,7 @@ export class BriefcaseOperations<TOptions extends OperationOptions> extends Oper
       authorization: params.authorization,
       url: this._options.urlFormatter.getBriefcaseListUrl({ iModelId: params.iModelId, urlParams: params.urlParams }),
       preferReturn: PreferReturn.Representation,
-      entityCollectionAccessor: (response: unknown) => (response as BriefcasesResponse<Briefcase>).briefcases
+      entityCollectionAccessor: (response: unknown) => (response as BriefcasesResponse<Briefcase>).briefcases,
     }));
   }
 }

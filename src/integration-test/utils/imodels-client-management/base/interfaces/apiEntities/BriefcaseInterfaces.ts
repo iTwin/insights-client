@@ -2,7 +2,7 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { Application, CollectionResponse, Link } from "../CommonInterfaces";
+import type { Application, CollectionResponse, Link } from "../CommonInterfaces";
 
 /** Minimal representation of a Briefcase. */
 export interface MinimalBriefcase {
@@ -32,6 +32,7 @@ export interface Briefcase extends MinimalBriefcase {
   /** Information about the application that acquired the Briefcase. */
   application: Application | null;
   /** Briefcase links. See {@link BriefcaseLinks}. */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: BriefcaseLinks;
 }
 

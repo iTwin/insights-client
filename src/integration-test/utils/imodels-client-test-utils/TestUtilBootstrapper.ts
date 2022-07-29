@@ -2,12 +2,25 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { Container } from "inversify";
-import { IModelsClientOptions } from "../imodels-client-authoring/IModelsClientExports";
-import { ProjectsClient, ProjectsClientConfig, ReusableTestIModelProvider, ReusableTestIModelProviderConfig, TestAuthorizationClient, TestAuthorizationClientConfig, TestAuthorizationProvider, TestIModelCreator, TestIModelFileProvider, TestIModelRetriever, TestIModelsClient, TestIModelsClientOptions, TestProjectProvider, TestProjectProviderConfig } from "./test-context-providers";
+import type { Container } from "inversify";
+import type { IModelsClientOptions } from "../imodels-client-authoring/IModelsClient";
+import { TestAuthorizationClient } from "./test-context-providers/auth/TestAuthorizationClient";
+import { TestAuthorizationClientConfig } from "./test-context-providers/auth/TestAuthorizationClientConfigImpl";
+import { TestAuthorizationProvider } from "./test-context-providers/auth/TestAuthorizationProvider";
+import { ReusableTestIModelProvider } from "./test-context-providers/imodel/ReusableTestIModelProvider";
+import { ReusableTestIModelProviderConfig } from "./test-context-providers/imodel/ReusableTestIModelProviderConfig";
+import { TestIModelCreator } from "./test-context-providers/imodel/TestIModelCreator";
+import { TestIModelFileProvider } from "./test-context-providers/imodel/TestIModelFileProvider";
+import { TestIModelRetriever } from "./test-context-providers/imodel/TestIModelRetriever";
+import { TestIModelsClient } from "./test-context-providers/imodel/TestIModelsClient";
+import { TestIModelsClientOptions } from "./test-context-providers/imodel/TestModelsClientOptions";
+import { ProjectsClient } from "./test-context-providers/project/ProjectsClient";
+import { ProjectsClientConfig } from "./test-context-providers/project/ProjectsClientConfig";
+import { TestProjectProvider } from "./test-context-providers/project/TestProjectProvider";
+import { TestProjectProviderConfig } from "./test-context-providers/project/TestProjectProviderConfig";
 import { TestAuthorizationProviderConfig } from "./test-context-providers/auth/TestAuthorizationProviderConfig";
 import { TestIModelGroupFactory } from "./test-imodel-group/TestIModelGroupFactory";
-import { TestUtilTypes } from "./TestUtilTypes";
+import { testUtilTypes } from "./TestUtilTypes";
 
 export class TestUtilBootstrapper {
   public static bind(container: Container): void {
@@ -26,7 +39,7 @@ export class TestUtilBootstrapper {
     container.bind(TestProjectProviderConfig).toSelf().inSingletonScope();
     container.bind(TestProjectProvider).toSelf().inSingletonScope();
 
-    container.bind<IModelsClientOptions>(TestUtilTypes.IModelsClientOptions).to(TestIModelsClientOptions).inSingletonScope();
+    container.bind<IModelsClientOptions>(testUtilTypes.iModelsClientOptions).to(TestIModelsClientOptions).inSingletonScope();
     container.bind(TestIModelsClient).toSelf().inSingletonScope();
     container.bind(ReusableTestIModelProviderConfig).toSelf().inSingletonScope();
     container.bind(ReusableTestIModelProvider).toSelf().inSingletonScope();

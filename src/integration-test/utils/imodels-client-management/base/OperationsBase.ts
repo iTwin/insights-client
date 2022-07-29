@@ -2,11 +2,11 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { EntityCollectionPage } from "../../../../reporting/iterators/IteratorUtil";
+import type { EntityCollectionPage } from "../../../../reporting/iterators/IteratorUtil";
 import { Constants } from "../Constants";
-import { AuthorizationParam, CollectionResponse, PreferReturn } from "./interfaces/CommonInterfaces";
-import { Dictionary } from "./interfaces/UtilityTypes";
-import { RestClient } from "./rest/RestClient";
+import type { AuthorizationParam, CollectionResponse, PreferReturn } from "./interfaces/CommonInterfaces";
+import type { Dictionary } from "./interfaces/UtilityTypes";
+import type { RestClient } from "./rest/RestClient";
 
 type SendGetRequestParams = AuthorizationParam & { url: string, preferReturn?: PreferReturn };
 type SendPostRequestParams = AuthorizationParam & { url: string, body: unknown };
@@ -25,7 +25,7 @@ export class OperationsBase<TOptions extends OperationsBaseOptions> {
   protected async sendGetRequest<TResponse>(params: SendGetRequestParams): Promise<TResponse> {
     return this._options.restClient.sendGetRequest<TResponse>({
       url: params.url,
-      headers: await this.formHeaders(params)
+      headers: await this.formHeaders(params),
     });
   }
 
@@ -33,7 +33,7 @@ export class OperationsBase<TOptions extends OperationsBaseOptions> {
     return this._options.restClient.sendPostRequest<TResponse>({
       url: params.url,
       body: params.body,
-      headers: await this.formHeaders({ ...params, containsBody: true })
+      headers: await this.formHeaders({ ...params, containsBody: true }),
     });
   }
 
@@ -41,14 +41,14 @@ export class OperationsBase<TOptions extends OperationsBaseOptions> {
     return this._options.restClient.sendPatchRequest<TResponse>({
       url: params.url,
       body: params.body,
-      headers: await this.formHeaders({ ...params, containsBody: true })
+      headers: await this.formHeaders({ ...params, containsBody: true }),
     });
   }
 
   protected async sendDeleteRequest<TResponse>(params: SendDeleteRequestParams): Promise<TResponse> {
     return this._options.restClient.sendDeleteRequest<TResponse>({
       url: params.url,
-      headers: await this.formHeaders(params)
+      headers: await this.formHeaders(params),
     });
   }
 
@@ -58,12 +58,13 @@ export class OperationsBase<TOptions extends OperationsBaseOptions> {
     entityCollectionAccessor: (response: unknown) => TEntity[];
   }): Promise<EntityCollectionPage<TEntity>> {
     const response = await this.sendGetRequest<CollectionResponse>(params);
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const nextLink = response._links.next;
     return {
       entities: params.entityCollectionAccessor(response),
       next: nextLink
         ? async () => this.getEntityCollectionPage({ ...params, url: nextLink.href })
-        : undefined
+        : undefined,
     };
   }
 

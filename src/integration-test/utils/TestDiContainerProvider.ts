@@ -3,17 +3,18 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { Container } from "inversify";
-import { BaseIntegrationTestsConfig, TestUtilBootstrapper, TestUtilTypes } from "../utils/imodels-client-test-utils/iModelsClientTestUtilsExports";
+import type { BaseIntegrationTestsConfig} from "../utils/imodels-client-test-utils/iModelsClientTestUtilsExports";
+import { TestUtilBootstrapper } from "./imodels-client-test-utils/TestUtilBootstrapper";
+import { testUtilTypes } from "./imodels-client-test-utils/TestUtilTypes";
 import { IModelsClientsTestsConfig } from "./IModelsClientsTestsConfig";
 import "reflect-metadata";
 
 let container: Container;
 export function getTestDIContainer(): Container {
-  if (container)
-    {return container;}
+  if (container) {return container;}
 
   container = new Container();
   TestUtilBootstrapper.bind(container);
-  container.bind<BaseIntegrationTestsConfig>(TestUtilTypes.BaseIntegrationTestsConfig).to(IModelsClientsTestsConfig).inSingletonScope();
+  container.bind<BaseIntegrationTestsConfig>(testUtilTypes.baseIntegrationTestsConfig).to(IModelsClientsTestsConfig).inSingletonScope();
   return container;
 }
