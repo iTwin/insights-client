@@ -89,12 +89,12 @@ describe("OData Client", () => {
     };
     const returns1: ODataEntityResponse = {
       "@odata.context": "-",
-      "value": [{one: "1", two: "2"}, {one: "1", two: "2"}],
+      "value": [{ one: "1", two: "2" }, { one: "1", two: "2" }],
       "@odata.nextLink": "url",
     };
     const returns2 = {
       "@odata.context": "-",
-      "value": [{three: "3", four: "4"}, {three: "3", four: "4"}],
+      "value": [{ three: "3", four: "4" }, { three: "3", four: "4" }],
       "@odata.nextLink": undefined,
     };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/odata/-/1/2/3", "pass").resolves(returns1)
@@ -125,7 +125,7 @@ describe("OData Client", () => {
     };
     const returns: ODataEntityResponse = {
       "@odata.context": "-",
-      "value": [{one: "1", two: "2"}, {one: "1", two: "2"}],
+      "value": [{ one: "1", two: "2" }, { one: "1", two: "2" }],
       "@odata.nextLink": "url",
     };
     fetchStub.onCall(0).resolves(returns);

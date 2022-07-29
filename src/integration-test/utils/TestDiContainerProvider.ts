@@ -3,7 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { Container } from "inversify";
-import type { BaseIntegrationTestsConfig} from "../utils/imodels-client-test-utils/iModelsClientTestUtilsExports";
+import type { BaseIntegrationTestsConfig } from "../utils/imodels-client-test-utils/iModelsClientTestUtilsExports";
 import { TestUtilBootstrapper } from "./imodels-client-test-utils/TestUtilBootstrapper";
 import { testUtilTypes } from "./imodels-client-test-utils/TestUtilTypes";
 import { IModelsClientsTestsConfig } from "./IModelsClientsTestsConfig";

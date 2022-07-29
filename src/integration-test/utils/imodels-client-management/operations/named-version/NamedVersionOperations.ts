@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import type { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../../../../reporting/iterators/EntityListIteratorImpl";
-import type { NamedVersion, NamedVersionResponse, NamedVersionsResponse} from "../../base";
+import type { NamedVersion, NamedVersionResponse, NamedVersionsResponse } from "../../base";
 import { OperationsBase } from "../../base/OperationsBase";
 import { PreferReturn } from "../../base/interfaces/CommonInterfaces";
 import type { OperationOptions } from "../OperationOptions";

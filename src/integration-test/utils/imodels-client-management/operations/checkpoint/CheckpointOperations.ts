@@ -2,7 +2,7 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import type { Checkpoint, CheckpointResponse} from "../../base";
+import type { Checkpoint, CheckpointResponse } from "../../base";
 import { OperationsBase } from "../../base/OperationsBase";
 import type { OperationOptions } from "../OperationOptions";
 import type { GetSingleCheckpointParams } from "./CheckpointOperationParams";

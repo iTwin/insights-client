@@ -46,12 +46,14 @@ describe("Extraction Client", () => {
     const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
+    expect(Object.values(ExtractorState).includes(extraction[0].state)).to.be.true;
   });
 
   it("Get Logs with top", async function () {
     const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId, 1);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
+    expect(Object.values(ExtractorState).includes(extraction[0].state)).to.be.true;
   });
 
   it("Get Status", async function () {

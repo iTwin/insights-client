@@ -2,7 +2,7 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import type { Changeset, ChangesetResponse} from "../../../imodels-client-management/IModelsClientExports";
+import type { Changeset, ChangesetResponse } from "../../../imodels-client-management/IModelsClientExports";
 import { ChangesetState } from "../../../imodels-client-management/base/interfaces/apiEntities/ChangesetInterfaces";
 import { ChangesetOperations as ManagementChangesetOperations } from "../../../imodels-client-management/operations/changeset/ChangesetOperations";
 import type { OperationOptions } from "../OperationOptions";

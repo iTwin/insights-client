@@ -6,7 +6,7 @@ import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import { CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, QuantityType } from "../../reporting";
 import "reflect-metadata";
-import {accessToken, testIModel, testIModelGroup } from "../utils/";
+import { accessToken, testIModel, testIModelGroup } from "../utils/";
 use(chaiAsPromised);
 
 describe("Mapping Client", () => {
@@ -76,15 +76,24 @@ describe("Mapping Client", () => {
     let property = await mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty);
     expect(property).to.not.be.undefined;
     expect(property.propertyName).to.be.eq("prop1");
+    expect(property.dataType).to.be.eq(DataType.Number);
+    expect(property.quantityType).to.be.eq(QuantityType.Distance);
+    expect(property.ecProperties[0].ecPropertyType).to.be.eq(DataType.String);
     groupPropertyId = property.id;
 
     newProperty.propertyName = "prop2";
     property = await mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty);
+    expect(property.dataType).to.be.eq(DataType.Number);
+    expect(property.quantityType).to.be.eq(QuantityType.Distance);
+    expect(property.ecProperties[0].ecPropertyType).to.be.eq(DataType.String);
     expect(property).to.not.be.undefined;
     expect(property.propertyName).to.be.eq("prop2");
 
     newProperty.propertyName = "prop3";
     property = await mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty);
+    expect(property.dataType).to.be.eq(DataType.Number);
+    expect(property.quantityType).to.be.eq(QuantityType.Distance);
+    expect(property.ecProperties[0].ecPropertyType).to.be.eq(DataType.String);
     expect(property).to.not.be.undefined;
     expect(property.propertyName).to.be.eq("prop3");
 
@@ -96,17 +105,20 @@ describe("Mapping Client", () => {
     let calcProperty = await mappingsClient.createCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, newCalculatedProperty);
     expect(calcProperty).to.not.be.undefined;
     expect(calcProperty.propertyName).to.be.eq("calc1");
+    expect(calcProperty.type).to.be.eq(CalculatedPropertyType.Length);
     calculatedPropertyId = calcProperty.id;
 
     newCalculatedProperty.propertyName = "calc2";
     calcProperty = await mappingsClient.createCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, newCalculatedProperty);
     expect(calcProperty).to.not.be.undefined;
     expect(calcProperty.propertyName).to.be.eq("calc2");
+    expect(calcProperty.type).to.be.eq(CalculatedPropertyType.Length);
 
     newCalculatedProperty.propertyName = "calc3";
     calcProperty = await mappingsClient.createCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, newCalculatedProperty);
     expect(calcProperty).to.not.be.undefined;
     expect(calcProperty.propertyName).to.be.eq("calc3");
+    expect(calcProperty.type).to.be.eq(CalculatedPropertyType.Length);
 
     // create customCalculations
     const newCustomCalculation: CustomCalculationCreate = {
@@ -117,17 +129,20 @@ describe("Mapping Client", () => {
     let custCalculation = await mappingsClient.createCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, newCustomCalculation);
     expect(custCalculation).to.not.be.undefined;
     expect(custCalculation.propertyName).to.be.eq("cust1");
+    expect(custCalculation.quantityType).to.be.eq(QuantityType.Distance);
     customCalculationId = custCalculation.id;
 
     newCustomCalculation.propertyName = "cust2";
     custCalculation = await mappingsClient.createCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, newCustomCalculation);
     expect(custCalculation).to.not.be.undefined;
     expect(custCalculation.propertyName).to.be.eq("cust2");
+    expect(custCalculation.quantityType).to.be.eq(QuantityType.Distance);
 
     newCustomCalculation.propertyName = "cust3";
     custCalculation = await mappingsClient.createCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, newCustomCalculation);
     expect(custCalculation).to.not.be.undefined;
     expect(custCalculation.propertyName).to.be.eq("cust3");
+    expect(custCalculation.quantityType).to.be.eq(QuantityType.Distance);
   });
 
   after(async () => {
@@ -323,6 +338,9 @@ describe("Mapping Client", () => {
     const property = await mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty);
     expect(property).to.not.be.undefined;
     expect(property.propertyName).to.be.eq("Test");
+    expect(property.dataType).to.be.eq(DataType.Number);
+    expect(property.quantityType).to.be.eq(QuantityType.Distance);
+    expect(property.ecProperties[0].ecPropertyType).to.be.eq(DataType.String);
 
     const response = await mappingsClient.deleteGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, property.id);
     expect(response.status).to.be.eq(204);
@@ -344,6 +362,9 @@ describe("Mapping Client", () => {
     const property = await mappingsClient.updateGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, groupPropertyId, groupPropertyUpdate);
     expect(property).to.not.be.undefined;
     expect(property.propertyName).to.be.eq("UpdatedGP");
+    expect(property.dataType).to.be.eq(DataType.Number);
+    expect(property.quantityType).to.be.eq(QuantityType.Distance);
+    expect(property.ecProperties[0].ecPropertyType).to.be.eq(DataType.String);
   });
 
   it("Group properties - Get", async function () {
@@ -402,6 +423,7 @@ describe("Mapping Client", () => {
     const property = await mappingsClient.createCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty);
     expect(property).to.not.be.undefined;
     expect(property.propertyName).to.be.eq("Test");
+    expect(property.type).to.be.eq(CalculatedPropertyType.Length);
 
     const response = await mappingsClient.deleteCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, property.id);
     expect(response.status).to.be.eq(204);
@@ -473,6 +495,7 @@ describe("Mapping Client", () => {
     const calculation = await mappingsClient.createCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, newCalculation);
     expect(calculation).to.not.be.undefined;
     expect(calculation.propertyName).to.be.eq("Test");
+    expect(calculation.quantityType).to.be.eq(QuantityType.Distance);
 
     const response = await mappingsClient.deleteCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, calculation.id);
     expect(response.status).to.be.eq(204);

@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import type { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../../../../reporting/iterators/EntityListIteratorImpl";
-import type { AuthorizationCallback, IModel, IModelResponse, IModelsResponse, MinimalIModel} from "../../base";
+import type { AuthorizationCallback, IModel, IModelResponse, IModelsResponse, MinimalIModel } from "../../base";
 import { OperationsBase } from "../../base/OperationsBase";
 import { PreferReturn } from "../../base/interfaces/CommonInterfaces";
 import type { OperationOptions } from "../OperationOptions";

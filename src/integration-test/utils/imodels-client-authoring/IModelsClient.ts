@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import type {
   IModelsClientOptions as ManagementIModelsClientOptions,
-  RecursiveRequired} from "../imodels-client-management/IModelsClientExports";
+  RecursiveRequired } from "../imodels-client-management/IModelsClientExports";
 import { IModelsClient as ManagementIModelsClient } from "../imodels-client-management/IModelsClient";
 import { CheckpointOperations } from "../imodels-client-management/operations/checkpoint/CheckpointOperations";
 import { NamedVersionOperations } from "../imodels-client-management/operations/named-version/NamedVersionOperations";
