@@ -19,8 +19,8 @@ export interface IReportsClient{
   getReports(
     accessToken: AccessToken,
     projectId: string,
-    deleted?: boolean,
-    top?: number
+    top?: number,
+    deleted?: boolean
   ): Promise<Report[]>;
 
   /**
@@ -36,8 +36,8 @@ export interface IReportsClient{
   getReportsIterator(
     accessToken: AccessToken,
     projectId: string,
+    top?: number,
     deleted?: boolean,
-    top?: number
   ): EntityListIterator<Report>;
 
   /**

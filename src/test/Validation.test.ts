@@ -42,10 +42,10 @@ describe("Validation", () => {
   });
 
   it("Reports - Faulty top value", async () => {
-    await expect(reportsClient.getReports("-", "-", false, 0)).to.be.rejectedWith(
+    await expect(reportsClient.getReports("-", "-", 0)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000] when calling getReportsIterator."
     );
-    await expect(reportsClient.getReports("-", "-", false, 1001)).to.be.rejectedWith(
+    await expect(reportsClient.getReports("-", "-", 1001)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000] when calling getReportsIterator."
     );
   });

@@ -124,7 +124,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get all non deleted", async () => {
-    const reports = await reportsClient.getReports(accessToken, projectId, true);
+    const reports = await reportsClient.getReports(accessToken, projectId, undefined, true);
     expect(reports).to.not.be.undefined;
     for(const report of reports) {
       expect(["Test1", "Test2", "Test3", "Test"]).to.include(report.displayName);
@@ -132,7 +132,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get all", async () => {
-    const reports = await reportsClient.getReports(accessToken, projectId, false, undefined);
+    const reports = await reportsClient.getReports(accessToken, projectId);
     expect(reports).to.not.be.undefined;
     expect(reports.length).to.be.above(2);
     for(const report of reports) {
@@ -141,7 +141,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get with iterator", async () => {
-    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, false, 2);
+    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
     let flag = false;
     for await(const report of reportsIt) {
       flag = true;
@@ -152,7 +152,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get pages", async () => {
-    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, false, 2);
+    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
     let elementCount = 0;
     let flag = false;
     for await(const reports of reportsIt.byPage()) {

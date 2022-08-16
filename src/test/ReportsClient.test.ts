@@ -101,7 +101,7 @@ describe("Reports Client", () => {
       "pass"
     )).to.be.true;
 
-    it = reportsClient.getReportsIterator("-", "-", false, 2);
+    it = reportsClient.getReportsIterator("-", "-", 2);
     expect(it).to.not.be.undefined;
     await it.next();
     expect(fetchStub.calledWith(
@@ -131,7 +131,7 @@ describe("Reports Client", () => {
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/reports?projectId=-&deleted=true", "pass").resolves(returns2);
 
-    let reports: Array<Report> = await reportsClient.getReports("-", "-", true);
+    let reports: Array<Report> = await reportsClient.getReports("-", "-", undefined, true);
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
@@ -140,7 +140,7 @@ describe("Reports Client", () => {
       "pass"
     )).to.be.true;
 
-    reports = await reportsClientNewBase.getReports("-", "-", true);
+    reports = await reportsClientNewBase.getReports("-", "-", undefined, true);
     expect(fetchStub.calledWith(
       "BASE/reports?projectId=-&deleted=true",
       "pass"
@@ -168,7 +168,7 @@ describe("Reports Client", () => {
       .withArgs("url", "pass").resolves(returns2)
       .withArgs("BASE/reports?projectId=-&deleted=false&%24top=2", "pass").resolves(returns2);
 
-    let reports: Array<Report> = await reportsClient.getReports("-", "-", false, 2);
+    let reports: Array<Report> = await reportsClient.getReports("-", "-", 2);
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
@@ -177,7 +177,7 @@ describe("Reports Client", () => {
       "pass"
     )).to.be.true;
 
-    reports = await reportsClientNewBase.getReports("-", "-", false, 2);
+    reports = await reportsClientNewBase.getReports("-", "-", 2);
     expect(fetchStub.calledWith(
       "BASE/reports?projectId=-&deleted=false&%24top=2",
       "pass"

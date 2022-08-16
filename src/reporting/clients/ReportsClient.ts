@@ -12,16 +12,16 @@ import type { Report, ReportCollection, ReportCreate, ReportMapping, ReportMappi
 import type { IReportsClient } from "./IReportsClient";
 
 export class ReportsClient extends OperationsBase implements IReportsClient{
-  public async getReports(accessToken: AccessToken, projectId: string, deleted = false, top?: number): Promise<Report[]> {
+  public async getReports(accessToken: AccessToken, projectId: string, top?: number, deleted = false): Promise<Report[]> {
     const reports: Array<Report> = [];
-    const reportIterator = this.getReportsIterator(accessToken, projectId, deleted, top);
+    const reportIterator = this.getReportsIterator(accessToken, projectId, top, deleted);
     for await(const report of reportIterator) {
       reports.push(report);
     }
     return reports;
   }
 
-  public getReportsIterator(accessToken: AccessToken, projectId: string, deleted = false, top?: number): EntityListIterator<Report> {
+  public getReportsIterator(accessToken: AccessToken, projectId: string, top?: number, deleted = false): EntityListIterator<Report> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
