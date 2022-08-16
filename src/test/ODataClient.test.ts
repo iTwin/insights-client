@@ -26,7 +26,7 @@ describe("OData Client", () => {
     sinon.restore();
   });
 
-  it("Get OData report", async function () {
+  it("Get OData report", async () => {
     const returns = {
       value: [1, 2],
     };
@@ -46,7 +46,7 @@ describe("OData Client", () => {
     )).to.be.true;
   });
 
-  it("Get OData report metadata", async function () {
+  it("Get OData report metadata", async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fetchStub = sinon.stub(ODataClient.prototype, "fetchData" as any);
     const request: RequestInit = {
@@ -82,7 +82,7 @@ describe("OData Client", () => {
     )).to.be.true;
   });
 
-  it("Get OData report Entity", async function () {
+  it("Get OData report Entity", async () => {
     const item: ODataItem = {
       name: "test",
       url: "1/2/3",
@@ -118,7 +118,7 @@ describe("OData Client", () => {
     )).to.be.true;
   });
 
-  it("Get OData report Entity", async function () {
+  it("Get OData report Entity", async () => {
     const item: ODataItem = {
       name: "test",
       url: "1/2/3",

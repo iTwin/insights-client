@@ -178,7 +178,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     if(!this.isSimpleIdentifier(group.groupName)) {
       throw new RequiredError(
         "groupName",
-        "Required field mappingName of group was null or undefined when calling createGroup.",
+        "Required field mappingName of group was invalid when calling createGroup.",
       );
     }
     if(this.isNullOrWhitespace(group.query)) {

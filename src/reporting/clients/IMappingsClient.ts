@@ -15,7 +15,7 @@ export interface IMappingsClient {
    * Gets all Mappings for an iModel. This method returns the full list of mappings.
    * @param {string} iModelId The iModel Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
    */
@@ -30,7 +30,7 @@ export interface IMappingsClient {
    * This method returns an iterator which loads pages of mappings as it is being iterated over.
    * @param {string} iModelId The iModel Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
    */
@@ -114,7 +114,7 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-groups/
    */
@@ -130,7 +130,7 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-groups/
    */
@@ -208,7 +208,7 @@ export interface IMappingsClient {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-groupproperties/
    */
@@ -227,7 +227,7 @@ export interface IMappingsClient {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-groupproperties/
    */
@@ -319,7 +319,7 @@ export interface IMappingsClient {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-calculatedproperties/
    */
@@ -338,7 +338,7 @@ export interface IMappingsClient {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-calculatedproperties/
    */
@@ -430,7 +430,7 @@ export interface IMappingsClient {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-customcalculations/
    */
@@ -449,7 +449,7 @@ export interface IMappingsClient {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-customcalculations/
    */

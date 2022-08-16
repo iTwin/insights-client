@@ -64,7 +64,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
         const response: ODataEntityResponse = await this.fetchJSON<ODataEntityResponse>(nextUrl, request);
         const link: PagedResponseLinks = {
           self: {
-            href: url,
+            href: nextUrl,
           },
         };
         if(response["@odata.nextLink"]) {

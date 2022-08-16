@@ -26,7 +26,7 @@ describe("mappings Client", () => {
     sinon.restore();
   });
 
-  it("Mappings - Get", async function () {
+  it("Mappings - Get", async () => {
     const returns = {
       mapping: {
         id: 1,
@@ -47,7 +47,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Mappings - Get all", async function () {
+  it("Mappings - Get all", async () => {
     const returns1 = {
       mappings: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -84,7 +84,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Mappings - Get all by page", async function () {
+  it("Mappings - Get all by page", async () => {
     const returns1 = {
       mappings: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -124,7 +124,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Mappings - get all with top", async function () {
+  it("Mappings - get all with top", async () => {
     const returns1 = {
       mappings: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -161,7 +161,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Mappings - Create", async function () {
+  it("Mappings - Create", async () => {
     const newMapping: MappingCreate = {
       mappingName: "Test",
     };
@@ -190,7 +190,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Mappings - Update", async function () {
+  it("Mappings - Update", async () => {
     const newMapping: MappingUpdate = {
       mappingName: "Test",
     };
@@ -219,7 +219,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Mappings - Delete", async function () {
+  it("Mappings - Delete", async () => {
     const returns = {
       status: 200,
     };
@@ -238,7 +238,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Mappings - Copy", async function () {
+  it("Mappings - Copy", async () => {
     const newMapping: MappingCopy = {
       mappingName: "Test",
       targetIModelId: "-",
@@ -268,7 +268,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Groups - Get", async function () {
+  it("Groups - Get", async () => {
     const returns = {
       group: {
         id: 1,
@@ -289,7 +289,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Groups - Get all", async function () {
+  it("Groups - Get all", async () => {
     const returns1 = {
       groups: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -326,7 +326,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Groups - get all with top", async function () {
+  it("Groups - get all with top", async () => {
     const returns1 = {
       groups: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -363,7 +363,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Groups - Create", async function () {
+  it("Groups - Create", async () => {
     const newGroup: GroupCreate = {
       groupName: "Test",
       query: "-",
@@ -393,7 +393,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Groups - Update", async function () {
+  it("Groups - Update", async () => {
     const newGroup: GroupUpdate = {
       groupName: "Test",
     };
@@ -422,7 +422,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Groups - Delete", async function () {
+  it("Groups - Delete", async () => {
     const returns = {
       status: 200,
     };
@@ -441,7 +441,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Group properties - Get", async function () {
+  it("Group properties - Get", async () => {
     const returns = {
       property: {
         id: 1,
@@ -462,7 +462,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Group properties - Get all", async function () {
+  it("Group properties - Get all", async () => {
     const returns1 = {
       properties: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -499,7 +499,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Group properties - get all with top", async function () {
+  it("Group properties - get all with top", async () => {
     const returns1 = {
       properties: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -536,7 +536,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Group properties - Create", async function () {
+  it("Group properties - Create", async () => {
     const ecProperty: ECProperty = {
       ecClassName: "Name",
       ecPropertyName: "Property",
@@ -574,7 +574,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Group properties - Update", async function () {
+  it("Group properties - Update", async () => {
     const ecProperty: ECProperty = {
       ecClassName: "Name",
       ecPropertyName: "Property",
@@ -612,7 +612,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Group properties - Delete", async function () {
+  it("Group properties - Delete", async () => {
     const returns = {
       status: 200,
     };
@@ -631,7 +631,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Calculated properties - Get", async function () {
+  it("Calculated properties - Get", async () => {
     const returns = {
       property: {
         id: 1,
@@ -652,7 +652,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Calculated properties - Get all", async function () {
+  it("Calculated properties - Get all", async () => {
     const returns1 = {
       properties: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -689,7 +689,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Calculated properties - get all with top", async function () {
+  it("Calculated properties - get all with top", async () => {
     const returns1 = {
       properties: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -726,7 +726,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Calculated properties - Create", async function () {
+  it("Calculated properties - Create", async () => {
     const newCalculatedProperty: CalculatedPropertyCreate = {
       propertyName: "Test",
       type: CalculatedPropertyType.Area,
@@ -756,7 +756,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Calculated properties - Update", async function () {
+  it("Calculated properties - Update", async () => {
     const newCalculatedProperty: CalculatedPropertyCreate = {
       propertyName: "Test",
       type: CalculatedPropertyType.Area,
@@ -786,7 +786,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Calculated properties - Delete", async function () {
+  it("Calculated properties - Delete", async () => {
     const returns = {
       status: 200,
     };
@@ -805,7 +805,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Custom calculations - Get", async function () {
+  it("Custom calculations - Get", async () => {
     const returns = {
       customCalculation: {
         id: 1,
@@ -826,7 +826,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Custom calculations - Get all", async function () {
+  it("Custom calculations - Get all", async () => {
     const returns1 = {
       customCalculations: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -863,7 +863,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Custom calculations - get all with top", async function () {
+  it("Custom calculations - get all with top", async () => {
     const returns1 = {
       customCalculations: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -900,7 +900,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Custom calculations - Create", async function () {
+  it("Custom calculations - Create", async () => {
     const newCustomCalculation: CustomCalculationCreate = {
       propertyName: "Test",
       formula: "1+1",
@@ -931,7 +931,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Custom calculations - Update", async function () {
+  it("Custom calculations - Update", async () => {
     const newCustomCalculation: CustomCalculationCreate = {
       propertyName: "Test",
       formula: "1+1",
@@ -962,7 +962,7 @@ describe("mappings Client", () => {
     )).to.be.true;
   });
 
-  it("Custom calculations - Delete", async function () {
+  it("Custom calculations - Delete", async () => {
     const returns = {
       status: 200,
     };

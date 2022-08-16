@@ -16,7 +16,7 @@ describe("Extraction Client", () => {
   let extractionId: string;
   let mappingId: string;
 
-  before(async function () {
+  before(async () => {
     const newMap: MappingCreate = {
       mappingName: "Test",
     };
@@ -30,33 +30,32 @@ describe("Extraction Client", () => {
     extractionId = extraction.id;
   });
 
-  after(async function () {
+  after(async () => {
     await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingId);
     await testIModelGroup.cleanupIModels();
   });
 
-  it("run extraction", async function () {
+  it("run extraction", async () => {
     const extraction: ExtractionRun = await extractionClient.runExtraction(accessToken, testIModel.id);
     expect(extraction).to.not.be.undefined;
     expect(extraction.id).to.not.be.undefined;
-    expect(extraction).to.not.be.empty;
   });
 
-  it("Get Logs", async function () {
+  it("Get Logs", async () => {
     const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
     expect(Object.values(ExtractorState).includes(extraction[0].state)).to.be.true;
   });
 
-  it("Get Logs with top", async function () {
+  it("Get Logs with top", async () => {
     const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs(accessToken, extractionId, 1);
     expect(extraction).to.not.be.undefined;
     expect(extraction).to.not.be.empty;
     expect(Object.values(ExtractorState).includes(extraction[0].state)).to.be.true;
   });
 
-  it("Get Status", async function () {
+  it("Get Status", async () => {
     const extraction: ExtractionStatus = await extractionClient.getExtractionStatus(accessToken, extractionId);
     expect(extraction).to.not.be.undefined;
     expect(extraction.state).to.not.be.eq("Failed");

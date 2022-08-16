@@ -26,7 +26,7 @@ describe("Reports Client", () => {
     sinon.restore();
   });
 
-  it("Reports - Get", async function () {
+  it("Reports - Get", async () => {
     const returns = {
       report: {
         id: 1,
@@ -47,7 +47,7 @@ describe("Reports Client", () => {
     )).to.be.true;
   });
 
-  it("Reports - Get all non deleted", async function () {
+  it("Reports - Get all non deleted", async () => {
     const returns1 = {
       reports: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -84,7 +84,7 @@ describe("Reports Client", () => {
     )).to.be.true;
   });
 
-  it("Get iterator with and without top", async function () {
+  it("Get iterator with and without top", async () => {
     const returns = {
       reports: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -110,7 +110,7 @@ describe("Reports Client", () => {
     )).to.be.true;
   });
 
-  it("Reports - Get all", async function () {
+  it("Reports - Get all", async () => {
     const returns1 = {
       reports: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -147,7 +147,7 @@ describe("Reports Client", () => {
     )).to.be.true;
   });
 
-  it("Reports - get all with top", async function () {
+  it("Reports - get all with top", async () => {
     const returns1 = {
       reports: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -184,7 +184,7 @@ describe("Reports Client", () => {
     )).to.be.true;
   });
 
-  it("Reports - Create", async function () {
+  it("Reports - Create", async () => {
     const newReport: ReportCreate = {
       displayName: "Test1",
       projectId: "-",
@@ -214,7 +214,7 @@ describe("Reports Client", () => {
     )).to.be.true;
   });
 
-  it("Reports - Update", async function () {
+  it("Reports - Update", async () => {
     const newReport: ReportUpdate = {
       displayName: "Test1",
     };
@@ -243,7 +243,7 @@ describe("Reports Client", () => {
     )).to.be.true;
   });
 
-  it("Reports - Delete", async function () {
+  it("Reports - Delete", async () => {
     const returns = {
       status: 200,
     };
@@ -262,7 +262,7 @@ describe("Reports Client", () => {
     )).to.be.true;
   });
 
-  it("Report Mappings - Get all", async function () {
+  it("Report Mappings - Get all", async () => {
     const returns1 = {
       mappings: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -299,7 +299,7 @@ describe("Reports Client", () => {
     )).to.be.true;
   });
 
-  it("Report Mappings - get all with top", async function () {
+  it("Report Mappings - get all with top", async () => {
     const returns1 = {
       mappings: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -336,7 +336,7 @@ describe("Reports Client", () => {
     )).to.be.true;
   });
 
-  it("Report Mappings - Create", async function () {
+  it("Report Mappings - Create", async () => {
     const newMapping: ReportMappingCreate = {
       mappingId: "-",
       imodelId: "-",
@@ -366,7 +366,7 @@ describe("Reports Client", () => {
     )).to.be.true;
   });
 
-  it("Report Mappings - Delete", async function () {
+  it("Report Mappings - Delete", async () => {
     const returns = {
       status: 200,
     };

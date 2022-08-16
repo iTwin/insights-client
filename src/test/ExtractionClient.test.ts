@@ -26,7 +26,7 @@ describe("Extraction Client", () => {
     sinon.restore();
   });
 
-  it("run extraction", async function () {
+  it("run extraction", async () => {
     const returns = {
       run: {
         id: 1,
@@ -47,7 +47,7 @@ describe("Extraction Client", () => {
     )).to.be.true;
   });
 
-  it("Get Logs", async function () {
+  it("Get Logs", async () => {
     const returns1 = {
       logs: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -84,7 +84,7 @@ describe("Extraction Client", () => {
     )).to.be.true;
   });
 
-  it("Get Logs with top", async function () {
+  it("Get Logs with top", async () => {
     const returns1 = {
       logs: [1, 2],
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -121,7 +121,7 @@ describe("Extraction Client", () => {
     )).to.be.true;
   });
 
-  it("Get Status", async function () {
+  it("Get Status", async () => {
     const returns = {
       status: {
         state: ExtractorState.Succeeded,

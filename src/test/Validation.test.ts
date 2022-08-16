@@ -13,7 +13,7 @@ describe("Validation", () => {
   const oDataClient = new ODataClient();
   const extractionClient = new ExtractionClient();
 
-  it("Reports - Create unsuccessfully", async function () {
+  it("Reports - Create unsuccessfully", async () => {
     const newReport: ReportCreate = {
       displayName: "",
       projectId: "-",
@@ -29,7 +29,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Reports - Update unsuccessfully", async function () {
+  it("Reports - Update unsuccessfully", async () => {
     const reportUpdate: ReportUpdate = {};
     await expect(reportsClient.updateReport("-", "-", reportUpdate)).to.be.rejectedWith(
       "All fields of report were null or undefined when calling updateReport."
@@ -41,7 +41,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Reports - Faulty top value", async function () {
+  it("Reports - Faulty top value", async () => {
     await expect(reportsClient.getReports("-", "-", false, 0)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000] when calling getReportsIterator."
     );
@@ -50,7 +50,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Report mappings - Create unsuccessfully", async function () {
+  it("Report mappings - Create unsuccessfully", async () => {
     const newReportMapping: ReportMappingCreate = {
       mappingId: "",
       imodelId: "Not empty",
@@ -66,7 +66,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Report mappings - Faulty top value", async function () {
+  it("Report mappings - Faulty top value", async () => {
     await expect(reportsClient.getReportMappings("-", "-", 0)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000] when calling getReportMappingsIterator."
     );
@@ -75,7 +75,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Mappings - Create unsuccessfully", async function () {
+  it("Mappings - Create unsuccessfully", async () => {
     const newMapping: MappingCreate = {
       mappingName: "",
     };
@@ -84,7 +84,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Mappings - Update unsuccessfully", async function () {
+  it("Mappings - Update unsuccessfully", async () => {
     const mappingUpdate: MappingUpdate = {};
     await expect(mappingsClient.updateMapping("-", "-", "-", mappingUpdate)).to.be.rejectedWith(
       "All properties of mapping were missing when calling updateMapping.",
@@ -96,7 +96,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Mappings - Faulty top value", async function () {
+  it("Mappings - Faulty top value", async () => {
     await expect(mappingsClient.getMappings("-", "-", 0)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000] when calling getMappingsIterator."
     );
@@ -105,7 +105,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Mappings - Copy unsuccessfully", async function () {
+  it("Mappings - Copy unsuccessfully", async () => {
     let mappingCopy: MappingCopy = {
       targetIModelId: "-",
       mappingName: "",
@@ -123,7 +123,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Groups - Create unsuccessfully", async function () {
+  it("Groups - Create unsuccessfully", async () => {
     const newGroup: GroupCreate = {
       groupName: "Test",
       query: "",
@@ -134,11 +134,11 @@ describe("Validation", () => {
     newGroup.groupName = "";
     newGroup.query = "Valid query";
     await expect(mappingsClient.createGroup("-", "-", "-", newGroup)).to.be.rejectedWith(
-      "Required field mappingName of group was null or undefined when calling createGroup.",
+      "Required field mappingName of group was invalid when calling createGroup.",
     );
   });
 
-  it("Groups - Update unsuccessfully", async function () {
+  it("Groups - Update unsuccessfully", async () => {
     let groupUpdate: GroupUpdate = {};
     await expect(mappingsClient.updateGroup("-", "-", "-", "-", groupUpdate)).to.be.rejectedWith(
       "All properties of group were missing when calling updateGroup.",
@@ -156,7 +156,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Groups - Faulty top value", async function () {
+  it("Groups - Faulty top value", async () => {
     await expect(mappingsClient.getGroups("-", "-", "-", 0)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000] when calling getGroupsIterator."
     );
@@ -165,7 +165,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Group properties - Create unsuccessfully", async function () {
+  it("Group properties - Create unsuccessfully", async () => {
     const ecProperty: ECProperty = {
       ecClassName: "class",
       ecPropertyName: "property",
@@ -215,7 +215,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Group properties - Update unsuccessfully", async function () {
+  it("Group properties - Update unsuccessfully", async () => {
     const ecProperty: ECProperty = {
       ecClassName: "class",
       ecPropertyName: "property",
@@ -265,7 +265,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Group properties - Faulty top value", async function () {
+  it("Group properties - Faulty top value", async () => {
     await expect(mappingsClient.getGroupProperties("-", "-", "-", "-", 0)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000] when calling getGroupPropertiesIterator."
     );
@@ -274,7 +274,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Calculated properties - Create unsuccessfully", async function () {
+  it("Calculated properties - Create unsuccessfully", async () => {
     const newProperty: CalculatedPropertyCreate = {
       propertyName: "",
       type: CalculatedPropertyType.Length,
@@ -290,7 +290,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Calculated properties - Update unsuccessfully", async function () {
+  it("Calculated properties - Update unsuccessfully", async () => {
     const calcPropertyUpdate: CalculatedPropertyUpdate = {};
     await expect(mappingsClient.updateCalculatedProperty("-", "-", "-", "-", "-", calcPropertyUpdate)).to.be.rejectedWith(
       "All properties of property were missing when calling updateCalculatedProperty.",
@@ -307,7 +307,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Calculated properties - Faulty top value", async function () {
+  it("Calculated properties - Faulty top value", async () => {
     await expect(mappingsClient.getCalculatedProperties("-", "-", "-", "-", 0)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000] when calling getCalculatedPropertiesIterator."
     );
@@ -316,7 +316,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Custom calculations - Create unsuccessfully", async function () {
+  it("Custom calculations - Create unsuccessfully", async () => {
     const newCalculation: CustomCalculationCreate = {
       propertyName: "",
       formula: "1+1",
@@ -333,7 +333,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Custom calculations - Update unsuccessfully", async function () {
+  it("Custom calculations - Update unsuccessfully", async () => {
     const custCalculationUpdate: CustomCalculationUpdate = {};
     await expect(mappingsClient.updateCustomCalculation("-", "-", "-", "-", "-", custCalculationUpdate)).to.be.rejectedWith(
       "All properties of property were missing when calling updateProperty.",
@@ -349,7 +349,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Custom calculations - Faulty top value", async function () {
+  it("Custom calculations - Faulty top value", async () => {
     await expect(mappingsClient.getCustomCalculations("-", "-", "-", "-", 0)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000] when calling getCustomCalculationsIterator."
     );
@@ -358,7 +358,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Extraction logs - Faulty top value", async function () {
+  it("Extraction logs - Faulty top value", async () => {
     await expect(extractionClient.getExtractionLogs("-", "-", 0)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000] when calling getExtractionLogsIterator."
     );
@@ -367,7 +367,7 @@ describe("Validation", () => {
     );
   });
 
-  it("Odata - Faulty odata item", async function () {
+  it("Odata - Faulty odata item", async () => {
     const item: ODataItem = {
       name: "Test",
       url: "1/2",

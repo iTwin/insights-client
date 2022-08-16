@@ -11,15 +11,15 @@ export interface IReportsClient{
    * Gets all Reports within the context of a Project. This method returns the full list of reports.
    * @param {string} projectId The Project Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {boolean} deleted parameter to specify whether to include deleted reports
-   * @param {number} top the number of entities to load.
+   * @param {boolean} deleted Parameter to specify whether to include deleted reports
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
   getReports(
     accessToken: AccessToken,
     projectId: string,
-    deleted: boolean,
+    deleted?: boolean,
     top?: number
   ): Promise<Report[]>;
 
@@ -28,15 +28,15 @@ export interface IReportsClient{
    * This method returns an iterator which loads pages of reports as it is being iterated over.
    * @param {string} projectId The Project Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {boolean} deleted parameter to specify whether to include deleted reports
-   * @param {number} top the number of entities to load.
+   * @param {boolean} deleted Parameter to specify whether to include deleted reports
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
   getReportsIterator(
     accessToken: AccessToken,
     projectId: string,
-    deleted: boolean,
+    deleted?: boolean,
     top?: number
   ): EntityListIterator<Report>;
 
@@ -94,7 +94,7 @@ export interface IReportsClient{
    * Gets all Report Mappings for a Report. This method returns the full list of report mappings.
    * @param {string} reportId The Report Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
    */
@@ -109,7 +109,7 @@ export interface IReportsClient{
    * This method returns an iterator which loads pages of report mappings as it is being iterated over.
    * @param {string} reportId The Report Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
    */

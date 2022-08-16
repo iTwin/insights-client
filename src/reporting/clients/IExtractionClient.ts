@@ -11,7 +11,7 @@ export interface IExtractionClient {
    * Gets Logs of an Extraction Run. This method returns the full list of extraction logs
    * @param {string} jobId Unique Identifier of the Extraction Run.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-extraction-logs/
    */
@@ -26,7 +26,7 @@ export interface IExtractionClient {
    * This method returns an iterator which loads pages of extraction logs as it is being iterated over.
    * @param {string} jobId Unique Identifier of the Extraction Run.
    * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top the number of entities to load.
+   * @param {number} top The number of entities to load.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-extraction-logs/
    */

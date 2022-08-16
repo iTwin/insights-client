@@ -17,16 +17,16 @@ describe("OData Client", () => {
 
   let reportId: string;
   let oDataItem: ODataItem;
-  const deletionTracker: Array<string> = [];
+  let mappingId: string;
 
-  before(async function () {
+  before(async () => {
     const newMapping: MappingCreate = {
       mappingName: "Test",
     };
     const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
     expect(mapping).to.not.be.undefined;
     expect(mapping.mappingName).to.be.eq("Test");
-    deletionTracker.push(mapping.id);
+    mappingId = mapping.id;
 
     const newGroup: GroupCreate = {
       groupName: "Test",
@@ -43,7 +43,6 @@ describe("OData Client", () => {
     const report = await reportsClient.createReport(accessToken, newReport);
     expect(report).to.not.be.undefined;
     expect(report.displayName).to.be.eq("Test");
-    deletionTracker.push(report.id);
     reportId = report.id;
 
     const newReportMapping: ReportMappingCreate = {
@@ -53,7 +52,6 @@ describe("OData Client", () => {
     const reportMapping = await reportsClient.createReportMapping(accessToken, report.id, newReportMapping);
     expect(reportMapping).to.not.be.undefined;
     expect(reportMapping.mappingId).to.be.eq(mapping.id);
-    deletionTracker.push(reportMapping.mappingId);
 
     const extraction = await extractionClient.runExtraction(accessToken, testIModel.id);
     expect(extraction).to.not.be.undefined;
@@ -75,44 +73,38 @@ describe("OData Client", () => {
 
   });
 
-  after(async function () {
-    let i = 0;
-    if(i < deletionTracker.length) {
-      await mappingsClient.deleteMapping(accessToken, testIModel.id, deletionTracker[i]);
-    }
-    if(++i < deletionTracker.length) {
-      await reportsClient.deleteReport(accessToken, deletionTracker[i]);
-    }
-    if(++i < deletionTracker.length) {
-      await reportsClient.deleteReportMapping(accessToken, deletionTracker[i - 1], deletionTracker[i]);
-    }
+  after(async () => {
+    await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingId);
+    await reportsClient.deleteReport(accessToken, reportId);
 
     await testIModelGroup.cleanupIModels();
   });
 
-  it("get OData report", async function () {
+  it("get OData report", async () => {
     const oDataResponse = await oDataClient.getODataReport(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
     expect(oDataResponse["@odata.context"]).to.not.be.undefined;
   });
 
-  it("get OData report metadata", async function () {
+  it("get OData report metadata", async () => {
     const oDataResponse = await oDataClient.getODataReportMetadata(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
     expect(oDataResponse.status).to.not.be.undefined;
+    expect(oDataResponse.status).to.be.above(199);
+    expect(oDataResponse.status).to.be.below(600);
   });
 
-  it("throw OData report metadata", async function () {
+  it("throw OData report metadata", async () => {
     await expect(oDataClient.getODataReportMetadata(accessToken, "-")).to.be.rejected;
   });
 
-  it("get OData report entity", async function () {
+  it("get OData report entity", async () => {
     const oDataEntity = await oDataClient.getODataReportEntities(accessToken, reportId, oDataItem);
     expect(oDataEntity).to.not.be.undefined;
     expect(oDataEntity).to.not.be.empty;
   });
 
-  it("get OData report entity page", async function () {
+  it("get OData report entity page", async () => {
     const oDataEntity = await oDataClient.getODataReportEntityPage(accessToken, reportId, oDataItem, 0);
     expect(oDataEntity).to.not.be.undefined;
     expect(oDataEntity).to.not.be.empty;
