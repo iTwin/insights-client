@@ -83,15 +83,14 @@ describe("OData Client", () => {
   it("get OData report", async () => {
     const oDataResponse = await oDataClient.getODataReport(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
-    expect(oDataResponse["@odata.context"]).to.not.be.undefined;
+    expect(oDataResponse["@odata.context"]).to.not.be.empty;
   });
 
   it("get OData report metadata", async () => {
     const oDataResponse = await oDataClient.getODataReportMetadata(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
-    expect(oDataResponse.status).to.not.be.undefined;
-    expect(oDataResponse.status).to.be.above(199);
-    expect(oDataResponse.status).to.be.below(600);
+    expect(oDataResponse).to.not.be.empty;
+    expect(oDataResponse[0].name).to.not.be.empty;
   });
 
   it("throw OData report metadata", async () => {

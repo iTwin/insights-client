@@ -5,12 +5,13 @@
 import type { AccessToken } from "@itwin/core-bentley";
 import { RequiredError } from "../interfaces/Errors";
 import type { PagedResponseLinks } from "../interfaces/Links";
-import type { ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse } from "../interfaces/OData";
+import { DisplayTable, ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse } from "../interfaces/OData";
 import type { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { OperationsBase } from "../OperationsBase";
 import type { IOdataClient } from "./IODataClient";
+import { XMLParser } from "fast-xml-parser";
 
 export class ODataClient extends OperationsBase implements IOdataClient{
   public async getODataReport(accessToken: AccessToken, reportId: string): Promise<ODataResponse> {
@@ -80,9 +81,39 @@ export class ODataClient extends OperationsBase implements IOdataClient{
       }));
   }
 
-  public async getODataReportMetadata(accessToken: AccessToken, reportId: string): Promise<Response> {
+  public async getODataReportMetadata(accessToken: AccessToken, reportId: string): Promise<DisplayTable[]> {
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/$metadata`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return this.fetchData(url, requestOptions);
+    const response = await this.fetchData(url, requestOptions);
+
+    const options = {
+      ignoreAttributes: false,
+      attributeNamePrefix : "",
+    };
+    const parser = new XMLParser(options);
+    const parsedXML = parser.parse(await response.text());
+    if (!parsedXML["edmx:Edmx"]["edmx:DataServices"].Schema[0]) {
+      return [];
+    }
+    let tables = parsedXML["edmx:Edmx"]["edmx:DataServices"].Schema[0].EntityType;
+    if (!(tables instanceof Array)) {
+      tables = [tables];
+    }
+
+    const result: DisplayTable[] = [];
+    for (const table of tables) {
+      const currentTable: DisplayTable = {
+        name: table.Name,
+        columns: [],
+      };
+      for (const property of table.Property) {
+        currentTable.columns.push({
+          name: property.Name,
+          type: property.Type,
+        });
+      }
+      result.push(currentTable);
+    }
+    return result;
   }
 }

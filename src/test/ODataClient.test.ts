@@ -6,6 +6,8 @@ import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
 import { ODataClient, ODataEntityResponse, ODataEntityValue, ODataItem } from "../reporting";
+import * as fs from "fs";
+import * as path from "path";
 use(chaiAsPromised);
 
 describe("OData Client", () => {
@@ -54,16 +56,25 @@ describe("OData Client", () => {
     };
     requestStub.returns(request);
     const myOptions = { status: 200, statusText: "Test" };
-    const body = {
-      test: "test",
-    };
-    let response: Response = new Response(JSON.stringify(body), myOptions);
+    let body: string = fs.readFileSync(path.join(__dirname, "test-data/validMetaData.xml"), "utf-8");
+    let response: Response = new Response(body, myOptions);
     fetchStub.resolves(response);
+
     let report = await oDataClient.getODataReportMetadata("-", "-");
-    expect(report.status).to.be.eq(200);
+    expect(report).to.not.be.undefined;
+    expect(report[0].name).to.be.eq("EntityName");
+    expect(report[0].columns[0].name).to.be.eq("ECInstanceId");
+
+    body = fs.readFileSync(path.join(__dirname, "test-data/largeMetaData.xml"), "utf-8");
+    response = new Response(body, myOptions);
+    fetchStub.resolves(response);
+
+    report = await oDataClient.getODataReportMetadata("-", "-");
+    expect(report).to.not.be.undefined;
+    expect(report.length).to.be.eq(2);
 
     myOptions.status = 400;
-    response = new Response(JSON.stringify(body), myOptions);
+    response = new Response(body, myOptions);
     fetchStub.throws(response);
     await expect(oDataClient.getODataReportMetadata("-", "-")).to.be.rejected;
 
@@ -73,7 +84,8 @@ describe("OData Client", () => {
     )).to.be.true;
 
     myOptions.status = 200;
-    response = new Response(JSON.stringify(body), myOptions);
+    body = fs.readFileSync(path.join(__dirname, "test-data/emptyMetaData.xml"), "utf-8");
+    response = new Response(body, myOptions);
     fetchStub.resolves(response);
     report = await oDataClientNewBase.getODataReportMetadata("-", "-");
     expect(fetchStub.calledWith(

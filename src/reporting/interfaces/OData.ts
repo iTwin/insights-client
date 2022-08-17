@@ -64,3 +64,43 @@ export interface ODataEntityResponse {
 }
 
 export interface ODataEntityValue { [key: string]: string | number | boolean | null}
+
+/**
+ * OData MetaData table.
+ * @export
+ * @interface DisplayTable
+ */
+export interface DisplayTable {
+  /**
+   * Table name
+   * @type {string}
+   * @memberof DisplayTable
+   */
+  name: string;
+  /**
+   * Table columns
+   * @type {string}
+   * @memberof DisplayTable
+   */
+  columns: ODataColumn[];
+}
+
+/**
+ * OData MetaData property.
+ * @export
+ * @interface ODataColumn
+ */
+export interface ODataColumn {
+  /**
+   * Property name
+   * @type {string}
+   * @memberof ODataColumn
+   */
+  name: string;
+  /**
+   * Property type
+   * @type {string}
+   * @memberof ODataColumn
+   */
+  type: string;
+}

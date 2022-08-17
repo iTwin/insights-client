@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
-import type { ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse } from "../interfaces/OData";
+import type { DisplayTable, ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse } from "../interfaces/OData";
 import type { EntityListIterator } from "../iterators/EntityListIterator";
 
 export interface IOdataClient{
@@ -73,5 +73,5 @@ export interface IOdataClient{
   getODataReportMetadata(
     accessToken: AccessToken,
     reportId: string
-  ): Promise<Response>;
+  ): Promise<DisplayTable[]>;
 }
