@@ -24,20 +24,14 @@ describe("Mapping Client", () => {
       mappingName: "Test1",
     };
     let mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    expect(mapping).to.not.be.undefined;
-    expect(mapping.mappingName).to.be.eq("Test1");
     mappingIds.push(mapping.id);
 
     newMapping.mappingName = "Test2";
     mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    expect(mapping).to.not.be.undefined;
-    expect(mapping.mappingName).to.be.eq("Test2");
     mappingIds.push(mapping.id);
 
     newMapping.mappingName = "Test3";
     mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    expect(mapping).to.not.be.undefined;
-    expect(mapping.mappingName).to.be.eq("Test3");
     mappingIds.push(mapping.id);
 
     // create groups
@@ -46,19 +40,13 @@ describe("Mapping Client", () => {
       query: "select * from biscore.element limit 10",
     };
     let group = await mappingsClient.createGroup(accessToken, testIModel.id, mappingIds[0], newGroup);
-    expect(group).to.not.be.undefined;
-    expect(group.groupName).to.be.eq("Test1");
     groupId = group.id;
 
     newGroup.groupName = "Test2";
     group = await mappingsClient.createGroup(accessToken, testIModel.id, mappingIds[0], newGroup);
-    expect(group).to.not.be.undefined;
-    expect(group.groupName).to.be.eq("Test2");
 
     newGroup.groupName = "Test3";
     group = await mappingsClient.createGroup(accessToken, testIModel.id, mappingIds[0], newGroup);
-    expect(group).to.not.be.undefined;
-    expect(group.groupName).to.be.eq("Test3");
 
     // create group properties
     const ecProperty: ECProperty = {
@@ -74,28 +62,13 @@ describe("Mapping Client", () => {
       ecProperties: [ecProperty],
     };
     let property = await mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty);
-    expect(property).to.not.be.undefined;
-    expect(property.propertyName).to.be.eq("Prop1");
-    expect(property.dataType).to.be.eq(DataType.Number);
-    expect(property.quantityType).to.be.eq(QuantityType.Distance);
-    expect(property.ecProperties[0].ecPropertyType).to.be.eq(DataType.String);
     groupPropertyId = property.id;
 
     newProperty.propertyName = "Prop2";
     property = await mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty);
-    expect(property.dataType).to.be.eq(DataType.Number);
-    expect(property.quantityType).to.be.eq(QuantityType.Distance);
-    expect(property.ecProperties[0].ecPropertyType).to.be.eq(DataType.String);
-    expect(property).to.not.be.undefined;
-    expect(property.propertyName).to.be.eq("Prop2");
 
     newProperty.propertyName = "Prop3";
     property = await mappingsClient.createGroupProperty(accessToken, testIModel.id, mappingIds[0], groupId, newProperty);
-    expect(property.dataType).to.be.eq(DataType.Number);
-    expect(property.quantityType).to.be.eq(QuantityType.Distance);
-    expect(property.ecProperties[0].ecPropertyType).to.be.eq(DataType.String);
-    expect(property).to.not.be.undefined;
-    expect(property.propertyName).to.be.eq("Prop3");
 
     // create calculated properties
     const newCalculatedProperty: CalculatedPropertyCreate = {
@@ -103,22 +76,13 @@ describe("Mapping Client", () => {
       type: CalculatedPropertyType.Length,
     };
     let calcProperty = await mappingsClient.createCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, newCalculatedProperty);
-    expect(calcProperty).to.not.be.undefined;
-    expect(calcProperty.propertyName).to.be.eq("Calc1");
-    expect(calcProperty.type).to.be.eq(CalculatedPropertyType.Length);
     calculatedPropertyId = calcProperty.id;
 
     newCalculatedProperty.propertyName = "Calc2";
     calcProperty = await mappingsClient.createCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, newCalculatedProperty);
-    expect(calcProperty).to.not.be.undefined;
-    expect(calcProperty.propertyName).to.be.eq("Calc2");
-    expect(calcProperty.type).to.be.eq(CalculatedPropertyType.Length);
 
     newCalculatedProperty.propertyName = "Calc3";
     calcProperty = await mappingsClient.createCalculatedProperty(accessToken, testIModel.id, mappingIds[0], groupId, newCalculatedProperty);
-    expect(calcProperty).to.not.be.undefined;
-    expect(calcProperty.propertyName).to.be.eq("Calc3");
-    expect(calcProperty.type).to.be.eq(CalculatedPropertyType.Length);
 
     // create customCalculations
     const newCustomCalculation: CustomCalculationCreate = {
@@ -127,22 +91,13 @@ describe("Mapping Client", () => {
       quantityType: QuantityType.Distance,
     };
     let custCalculation = await mappingsClient.createCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, newCustomCalculation);
-    expect(custCalculation).to.not.be.undefined;
-    expect(custCalculation.propertyName).to.be.eq("Cust1");
-    expect(custCalculation.quantityType).to.be.eq(QuantityType.Distance);
     customCalculationId = custCalculation.id;
 
     newCustomCalculation.propertyName = "Cust2";
     custCalculation = await mappingsClient.createCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, newCustomCalculation);
-    expect(custCalculation).to.not.be.undefined;
-    expect(custCalculation.propertyName).to.be.eq("Cust2");
-    expect(custCalculation.quantityType).to.be.eq(QuantityType.Distance);
 
     newCustomCalculation.propertyName = "Cust3";
     custCalculation = await mappingsClient.createCustomCalculation(accessToken, testIModel.id, mappingIds[0], groupId, newCustomCalculation);
-    expect(custCalculation).to.not.be.undefined;
-    expect(custCalculation.propertyName).to.be.eq("Cust3");
-    expect(custCalculation.quantityType).to.be.eq(QuantityType.Distance);
   });
 
   after(async () => {

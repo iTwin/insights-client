@@ -101,22 +101,22 @@ describe("Extraction Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/extraction/status/-/logs/?%24top=2", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/extraction/status/-/logs/?$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/datasources/extraction/status/-/logs/?%24top=2", "pass").resolves(returns2);
+      .withArgs("BASE/datasources/extraction/status/-/logs/?$top=2", "pass").resolves(returns2);
 
     let extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs("-", "-", 2);
     expect(extraction.length).to.be.eq(4);
     expect(extraction[0]).to.be.eq(1);
     expect(extraction[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/extraction/status/-/logs/?%24top=2",
+      "https://api.bentley.com/insights/reporting/datasources/extraction/status/-/logs/?$top=2",
       "pass",
     )).to.be.true;
 
     extraction = await extractionClientNewBase.getExtractionLogs("-", "-", 2);
     expect(fetchStub.calledWith(
-      "BASE/datasources/extraction/status/-/logs/?%24top=2",
+      "BASE/datasources/extraction/status/-/logs/?$top=2",
       "pass",
     )).to.be.true;
   });

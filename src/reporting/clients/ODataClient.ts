@@ -5,7 +5,7 @@
 import type { AccessToken } from "@itwin/core-bentley";
 import { RequiredError } from "../interfaces/Errors";
 import type { PagedResponseLinks } from "../interfaces/Links";
-import { DisplayTable, ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse } from "../interfaces/OData";
+import { ODataTable, ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse } from "../interfaces/OData";
 import type { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
@@ -81,7 +81,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
       }));
   }
 
-  public async getODataReportMetadata(accessToken: AccessToken, reportId: string): Promise<DisplayTable[]> {
+  public async getODataReportMetadata(accessToken: AccessToken, reportId: string): Promise<ODataTable[]> {
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/$metadata`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     const response = await this.fetchData(url, requestOptions);
@@ -100,9 +100,9 @@ export class ODataClient extends OperationsBase implements IOdataClient{
       tables = [tables];
     }
 
-    const result: DisplayTable[] = [];
+    const result: ODataTable[] = [];
     for (const table of tables) {
-      const currentTable: DisplayTable = {
+      const currentTable: ODataTable = {
         name: table.Name,
         columns: [],
       };

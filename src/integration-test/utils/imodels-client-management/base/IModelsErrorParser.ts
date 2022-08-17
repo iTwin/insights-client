@@ -89,7 +89,9 @@ export class IModelsErrorParser {
 
   private static parseAndFormatMessage(message: string | undefined, errorDetails: IModelsErrorDetail[] | undefined): string {
     let result = message ?? IModelsErrorParser._defaultErrorMessage;
-    if (!errorDetails || errorDetails.length === 0) {return result;}
+    if (!errorDetails || errorDetails.length === 0) {
+      return result;
+    }
 
     result += " Details:\n";
     for (let i = 0; i < errorDetails.length; i++) {

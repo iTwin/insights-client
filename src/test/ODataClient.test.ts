@@ -64,6 +64,15 @@ describe("OData Client", () => {
     expect(report).to.not.be.undefined;
     expect(report[0].name).to.be.eq("EntityName");
     expect(report[0].columns[0].name).to.be.eq("ECInstanceId");
+    expect(report[0].columns[1].name).to.be.eq("ECClassId");
+    expect(report[0].columns[2].name).to.be.eq("UserLabel");
+    expect(report[0].columns[3].name).to.be.eq("BBoxLow");
+    expect(report[0].columns[4].name).to.be.eq("BBoxHigh");
+    expect(report[0].columns[0].type).to.be.eq("Edm.String");
+    expect(report[0].columns[1].type).to.be.eq("Edm.String");
+    expect(report[0].columns[2].type).to.be.eq("Edm.String");
+    expect(report[0].columns[3].type).to.be.eq("Edm.String");
+    expect(report[0].columns[4].type).to.be.eq("Edm.String");
 
     body = fs.readFileSync(path.join(__dirname, "test-data/largeMetaData.xml"), "utf-8");
     response = new Response(body, myOptions);
@@ -72,6 +81,16 @@ describe("OData Client", () => {
     report = await oDataClient.getODataReportMetadata("-", "-");
     expect(report).to.not.be.undefined;
     expect(report.length).to.be.eq(2);
+    expect(report[1].columns[0].name).to.be.eq("ECInstanceId");
+    expect(report[1].columns[1].name).to.be.eq("ECClassId");
+    expect(report[1].columns[2].name).to.be.eq("UserLabel");
+    expect(report[1].columns[3].name).to.be.eq("BBoxLow");
+    expect(report[1].columns[4].name).to.be.eq("BBoxHigh");
+    expect(report[1].columns[0].type).to.be.eq("Edm.String");
+    expect(report[1].columns[1].type).to.be.eq("Edm.String");
+    expect(report[1].columns[2].type).to.be.eq("Edm.String");
+    expect(report[1].columns[3].type).to.be.eq("Edm.String");
+    expect(report[1].columns[4].type).to.be.eq("Edm.String");
 
     myOptions.status = 400;
     response = new Response(body, myOptions);

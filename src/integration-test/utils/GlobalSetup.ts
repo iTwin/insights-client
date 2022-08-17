@@ -14,14 +14,16 @@ import { getTestDIContainer } from "./TestDiContainerProvider";
 
 let testRunId: string;
 export function getTestRunId(): string {
-  if (!testRunId) {testRunId = createGuidValue();}
+  if (!testRunId) {
+    testRunId = createGuidValue();
+  }
   return testRunId;
 }
 
 export let accessToken: string;
 export let testIModel: IModelMetadata;
 export let testIModelGroup: TestIModelGroup;
-export let projectId: string;
+export let iTwinId: string;
 
 export async function mochaGlobalSetup() {
   await cleanupIModelsInTestProject();
@@ -38,7 +40,7 @@ export async function mochaGlobalSetup() {
   testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: TestConstants.packagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
 
   const testProjectProvider = container.get(TestProjectProvider);
-  projectId = await testProjectProvider.getOrCreate();
+  iTwinId = await testProjectProvider.getOrCreate();
 
   const testIModelCreator = container.get(TestIModelCreator);
   testIModel = await testIModelCreator.createEmptyAndUploadChangesets(testIModelGroup.getPrefixedUniqueIModelName("Test iModel for write"));

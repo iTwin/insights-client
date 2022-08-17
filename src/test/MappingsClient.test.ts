@@ -141,22 +141,22 @@ describe("mappings Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/?%24top=2", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/?$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/datasources/imodels/-/mappings/?%24top=2", "pass").resolves(returns2);
+      .withArgs("BASE/datasources/imodels/-/mappings/?$top=2", "pass").resolves(returns2);
 
     let mappings: Array<Mapping> = await mappingsClient.getMappings("-", "-", 2);
     expect(mappings.length).to.be.eq(4);
     expect(mappings[0]).to.be.eq(1);
     expect(mappings[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/?%24top=2",
+      "https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/?$top=2",
       "pass",
     )).to.be.true;
 
     mappings = await mappingsClientNewBase.getMappings("-", "-", 2);
     expect(fetchStub.calledWith(
-      "BASE/datasources/imodels/-/mappings/?%24top=2",
+      "BASE/datasources/imodels/-/mappings/?$top=2",
       "pass",
     )).to.be.true;
   });
@@ -343,22 +343,22 @@ describe("mappings Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/?%24top=2", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/?$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/datasources/imodels/-/mappings/--/groups/?%24top=2", "pass").resolves(returns2);
+      .withArgs("BASE/datasources/imodels/-/mappings/--/groups/?$top=2", "pass").resolves(returns2);
 
     let groups: Array<Group> = await mappingsClient.getGroups("-", "-", "--", 2);
     expect(groups.length).to.be.eq(4);
     expect(groups[0]).to.be.eq(1);
     expect(groups[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/?%24top=2",
+      "https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/?$top=2",
       "pass",
     )).to.be.true;
 
     groups = await mappingsClientNewBase.getGroups("-", "-", "--", 2);
     expect(fetchStub.calledWith(
-      "BASE/datasources/imodels/-/mappings/--/groups/?%24top=2",
+      "BASE/datasources/imodels/-/mappings/--/groups/?$top=2",
       "pass",
     )).to.be.true;
   });
@@ -516,22 +516,22 @@ describe("mappings Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/properties/?%24top=2", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/properties/?$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/datasources/imodels/-/mappings/--/groups/---/properties/?%24top=2", "pass").resolves(returns2);
+      .withArgs("BASE/datasources/imodels/-/mappings/--/groups/---/properties/?$top=2", "pass").resolves(returns2);
 
     let properties: Array<GroupProperty> = await mappingsClient.getGroupProperties("-", "-", "--", "---", 2);
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
     expect(properties[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/properties/?%24top=2",
+      "https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/properties/?$top=2",
       "pass",
     )).to.be.true;
 
     properties = await mappingsClientNewBase.getGroupProperties("-", "-", "--", "---", 2);
     expect(fetchStub.calledWith(
-      "BASE/datasources/imodels/-/mappings/--/groups/---/properties/?%24top=2",
+      "BASE/datasources/imodels/-/mappings/--/groups/---/properties/?$top=2",
       "pass",
     )).to.be.true;
   });
@@ -706,22 +706,22 @@ describe("mappings Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/calculatedProperties/?%24top=2", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/calculatedProperties/?$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/datasources/imodels/-/mappings/--/groups/---/calculatedProperties/?%24top=2", "pass").resolves(returns2);
+      .withArgs("BASE/datasources/imodels/-/mappings/--/groups/---/calculatedProperties/?$top=2", "pass").resolves(returns2);
 
     let properties: Array<CalculatedProperty> = await mappingsClient.getCalculatedProperties("-", "-", "--", "---", 2);
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
     expect(properties[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/calculatedProperties/?%24top=2",
+      "https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/calculatedProperties/?$top=2",
       "pass",
     )).to.be.true;
 
     properties = await mappingsClientNewBase.getCalculatedProperties("-", "-", "--", "---", 2);
     expect(fetchStub.calledWith(
-      "BASE/datasources/imodels/-/mappings/--/groups/---/calculatedProperties/?%24top=2",
+      "BASE/datasources/imodels/-/mappings/--/groups/---/calculatedProperties/?$top=2",
       "pass",
     )).to.be.true;
   });
@@ -880,22 +880,22 @@ describe("mappings Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/customCalculations/?%24top=2", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/customCalculations/?$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/datasources/imodels/-/mappings/--/groups/---/customCalculations/?%24top=2", "pass").resolves(returns2);
+      .withArgs("BASE/datasources/imodels/-/mappings/--/groups/---/customCalculations/?$top=2", "pass").resolves(returns2);
 
     let properties: Array<CustomCalculation> = await mappingsClient.getCustomCalculations("-", "-", "--", "---", 2);
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
     expect(properties[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/customCalculations/?%24top=2",
+      "https://api.bentley.com/insights/reporting/datasources/imodels/-/mappings/--/groups/---/customCalculations/?$top=2",
       "pass",
     )).to.be.true;
 
     properties = await mappingsClientNewBase.getCustomCalculations("-", "-", "--", "---", 2);
     expect(fetchStub.calledWith(
-      "BASE/datasources/imodels/-/mappings/--/groups/---/customCalculations/?%24top=2",
+      "BASE/datasources/imodels/-/mappings/--/groups/---/customCalculations/?$top=2",
       "pass",
     )).to.be.true;
   });

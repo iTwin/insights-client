@@ -12,24 +12,24 @@ import type { Report, ReportCollection, ReportCreate, ReportMapping, ReportMappi
 import type { IReportsClient } from "./IReportsClient";
 
 export class ReportsClient extends OperationsBase implements IReportsClient{
-  public async getReports(accessToken: AccessToken, projectId: string, top?: number, deleted = false): Promise<Report[]> {
+  public async getReports(accessToken: AccessToken, iTwinId: string, top?: number, deleted = false): Promise<Report[]> {
     const reports: Array<Report> = [];
-    const reportIterator = this.getReportsIterator(accessToken, projectId, top, deleted);
+    const reportIterator = this.getReportsIterator(accessToken, iTwinId, top, deleted);
     for await(const report of reportIterator) {
       reports.push(report);
     }
     return reports;
   }
 
-  public getReportsIterator(accessToken: AccessToken, projectId: string, top?: number, deleted = false): EntityListIterator<Report> {
+  public getReportsIterator(accessToken: AccessToken, iTwinId: string, top?: number, deleted = false): EntityListIterator<Report> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000] when calling getReportsIterator."
       );
     }
-    let url = `${this.basePath}/reports?projectId=${encodeURIComponent(projectId)}&deleted=${encodeURIComponent(deleted)}`;
-    url += top ? `&%24top=${top}` : "";
+    let url = `${this.basePath}/reports?iTwinId=${encodeURIComponent(iTwinId)}&deleted=${encodeURIComponent(deleted)}`;
+    url += top ? `&$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Report>(
       url,
@@ -56,9 +56,9 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
         "Required field displayName of report was null or undefined when calling createReport.",
       );
     }
-    if (!report.projectId) {
+    if (!report.iTwinId) {
       throw new RequiredError(
-        "projectId",
+        "iTwinId",
         "Required field of report was null or undefined when calling createReport.",
       );
     }
@@ -110,7 +110,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
       );
     }
     let url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
-    url += top ? `/?%24top=${top}` : "";
+    url += top ? `/?$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ReportMapping>(
       url,

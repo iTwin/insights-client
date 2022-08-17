@@ -6,7 +6,7 @@ import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import { ExtractionClient, ExtractionStatus, ExtractorState, GroupCreate, MappingCreate, MappingsClient, ODataClient, ODataItem, ReportCreate, ReportMappingCreate, ReportsClient } from "../../reporting";
 import "reflect-metadata";
-import { accessToken, projectId, sleep, testIModel, testIModelGroup } from "../utils";
+import { accessToken, iTwinId, sleep, testIModel, testIModelGroup } from "../utils";
 use(chaiAsPromised);
 
 describe("OData Client", () => {
@@ -24,8 +24,6 @@ describe("OData Client", () => {
       mappingName: "Test",
     };
     const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    expect(mapping).to.not.be.undefined;
-    expect(mapping.mappingName).to.be.eq("Test");
     mappingId = mapping.id;
 
     const newGroup: GroupCreate = {
@@ -33,16 +31,12 @@ describe("OData Client", () => {
       query: "select * from biscore.element limit 10",
     };
     const group = await mappingsClient.createGroup(accessToken, testIModel.id, mapping.id, newGroup);
-    expect(group).to.not.be.undefined;
-    expect(group.groupName).to.be.eq("Test");
 
     const newReport: ReportCreate = {
       displayName: "Test",
-      projectId,
+      iTwinId,
     };
     const report = await reportsClient.createReport(accessToken, newReport);
-    expect(report).to.not.be.undefined;
-    expect(report.displayName).to.be.eq("Test");
     reportId = report.id;
 
     const newReportMapping: ReportMappingCreate = {
@@ -50,12 +44,8 @@ describe("OData Client", () => {
       imodelId: testIModel.id,
     };
     const reportMapping = await reportsClient.createReportMapping(accessToken, report.id, newReportMapping);
-    expect(reportMapping).to.not.be.undefined;
-    expect(reportMapping.mappingId).to.be.eq(mapping.id);
 
     const extraction = await extractionClient.runExtraction(accessToken, testIModel.id);
-    expect(extraction).to.not.be.undefined;
-
     let state = ExtractorState.Queued;
     let status: ExtractionStatus;
     for (const start = performance.now(); performance.now() - start < 6 * 60 * 1000; await sleep(3000)) {
@@ -67,10 +57,7 @@ describe("OData Client", () => {
     expect(state).to.be.eq(ExtractorState.Succeeded);
 
     const oDataResponse = await oDataClient.getODataReport(accessToken, reportId);
-    expect(oDataResponse).to.not.be.undefined;
-    expect(oDataResponse.value).to.not.be.empty;
     oDataItem = oDataResponse.value[0];
-
   });
 
   after(async () => {

@@ -92,7 +92,9 @@ export class TestAuthorizationClient {
 
   private async consentIfNeeded(browserPage: puppeteer.Page): Promise<void> {
     const isConsentPage = await browserPage.title() === this._consentPageTitle;
-    if (!isConsentPage) {return;}
+    if (!isConsentPage) {
+      return;
+    }
 
     const consentButton = await this.captureElement(browserPage, this._pageElementIds.buttons.consent);
     await Promise.all([
@@ -129,7 +131,10 @@ export class TestAuthorizationClient {
     return new Promise<string>((resolve) => {
       browserPage.on("request", async (interceptedRequest) => {
         const currentRequestUrl = interceptedRequest.url();
-        if (!currentRequestUrl.startsWith(this._authConfig.redirectUrl)) {await interceptedRequest.continue();} else {
+        if (!currentRequestUrl.startsWith(this._authConfig.redirectUrl)) {
+          await interceptedRequest.continue();
+        }
+        else {
           await this.respondSuccess(interceptedRequest);
           resolve(this.getCodeFromUrl(currentRequestUrl));
         }

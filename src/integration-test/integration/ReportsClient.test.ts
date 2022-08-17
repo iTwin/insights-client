@@ -5,7 +5,7 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
-import { accessToken, projectId, testIModel, testIModelGroup } from "../utils";
+import { accessToken, iTwinId, testIModel, testIModelGroup } from "../utils";
 import { MappingCreate, MappingsClient, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../../reporting";
 use(chaiAsPromised);
 
@@ -23,42 +23,30 @@ describe("Reports Client", () => {
       mappingName: "Test1",
     };
     let mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    expect(mapping).to.not.be.undefined;
-    expect(mapping.mappingName).to.be.eq("Test1");
     mappingIds.push(mapping.id);
 
     newMapping.mappingName = "Test2";
     mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    expect(mapping).to.not.be.undefined;
-    expect(mapping.mappingName).to.be.eq("Test2");
     mappingIds.push(mapping.id);
 
     newMapping.mappingName = "Test3";
     mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    expect(mapping).to.not.be.undefined;
-    expect(mapping.mappingName).to.be.eq("Test3");
     mappingIds.push(mapping.id);
 
     // create reports for tests
     const newReport: ReportCreate = {
       displayName: "Test1",
-      projectId,
+      iTwinId,
     };
     let report = await reportsClient.createReport(accessToken, newReport);
-    expect(report).to.not.be.undefined;
-    expect(report.displayName).to.be.eq("Test1");
     reportIds.push(report.id);
 
     newReport.displayName = "Test2";
     report = await reportsClient.createReport(accessToken, newReport);
-    expect(report).to.not.be.undefined;
-    expect(report.displayName).to.be.eq("Test2");
     reportIds.push(report.id);
 
     newReport.displayName = "Test3";
     report = await reportsClient.createReport(accessToken, newReport);
-    expect(report).to.not.be.undefined;
-    expect(report.displayName).to.be.eq("Test3");
     reportIds.push(report.id);
 
     // create reportMappings for tests
@@ -67,20 +55,14 @@ describe("Reports Client", () => {
       imodelId: testIModel.id,
     };
     let reportMapping = await reportsClient.createReportMapping(accessToken, reportIds[0], newReportMapping);
-    expect(reportMapping).to.not.be.undefined;
-    expect(reportMapping.mappingId).to.be.eq(mappingIds[mappingIds.length-3]);
     reportMappingIds.push(reportMapping.mappingId);
 
     newReportMapping.mappingId = mappingIds[mappingIds.length-2];
     reportMapping = await reportsClient.createReportMapping(accessToken, reportIds[0], newReportMapping);
-    expect(reportMapping).to.not.be.undefined;
-    expect(reportMapping.mappingId).to.be.eq(mappingIds[mappingIds.length-2]);
     reportMappingIds.push(reportMapping.mappingId);
 
     newReportMapping.mappingId = mappingIds[mappingIds.length-1];
     reportMapping = await reportsClient.createReportMapping(accessToken, reportIds[0], newReportMapping);
-    expect(reportMapping).to.not.be.undefined;
-    expect(reportMapping.mappingId).to.be.eq(mappingIds[mappingIds.length-1]);
     reportMappingIds.push(reportMapping.mappingId);
   });
 
@@ -98,7 +80,7 @@ describe("Reports Client", () => {
   it("Reports - Create and delete", async () => {
     const newReport: ReportCreate = {
       displayName: "Test",
-      projectId,
+      iTwinId,
     };
     const report = await reportsClient.createReport(accessToken, newReport);
     expect(report).to.not.be.undefined;
@@ -124,7 +106,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get all non deleted", async () => {
-    const reports = await reportsClient.getReports(accessToken, projectId, undefined, true);
+    const reports = await reportsClient.getReports(accessToken, iTwinId, undefined, true);
     expect(reports).to.not.be.undefined;
     for(const report of reports) {
       expect(["Test1", "Test2", "Test3", "Test"]).to.include(report.displayName);
@@ -132,7 +114,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get all", async () => {
-    const reports = await reportsClient.getReports(accessToken, projectId);
+    const reports = await reportsClient.getReports(accessToken, iTwinId);
     expect(reports).to.not.be.undefined;
     expect(reports.length).to.be.above(2);
     for(const report of reports) {
@@ -141,7 +123,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get with iterator", async () => {
-    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
+    const reportsIt = reportsClient.getReportsIterator(accessToken, iTwinId, 2);
     let flag = false;
     for await(const report of reportsIt) {
       flag = true;
@@ -152,7 +134,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get pages", async () => {
-    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
+    const reportsIt = reportsClient.getReportsIterator(accessToken, iTwinId, 2);
     let elementCount = 0;
     let flag = false;
     for await(const reports of reportsIt.byPage()) {

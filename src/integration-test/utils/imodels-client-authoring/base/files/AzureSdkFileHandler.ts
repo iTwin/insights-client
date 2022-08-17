@@ -41,7 +41,9 @@ export class AzureSdkFileHandler implements FileHandler {
 
   private isUrlExpired(url: string): boolean {
     const signedExpiryUrlParam = new URL(url).searchParams.get("se");
-    if (!signedExpiryUrlParam) {return false;}
+    if (!signedExpiryUrlParam) {
+      return false;
+    }
 
     const expiryUtc = new Date(signedExpiryUrlParam);
     const currentUtc = new Date(new Date().toUTCString());

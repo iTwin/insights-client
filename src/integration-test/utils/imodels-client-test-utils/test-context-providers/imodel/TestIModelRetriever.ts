@@ -111,8 +111,9 @@ export class TestIModelRetriever {
       iModelId,
     };
     const locks: Lock[] = await toArray(this._iModelsClient.locks.getList(getLockListParams));
-    if (locks.length !== 1)
+    if (locks.length !== 1) {
       throw new TestSetupError(`${locks.length} is an unexpected lock count for reusable test iModel.`);
+    }
 
     return locks[0];
   }

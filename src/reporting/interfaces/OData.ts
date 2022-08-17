@@ -68,19 +68,19 @@ export interface ODataEntityValue { [key: string]: string | number | boolean | n
 /**
  * OData MetaData table.
  * @export
- * @interface DisplayTable
+ * @interface ODataTable
  */
-export interface DisplayTable {
+export interface ODataTable {
   /**
    * Table name
    * @type {string}
-   * @memberof DisplayTable
+   * @memberof ODataTable
    */
   name: string;
   /**
    * Table columns
    * @type {string}
-   * @memberof DisplayTable
+   * @memberof ODataTable
    */
   columns: ODataColumn[];
 }

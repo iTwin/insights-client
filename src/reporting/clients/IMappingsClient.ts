@@ -14,8 +14,8 @@ export interface IMappingsClient {
   /**
    * Gets all Mappings for an iModel. This method returns the full list of mappings.
    * @param {string} iModelId The iModel Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top The number of entities to load.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
    */
@@ -29,8 +29,8 @@ export interface IMappingsClient {
    * Gets an async paged iterator of Mappings for an iModel.
    * This method returns an iterator which loads pages of mappings as it is being iterated over.
    * @param {string} iModelId The iModel Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top The number of entities to load.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
    */
@@ -44,24 +44,26 @@ export interface IMappingsClient {
    * Gets a Mapping for an iModel.
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mapping/
    */
-  getMapping(accessToken: AccessToken,
+  getMapping(
+    accessToken: AccessToken,
     iModelId: string,
     mappingId: string
   ): Promise<Mapping>;
 
   /**
    * Creates a Mapping for an iModel.
-   * @param {string} iModelId Id of the iModel for which to create a new Mapping.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} iModelId The iModel Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {MappingCreate} mapping Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-mapping/
    */
-  createMapping(accessToken: AccessToken,
+  createMapping(
+    accessToken: AccessToken,
     iModelId: string,
     mapping: MappingCreate
   ): Promise<Mapping>;
@@ -69,13 +71,14 @@ export interface IMappingsClient {
   /**
    * Updates a Mapping for an iModel.
    * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId Id of the Mapping to be updated.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} mappingId The Mapping Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {MappingUpdate} mapping Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/update-mapping/
    */
-  updateMapping(accessToken: AccessToken,
+  updateMapping(
+    accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     mapping: MappingUpdate
@@ -84,26 +87,28 @@ export interface IMappingsClient {
   /**
    * Deletes a Mapping for an iModel.
    * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId Id of the Mapping to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} mappingId The Mapping Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-mapping/
    */
-  deleteMapping(accessToken: AccessToken,
+  deleteMapping(
+    accessToken: AccessToken,
     iModelId: string,
     mappingId: string
   ): Promise<Response>;
 
   /**
    * Copies a Mapping and all its Groups, GroupProperties, CalculatedProperties, and CustomCalculations to a target iModel.
-   * @param {string} iModelId Id of the source Mapping&#x27;s iModel.
+   * @param {string} iModelId Id of the source Mapping's iModel.
    * @param {string} mappingId Id of the source Mapping.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {MappingCopy} mappingCopy Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/copy-mapping/
    */
-  copyMapping(accessToken: AccessToken,
+  copyMapping(
+    accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     mappingCopy: MappingCopy
@@ -113,12 +118,13 @@ export interface IMappingsClient {
    * Gets all Groups for a Mapping. This method returns the full list of groups.
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top The number of entities to load.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-groups/
    */
-  getGroups(accessToken: AccessToken,
+  getGroups(
+    accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     top?: number
@@ -129,27 +135,29 @@ export interface IMappingsClient {
    * This method returns an iterator which loads pages of groups as it is being iterated over.
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top The number of entities to load.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-groups/
    */
-  getGroupsIterator(accessToken: AccessToken,
+  getGroupsIterator(
+    accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     top?: number
   ): EntityListIterator<Group>;
 
   /**
-   * Creates a Group for an iModel data source Mapping.
+   * Creates a Group for a Mapping.
    * @param {string} iModelId The iModel Id.
-   * @param {string} mappingId Id of the Mapping for which to create a new Group.
-   * @param {string} AccessToken OAuth access token with scope `insights:modify`
+   * @param {string} mappingId The Mapping Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {GroupCreate} group Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-group/
    */
-  createGroup(accessToken: AccessToken,
+  createGroup(
+    accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     group: GroupCreate
@@ -160,11 +168,12 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-group/
    */
-  getGroup(accessToken: AccessToken,
+  getGroup(
+    accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     groupId: string
@@ -172,15 +181,16 @@ export interface IMappingsClient {
 
   /**
    * Updates a Group for a Mapping.
-   * @param {string} iModelId Globally Unique Identifier of the target iModel.
-   * @param {string} mappingId Globally Unique Identifier of the target Mapping.
-   * @param {string} groupId Id of the Group to be updated.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} iModelId The iModel Id.
+   * @param {string} mappingId The Mapping Id.
+   * @param {string} groupId The Group Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {GroupUpdate} group Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/update-group/
    */
-  updateGroup(accessToken: AccessToken,
+  updateGroup(
+    accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     groupId: string,
@@ -191,12 +201,13 @@ export interface IMappingsClient {
    * Deletes a Group for a Mapping.
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId Id of the Group to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} groupId The Group Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-group/
    */
-  deleteGroup(accessToken: AccessToken,
+  deleteGroup(
+    accessToken: AccessToken,
     iModelId: string,
     mappingId: string,
     groupId: string
@@ -207,8 +218,8 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top The number of entities to load.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-groupproperties/
    */
@@ -226,8 +237,8 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top The number of entities to load.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-groupproperties/
    */
@@ -245,7 +256,7 @@ export interface IMappingsClient {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
    * @param {string} propertyId The GroupProperty Id.
-   * @param {string} accessToken access token with scope `insights:read`
+   * @param {string} accessToken access token with scope `insights:read`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-groupproperty/
    */
@@ -261,8 +272,8 @@ export interface IMappingsClient {
    * Creates a GroupProperty for a Group.
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId Id of the Group for which to create a new GroupProperty.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} groupId The Group Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {GroupPropertyCreate} groupProperty Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-groupproperty/
@@ -280,8 +291,8 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} propertyId Id of the GroupProperty to be updated.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} propertyId The Group Property Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {GroupPropertyUpdate} groupProperty Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/update-groupproperty/
@@ -300,8 +311,8 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} propertyId Id of the GroupProperty to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} propertyId The Group Property Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-groupproperty/
    */
@@ -318,8 +329,8 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top The number of entities to load.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-calculatedproperties/
    */
@@ -337,8 +348,8 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top The number of entities to load.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-calculatedproperties/
    */
@@ -356,7 +367,7 @@ export interface IMappingsClient {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
    * @param {string} propertyId The CalculatedProperty Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-calculatedproperty/
    */
@@ -372,7 +383,7 @@ export interface IMappingsClient {
    * Creates a CalculatedProperty for a Group.
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId Id of the Group for which to create a new CalculatedProperty.
+   * @param {string} groupId The Group Id.
    * @param {string} accessToken OAuth access token with scope `insights:modify`
    * @param {CalculatedPropertyCreate} property Request body.
    * @memberof ReportingClient
@@ -391,8 +402,8 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} propertyId Id of the CalculatedProperty to be updated.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} propertyId The Calculated Property Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {CalculatedPropertyUpdate} property Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/update-calculatedproperty/
@@ -411,8 +422,8 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} propertyId Id of the CalculatedProperty to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} propertyId The Calculated Property Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-calculatedproperty/
    */
@@ -429,8 +440,8 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top The number of entities to load.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-customcalculations/
    */
@@ -448,8 +459,8 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top The number of entities to load.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-customcalculations/
    */
@@ -467,7 +478,7 @@ export interface IMappingsClient {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
    * @param {string} propertyId The CustomCalculation Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-customcalculation/
    */
@@ -483,8 +494,8 @@ export interface IMappingsClient {
    * Creates a CustomCalculation for a Group.
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
-   * @param {string} groupId Id of the Group for which to create a new CustomCalculation.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} groupId The Group Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {CustomCalculationCreate} property Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-customcalculation/
@@ -502,8 +513,8 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} customCalculationId Id of the CustomCalculation to be updated.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} propertyId The Custom Calculation Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {CustomCalculationUpdate} property Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/update-customcalculation/
@@ -522,8 +533,8 @@ export interface IMappingsClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
-   * @param {string} customCalculationId Id of the CustomCalculation to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} propertyId The Custom Calculation Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-customcalculation/
    */

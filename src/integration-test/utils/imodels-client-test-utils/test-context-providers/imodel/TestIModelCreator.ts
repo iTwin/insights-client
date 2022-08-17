@@ -184,9 +184,13 @@ export class TestIModelCreator {
       const checkpoint = await this._iModelsClient.checkpoints.getSingle(getSingleCheckpointParams);
 
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      if (checkpoint.state === CheckpointState.Successful && checkpoint._links?.download !== undefined && checkpoint.containerAccessInfo !== null) {return;}
+      if (checkpoint.state === CheckpointState.Successful && checkpoint._links?.download !== undefined && checkpoint.containerAccessInfo !== null) {
+        return;
+      }
 
-      if (checkpoint.state !== CheckpointState.Scheduled && checkpoint.state !== CheckpointState.Successful) {throw new TestSetupError(`Checkpoint generation failed with state: ${checkpoint.state}.`);}
+      if (checkpoint.state !== CheckpointState.Scheduled && checkpoint.state !== CheckpointState.Successful) {
+        throw new TestSetupError(`Checkpoint generation failed with state: ${checkpoint.state}.`);
+      }
 
       await sleep(sleepPeriodInMs);
     }

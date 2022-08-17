@@ -21,12 +21,9 @@ describe("Extraction Client", () => {
       mappingName: "Test",
     };
     const map = await mappingsClient.createMapping(accessToken, testIModel.id, newMap);
-    expect(map).to.not.be.undefined;
-    expect(map.mappingName).to.be.eq("Test");
     mappingId = map.id;
 
     const extraction: ExtractionRun = await extractionClient.runExtraction(accessToken, testIModel.id);
-    expect(extraction).to.not.be.undefined;
     extractionId = extraction.id;
   });
 

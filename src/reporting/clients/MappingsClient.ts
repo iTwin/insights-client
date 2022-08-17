@@ -33,7 +33,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
       );
     }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings`;
-    url += top ?  `/?%24top=${top}` : "";
+    url += top ? `/?$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Mapping>(
       url,
@@ -155,7 +155,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
       );
     }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
-    url += top ? `/?%24top=${top}` : "";
+    url += top ? `/?$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Group>(
       url,
@@ -275,7 +275,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
       );
     }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
-    url += top ? `/?%24top=${top}` : "";
+    url += top ? `/?$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<GroupProperty>(
       url,
@@ -421,7 +421,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
       );
     }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
-    url += top ? `/?%24top=${top}` : "";
+    url += top ? `/?$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<CalculatedProperty>(
       url,
@@ -544,7 +544,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
       );
     }
     let url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations`;
-    url += top ? `/?%24top=${top}` : "";
+    url += top ? `/?$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<CustomCalculation>(
       url,

@@ -82,6 +82,8 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
   }
 
   private validateConfigValue(key: string): void {
-    if (!process.env[key]) {throw new TestSetupError(`Invalid configuration: missing ${key} value.`);}
+    if (!process.env[key]) {
+      throw new TestSetupError(`Invalid configuration: missing ${key} value.`);
+    }
   }
 }

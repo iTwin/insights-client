@@ -61,10 +61,14 @@ export class IModelsApiUrlFormatter {
   protected formQueryString(urlParameters: Dictionary<UrlParameterValue> | undefined): string {
     let queryString = "";
     for (const urlParameterKey in urlParameters) {
-      if (!Object.prototype.hasOwnProperty.call(urlParameters, urlParameterKey)) {continue;}
+      if (!Object.prototype.hasOwnProperty.call(urlParameters, urlParameterKey)) {
+        continue;
+      }
 
       const urlParameterValue = urlParameters[urlParameterKey];
-      if (!this.shouldAppendToUrl(urlParameterValue)) {continue;}
+      if (!this.shouldAppendToUrl(urlParameterValue)) {
+        continue;
+      }
 
       queryString = this.appendToQueryString(queryString, urlParameterKey, urlParameterValue);
     }
@@ -73,9 +77,13 @@ export class IModelsApiUrlFormatter {
   }
 
   private shouldAppendToUrl(urlParameterValue: UrlParameterValue): boolean {
-    if (urlParameterValue === null || urlParameterValue === undefined) {return false;}
+    if (urlParameterValue === null || urlParameterValue === undefined) {
+      return false;
+    }
 
-    if (typeof urlParameterValue === "string" && !urlParameterValue.trim()) {return false;}
+    if (typeof urlParameterValue === "string" && !urlParameterValue.trim()) {
+      return false;
+    }
 
     return true;
   }
@@ -88,7 +96,9 @@ export class IModelsApiUrlFormatter {
   private stringify(urlParameterValue: UrlParameterValue): string {
     if (this.isOrderBy(urlParameterValue)) {
       let result: string = urlParameterValue.property;
-      if (urlParameterValue.operator) {result += ` ${urlParameterValue.operator}`;}
+      if (urlParameterValue.operator) {
+        result += ` ${urlParameterValue.operator}`;
+      }
 
       return result;
     }

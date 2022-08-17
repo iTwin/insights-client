@@ -29,7 +29,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
       );
     }
     let url = `${this.basePath}/datasources/extraction/status/${encodeURIComponent(jobId)}/logs`;
-    url += top ? `/?%24top=${top}` : "";
+    url += top ? `/?$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ExtractionLog>(
       url,

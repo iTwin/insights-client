@@ -26,7 +26,9 @@ export class BriefcaseOperations<TOptions extends OperationOptions> extends Mana
   }
 
   private getAcquireBriefcaseRequestBody(briefcaseProperties: BriefcaseProperties | undefined): Record<string, unknown> | undefined {
-    if (!briefcaseProperties) {return undefined;}
+    if (!briefcaseProperties) {
+      return undefined;
+    }
 
     return {
       deviceName: briefcaseProperties.deviceName,

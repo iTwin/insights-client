@@ -9,16 +9,16 @@ import type { EntityListIterator } from "../iterators/EntityListIterator";
 export interface IReportsClient{
   /**
    * Gets all Reports within the context of a Project. This method returns the full list of reports.
-   * @param {string} projectId The Project Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {boolean} deleted Parameter to specify whether to include deleted reports
-   * @param {number} top The number of entities to load.
+   * @param {string} iTwinId The iTwin Id.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {boolean} deleted Parameter to specify whether to include deleted reports.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
   getReports(
     accessToken: AccessToken,
-    projectId: string,
+    iTwinId: string,
     top?: number,
     deleted?: boolean
   ): Promise<Report[]>;
@@ -26,16 +26,16 @@ export interface IReportsClient{
   /**
    * Gets an async paged iterator for Reports within the context of a Project.
    * This method returns an iterator which loads pages of reports as it is being iterated over.
-   * @param {string} projectId The Project Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {boolean} deleted Parameter to specify whether to include deleted reports
-   * @param {number} top The number of entities to load.
+   * @param {string} iTwinId The iTwin Id.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {boolean} deleted Parameter to specify whether to include deleted reports.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
   getReportsIterator(
     accessToken: AccessToken,
-    projectId: string,
+    iTwinId: string,
     top?: number,
     deleted?: boolean,
   ): EntityListIterator<Report>;
@@ -43,7 +43,7 @@ export interface IReportsClient{
   /**
    * Gets a single Report.
    * @param {string} reportId The Report Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report/
    */
@@ -54,7 +54,7 @@ export interface IReportsClient{
 
   /**
    * Creates a Report within the context of a Project.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {ReportCreate} report Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-report/
@@ -66,8 +66,8 @@ export interface IReportsClient{
 
   /**
    * Updates a Report.
-   * @param {string} reportId Id of the Report to be updated.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} reportId The Report Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {ReportUpdate} report Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/update-report/
@@ -79,9 +79,9 @@ export interface IReportsClient{
   ): Promise<Report>;
 
   /**
-   * Marks a Report for deletetion.
-   * @param {string} reportId Id of the Report to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * Marks a Report for deletion.
+   * @param {string} reportId The Report Id.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-report/
    */
@@ -93,8 +93,8 @@ export interface IReportsClient{
   /**
    * Gets all Report Mappings for a Report. This method returns the full list of report mappings.
    * @param {string} reportId The Report Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top The number of entities to load.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
    */
@@ -108,8 +108,8 @@ export interface IReportsClient{
    * Gets an async paged iterator of Report Mappings for a Report.
    * This method returns an iterator which loads pages of report mappings as it is being iterated over.
    * @param {string} reportId The Report Id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`
-   * @param {number} top The number of entities to load.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {number} top the number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
    */
@@ -122,7 +122,7 @@ export interface IReportsClient{
   /**
    * Creates a Report Mapping.
    * @param {string} reportId The Report Id.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {ReportMappingCreate} reportMapping Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-report-mapping/
@@ -136,8 +136,8 @@ export interface IReportsClient{
   /**
    * Deletes a Report Mapping from a Report.
    * @param {string} reportId The Report Id.
-   * @param {string} mappingId Id of the Report Mapping to be deleted.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`
+   * @param {string} reportMappingId The Report Mapping Id
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-report-mapping/
    */
