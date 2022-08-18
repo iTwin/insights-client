@@ -6,7 +6,7 @@ import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import { ExtractionClient, ExtractionStatus, ExtractorState, GroupCreate, MappingCreate, MappingsClient, ODataClient, ODataItem, ReportCreate, ReportMappingCreate, ReportsClient } from "../../reporting";
 import "reflect-metadata";
-import { accessToken, iTwinId, sleep, testIModel, testIModelGroup } from "../utils";
+import { accessToken, projectId, sleep, testIModel, testIModelGroup } from "../utils";
 use(chaiAsPromised);
 
 describe("OData Client", () => {
@@ -30,11 +30,11 @@ describe("OData Client", () => {
       groupName: "Test",
       query: "select * from biscore.element limit 10",
     };
-    const group = await mappingsClient.createGroup(accessToken, testIModel.id, mapping.id, newGroup);
+    await mappingsClient.createGroup(accessToken, testIModel.id, mapping.id, newGroup);
 
     const newReport: ReportCreate = {
       displayName: "Test",
-      iTwinId,
+      projectId,
     };
     const report = await reportsClient.createReport(accessToken, newReport);
     reportId = report.id;
@@ -43,7 +43,7 @@ describe("OData Client", () => {
       mappingId: mapping.id,
       imodelId: testIModel.id,
     };
-    const reportMapping = await reportsClient.createReportMapping(accessToken, report.id, newReportMapping);
+    await reportsClient.createReportMapping(accessToken, report.id, newReportMapping);
 
     const extraction = await extractionClient.runExtraction(accessToken, testIModel.id);
     let state = ExtractorState.Queued;

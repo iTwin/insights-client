@@ -133,8 +133,7 @@ export class TestAuthorizationClient {
         const currentRequestUrl = interceptedRequest.url();
         if (!currentRequestUrl.startsWith(this._authConfig.redirectUrl)) {
           await interceptedRequest.continue();
-        }
-        else {
+        } else {
           await this.respondSuccess(interceptedRequest);
           resolve(this.getCodeFromUrl(currentRequestUrl));
         }

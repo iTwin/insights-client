@@ -16,14 +16,14 @@ describe("Validation", () => {
   it("Reports - Create unsuccessfully", async () => {
     const newReport: ReportCreate = {
       displayName: "",
-      iTwinId: "-",
+      projectId: "-",
     };
     await expect(reportsClient.createReport("-", newReport)).to.be.rejectedWith(
       "Required field displayName of report was null or undefined when calling createReport."
     );
 
     newReport.displayName = "Test";
-    newReport.iTwinId = "";
+    newReport.projectId = "";
     await expect(reportsClient.createReport("-", newReport)).to.be.rejectedWith(
       "Required field of report was null or undefined when calling createReport."
     );

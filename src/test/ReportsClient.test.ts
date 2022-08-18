@@ -64,22 +64,22 @@ describe("Reports Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?iTwinId=-&deleted=false", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/reports?iTwinId=-&deleted=false", "pass").resolves(returns2);
+      .withArgs("BASE/reports?projectId=-&deleted=false", "pass").resolves(returns2);
 
     let reports: Array<Report> = await reportsClient.getReports("-", "-");
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/reports?iTwinId=-&deleted=false",
+      "https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false",
       "pass"
     )).to.be.true;
 
     reports = await reportsClientNewBase.getReports("-", "-");
     expect(fetchStub.calledWith(
-      "BASE/reports?iTwinId=-&deleted=false",
+      "BASE/reports?projectId=-&deleted=false",
       "pass"
     )).to.be.true;
   });
@@ -97,7 +97,7 @@ describe("Reports Client", () => {
     expect(it).to.not.be.undefined;
     await it.next();
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/reports?iTwinId=-&deleted=false",
+      "https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false",
       "pass"
     )).to.be.true;
 
@@ -105,7 +105,7 @@ describe("Reports Client", () => {
     expect(it).to.not.be.undefined;
     await it.next();
     expect(fetchStub.calledWith(
-      `https://api.bentley.com/insights/reporting/reports?iTwinId=-&deleted=false&$top=2`,
+      `https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false&$top=2`,
       "pass"
     )).to.be.true;
   });
@@ -127,22 +127,22 @@ describe("Reports Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?iTwinId=-&deleted=true", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=true", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/reports?iTwinId=-&deleted=true", "pass").resolves(returns2);
+      .withArgs("BASE/reports?projectId=-&deleted=true", "pass").resolves(returns2);
 
     let reports: Array<Report> = await reportsClient.getReports("-", "-", undefined, true);
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/reports?iTwinId=-&deleted=true",
+      "https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=true",
       "pass"
     )).to.be.true;
 
     reports = await reportsClientNewBase.getReports("-", "-", undefined, true);
     expect(fetchStub.calledWith(
-      "BASE/reports?iTwinId=-&deleted=true",
+      "BASE/reports?projectId=-&deleted=true",
       "pass"
     )).to.be.true;
   });
@@ -164,22 +164,22 @@ describe("Reports Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?iTwinId=-&deleted=false&$top=2", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false&$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/reports?iTwinId=-&deleted=false&$top=2", "pass").resolves(returns2);
+      .withArgs("BASE/reports?projectId=-&deleted=false&$top=2", "pass").resolves(returns2);
 
     let reports: Array<Report> = await reportsClient.getReports("-", "-", 2);
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/reports?iTwinId=-&deleted=false&$top=2",
+      "https://api.bentley.com/insights/reporting/reports?projectId=-&deleted=false&$top=2",
       "pass"
     )).to.be.true;
 
     reports = await reportsClientNewBase.getReports("-", "-", 2);
     expect(fetchStub.calledWith(
-      "BASE/reports?iTwinId=-&deleted=false&$top=2",
+      "BASE/reports?projectId=-&deleted=false&$top=2",
       "pass"
     )).to.be.true;
   });
@@ -187,7 +187,7 @@ describe("Reports Client", () => {
   it("Reports - Create", async () => {
     const newReport: ReportCreate = {
       displayName: "Test1",
-      iTwinId: "-",
+      projectId: "-",
     };
     const returns = {
       report: {

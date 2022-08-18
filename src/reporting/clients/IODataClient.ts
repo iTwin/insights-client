@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
-import type { ODataTable, ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse } from "../interfaces/OData";
+import type { ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse, ODataTable } from "../interfaces/OData";
 import type { EntityListIterator } from "../iterators/EntityListIterator";
 
 export interface IOdataClient{

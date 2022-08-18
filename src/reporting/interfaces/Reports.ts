@@ -83,11 +83,11 @@ export interface ReportCreate {
    */
   description?: string;
   /**
-   * The iTwin Id this Report will be drawing data from.
+   * The project Id this Report will be drawing data from.
    * @type {string}
    * @memberof ReportCreate
    */
-  iTwinId: string;
+  projectId: string;
 }
 
 /**

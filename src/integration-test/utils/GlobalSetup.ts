@@ -23,7 +23,7 @@ export function getTestRunId(): string {
 export let accessToken: string;
 export let testIModel: IModelMetadata;
 export let testIModelGroup: TestIModelGroup;
-export let iTwinId: string;
+export let projectId: string;
 
 export async function mochaGlobalSetup() {
   await cleanupIModelsInTestProject();
@@ -40,7 +40,7 @@ export async function mochaGlobalSetup() {
   testIModelGroup = testIModelGroupFactory.create({ testRunId: getTestRunId(), packageName: TestConstants.packagePrefix, testSuiteName: "ManagementNamedVersionOperations" });
 
   const testProjectProvider = container.get(TestProjectProvider);
-  iTwinId = await testProjectProvider.getOrCreate();
+  projectId = await testProjectProvider.getOrCreate();
 
   const testIModelCreator = container.get(TestIModelCreator);
   testIModel = await testIModelCreator.createEmptyAndUploadChangesets(testIModelGroup.getPrefixedUniqueIModelName("Test iModel for write"));

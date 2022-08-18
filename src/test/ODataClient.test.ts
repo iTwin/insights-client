@@ -81,6 +81,7 @@ describe("OData Client", () => {
     report = await oDataClient.getODataReportMetadata("-", "-");
     expect(report).to.not.be.undefined;
     expect(report.length).to.be.eq(2);
+    expect(report[1].name).to.be.eq("EntityName2");
     expect(report[1].columns[0].name).to.be.eq("ECInstanceId");
     expect(report[1].columns[1].name).to.be.eq("ECClassId");
     expect(report[1].columns[2].name).to.be.eq("UserLabel");
@@ -91,6 +92,13 @@ describe("OData Client", () => {
     expect(report[1].columns[2].type).to.be.eq("Edm.String");
     expect(report[1].columns[3].type).to.be.eq("Edm.String");
     expect(report[1].columns[4].type).to.be.eq("Edm.String");
+
+    body = fs.readFileSync(path.join(__dirname, "test-data/noSchemaMetaData.xml"), "utf-8");
+    response = new Response(body, myOptions);
+    fetchStub.resolves(response);
+
+    report = await oDataClient.getODataReportMetadata("-", "-");
+    expect(report).to.be.empty;
 
     myOptions.status = 400;
     response = new Response(body, myOptions);
@@ -107,6 +115,7 @@ describe("OData Client", () => {
     response = new Response(body, myOptions);
     fetchStub.resolves(response);
     report = await oDataClientNewBase.getODataReportMetadata("-", "-");
+    expect(report).to.be.empty;
     expect(fetchStub.calledWith(
       "BASE/odata/-/$metadata",
       request,

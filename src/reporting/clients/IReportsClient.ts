@@ -9,7 +9,7 @@ import type { EntityListIterator } from "../iterators/EntityListIterator";
 export interface IReportsClient{
   /**
    * Gets all Reports within the context of a Project. This method returns the full list of reports.
-   * @param {string} iTwinId The iTwin Id.
+   * @param {string} projectId The project Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {boolean} deleted Parameter to specify whether to include deleted reports.
    * @param {number} top the number of entities to load per page.
@@ -18,7 +18,7 @@ export interface IReportsClient{
    */
   getReports(
     accessToken: AccessToken,
-    iTwinId: string,
+    projectId: string,
     top?: number,
     deleted?: boolean
   ): Promise<Report[]>;
@@ -26,7 +26,7 @@ export interface IReportsClient{
   /**
    * Gets an async paged iterator for Reports within the context of a Project.
    * This method returns an iterator which loads pages of reports as it is being iterated over.
-   * @param {string} iTwinId The iTwin Id.
+   * @param {string} projectId The project Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {boolean} deleted Parameter to specify whether to include deleted reports.
    * @param {number} top the number of entities to load per page.
@@ -35,7 +35,7 @@ export interface IReportsClient{
    */
   getReportsIterator(
     accessToken: AccessToken,
-    iTwinId: string,
+    projectId: string,
     top?: number,
     deleted?: boolean,
   ): EntityListIterator<Report>;

@@ -5,7 +5,7 @@
 import type { AccessToken } from "@itwin/core-bentley";
 import { RequiredError } from "../interfaces/Errors";
 import type { PagedResponseLinks } from "../interfaces/Links";
-import { ODataTable, ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse } from "../interfaces/OData";
+import { ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse, ODataTable } from "../interfaces/OData";
 import type { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
@@ -92,7 +92,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     };
     const parser = new XMLParser(options);
     const parsedXML = parser.parse(await response.text());
-    if (!parsedXML["edmx:Edmx"]["edmx:DataServices"].Schema[0]) {
+    if (!parsedXML["edmx:Edmx"]["edmx:DataServices"].hasOwnProperty("Schema") || !(parsedXML["edmx:Edmx"]["edmx:DataServices"].Schema instanceof Array)) {
       return [];
     }
     let tables = parsedXML["edmx:Edmx"]["edmx:DataServices"].Schema[0].EntityType;
