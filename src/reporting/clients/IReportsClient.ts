@@ -12,7 +12,7 @@ export interface IReportsClient{
    * @param {string} projectId The project Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {boolean} deleted Parameter to specify whether to include deleted reports.
-   * @param {number} top the number of entities to load per page.
+   * @param {number} top The number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
@@ -29,7 +29,7 @@ export interface IReportsClient{
    * @param {string} projectId The project Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {boolean} deleted Parameter to specify whether to include deleted reports.
-   * @param {number} top the number of entities to load per page.
+   * @param {number} top The number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
@@ -94,7 +94,7 @@ export interface IReportsClient{
    * Gets all Report Mappings for a Report. This method returns the full list of report mappings.
    * @param {string} reportId The Report Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
-   * @param {number} top the number of entities to load per page.
+   * @param {number} top The number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
    */
@@ -109,7 +109,7 @@ export interface IReportsClient{
    * This method returns an iterator which loads pages of report mappings as it is being iterated over.
    * @param {string} reportId The Report Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
-   * @param {number} top the number of entities to load per page.
+   * @param {number} top The number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
    */

@@ -77,7 +77,7 @@ describe("OData Client", () => {
     const oDataResponse = await oDataClient.getODataReportMetadata(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
     expect(oDataResponse).to.not.be.empty;
-    expect(oDataResponse[0].name).to.be.a('string').and.satisfy((msg: string) => msg.startsWith('Test_Test_Mapping_'));
+    expect(oDataResponse[0].name).to.be.a('string').and.satisfy((msg: string) => msg.startsWith('Test_Test'));
     expect(["ECInstanceId", "ECClassId", "UserLabel", "BBoxLow", "BBoxHigh"]).to.include(oDataResponse[0].columns[0].name);
     expect(["ECInstanceId", "ECClassId", "UserLabel", "BBoxLow", "BBoxHigh"]).to.include(oDataResponse[0].columns[1].name);
     expect(["ECInstanceId", "ECClassId", "UserLabel", "BBoxLow", "BBoxHigh"]).to.include(oDataResponse[0].columns[2].name);
