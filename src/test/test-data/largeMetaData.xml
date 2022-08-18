@@ -20,7 +20,7 @@
             <Schema Namespace="Default" xmlns="http://docs.oasis-open.org/odata/ns/edm">
                 <EntityContainer Name="Container">
                     <EntitySet Name="EntityName" EntityType="Insights_and_Reporting_Extractor.EntityName" />
-                    <EntitySet Name="EntityName2" EntityType="Insights_and_Reporting_Extractor.EntityName" />
+                    <EntitySet Name="EntityName2" EntityType="Insights_and_Reporting_Extractor.EntityName2" />
                 </EntityContainer>
             </Schema>
         </edmx:DataServices>

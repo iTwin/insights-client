@@ -25,7 +25,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000] when calling getReportsIterator."
+        "Parameter top was outside of the valid range [1-1000]."
       );
     }
     let url = `${this.basePath}/reports?projectId=${encodeURIComponent(projectId)}&deleted=${encodeURIComponent(deleted)}`;
@@ -53,13 +53,13 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     if (!report.displayName) {
       throw new RequiredError(
         "displayName",
-        "Required field displayName of report was null or undefined when calling createReport.",
+        "Required field displayName of report was null or undefined.",
       );
     }
     if (!report.projectId) {
       throw new RequiredError(
         "projectId",
-        "Required field of report was null or undefined when calling createReport.",
+        "Required field of report was null or undefined.",
       );
     }
 
@@ -72,13 +72,13 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     if (report.deleted == null && report.description == null && report.displayName == null) {
       throw new RequiredError(
         "report",
-        "All fields of report were null or undefined when calling updateReport.",
+        "All fields of report were null or undefined.",
       );
     }
     if (report.displayName === "") {
       throw new RequiredError(
         "displayName",
-        "Field display of report was empty when calling createReportMapping.",
+        "Field display of report was empty.",
       );
     }
 
@@ -106,7 +106,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000] when calling getReportMappingsIterator."
+        "Parameter top was outside of the valid range [1-1000]."
       );
     }
     let url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
@@ -132,13 +132,13 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     if (!reportMapping.imodelId) {
       throw new RequiredError(
         "imodelId",
-        "Required field imodelId of reportMapping was null or undefined when calling createReportMapping.",
+        "Required field imodelId of reportMapping was null or undefined.",
       );
     }
     if (!reportMapping.mappingId) {
       throw new RequiredError(
         "mappingId",
-        "Required field mappingId of reportMapping was null or undefined when calling createReportMapping.",
+        "Required field mappingId of reportMapping was null or undefined.",
       );
     }
 

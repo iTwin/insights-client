@@ -25,7 +25,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     if (segments.length !== 3) {
       throw new RequiredError(
         "odataItem",
-        "odata item was invalid when calling getODataReportEntityPage.",
+        "odata item was invalid.",
       );
     }
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${odataItem.url}?sequence=${encodeURIComponent(sequence)}`;
@@ -38,7 +38,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     if (segments.length !== 3) {
       throw new RequiredError(
         "odataItem",
-        "odata item was invalid when calling getODataReportEntities.",
+        "odata item was invalid.",
       );
     }
     const reportData: Array<ODataEntityValue> = [];
@@ -54,7 +54,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     if (segments.length !== 3) {
       throw new RequiredError(
         "odataItem",
-        "odata item was invalid when calling getODataReportEntitiesIterator.",
+        "odata item was invalid.",
       );
     }
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${odataItem.url}`;

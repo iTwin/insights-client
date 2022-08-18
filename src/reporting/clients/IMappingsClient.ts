@@ -256,7 +256,7 @@ export interface IMappingsClient {
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
    * @param {string} propertyId The GroupProperty Id.
-   * @param {string} accessToken access token with scope `insights:read`.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-groupproperty/
    */

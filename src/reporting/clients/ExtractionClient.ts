@@ -25,7 +25,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000] when calling getExtractionLogsIterator."
+        "Parameter top was outside of the valid range [1-1000]."
       );
     }
     let url = `${this.basePath}/datasources/extraction/status/${encodeURIComponent(jobId)}/logs`;
