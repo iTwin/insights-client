@@ -77,7 +77,17 @@ describe("OData Client", () => {
     const oDataResponse = await oDataClient.getODataReportMetadata(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
     expect(oDataResponse).to.not.be.empty;
-    expect(oDataResponse[0].name).to.not.be.empty;
+    expect(oDataResponse[0].name).to.be.eq("Test_Test_Mapping_8d13eeb5d47d489a93a7f2f2a04eb075");
+    expect(oDataResponse[0].columns[0].name).to.be.eq("ECInstanceId");
+    expect(oDataResponse[0].columns[1].name).to.be.eq("ECClassId");
+    expect(oDataResponse[0].columns[2].name).to.be.eq("UserLabel");
+    expect(oDataResponse[0].columns[3].name).to.be.eq("BBoxLow");
+    expect(oDataResponse[0].columns[4].name).to.be.eq("BBoxHigh");
+    expect(oDataResponse[0].columns[0].type).to.be.eq("Edm.String");
+    expect(oDataResponse[0].columns[1].type).to.be.eq("Edm.String");
+    expect(oDataResponse[0].columns[2].type).to.be.eq("Edm.String");
+    expect(oDataResponse[0].columns[3].type).to.be.eq("Edm.String");
+    expect(oDataResponse[0].columns[4].type).to.be.eq("Edm.String");
   });
 
   it("throw OData report metadata", async () => {
