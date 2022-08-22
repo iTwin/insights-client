@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:DataServices>
+            <Schema Namespace="Insights_and_Reporting_Extractor" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <EntityType Name="EntityName">
+                    <Property Name="ECInstanceId" Type="Edm.String" />
+                    <Property Name="ECClassId" Type="Edm.String" />
+                    <Property Name="UserLabel" Type="Edm.String" />
+                </EntityType>
+              </Schema>
+              <Schema Namespace="Insights_and_Reporting_Extractor" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <EntityType Name="EntityName2">
+                    <Property Name="BBoxLow" Type="Edm.String" />
+                    <Property Name="BBoxHigh" Type="Edm.String" />
+                </EntityType>
+            </Schema>
+            <Schema Namespace="Default" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <EntityContainer Name="Container">
+                    <EntitySet Name="EntityName" EntityType="Insights_and_Reporting_Extractor.EntityName" />
+                    <EntitySet Name="EntityName2" EntityType="Insights_and_Reporting_Extractor.EntityName2" />
+                </EntityContainer>
+            </Schema>
+        </edmx:DataServices>
+</edmx:Edmx>

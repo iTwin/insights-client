@@ -93,6 +93,25 @@ describe("OData Client", () => {
     expect(report[1].columns[3].type).to.be.eq("Edm.String");
     expect(report[1].columns[4].type).to.be.eq("Edm.String");
 
+    body = fs.readFileSync(path.join(__dirname, "test-data/repeatNameSpaceMetaData.xml"), "utf-8");
+    response = new Response(body, myOptions);
+    fetchStub.resolves(response);
+
+    report = await oDataClient.getODataReportMetadata("-", "-");
+    expect(report).to.not.be.undefined;
+    expect(report.length).to.be.eq(2);
+    expect(report[1].name).to.be.eq("EntityName2");
+    expect(["ECInstanceId", "ECClassId", "UserLabel"]).to.include(report[0].columns[0].name);
+    expect(["ECInstanceId", "ECClassId", "UserLabel"]).to.include(report[0].columns[1].name);
+    expect(["ECInstanceId", "ECClassId", "UserLabel"]).to.include(report[0].columns[2].name);
+    expect(["BBoxLow", "BBoxHigh"]).to.include(report[1].columns[0].name);
+    expect(["BBoxLow", "BBoxHigh"]).to.include(report[1].columns[1].name);
+    expect(report[0].columns[0].type).to.be.eq("Edm.String");
+    expect(report[0].columns[1].type).to.be.eq("Edm.String");
+    expect(report[0].columns[2].type).to.be.eq("Edm.String");
+    expect(report[1].columns[0].type).to.be.eq("Edm.String");
+    expect(report[1].columns[1].type).to.be.eq("Edm.String");
+
     body = fs.readFileSync(path.join(__dirname, "test-data/noSchemaMetaData.xml"), "utf-8");
     response = new Response(body, myOptions);
     fetchStub.resolves(response);

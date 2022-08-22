@@ -104,3 +104,95 @@ export interface ODataColumn {
    */
   type: string;
 }
+
+/**
+ * OData MetaData property.
+ * @export
+ * @interface ODataMetaDataProperty
+ */
+export interface ODataMetaDataProperty {
+  /**
+   * Property name
+   * @type {string}
+   * @memberof ODataMetaDataProperty
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  Name: string;
+  /**
+   * Property type
+   * @type {string}
+   * @memberof ODataMetaDataProperty
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  Type: string;
+}
+
+/**
+ * OData MetaData property.
+ * @export
+ * @interface ODataMetaDataSchema
+ */
+export interface ODataMetaDataSchema {
+  /**
+  * Property name
+  * @type {string}
+  * @memberof ODataMetaDataSchema
+  */
+  entityType: ODataMetaDataEntityType;
+  /**
+   * Property name
+   * @type {string}
+   * @memberof ODataMetaDataSchema
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  Namespace: string;
+  /**
+   * Property type
+   * @type {string}
+   * @memberof ODataMetaDataSchema
+   */
+  xmlns: string;
+}
+
+/**
+ * OData MetaData property.
+ * @export
+ * @interface ODataMetaDataEntityType
+ */
+export interface ODataMetaDataEntityType {
+  /**
+  * Property name
+  * @type {ODataMetaDataProperty}
+  * @memberof ODataMetaDataEntityType
+  */
+  property: ODataMetaDataProperty[];
+  /**
+   * Property name
+   * @type {string}
+   * @memberof ODataMetaDataEntityType
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  Name: string;
+}
+
+/**
+ * OData MetaData property.
+ * @export
+ * @interface ODataMetaDataEntitySet
+ */
+export interface ODataMetaDataEntitySet {
+  /**
+  * Property name
+  * @type {ODataMetaDataProperty}
+  * @memberof ODataMetaDataEntitySet
+  */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  Name: string;
+  /**
+   * Property name
+   * @type {string}
+   * @memberof ODataMetaDataEntitySet
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  EntityType: string;
+}
