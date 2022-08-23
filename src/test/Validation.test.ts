@@ -119,7 +119,7 @@ describe("Validation", () => {
       mappingName: "Test",
     };
     await expect(mappingsClient.copyMapping("-", "-", "-", mappingCopy)).to.be.rejectedWith(
-      "Required field targetiModelId was missing.",
+      "Required field targetIModelId was missing.",
     );
   });
 

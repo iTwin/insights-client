@@ -118,8 +118,8 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     }
     if(this.isNullOrWhitespace(mappingCopy.targetIModelId)) {
       throw new RequiredError(
-        "targetiModelId",
-        "Required field targetiModelId was missing.",
+        "targetIModelId",
+        "Required field targetIModelId was missing.",
       );
     }
 
