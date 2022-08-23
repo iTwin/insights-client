@@ -119,6 +119,13 @@ describe("OData Client", () => {
     report = await oDataClient.getODataReportMetadata("-", "-");
     expect(report).to.be.empty;
 
+    body = fs.readFileSync(path.join(__dirname, "test-data/noDefaultSchemaMetaData.xml"), "utf-8");
+    response = new Response(body, myOptions);
+    fetchStub.resolves(response);
+
+    report = await oDataClient.getODataReportMetadata("-", "-");
+    expect(report).to.be.empty;
+
     myOptions.status = 400;
     response = new Response(body, myOptions);
     fetchStub.throws(response);

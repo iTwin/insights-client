@@ -53,13 +53,13 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     if (!report.displayName) {
       throw new RequiredError(
         "displayName",
-        "Required field displayName of report was null or undefined.",
+        "Required field displayName was null or undefined.",
       );
     }
     if (!report.projectId) {
       throw new RequiredError(
         "projectId",
-        "Required field of report was null or undefined.",
+        "Required field projectId was null or undefined.",
       );
     }
 
@@ -78,7 +78,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     if (report.displayName === "") {
       throw new RequiredError(
         "displayName",
-        "Field display of report was empty.",
+        "Field displayName was empty.",
       );
     }
 
@@ -132,13 +132,13 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     if (!reportMapping.imodelId) {
       throw new RequiredError(
         "imodelId",
-        "Required field imodelId of reportMapping was null or undefined.",
+        "Required field imodelId was null or undefined.",
       );
     }
     if (!reportMapping.mappingId) {
       throw new RequiredError(
         "mappingId",
-        "Required field mappingId of reportMapping was null or undefined.",
+        "Required field mappingId was null or undefined.",
       );
     }
 

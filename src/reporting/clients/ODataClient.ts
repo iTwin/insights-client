@@ -25,7 +25,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     if (segments.length !== 3) {
       throw new RequiredError(
         "odataItem",
-        "odata item was invalid.",
+        "Parameter odataItem item was invalid.",
       );
     }
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${odataItem.url}?sequence=${encodeURIComponent(sequence)}`;
@@ -38,7 +38,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     if (segments.length !== 3) {
       throw new RequiredError(
         "odataItem",
-        "odata item was invalid.",
+        "Parameter odataItem item was invalid.",
       );
     }
     const reportData: Array<ODataEntityValue> = [];
@@ -54,7 +54,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     if (segments.length !== 3) {
       throw new RequiredError(
         "odataItem",
-        "odata item was invalid.",
+        "Parameter odataItem item was invalid.",
       );
     }
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}/${odataItem.url}`;
@@ -102,16 +102,14 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     }
 
     const schemas = parsedXML["edmx:Edmx"]["edmx:DataServices"].schema;
-    let entitySet: Array<ODataMetaDataEntitySet>;
-    for (const schema of schemas) {
-      if (schema.Namespace === "Default") {
-        entitySet = this.makeArray(schema.entityContainer.entitySet);
-        break;
-      }
+    const defaultSchema = schemas.find((s: ODataMetaDataSchema) => s.Namespace === "Default");
+    if (defaultSchema === undefined) {
+      return [];
     }
+    const entitySet: Array<ODataMetaDataEntitySet> = this.makeArray(defaultSchema.entityContainer.entitySet);
 
     const result: ODataTable[] = [];
-    for (const entity of entitySet!) {
+    for (const entity of entitySet) {
       result.push(this.getEntitySetByName(entity, schemas));
     }
     return result;
@@ -125,7 +123,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     const identifiers = entity.EntityType.split(".");
 
     const entityTypes: Array<ODataMetaDataEntityType> = [];
-    schemas.filter((schema: ODataMetaDataSchema) => {return schema.Namespace === identifiers[0];})
+    schemas.filter((schema: ODataMetaDataSchema) => schema.Namespace === identifiers[0])
       .forEach((schema: ODataMetaDataSchema) => entityTypes.push(...this.makeArray(schema.entityType)));
     const targetEntity = entityTypes.find((entityType: ODataMetaDataEntityType) => entityType.Name === identifiers[1]);
     const properties: Array<ODataMetaDataProperty> = this.makeArray(targetEntity!.property);

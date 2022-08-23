@@ -19,13 +19,13 @@ describe("Validation", () => {
       projectId: "-",
     };
     await expect(reportsClient.createReport("-", newReport)).to.be.rejectedWith(
-      "Required field displayName of report was null or undefined."
+      "Required field displayName was null or undefined."
     );
 
     newReport.displayName = "Test";
     newReport.projectId = "";
     await expect(reportsClient.createReport("-", newReport)).to.be.rejectedWith(
-      "Required field of report was null or undefined."
+      "Required field projectId was null or undefined."
     );
   });
 
@@ -37,7 +37,7 @@ describe("Validation", () => {
 
     reportUpdate.displayName = "";
     await expect(reportsClient.updateReport("-", "-", reportUpdate)).to.be.rejectedWith(
-      "Field display of report was empty."
+      "Field displayName was empty."
     );
   });
 
@@ -56,13 +56,13 @@ describe("Validation", () => {
       imodelId: "Not empty",
     };
     await expect(reportsClient.createReportMapping("-", "-", newReportMapping)).to.be.rejectedWith(
-      "Required field mappingId of reportMapping was null or undefined."
+      "Required field mappingId was null or undefined."
     );
 
     newReportMapping.mappingId = "Not empty";
     newReportMapping.imodelId = "";
     await expect(reportsClient.createReportMapping("-", "-", newReportMapping)).to.be.rejectedWith(
-      "Required field imodelId of reportMapping was null or undefined."
+      "Required field imodelId was null or undefined."
     );
   });
 
@@ -80,7 +80,7 @@ describe("Validation", () => {
       mappingName: "",
     };
     await expect(mappingsClient.createMapping("-", "-", newMapping)).to.be.rejectedWith(
-      "Required field mappingName of mapping was missing or invalid.",
+      "Required field mappingName was missing or invalid.",
     );
   });
 
@@ -92,7 +92,7 @@ describe("Validation", () => {
     mappingUpdate.description = "Valid description",
     mappingUpdate.mappingName = "";
     await expect(mappingsClient.updateMapping("-", "-", "-", mappingUpdate)).to.be.rejectedWith(
-      "Required field mappingName of mapping was invalid.",
+      "Required field mappingName was invalid.",
     );
   });
 
@@ -111,7 +111,7 @@ describe("Validation", () => {
       mappingName: "",
     };
     await expect(mappingsClient.copyMapping("-", "-", "-", mappingCopy)).to.be.rejectedWith(
-      "Field mappingName of mappingCopy was invalid.",
+      "Field mappingName was invalid.",
     );
 
     mappingCopy = {
@@ -119,7 +119,7 @@ describe("Validation", () => {
       mappingName: "Test",
     };
     await expect(mappingsClient.copyMapping("-", "-", "-", mappingCopy)).to.be.rejectedWith(
-      "Required field targetiModelId of mappingCopy was missing.",
+      "Required field targetiModelId was missing.",
     );
   });
 
@@ -129,12 +129,12 @@ describe("Validation", () => {
       query: "",
     };
     await expect(mappingsClient.createGroup("-", "-", "-", newGroup)).to.be.rejectedWith(
-      "Required field query of group was null or undefined.",
+      "Required field query was null or undefined.",
     );
     newGroup.groupName = "";
     newGroup.query = "Valid query";
     await expect(mappingsClient.createGroup("-", "-", "-", newGroup)).to.be.rejectedWith(
-      "Required field mappingName of group was invalid.",
+      "Required field groupName was invalid.",
     );
   });
 
@@ -145,14 +145,14 @@ describe("Validation", () => {
     );
     groupUpdate.groupName = "";
     await expect(mappingsClient.updateGroup("-", "-", "-", "-", groupUpdate)).to.be.rejectedWith(
-      "Field groupName of group was invalid.",
+      "Field groupName was invalid.",
     );
     groupUpdate = {
       description: "Valid description",
       query: "",
     };
     await expect(mappingsClient.updateGroup("-", "-", "-", "-", groupUpdate)).to.be.rejectedWith(
-      "Required field query of group was null or undefined.",
+      "Required field query was null or undefined.",
     );
   });
 
@@ -179,39 +179,39 @@ describe("Validation", () => {
       ecProperties: [ecProperty],
     };
     await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Field propertyName of groupProperty was invalid.",
+      "Field propertyName was invalid.",
     );
 
     newProperty.propertyName = "Name";
     newProperty.dataType = DataType.Undefined;
     await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Required field dataType of groupProperty was null or undefined.",
+      "Required field dataType was null or undefined.",
     );
 
     newProperty.dataType = DataType.Number;
     newProperty.ecProperties = [];
     await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Required field ecProperties of groupProperty was null or empty.",
+      "Required field ecProperties was null or empty.",
     );
 
     ecProperty.ecClassName = "";
     newProperty.ecProperties = [ecProperty];
     await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Field ecProperties of groupProperty was invalid.",
+      "Field ecProperties was invalid.",
     );
 
     ecProperty.ecClassName = "Class";
     ecProperty.ecPropertyName = "";
     newProperty.ecProperties = [ecProperty];
     await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Field ecProperties of groupProperty was invalid.",
+      "Field ecProperties was invalid.",
     );
 
     ecProperty.ecPropertyName = "Property";
     ecProperty.ecSchemaName = "";
     newProperty.ecProperties = [ecProperty];
     await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Field ecProperties of groupProperty was invalid.",
+      "Field ecProperties was invalid.",
     );
   });
 
@@ -229,39 +229,39 @@ describe("Validation", () => {
       ecProperties: [ecProperty],
     };
     await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Field propertyName of groupProperty was invalid.",
+      "Field propertyName was invalid.",
     );
 
     newProperty.propertyName = "Name";
     newProperty.dataType = DataType.Undefined;
     await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Required field dataType of groupProperty was null or undefined.",
+      "Required field dataType was null or undefined.",
     );
 
     newProperty.dataType = DataType.Number;
     newProperty.ecProperties = [];
     await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Required field ecProperties of groupProperty was null or empty.",
+      "Required field ecProperties was null or empty.",
     );
 
     ecProperty.ecClassName = "";
     newProperty.ecProperties = [ecProperty];
     await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Field ecProperties of groupProperty was invalid.",
+      "Field ecProperties was invalid.",
     );
 
     ecProperty.ecClassName = "Class";
     ecProperty.ecPropertyName = "";
     newProperty.ecProperties = [ecProperty];
     await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Field ecProperties of groupProperty was invalid.",
+      "Field ecProperties was invalid.",
     );
 
     ecProperty.ecPropertyName = "Property";
     ecProperty.ecSchemaName = "";
     newProperty.ecProperties = [ecProperty];
     await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Field ecProperties of groupProperty was invalid.",
+      "Field ecProperties was invalid.",
     );
   });
 
@@ -280,13 +280,13 @@ describe("Validation", () => {
       type: CalculatedPropertyType.Length,
     };
     await expect(mappingsClient.createCalculatedProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Field propertyName of property was invalid.",
+      "Field propertyName was invalid.",
     );
 
     newProperty.propertyName = "Test";
     newProperty.type = CalculatedPropertyType.Undefined;
     await expect(mappingsClient.createCalculatedProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Required field type of property was null or undefined.",
+      "Required field type was null or undefined.",
     );
   });
 
@@ -297,13 +297,13 @@ describe("Validation", () => {
     );
     calcPropertyUpdate.propertyName = "";
     await expect(mappingsClient.updateCalculatedProperty("-", "-", "-", "-", "-", calcPropertyUpdate)).to.be.rejectedWith(
-      "Field propertyName of property was invalid.",
+      "Field propertyName was invalid.",
     );
 
     calcPropertyUpdate.propertyName = "Test";
     calcPropertyUpdate.type = CalculatedPropertyType.Undefined;
     await expect(mappingsClient.updateCalculatedProperty("-", "-", "-", "-", "-", calcPropertyUpdate)).to.be.rejectedWith(
-      "Required field type of property was null or undefined.",
+      "Required field type was null or undefined.",
     );
   });
 
@@ -323,13 +323,13 @@ describe("Validation", () => {
       quantityType: QuantityType.Distance,
     };
     await expect(mappingsClient.createCustomCalculation("-", "-", "-", "-", newCalculation)).to.be.rejectedWith(
-      "Field propertyName of property was invalid.",
+      "Field propertyName was invalid.",
     );
 
     newCalculation.propertyName = "Test";
     newCalculation.formula = "";
     await expect(mappingsClient.createCustomCalculation("-", "-", "-", "-", newCalculation)).to.be.rejectedWith(
-      "Required field formula of property was null or undefined.",
+      "Required field formula was null or undefined.",
     );
   });
 
@@ -340,12 +340,12 @@ describe("Validation", () => {
     );
     custCalculationUpdate.propertyName = "";
     await expect(mappingsClient.updateCustomCalculation("-", "-", "-", "-", "-", custCalculationUpdate)).to.be.rejectedWith(
-      "Field propertyName of property was invalid.",
+      "Field propertyName was invalid.",
     );
     custCalculationUpdate.propertyName = "Test";
     custCalculationUpdate.formula = "";
     await expect(mappingsClient.updateCustomCalculation("-", "-", "-", "-", "-", custCalculationUpdate)).to.be.rejectedWith(
-      "Required field formula of property was null or undefined.",
+      "Required field formula was null or undefined.",
     );
   });
 
@@ -373,13 +373,13 @@ describe("Validation", () => {
       url: "1/2",
     };
     await expect(oDataClient.getODataReportEntities("-", "-", item)).to.be.rejectedWith(
-      "odata item was invalid."
+      "Parameter odataItem item was invalid."
     );
     await expect(oDataClient.getODataReportEntityPage("-", "-", item, 0)).to.be.rejectedWith(
-      "odata item was invalid."
+      "Parameter odataItem item was invalid."
     );
     expect(() => oDataClient.getODataReportEntitiesIterator("-", "-", item)).to.throw(
-      "odata item was invalid."
+      "Parameter odataItem item was invalid."
     );
   });
 });

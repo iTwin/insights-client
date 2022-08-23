@@ -61,7 +61,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     if (!this.isSimpleIdentifier(mapping.mappingName)) {
       throw new RequiredError(
         "mappingName",
-        "Required field mappingName of mapping was missing or invalid.",
+        "Required field mappingName was missing or invalid.",
       );
     }
 
@@ -85,7 +85,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     if (mapping.mappingName != null && !this.isSimpleIdentifier(mapping.mappingName)) {
       throw new RequiredError(
         "mappingName",
-        "Required field mappingName of mapping was invalid.",
+        "Required field mappingName was invalid.",
       );
     }
 
@@ -113,13 +113,13 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     if (null != mappingCopy.mappingName && !this.isSimpleIdentifier(mappingCopy.mappingName)) {
       throw new RequiredError(
         "mappingName",
-        "Field mappingName of mappingCopy was invalid.",
+        "Field mappingName was invalid.",
       );
     }
     if(this.isNullOrWhitespace(mappingCopy.targetIModelId)) {
       throw new RequiredError(
         "targetiModelId",
-        "Required field targetiModelId of mappingCopy was missing.",
+        "Required field targetiModelId was missing.",
       );
     }
 
@@ -178,13 +178,13 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     if(!this.isSimpleIdentifier(group.groupName)) {
       throw new RequiredError(
         "groupName",
-        "Required field mappingName of group was invalid.",
+        "Required field groupName was invalid.",
       );
     }
     if(this.isNullOrWhitespace(group.query)) {
       throw new RequiredError(
         "query",
-        "Required field query of group was null or undefined.",
+        "Required field query was null or undefined.",
       );
     }
 
@@ -220,13 +220,13 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     if (null != group.groupName && !this.isSimpleIdentifier(group.groupName)) {
       throw new RequiredError(
         "groupName",
-        "Field groupName of group was invalid.",
+        "Field groupName was invalid.",
       );
     }
     if (null != group.query && this.isNullOrWhitespace(group.query)) {
       throw new RequiredError(
         "query",
-        "Required field query of group was null or undefined.",
+        "Required field query was null or undefined.",
       );
     }
 
@@ -311,26 +311,26 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     if (!this.isSimpleIdentifier(groupProperty.propertyName)) {
       throw new RequiredError(
         "propertyName",
-        "Field propertyName of groupProperty was invalid.",
+        "Field propertyName was invalid.",
       );
     }
     if (groupProperty.dataType === DataType.Undefined) {
       throw new RequiredError(
         "dataType",
-        "Required field dataType of groupProperty was null or undefined.",
+        "Required field dataType was null or undefined.",
       );
     }
     if (groupProperty.ecProperties == null || groupProperty.ecProperties.length === 0) {
       throw new RequiredError(
         "ecProperties",
-        "Required field ecProperties of groupProperty was null or empty.",
+        "Required field ecProperties was null or empty.",
       );
     }
     for(const i of groupProperty.ecProperties) {
       if (!this.isValidECProperty(i)) {
         throw new RequiredError(
           "ecProperties",
-          "Field ecProperties of groupProperty was invalid.",
+          "Field ecProperties was invalid.",
         );
       }
     }
@@ -351,26 +351,26 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     if(!this.isSimpleIdentifier(groupProperty.propertyName)) {
       throw new RequiredError(
         "propertyName",
-        "Field propertyName of groupProperty was invalid.",
+        "Field propertyName was invalid.",
       );
     }
     if(groupProperty.dataType === DataType.Undefined) {
       throw new RequiredError(
         "dataType",
-        "Required field dataType of groupProperty was null or undefined.",
+        "Required field dataType was null or undefined.",
       );
     }
     if (groupProperty.ecProperties == null || groupProperty.ecProperties.length === 0) {
       throw new RequiredError(
         "ecProperties",
-        "Required field ecProperties of groupProperty was null or empty.",
+        "Required field ecProperties was null or empty.",
       );
     }
     for(const i of groupProperty.ecProperties) {
       if (!this.isValidECProperty(i)) {
         throw new RequiredError(
           "ecProperties",
-          "Field ecProperties of groupProperty was invalid.",
+          "Field ecProperties was invalid.",
         );
       }
     }
@@ -457,13 +457,13 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     if(!this.isSimpleIdentifier(property.propertyName)) {
       throw new RequiredError(
         "propertyName",
-        "Field propertyName of property was invalid.",
+        "Field propertyName was invalid.",
       );
     }
     if(property.type === CalculatedPropertyType.Undefined) {
       throw new RequiredError(
         "type",
-        "Required field type of property was null or undefined.",
+        "Required field type was null or undefined.",
       );
     }
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/calculatedProperties`;
@@ -488,13 +488,13 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     if(null != property.propertyName && !this.isSimpleIdentifier(property.propertyName)) {
       throw new RequiredError(
         "propertyName",
-        "Field propertyName of property was invalid.",
+        "Field propertyName was invalid.",
       );
     }
     if(null != property.type && property.type === CalculatedPropertyType.Undefined) {
       throw new RequiredError(
         "type",
-        "Required field type of property was null or undefined.",
+        "Required field type was null or undefined.",
       );
     }
 
@@ -580,13 +580,13 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     if(!this.isSimpleIdentifier(property.propertyName)) {
       throw new RequiredError(
         "propertyName",
-        "Field propertyName of property was invalid.",
+        "Field propertyName was invalid.",
       );
     }
     if(this.isNullOrWhitespace(property.formula)) {
       throw new RequiredError(
         "formula",
-        "Required field formula of property was null or undefined.",
+        "Required field formula was null or undefined.",
       );
     }
 
@@ -612,13 +612,13 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     if(null != property.propertyName && !this.isSimpleIdentifier(property.propertyName)) {
       throw new RequiredError(
         "propertyName",
-        "Field propertyName of property was invalid.",
+        "Field propertyName was invalid.",
       );
     }
     if(null != property.formula && this.isNullOrWhitespace(property.formula)) {
       throw new RequiredError(
         "formula",
-        "Required field formula of property was null or undefined.",
+        "Required field formula was null or undefined.",
       );
     }
 
