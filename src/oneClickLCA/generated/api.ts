@@ -164,6 +164,7 @@ export interface JobCreation {
    * @type {JobLinks}
    * @memberof JobCreation
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links?: JobLinks;
 }
 /**
@@ -233,6 +234,7 @@ export interface JobStatus {
    * @type {JobStatusLinks}
    * @memberof JobStatus
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   _links?: JobStatusLinks;
 }
 

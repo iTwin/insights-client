@@ -1,2 +1,4 @@
 scripts/**
 lib/**
+test-results/**
+src/integration-test/utils/webpack.config.js

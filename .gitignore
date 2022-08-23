@@ -1,6 +1,5 @@
 # dependencies
 node_modules
-package-lock.json
 pnpm-debug.log
 
 # config files
@@ -14,3 +13,6 @@ pnpm-debug.log
 
 # Mac specfic
 .DS_Store
+
+.nyc_output
+/test-results

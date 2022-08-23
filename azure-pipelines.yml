@@ -30,17 +30,20 @@ stages:
       pool:
         vmImage: $(imageName)
       steps:
-      - script: npm install -g pnpm@6.19.0
-        displayName: install pnpm globally
-
-      - script: pnpm install
+      - script: npm ci
         displayName: 'Install dependencies'
 
-      - script: pnpm run build
+      - script: npm run build
         displayName: 'Build'
 
-      - script: pnpm run lint
+      - script: npm run lint
         displayName: 'Lint'
+
+      - script: npm run test:unit
+        displayName: Run unit tests
+
+      - script: npm audit --registry=https://registry.npmjs.org --audit-level=high
+        displayName: 'Audit'
 
       - script: npm pack
         displayName: 'Pack'
@@ -84,6 +87,12 @@ stages:
         displayName: 'Publish Insights client'
         condition: and(succeeded(), eq(variables['info.shouldPublish'], 'true'))
 
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**/junit_results.xml'
+        displayName: "Publish test results"
+  
 - stage: Publish
   displayName: Publish
   condition: and(succeeded(), eq(dependencies.Build.outputs['BuildPackages.linux.info.shouldPublish'], 'true'))
