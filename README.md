@@ -17,11 +17,25 @@ Contains the __@itwin/insights-client__ package that wraps sending requests to t
 IMJS_URL_PREFIX=""
 
 # ----Authorization for running tests ----
-IMJS_OIDC_BROWSER_TEST_CLIENT_ID=""
-IMJS_OIDC_BROWSER_TEST_REDIRECT_URI=""
-IMJS_OIDC_BROWSER_TEST_SCOPES=""
-IMJS_TEST_REGULAR_USER_NAME=""
-IMJS_TEST_REGULAR_USER_PASSWORD=""
+Create .env file and configure the following variables.
+Test project and imodel will be created automatically with provided names.
+- TEST_PROJECT_NAME=
+- TEST_IMODEL_NAME=
+- AUTH_AUTHORITY=
+- AUTH_CLIENT_ID=
+- AUTH_CLIENT_SECRET=
+- AUTH_REDIRECT_URL=
+- APIS_IMODELS_BASE_URL=
+- APIS_IMODELS_VERSION=
+- APIS_IMODELS_SCOPES=
+- APIS_PROJECTS_BASE_URL=
+- APIS_PROJECTS_SCOPES=
+- TEST_USERS_ADMIN1_EMAIL=
+- TEST_USERS_ADMIN1_PASSWORD=
+- TEST_USERS_ADMIN2_FULLY_FEATURED_EMAIL=
+- TEST_USERS_ADMIN2_FULLY_FEATURED_PASSWORD=
+- TEST_BEHAVIOR_OPTIONS_RECREATE_IMODEL=
+You can then run `npm run test:integration`.
 ```
 
 ## Build Instructions
