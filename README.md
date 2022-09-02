@@ -12,7 +12,6 @@ Contains the __@itwin/insights-client__ package that wraps sending requests to t
 
 ## Environment Variables
 
-```
 # ---- Optional URL prefix for dev/qa environments ----
 IMJS_URL_PREFIX=""
 
@@ -36,7 +35,7 @@ Test project and imodel will be created automatically with provided names.
 - TEST_USERS_ADMIN2_FULLY_FEATURED_PASSWORD=
 - TEST_BEHAVIOR_OPTIONS_RECREATE_IMODEL=
 You can then run `npm run test:integration`.
-```
+There are currently no tests for `oneClickLcaClient`
 
 ## Build Instructions
 
