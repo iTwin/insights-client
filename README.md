@@ -13,10 +13,12 @@ Contains the __@itwin/insights-client__ package that wraps sending requests to t
 ## Environment Variables
 
 ### Optional URL prefix for dev/qa environments
+```
 IMJS_URL_PREFIX=""
+```
 
 ### Authorization for running tests
-- Create .env file and configure the following variables.
+- Create .env file and configure the following variables:
 ```
 TEST_PROJECT_NAME=
 TEST_IMODEL_NAME=
