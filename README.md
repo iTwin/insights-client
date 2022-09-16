@@ -8,21 +8,38 @@ If you have questions, or wish to contribute to iTwin.js, see our [Contributing 
 
 ## About this Repository
 
-Contains the __@itwin/insights-client__ package that wraps sending requests to the project service. Visit the [Insights API](https://developer.bentley.com/apis/insights/) and [Carbon calculation API](https://developer.bentley.com/apis/carbon-calculation/) for more documentation on the insights service.
+Contains the __@itwin/insights-client__ package that wraps sending requests to the reporting service. Visit the [Insights API](https://developer.bentley.com/apis/insights/) and [Carbon calculation API](https://developer.bentley.com/apis/carbon-calculation/) for more documentation on the insights service.
 
 ## Environment Variables
 
+### Optional URL prefix for dev/qa environments
 ```
-# ---- Optional URL prefix for dev/qa environments ----
 IMJS_URL_PREFIX=""
-
-# ----Authorization for running tests ----
-IMJS_OIDC_BROWSER_TEST_CLIENT_ID=""
-IMJS_OIDC_BROWSER_TEST_REDIRECT_URI=""
-IMJS_OIDC_BROWSER_TEST_SCOPES=""
-IMJS_TEST_REGULAR_USER_NAME=""
-IMJS_TEST_REGULAR_USER_PASSWORD=""
 ```
+
+### Authorization for running tests
+- Create .env file and configure the following variables:
+```
+TEST_PROJECT_NAME=
+TEST_IMODEL_NAME=
+AUTH_AUTHORITY=
+AUTH_CLIENT_ID=
+AUTH_CLIENT_SECRET=
+AUTH_REDIRECT_URL=
+APIS_IMODELS_BASE_URL=
+APIS_IMODELS_VERSION=
+APIS_IMODELS_SCOPES=
+APIS_PROJECTS_BASE_URL=
+APIS_PROJECTS_SCOPES=
+TEST_USERS_ADMIN1_EMAIL=
+TEST_USERS_ADMIN1_PASSWORD=
+TEST_USERS_ADMIN2_FULLY_FEATURED_EMAIL=
+TEST_USERS_ADMIN2_FULLY_FEATURED_PASSWORD=
+TEST_BEHAVIOR_OPTIONS_RECREATE_IMODEL=
+```
+- Test project and imodel will be created automatically with provided names.
+- You can then run `npm run test:integration`.
+- There are currently no tests for `oneClickLcaClient`
 
 ## Build Instructions
 
