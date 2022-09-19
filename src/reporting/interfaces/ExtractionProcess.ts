@@ -230,7 +230,7 @@ export interface ExtractionStatus {
  */
 export interface ExtractionCollection {
   /**
-   * List of Extraction Logs.
+   * List of Extractions.
    * @type {Array<ExtractionLog>}
    * @memberof ExtractionCollection
    */
@@ -245,7 +245,7 @@ export interface ExtractionCollection {
 }
 
 /**
- * Extraction Status properties.
+ * Extraction properties.
  * @export
  * @interface Extraction
  */
@@ -257,7 +257,7 @@ export interface Extraction {
    */
   jobId: ExtractorState;
   /**
-   * Additional justification for the current state of the Extraction Run.
+   * Date when the Extraction was started.
    * @type {string}
    * @memberof Extraction
    */

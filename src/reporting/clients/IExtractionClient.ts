@@ -62,11 +62,11 @@ export interface IExtractionClient {
 
   /**
    * Gets Extractions of an IModel. This method returns the full list of Extractions.
-   * @param {string} iModelId Unique Identifier of the target IModel.
+   * @param {string} iModelId The iModel Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {number} top The number of entities to load per page.
    * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-extraction-logs/
+   * @link https://developer.bentley.com/apis/insights/operations/get-extraction-history/
    */
   getExtractionHistory(
     accessToken: AccessToken,
@@ -76,12 +76,12 @@ export interface IExtractionClient {
 
   /**
    * Gets an async paged iterator of Extractions for an IModel.
-   * This method returns an iterator which loads pages of extraction logs as it is being iterated over.
-   * @param {string} iModelId Unique Identifier of the target IModel.
+   * This method returns an iterator which loads pages of extractions as it is being iterated over.
+   * @param {string} iModelId The iModel Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {number} top The number of entities to load per page.
    * @memberof ReportingClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-extraction-logs/
+   * @link https://developer.bentley.com/apis/insights/operations/get-extraction-history/
    */
   getExtractionHistoryIterator(
     accessToken: AccessToken,

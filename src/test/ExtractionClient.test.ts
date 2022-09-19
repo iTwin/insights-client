@@ -159,22 +159,22 @@ describe("Extraction Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/iModels/-/extraction/history", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/history", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/datasources/iModels/-/extraction/history", "pass").resolves(returns2);
+      .withArgs("BASE/datasources/imodels/iModelId/extraction/history", "pass").resolves(returns2);
 
-    let extraction: Array<Extraction> = await extractionClient.getExtractionHistory("-", "-");
+    let extraction: Array<Extraction> = await extractionClient.getExtractionHistory("auth", "iModelId");
     expect(extraction.length).to.be.eq(4);
     expect(extraction[0]).to.be.eq(1);
     expect(extraction[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/iModels/-/extraction/history",
+      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/history",
       "pass",
     )).to.be.true;
 
-    extraction = await extractionClientNewBase.getExtractionHistory("-", "-");
+    extraction = await extractionClientNewBase.getExtractionHistory("auth", "iModelId");
     expect(fetchStub.calledWith(
-      "BASE/datasources/iModels/-/extraction/history",
+      "BASE/datasources/imodels/iModelId/extraction/history",
       "pass",
     )).to.be.true;
   });
@@ -196,22 +196,22 @@ describe("Extraction Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/iModels/-/extraction/history/?$top=2", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/history/?$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/datasources/iModels/-/extraction/history/?$top=2", "pass").resolves(returns2);
+      .withArgs("BASE/datasources/imodels/iModelId/extraction/history/?$top=2", "pass").resolves(returns2);
 
-    let extraction: Array<Extraction> = await extractionClient.getExtractionHistory("-", "-", 2);
+    let extraction: Array<Extraction> = await extractionClient.getExtractionHistory("auth", "iModelId", 2);
     expect(extraction.length).to.be.eq(4);
     expect(extraction[0]).to.be.eq(1);
     expect(extraction[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/iModels/-/extraction/history/?$top=2",
+      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/history/?$top=2",
       "pass",
     )).to.be.true;
 
-    extraction = await extractionClientNewBase.getExtractionHistory("-", "-", 2);
+    extraction = await extractionClientNewBase.getExtractionHistory("auth", "iModelId", 2);
     expect(fetchStub.calledWith(
-      "BASE/datasources/iModels/-/extraction/history/?$top=2",
+      "BASE/datasources/imodels/iModelId/extraction/history/?$top=2",
       "pass",
     )).to.be.true;
   });
