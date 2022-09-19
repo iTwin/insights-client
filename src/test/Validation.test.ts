@@ -367,6 +367,15 @@ describe("Validation", () => {
     );
   });
 
+  it("Extraction history - Faulty top value", async () => {
+    await expect(extractionClient.getExtractionHistory("-", "-", 0)).to.be.rejectedWith(
+      "Parameter top was outside of the valid range [1-1000]."
+    );
+    await expect(extractionClient.getExtractionHistory("-", "-", 1001)).to.be.rejectedWith(
+      "Parameter top was outside of the valid range [1-1000]."
+    );
+  });
+
   it("Odata - Faulty odata item", async () => {
     const item: ODataItem = {
       name: "Test",

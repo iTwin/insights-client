@@ -33,6 +33,26 @@ export interface ExtractionRunLinks {
 }
 
 /**
+ * Contains contextual hyperlinks to related data.
+ * @export
+ * @interface ExtractionHistoryLinks
+ */
+export interface ExtractionHistoryLinks {
+  /**
+   *
+   * @type {Link}
+   * @memberof ExtractionHistoryLinks
+   */
+  status: Link;
+  /**
+   *
+   * @type {Link}
+   * @memberof ExtractionHistoryLinks
+   */
+  logs: Link;
+}
+
+/**
  * Defines a single Extraction Log response.
  * @export
  * @interface ExtractionLog
@@ -201,6 +221,54 @@ export interface ExtractionStatus {
    */
   // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: ExtractionStatusLinks;
+}
+
+/**
+ * List of Extractions.
+ * @export
+ * @interface ExtractionCollection
+ */
+export interface ExtractionCollection {
+  /**
+   * List of Extraction Logs.
+   * @type {Array<ExtractionLog>}
+   * @memberof ExtractionCollection
+   */
+  extractions: Array<Extraction>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof ExtractionCollection
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  _links: PagedResponseLinks;
+}
+
+/**
+ * Extraction Status properties.
+ * @export
+ * @interface Extraction
+ */
+export interface Extraction {
+  /**
+   * Unique Identifier for the Extraction Run. Use this to check run status.
+   * @type {string}
+   * @memberof Extraction
+   */
+  jobId: ExtractorState;
+  /**
+   * Additional justification for the current state of the Extraction Run.
+   * @type {string}
+   * @memberof Extraction
+   */
+  startedOn: string;
+  /**
+   *
+   * @type {ExtractionHistoryLinks}
+   * @memberof Extraction
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  _links: ExtractionHistoryLinks;
 }
 
 export enum ExtractorState {

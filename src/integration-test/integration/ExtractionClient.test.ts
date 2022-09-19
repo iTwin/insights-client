@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, ExtractorState, MappingCreate, MappingsClient } from "../../reporting";
+import { Extraction, ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, ExtractorState, MappingCreate, MappingsClient } from "../../reporting";
 import "reflect-metadata";
 import { accessToken, testIModel, testIModelGroup } from "../utils";
 use(chaiAsPromised);
@@ -56,5 +56,33 @@ describe("Extraction Client", () => {
     const extraction: ExtractionStatus = await extractionClient.getExtractionStatus(accessToken, extractionId);
     expect(extraction).to.not.be.undefined;
     expect(extraction.state).to.not.be.eq("Failed");
+  });
+
+  it("Get history", async () => {
+    const extractions: Array<Extraction> = await extractionClient.getExtractionHistory(accessToken, testIModel.id);
+    expect(extractions).to.not.be.undefined;
+    expect(extractions).to.not.be.empty;
+    let flag = false;
+    for await (const extraction of extractions) {
+      if (extraction.jobId === extractionId) {
+        flag = true;
+        break;
+      }
+    }
+    expect(flag).to.be.true;
+  });
+
+  it("Get history with top", async () => {
+    const extractions: Array<Extraction> = await extractionClient.getExtractionHistory(accessToken, testIModel.id, 1);
+    expect(extractions).to.not.be.undefined;
+    expect(extractions).to.not.be.empty;
+    let flag = false;
+    for await (const extraction of extractions) {
+      if (extraction.jobId === extractionId) {
+        flag = true;
+        break;
+      }
+    }
+    expect(flag).to.be.true;
   });
 });
