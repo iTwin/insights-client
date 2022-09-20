@@ -88,30 +88,30 @@ describe("OperationsBase", () => {
     };
     let response: Response = new Response(JSON.stringify(body), myOptions);
     fetchStub.resolves(response);
-    let realResponse = await operationsBase.fetchJSON("-", {});
+    let realResponse = await operationsBase.fetchJSON("url", {});
     expect(realResponse).to.not.be.undefined;
 
     myOptions = { status: 204, statusText: "Test" };
     response = new Response("", myOptions);
     fetchStub.resolves(response);
-    realResponse = await operationsBase.fetchJSON("-", {});
+    realResponse = await operationsBase.fetchJSON("url", {});
     expect(realResponse).to.not.be.undefined;
 
     myOptions = { status: 400, statusText: "Test" };
     response = new Response(JSON.stringify(body), myOptions);
     fetchStub.resolves(response);
-    await expect(operationsBase.fetchJSON("-", {})).to.be.rejected;
+    await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
 
     myOptions = { status: 200, statusText: "Test" };
     response = new Response(JSON.stringify(body), myOptions);
     fetchStub.resolves(response);
-    realResponse = await operationsBase.fetchData("-", {});
+    realResponse = await operationsBase.fetchData("url", {});
     expect(realResponse).to.not.be.undefined;
 
     myOptions = { status: 400, statusText: "Test" };
     response = new Response(JSON.stringify(body), myOptions);
     fetchStub.resolves(response);
-    await expect(operationsBase.fetchData("-", {})).to.be.rejected;
+    await expect(operationsBase.fetchData("url", {})).to.be.rejected;
   });
 
   it("createRequest", () => {
