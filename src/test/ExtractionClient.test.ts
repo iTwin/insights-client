@@ -5,7 +5,7 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { ExtractionClient, ExtractionLog, ExtractorState } from "../reporting";
+import { Extraction, ExtractionClient, ExtractionLog, ExtractorState } from "../reporting";
 use(chaiAsPromised);
 
 describe("Extraction Client", () => {
@@ -138,6 +138,80 @@ describe("Extraction Client", () => {
     extraction = await extractionClientNewBase.getExtractionStatus("auth", "jobId");
     expect(fetchStub.calledWith(
       "BASE/datasources/extraction/status/jobId",
+      "pass",
+    )).to.be.true;
+  });
+
+  it("Get History", async () => {
+    const returns1 = {
+      extractions: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      _links: {
+        next: {
+          href: "url",
+        },
+      },
+    };
+    const returns2 = {
+      extractions: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      _links: {
+        next: undefined,
+      },
+    };
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/history", "pass").resolves(returns1)
+      .withArgs("url", "pass").resolves(returns2)
+      .withArgs("BASE/datasources/imodels/iModelId/extraction/history", "pass").resolves(returns2);
+
+    let extraction: Array<Extraction> = await extractionClient.getExtractionHistory("auth", "iModelId");
+    expect(extraction.length).to.be.eq(4);
+    expect(extraction[0]).to.be.eq(1);
+    expect(extraction[3]).to.be.eq(4);
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/history",
+      "pass",
+    )).to.be.true;
+
+    extraction = await extractionClientNewBase.getExtractionHistory("auth", "iModelId");
+    expect(fetchStub.calledWith(
+      "BASE/datasources/imodels/iModelId/extraction/history",
+      "pass",
+    )).to.be.true;
+  });
+
+  it("Get Logs with top", async () => {
+    const returns1 = {
+      extractions: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      _links: {
+        next: {
+          href: "url",
+        },
+      },
+    };
+    const returns2 = {
+      extractions: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      _links: {
+        next: undefined,
+      },
+    };
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/history/?$top=2", "pass").resolves(returns1)
+      .withArgs("url", "pass").resolves(returns2)
+      .withArgs("BASE/datasources/imodels/iModelId/extraction/history/?$top=2", "pass").resolves(returns2);
+
+    let extraction: Array<Extraction> = await extractionClient.getExtractionHistory("auth", "iModelId", 2);
+    expect(extraction.length).to.be.eq(4);
+    expect(extraction[0]).to.be.eq(1);
+    expect(extraction[3]).to.be.eq(4);
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/history/?$top=2",
+      "pass",
+    )).to.be.true;
+
+    extraction = await extractionClientNewBase.getExtractionHistory("auth", "iModelId", 2);
+    expect(fetchStub.calledWith(
+      "BASE/datasources/imodels/iModelId/extraction/history/?$top=2",
       "pass",
     )).to.be.true;
   });
