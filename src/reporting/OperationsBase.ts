@@ -7,6 +7,7 @@ import { DataType, ECProperty } from "./interfaces/GroupProperties";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 export const REPORTING_BASE_PATH = "https://api.bentley.com/insights/reporting";
+export const CARBON_CALCULATION_BASE_PATH = "https://api.bentley.com/insights/carbon-calculation";
 
 export class OperationsBase {
   protected readonly fetch = isomorphicFetch;
