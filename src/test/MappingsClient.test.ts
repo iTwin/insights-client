@@ -214,7 +214,7 @@ describe("mappings Client", () => {
 
     mapping = await mappingsClientNewBase.updateMapping("auth", "iModelId", "mappingId", newMapping);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId",
+      "BASE/datasources/imodels/iModelId/mappings/mappingId",
       "pass",
     )).to.be.true;
   });
@@ -233,7 +233,7 @@ describe("mappings Client", () => {
 
     mapping = await mappingsClientNewBase.deleteMapping("auth", "iModelId", "mappingId");
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId",
+      "BASE/datasources/imodels/iModelId/mappings/mappingId",
       "pass",
     )).to.be.true;
   });

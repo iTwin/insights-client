@@ -8,9 +8,9 @@ import { EntityListIterator } from "../iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
 import { CARBON_CALCULATION_BASE_PATH, OperationsBase } from "../OperationsBase";
-import { IEC3ConfigurationClient } from "./IEC3ConfigurationClient";
+import { IEC3ConfigurationsClient } from "./IEC3ConfigurationsClient";
 
-export class EC3ConfigurationClient extends OperationsBase implements IEC3ConfigurationClient {
+export class EC3ConfigurationsClient extends OperationsBase implements IEC3ConfigurationsClient {
   constructor(basePath?: string) {
     super(basePath ?? CARBON_CALCULATION_BASE_PATH);
   }
@@ -32,7 +32,7 @@ export class EC3ConfigurationClient extends OperationsBase implements IEC3Config
       );
     }
     let url = `${this.basePath}/ec3/configurations?iTwinId=${iModelId}`;
-    url += top ? `/?$top=${top}` : "";
+    url += top ? `&$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<EC3Configuration>(
       url,
@@ -53,12 +53,38 @@ export class EC3ConfigurationClient extends OperationsBase implements IEC3Config
   }
 
   public async createConfiguration(accessToken: string, configuration: EC3ConfigurationCreate): Promise<EC3Configuration> {
+    if(configuration.labels.length === 0) {
+      throw new RequiredError(
+        "configuration",
+        "Required field labels was empty."
+      );
+    }
+    if(configuration.labels.some((x) => x.materials.length === 0)) {
+      throw new RequiredError(
+        "configuration",
+        "Required field materials was empty."
+      );
+    }
+
     const url = `${this.basePath}/ec3/configurations`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(configuration));
     return (await this.fetchJSON<EC3ConfigurationSingle>(url, requestOptions)).configuration;
   }
 
   public async updateConfiguration(accessToken: string, configurationId: string, configuration: EC3ConfigurationUpdate): Promise<EC3Configuration> {
+    if(configuration.labels.length === 0) {
+      throw new RequiredError(
+        "configuration",
+        "Required field labels was empty."
+      );
+    }
+    if(configuration.labels.some((x) => x.materials.length === 0)) {
+      throw new RequiredError(
+        "configuration",
+        "Required field materials was empty."
+      );
+    }
+
     const url = `${this.basePath}/ec3/configurations/${configurationId}`;
     const requestOptions: RequestInit = this.createRequest("PUT", accessToken, JSON.stringify(configuration));
     return (await this.fetchJSON<EC3ConfigurationSingle>(url, requestOptions)).configuration;

@@ -5,6 +5,8 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import { CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, ExtractionClient, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, ODataClient, ODataItem, QuantityType, ReportCreate, ReportMappingCreate, ReportsClient, ReportUpdate } from "../reporting";
+import { EC3ConfigurationsClient } from "../reporting/clients/EC3ConfigurationsClient";
+import { EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../reporting/interfaces/EC3Configurations";
 use(chaiAsPromised);
 
 describe("Validation", () => {
@@ -12,6 +14,7 @@ describe("Validation", () => {
   const mappingsClient = new MappingsClient();
   const oDataClient = new ODataClient();
   const extractionClient = new ExtractionClient();
+  const configurationsClient = new EC3ConfigurationsClient();
 
   it("Reports - Create unsuccessfully", async () => {
     const newReport: ReportCreate = {
@@ -389,6 +392,59 @@ describe("Validation", () => {
     );
     expect(() => oDataClient.getODataReportEntitiesIterator("-", "-", item)).to.throw(
       "Parameter odataItem item was invalid."
+    );
+  });
+
+  it("EC3 Configurations - Faulty top value", async () => {
+    await expect(configurationsClient.getConfigurations("-", "-", 0)).to.be.rejectedWith(
+      "Parameter top was outside of the valid range [1-1000]."
+    );
+    await expect(configurationsClient.getConfigurations("-", "-", 1001)).to.be.rejectedWith(
+      "Parameter top was outside of the valid range [1-1000]."
+    );
+  });
+
+  it("EC3 Configurations - Create unsuccessfully", async () => {
+    const newConfig: EC3ConfigurationCreate = {
+      displayName: "Test",
+      reportId: "id",
+      labels: [],
+    };
+    await expect(configurationsClient.createConfiguration("-", newConfig)).to.be.rejectedWith(
+      "Required field labels was empty."
+    );
+
+    newConfig.labels.push({
+      materials : [],
+      name: "name",
+      reportTable: "table",
+      elementQuantityColumn: "quantity",
+      elementNameColumn: "name",
+    });
+    await expect(configurationsClient.createConfiguration("-", newConfig)).to.be.rejectedWith(
+      "Required field materials was empty."
+    );
+  });
+
+  it("EC3 Configurations - Update unsuccessfully", async () => {
+    const newConfig: EC3ConfigurationUpdate = {
+      displayName: "Test",
+      description: "",
+      labels: [],
+    };
+    await expect(configurationsClient.updateConfiguration("-", "-", newConfig)).to.be.rejectedWith(
+      "Required field labels was empty."
+    );
+
+    newConfig.labels.push({
+      materials : [],
+      name: "name",
+      reportTable: "table",
+      elementQuantityColumn: "quantity",
+      elementNameColumn: "name",
+    });
+    await expect(configurationsClient.updateConfiguration("-", "-", newConfig)).to.be.rejectedWith(
+      "Required field materials was empty."
     );
   });
 });

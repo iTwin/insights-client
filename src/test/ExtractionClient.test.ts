@@ -34,7 +34,7 @@ describe("Extraction Client", () => {
     };
     fetchStub.resolves(returns);
     let extraction = await extractionClient.runExtraction("auth", "iModelId");
-    expect(extraction.id).to.be.eql(1);
+    expect(extraction.id).to.be.eq(1);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/run",
       "pass",

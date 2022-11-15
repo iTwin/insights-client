@@ -3,10 +3,10 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { CARBON_CALCULATION_BASE_PATH, OperationsBase } from "../OperationsBase";
-import { IEC3JobClient } from "./IEC3JobClient";
+import { IEC3JobsClient } from "./IEC3JobsClient";
 import { EC3Job, EC3JobCreate, EC3JobSingle, EC3JobStatus, EC3JobStatusSingle } from "../interfaces/EC3Jobs";
 
-export class EC3JobClient extends OperationsBase implements IEC3JobClient {
+export class EC3JobsClient extends OperationsBase implements IEC3JobsClient {
   constructor(basePath?: string) {
     super(basePath ?? CARBON_CALCULATION_BASE_PATH);
   }

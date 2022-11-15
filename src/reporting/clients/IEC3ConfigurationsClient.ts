@@ -6,13 +6,13 @@ import type { AccessToken } from "@itwin/core-bentley";
 import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../interfaces/EC3Configurations";
 import type { EntityListIterator } from "../iterators/EntityListIterator";
 
-export interface IEC3ConfigurationClient {
+export interface IEC3ConfigurationsClient {
   /**
    * Gets all EC3 Configurations for an iModel. This method returns the full list of EC3 Configurations.
    * @param {string} iModelId The iModel Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {number} top The number of entities to load per page.
-   * @memberof IEC3ConfigurationClient
+   * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
    */
   getConfigurations(
@@ -27,7 +27,7 @@ export interface IEC3ConfigurationClient {
    * @param {string} iModelId The iModel Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {number} top The number of entities to load per page.
-   * @memberof IEC3ConfigurationClient
+   * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
    */
   getConfigurationsIterator(
@@ -40,7 +40,7 @@ export interface IEC3ConfigurationClient {
    * Gets an EC3 Configuration for an iModel.
    * @param {string} configurationId The EC3 configuration Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
-   * @memberof IEC3ConfigurationClient
+   * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-mapping/
    */
   getConfiguration(
@@ -52,7 +52,7 @@ export interface IEC3ConfigurationClient {
    * Creates an EC3 Configuration for an iModel.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {ConfigurationCreate} configuration Request body.
-   * @memberof IEC3ConfigurationClient
+   * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/insights/operations/create-mapping/
    */
   createConfiguration(
@@ -65,7 +65,7 @@ export interface IEC3ConfigurationClient {
    * @param {string} configurationId The EC3 configuration Id.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {ConfigurationUpdate} configuration Request body.
-   * @memberof IEC3ConfigurationClient
+   * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/insights/operations/update-mapping/
    */
   updateConfiguration(
@@ -78,7 +78,7 @@ export interface IEC3ConfigurationClient {
    * Deletes an EC3 Configuration for an iModel.
    * @param {string} configurationId The EC3 configuration Id.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
-   * @memberof IEC3ConfigurationClient
+   * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-mapping/
    */
   deleteConfiguration(
