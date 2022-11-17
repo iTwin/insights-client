@@ -28,7 +28,7 @@ export interface IEC3ConfigurationsClient {
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {number} top The number of entities to load per page.
    * @memberof IEC3ConfigurationsClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-mappings/
+   * @link https://developer.bentley.com/apis/carbon-calculation/operations/get-ec3-configurations/
    */
   getConfigurationsIterator(
     accessToken: AccessToken,
@@ -41,7 +41,7 @@ export interface IEC3ConfigurationsClient {
    * @param {string} configurationId The EC3 configuration Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @memberof IEC3ConfigurationsClient
-   * @link https://developer.bentley.com/apis/insights/operations/get-mapping/
+   * @link https://developer.bentley.com/apis/carbon-calculation/operations/get-ec3-configuration/
    */
   getConfiguration(
     accessToken: AccessToken,
@@ -53,7 +53,7 @@ export interface IEC3ConfigurationsClient {
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {ConfigurationCreate} configuration Request body.
    * @memberof IEC3ConfigurationsClient
-   * @link https://developer.bentley.com/apis/insights/operations/create-mapping/
+   * @link https://developer.bentley.com/apis/carbon-calculation/operations/create-ec3-job/
    */
   createConfiguration(
     accessToken: AccessToken,
@@ -66,7 +66,7 @@ export interface IEC3ConfigurationsClient {
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {ConfigurationUpdate} configuration Request body.
    * @memberof IEC3ConfigurationsClient
-   * @link https://developer.bentley.com/apis/insights/operations/update-mapping/
+   * @link https://developer.bentley.com/apis/carbon-calculation/operations/update-ec3-configuration/
    */
   updateConfiguration(
     accessToken: AccessToken,
@@ -79,7 +79,7 @@ export interface IEC3ConfigurationsClient {
    * @param {string} configurationId The EC3 configuration Id.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @memberof IEC3ConfigurationsClient
-   * @link https://developer.bentley.com/apis/insights/operations/delete-mapping/
+   * @link https://developer.bentley.com/apis/carbon-calculation/operations/delete-ec3-configuration/
    */
   deleteConfiguration(
     accessToken: AccessToken,
