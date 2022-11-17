@@ -11,20 +11,36 @@ use(chaiAsPromised);
 
 describe("EC3ConfigurationsClient", () => {
   const configurationsClient: EC3ConfigurationsClient = new EC3ConfigurationsClient();
-  const configurationsClientNewBase: EC3ConfigurationsClient = new EC3ConfigurationsClient("BASE");
   let fetchStub: sinon.SinonStub;
   let requestStub: sinon.SinonStub;
 
   beforeEach(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fetchStub = sinon.stub(EC3ConfigurationsClient.prototype, "fetchJSON" as any);
+    fetchStub = sinon.stub(configurationsClient, "fetchJSON" as any);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    requestStub = sinon.stub(EC3ConfigurationsClient.prototype, "createRequest" as any);
+    requestStub = sinon.stub(configurationsClient, "createRequest" as any);
     requestStub.returns("pass");
   });
 
   afterEach(() => {
     sinon.restore();
+  });
+
+  it("EC3ConfigurationsClient - change base path", async () => {
+    const client = new EC3ConfigurationsClient("BASE");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    fetchStub = sinon.stub(client, "fetchJSON" as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    requestStub = sinon.stub(client, "createRequest" as any);
+    
+    const returns = {
+      configuration: {
+        id: 1,
+      },
+    };
+    fetchStub.resolves(returns);
+    await client.getConfiguration("auth", "configurationId");
+    expect(fetchStub.getCall(0).args[0]).to.match(new RegExp("^BASE"));
   });
 
   it("Configurations - Get", async () => {
@@ -38,12 +54,6 @@ describe("EC3ConfigurationsClient", () => {
     expect(configuration.id).to.be.eq(1);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/carbon-calculation/ec3/configurations/configurationId",
-      "pass",
-    )).to.be.true;
-
-    configuration = await configurationsClientNewBase.getConfiguration("auth", "configurationId");
-    expect(fetchStub.calledWith(
-      "BASE/ec3/configurations/configurationId",
       "pass",
     )).to.be.true;
   });
@@ -66,8 +76,7 @@ describe("EC3ConfigurationsClient", () => {
       },
     };
     fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/ec3/configurations?iTwinId=iModelId", "pass").resolves(returns2);
+      .withArgs("url", "pass").resolves(returns2);
 
     let configurations: Array<EC3Configuration> = await configurationsClient.getConfigurations("auth", "iModelId");
     expect(configurations.length).to.be.eq(4);
@@ -75,12 +84,6 @@ describe("EC3ConfigurationsClient", () => {
     expect(configurations[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId",
-      "pass",
-    )).to.be.true;
-
-    configurations = await configurationsClientNewBase.getConfigurations("auth", "iModelId");
-    expect(fetchStub.calledWith(
-      "BASE/ec3/configurations?iTwinId=iModelId",
       "pass",
     )).to.be.true;
   });
@@ -103,8 +106,7 @@ describe("EC3ConfigurationsClient", () => {
       },
     };
     fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/ec3/configurations?iTwinId=iModelId", "pass").resolves(returns2);
+      .withArgs("url", "pass").resolves(returns2);
 
     let configurationIt = configurationsClient.getConfigurationsIterator("auth", "iModelId").byPage();
     for await(const i of configurationIt) {
@@ -112,15 +114,6 @@ describe("EC3ConfigurationsClient", () => {
     }
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId",
-      "pass",
-    )).to.be.true;
-
-    configurationIt = configurationsClientNewBase.getConfigurationsIterator("auth", "iModelId").byPage();
-    for await(const i of configurationIt) {
-      expect(i.length).to.be.eq(2);
-    }
-    expect(fetchStub.calledWith(
-      "BASE/ec3/configurations?iTwinId=iModelId",
       "pass",
     )).to.be.true;
   });
@@ -143,8 +136,7 @@ describe("EC3ConfigurationsClient", () => {
       },
     };
     fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId&$top=2", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/ec3/configurations?iTwinId=iModelId&$top=2", "pass").resolves(returns2);
+      .withArgs("url", "pass").resolves(returns2);
 
     let configurations: Array<EC3Configuration> = await configurationsClient.getConfigurations("auth", "iModelId", 2);
     expect(configurations.length).to.be.eq(4);
@@ -152,12 +144,6 @@ describe("EC3ConfigurationsClient", () => {
     expect(configurations[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId&$top=2",
-      "pass",
-    )).to.be.true;
-
-    configurations = await configurationsClientNewBase.getConfigurations("auth", "iModelId", 2);
-    expect(fetchStub.calledWith(
-      "BASE/ec3/configurations?iTwinId=iModelId&$top=2",
       "pass",
     )).to.be.true;
   });
@@ -193,12 +179,6 @@ describe("EC3ConfigurationsClient", () => {
       "auth",
       JSON.stringify(newConfiguration)
     )).to.be.true;
-
-    configuration = await configurationsClientNewBase.createConfiguration("auth", newConfiguration);
-    expect(fetchStub.calledWith(
-      "BASE/ec3/configurations",
-      "pass",
-    )).to.be.true;
   });
 
   it("Configurations - Update", async () => {
@@ -232,12 +212,6 @@ describe("EC3ConfigurationsClient", () => {
       "auth",
       JSON.stringify(newConfiguration)
     )).to.be.true;
-
-    configuration = await configurationsClientNewBase.updateConfiguration("auth", "configurationId", newConfiguration);
-    expect(fetchStub.calledWith(
-      "BASE/ec3/configurations/configurationId",
-      "pass",
-    )).to.be.true;
   });
 
   it("Configurations - Delete", async () => {
@@ -249,12 +223,6 @@ describe("EC3ConfigurationsClient", () => {
     expect(configuration.status).to.be.eq(200);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/carbon-calculation/ec3/configurations/configurationId",
-      "pass",
-    )).to.be.true;
-
-    configuration = await configurationsClientNewBase.deleteConfiguration("auth", "configurationId");
-    expect(fetchStub.calledWith(
-      "BASE/ec3/configurations/configurationId",
       "pass",
     )).to.be.true;
   });

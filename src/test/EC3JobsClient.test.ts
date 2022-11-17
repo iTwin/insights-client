@@ -11,20 +11,36 @@ use(chaiAsPromised);
 
 describe("EC3JobsClient", () => {
   const jobsClient: EC3JobsClient = new EC3JobsClient();
-  const jobsClientNewBase: EC3JobsClient = new EC3JobsClient("BASE");
   let fetchStub: sinon.SinonStub;
   let requestStub: sinon.SinonStub;
 
   beforeEach(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fetchStub = sinon.stub(EC3JobsClient.prototype, "fetchJSON" as any);
+    fetchStub = sinon.stub(jobsClient, "fetchJSON" as any);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    requestStub = sinon.stub(EC3JobsClient.prototype, "createRequest" as any);
+    requestStub = sinon.stub(jobsClient, "createRequest" as any);
     requestStub.returns("pass");
   });
 
   afterEach(() => {
     sinon.restore();
+  });
+
+  it("EC3JobsClient - change base path", async () => {
+    const client = new EC3JobsClient("BASE");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    fetchStub = sinon.stub(client, "fetchJSON" as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    requestStub = sinon.stub(client, "createRequest" as any);
+
+    const returns = {
+      job: {
+        status: CarbonUploadState.Succeeded,
+      },
+    };
+    fetchStub.resolves(returns);
+    await client.getEC3JobStatus("auth", "jobId");
+    expect(fetchStub.getCall(0).args[0]).to.match(new RegExp("^BASE"));
   });
 
   it("create job", async () => {
@@ -45,12 +61,6 @@ describe("EC3JobsClient", () => {
       "https://api.bentley.com/insights/carbon-calculation/ec3/jobs",
       "pass",
     )).to.be.true;
-
-    job = await jobsClientNewBase.createJob("auth", newJob);
-    expect(fetchStub.calledWith(
-      "BASE/ec3/jobs",
-      "pass",
-    )).to.be.true;
   });
 
   it("Get Status", async () => {
@@ -64,12 +74,6 @@ describe("EC3JobsClient", () => {
     expect(status.status).to.be.eq("Succeeded");
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/carbon-calculation/ec3/jobs/jobId",
-      "pass",
-    )).to.be.true;
-
-    status = await jobsClientNewBase.getEC3JobStatus("auth", "jobId");
-    expect(fetchStub.calledWith(
-      "BASE/ec3/jobs/jobId",
       "pass",
     )).to.be.true;
   });

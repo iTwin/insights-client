@@ -10,22 +10,36 @@ import * as fs from "fs";
 import * as path from "path";
 use(chaiAsPromised);
 
-describe("OData Client", () => {
+describe("ODataClient", () => {
   const oDataClient: ODataClient = new ODataClient();
-  const oDataClientNewBase: ODataClient = new ODataClient("BASE");
   let fetchStub: sinon.SinonStub;
   let requestStub: sinon.SinonStub;
 
   beforeEach(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fetchStub = sinon.stub(ODataClient.prototype, "fetchJSON" as any);
+    fetchStub = sinon.stub(oDataClient, "fetchJSON" as any);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    requestStub = sinon.stub(ODataClient.prototype, "createRequest" as any);
+    requestStub = sinon.stub(oDataClient, "createRequest" as any);
     requestStub.returns("pass");
   });
 
   afterEach(() => {
     sinon.restore();
+  });
+
+  it("ODataClient - change base path", async () => {
+    const client = new ODataClient("BASE");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    fetchStub = sinon.stub(client, "fetchJSON" as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    requestStub = sinon.stub(client, "createRequest" as any);
+
+    const returns = {
+      value: [1, 2],
+    };
+    fetchStub.resolves(returns);
+    await client.getODataReport("auth", "reportId");
+    expect(fetchStub.getCall(0).args[0]).to.match(new RegExp("^BASE"));
   });
 
   it("Get OData report", async () => {
@@ -38,12 +52,6 @@ describe("OData Client", () => {
     expect(report.value[0]).to.be.eq(1);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/odata/reportId",
-      "pass",
-    )).to.be.true;
-
-    report = await oDataClientNewBase.getODataReport("auth", "reportId");
-    expect(fetchStub.calledWith(
-      "BASE/odata/reportId",
       "pass",
     )).to.be.true;
   });
@@ -135,17 +143,6 @@ describe("OData Client", () => {
       "https://api.bentley.com/insights/reporting/odata/reportId/$metadata",
       request,
     )).to.be.true;
-
-    myOptions.status = 200;
-    body = fs.readFileSync(path.join(__dirname, "test-data/emptyMetaData.xml"), "utf-8");
-    response = new Response(body, myOptions);
-    fetchStub.resolves(response);
-    report = await oDataClientNewBase.getODataReportMetadata("auth", "reportId");
-    expect(report).to.be.empty;
-    expect(fetchStub.calledWith(
-      "BASE/odata/reportId/$metadata",
-      request,
-    )).to.be.true;
   });
 
   it("Get OData report Entity", async () => {
@@ -164,8 +161,7 @@ describe("OData Client", () => {
       "@odata.nextLink": undefined,
     };
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/odata/reportId/1/2/3", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2)
-      .withArgs("BASE/odata/reportId/1/2/3", "pass").resolves(returns2);
+      .withArgs("url", "pass").resolves(returns2);
 
     let report: Array<ODataEntityValue> = await oDataClient.getODataReportEntities("auth", "reportId", item);
     expect(report).to.not.be.undefined;
@@ -174,12 +170,6 @@ describe("OData Client", () => {
     expect(report[3].four).to.be.eq("4");
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/odata/reportId/1/2/3",
-      "pass",
-    )).to.be.true;
-
-    report = await oDataClientNewBase.getODataReportEntities("auth", "reportId", item);
-    expect(fetchStub.calledWith(
-      "BASE/odata/reportId/1/2/3",
       "pass",
     )).to.be.true;
   });
@@ -203,12 +193,6 @@ describe("OData Client", () => {
     expect(report.value[1].two).to.be.eq("2");
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/odata/reportId/1/2/3?sequence=1",
-      "pass",
-    )).to.be.true;
-
-    report = await oDataClientNewBase.getODataReportEntityPage("auth", "reportId", item, 1);
-    expect(fetchStub.calledWith(
-      "BASE/odata/reportId/1/2/3?sequence=1",
       "pass",
     )).to.be.true;
   });
