@@ -47,7 +47,7 @@ describe("ODataClient", () => {
       value: [1, 2],
     };
     fetchStub.resolves(returns);
-    let report = await oDataClient.getODataReport("auth", "reportId");
+    const report = await oDataClient.getODataReport("auth", "reportId");
     expect(report.value.length).to.be.eq(2);
     expect(report.value[0]).to.be.eq(1);
     expect(fetchStub.calledWith(
@@ -163,7 +163,7 @@ describe("ODataClient", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/odata/reportId/1/2/3", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let report: Array<ODataEntityValue> = await oDataClient.getODataReportEntities("auth", "reportId", item);
+    const report: Array<ODataEntityValue> = await oDataClient.getODataReportEntities("auth", "reportId", item);
     expect(report).to.not.be.undefined;
     expect(report.length).to.be.eq(4);
     expect(report[0].one).to.be.eq("1");
@@ -185,7 +185,7 @@ describe("ODataClient", () => {
       "@odata.nextLink": "url",
     };
     fetchStub.onCall(0).resolves(returns);
-    let report: ODataEntityResponse = await oDataClient.getODataReportEntityPage("auth", "reportId", item, 1);
+    const report: ODataEntityResponse = await oDataClient.getODataReportEntityPage("auth", "reportId", item, 1);
     expect(report).to.not.be.undefined;
     expect(report["@odata.context"]).to.be.eq("context");
     expect(report["@odata.nextLink"]).to.be.eq("url");

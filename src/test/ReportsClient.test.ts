@@ -49,7 +49,7 @@ describe("Reports Client", () => {
       },
     };
     fetchStub.resolves(returns);
-    let report = await reportsClient.getReport("auth", "reportId");
+    const report = await reportsClient.getReport("auth", "reportId");
     expect(report.id).to.be.eq(1);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/reportId",
@@ -77,7 +77,7 @@ describe("Reports Client", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?projectId=projectId&deleted=false", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let reports: Array<Report> = await reportsClient.getReports("auth", "projectId");
+    const reports: Array<Report> = await reportsClient.getReports("auth", "projectId");
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
@@ -133,7 +133,7 @@ describe("Reports Client", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?projectId=projectId&deleted=true", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let reports: Array<Report> = await reportsClient.getReports("auth", "projectId", undefined, true);
+    const reports: Array<Report> = await reportsClient.getReports("auth", "projectId", undefined, true);
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
@@ -163,7 +163,7 @@ describe("Reports Client", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?projectId=projectId&deleted=false&$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let reports: Array<Report> = await reportsClient.getReports("auth", "projectId", 2);
+    const reports: Array<Report> = await reportsClient.getReports("auth", "projectId", 2);
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
@@ -184,7 +184,7 @@ describe("Reports Client", () => {
       },
     };
     fetchStub.resolves(returns);
-    let report = await reportsClient.createReport("auth", newReport);
+    const report = await reportsClient.createReport("auth", newReport);
     expect(report.id).to.be.eq("1");
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/",
@@ -207,7 +207,7 @@ describe("Reports Client", () => {
       },
     };
     fetchStub.resolves(returns);
-    let report = await reportsClient.updateReport("auth", "reportId", newReport);
+    const report = await reportsClient.updateReport("auth", "reportId", newReport);
     expect(report.id).to.be.eq("1");
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/reportId",
@@ -225,7 +225,7 @@ describe("Reports Client", () => {
       status: 200,
     };
     fetchStub.resolves(returns);
-    let report = await reportsClient.deleteReport("auth", "reportId");
+    const report = await reportsClient.deleteReport("auth", "reportId");
     expect(report.status).to.be.eq(200);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/reportId",
@@ -253,7 +253,7 @@ describe("Reports Client", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports/reportId/datasources/imodelMappings", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let reports: Array<ReportMapping> = await reportsClient.getReportMappings("auth", "reportId");
+    const reports: Array<ReportMapping> = await reportsClient.getReportMappings("auth", "reportId");
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
@@ -283,7 +283,7 @@ describe("Reports Client", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports/reportId/datasources/imodelMappings/?$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let reports: Array<ReportMapping> = await reportsClient.getReportMappings("auth", "reportId", 2);
+    const reports: Array<ReportMapping> = await reportsClient.getReportMappings("auth", "reportId", 2);
     expect(reports.length).to.be.eq(4);
     expect(reports[0]).to.be.eq(1);
     expect(reports[3]).to.be.eq(4);
@@ -304,7 +304,7 @@ describe("Reports Client", () => {
       },
     };
     fetchStub.resolves(returns);
-    let report = await reportsClient.createReportMapping("auth", "reportId", newMapping);
+    const report = await reportsClient.createReportMapping("auth", "reportId", newMapping);
     expect(report.mappingId).to.be.eq("1");
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/reportId/datasources/imodelMappings",
@@ -322,7 +322,7 @@ describe("Reports Client", () => {
       status: 200,
     };
     fetchStub.resolves(returns);
-    let report = await reportsClient.deleteReportMapping("auth", "reportId", "reportMappingId");
+    const report = await reportsClient.deleteReportMapping("auth", "reportId", "reportMappingId");
     expect(report.status).to.be.eq(200);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/reportId/datasources/imodelMappings/reportMappingId",

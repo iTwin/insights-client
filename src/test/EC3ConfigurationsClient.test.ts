@@ -32,7 +32,7 @@ describe("EC3ConfigurationsClient", () => {
     fetchStub = sinon.stub(client, "fetchJSON" as any);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     requestStub = sinon.stub(client, "createRequest" as any);
-    
+
     const returns = {
       configuration: {
         id: 1,
@@ -50,7 +50,7 @@ describe("EC3ConfigurationsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    let configuration = await configurationsClient.getConfiguration("auth", "configurationId");
+    const configuration = await configurationsClient.getConfiguration("auth", "configurationId");
     expect(configuration.id).to.be.eq(1);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/carbon-calculation/ec3/configurations/configurationId",
@@ -78,7 +78,7 @@ describe("EC3ConfigurationsClient", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let configurations: Array<EC3Configuration> = await configurationsClient.getConfigurations("auth", "iModelId");
+    const configurations: Array<EC3Configuration> = await configurationsClient.getConfigurations("auth", "iModelId");
     expect(configurations.length).to.be.eq(4);
     expect(configurations[0]).to.be.eq(1);
     expect(configurations[3]).to.be.eq(4);
@@ -108,7 +108,7 @@ describe("EC3ConfigurationsClient", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let configurationIt = configurationsClient.getConfigurationsIterator("auth", "iModelId").byPage();
+    const configurationIt = configurationsClient.getConfigurationsIterator("auth", "iModelId").byPage();
     for await(const i of configurationIt) {
       expect(i.length).to.be.eq(2);
     }
@@ -138,7 +138,7 @@ describe("EC3ConfigurationsClient", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId&$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let configurations: Array<EC3Configuration> = await configurationsClient.getConfigurations("auth", "iModelId", 2);
+    const configurations: Array<EC3Configuration> = await configurationsClient.getConfigurations("auth", "iModelId", 2);
     expect(configurations.length).to.be.eq(4);
     expect(configurations[0]).to.be.eq(1);
     expect(configurations[3]).to.be.eq(4);
@@ -168,7 +168,7 @@ describe("EC3ConfigurationsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    let configuration = await configurationsClient.createConfiguration("auth", newConfiguration);
+    const configuration = await configurationsClient.createConfiguration("auth", newConfiguration);
     expect(configuration.id).to.be.eq("1");
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/carbon-calculation/ec3/configurations",
@@ -201,7 +201,7 @@ describe("EC3ConfigurationsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    let configuration = await configurationsClient.updateConfiguration("auth", "configurationId", newConfiguration);
+    const configuration = await configurationsClient.updateConfiguration("auth", "configurationId", newConfiguration);
     expect(configuration.id).to.be.eq("1");
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/carbon-calculation/ec3/configurations/configurationId",
@@ -219,7 +219,7 @@ describe("EC3ConfigurationsClient", () => {
       status: 200,
     };
     fetchStub.resolves(returns);
-    let configuration = await configurationsClient.deleteConfiguration("auth", "configurationId");
+    const configuration = await configurationsClient.deleteConfiguration("auth", "configurationId");
     expect(configuration.status).to.be.eq(200);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/carbon-calculation/ec3/configurations/configurationId",

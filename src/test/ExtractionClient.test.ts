@@ -49,7 +49,7 @@ describe("ExtractionClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    let extraction = await extractionClient.runExtraction("auth", "iModelId");
+    const extraction = await extractionClient.runExtraction("auth", "iModelId");
     expect(extraction.id).to.be.eq(1);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/run",
@@ -77,7 +77,7 @@ describe("ExtractionClient", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/extraction/status/jobId/logs", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs("auth", "jobId");
+    const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs("auth", "jobId");
     expect(extraction.length).to.be.eq(4);
     expect(extraction[0]).to.be.eq(1);
     expect(extraction[3]).to.be.eq(4);
@@ -107,7 +107,7 @@ describe("ExtractionClient", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/extraction/status/jobId/logs/?$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs("auth", "jobId", 2);
+    const extraction: Array<ExtractionLog> = await extractionClient.getExtractionLogs("auth", "jobId", 2);
     expect(extraction.length).to.be.eq(4);
     expect(extraction[0]).to.be.eq(1);
     expect(extraction[3]).to.be.eq(4);
@@ -124,7 +124,7 @@ describe("ExtractionClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    let extraction = await extractionClient.getExtractionStatus("auth", "jobId");
+    const extraction = await extractionClient.getExtractionStatus("auth", "jobId");
     expect(extraction.state).to.be.eq("Succeeded");
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/extraction/status/jobId",
@@ -152,7 +152,7 @@ describe("ExtractionClient", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/history", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let extraction: Array<Extraction> = await extractionClient.getExtractionHistory("auth", "iModelId");
+    const extraction: Array<Extraction> = await extractionClient.getExtractionHistory("auth", "iModelId");
     expect(extraction.length).to.be.eq(4);
     expect(extraction[0]).to.be.eq(1);
     expect(extraction[3]).to.be.eq(4);
@@ -182,7 +182,7 @@ describe("ExtractionClient", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/history/?$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    let extraction: Array<Extraction> = await extractionClient.getExtractionHistory("auth", "iModelId", 2);
+    const extraction: Array<Extraction> = await extractionClient.getExtractionHistory("auth", "iModelId", 2);
     expect(extraction.length).to.be.eq(4);
     expect(extraction[0]).to.be.eq(1);
     expect(extraction[3]).to.be.eq(4);

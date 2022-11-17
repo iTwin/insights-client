@@ -55,7 +55,7 @@ describe("EC3JobsClient", () => {
       configurationId: "123",
     };
     fetchStub.resolves(returns);
-    let job = await jobsClient.createJob("auth", newJob);
+    const job = await jobsClient.createJob("auth", newJob);
     expect(job.id).to.be.eq(1);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/carbon-calculation/ec3/jobs",
@@ -70,7 +70,7 @@ describe("EC3JobsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    let status = await jobsClient.getEC3JobStatus("auth", "jobId");
+    const status = await jobsClient.getEC3JobStatus("auth", "jobId");
     expect(status.status).to.be.eq("Succeeded");
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/carbon-calculation/ec3/jobs/jobId",
