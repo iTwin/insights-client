@@ -9,7 +9,7 @@ import { EC3ConfigurationsClient } from "../reporting/clients/EC3ConfigurationsC
 import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../reporting/interfaces/EC3Configurations";
 use(chaiAsPromised);
 
-describe("EC3 Configurations Client", () => {
+describe("EC3ConfigurationsClient", () => {
   const configurationsClient: EC3ConfigurationsClient = new EC3ConfigurationsClient();
   const configurationsClientNewBase: EC3ConfigurationsClient = new EC3ConfigurationsClient("BASE");
   let fetchStub: sinon.SinonStub;

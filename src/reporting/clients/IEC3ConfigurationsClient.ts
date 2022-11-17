@@ -8,7 +8,7 @@ import type { EntityListIterator } from "../iterators/EntityListIterator";
 
 export interface IEC3ConfigurationsClient {
   /**
-   * Gets all EC3 Configurations for an iModel. This method returns the full list of EC3 Configurations.
+   * Gets all EC3 Configurations. This method returns the full list of EC3 Configurations.
    * @param {string} iModelId The iModel Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {number} top The number of entities to load per page.
@@ -22,7 +22,7 @@ export interface IEC3ConfigurationsClient {
   ): Promise<EC3Configuration[]>;
 
   /**
-   * Gets an async paged iterator of EC3 Configurations for an iModel.
+   * Gets an async paged iterator of EC3 Configurations.
    * This method returns an iterator which loads pages of mappings as it is being iterated over.
    * @param {string} iModelId The iModel Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
@@ -37,7 +37,7 @@ export interface IEC3ConfigurationsClient {
   ): EntityListIterator<EC3Configuration>;
 
   /**
-   * Gets an EC3 Configuration for an iModel.
+   * Gets an EC3 Configuration.
    * @param {string} configurationId The EC3 configuration Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @memberof IEC3ConfigurationsClient
@@ -49,7 +49,7 @@ export interface IEC3ConfigurationsClient {
   ): Promise<EC3Configuration>;
 
   /**
-   * Creates an EC3 Configuration for an iModel.
+   * Creates an EC3 Configuration.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {ConfigurationCreate} configuration Request body.
    * @memberof IEC3ConfigurationsClient
@@ -61,7 +61,7 @@ export interface IEC3ConfigurationsClient {
   ): Promise<EC3Configuration>;
 
   /**
-   * Updates an EC3 Configuration for an iModel.
+   * Updates an EC3 Configuration.
    * @param {string} configurationId The EC3 configuration Id.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {ConfigurationUpdate} configuration Request body.
@@ -75,7 +75,7 @@ export interface IEC3ConfigurationsClient {
   ): Promise<EC3Configuration>;
 
   /**
-   * Deletes an EC3 Configuration for an iModel.
+   * Deletes an EC3 Configuration.
    * @param {string} configurationId The EC3 configuration Id.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @memberof IEC3ConfigurationsClient

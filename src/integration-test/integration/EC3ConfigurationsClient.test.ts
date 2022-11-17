@@ -11,7 +11,7 @@ import { EC3ConfigurationsClient } from "../../reporting/clients/EC3Configuratio
 import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationLabel, EC3ConfigurationMaterial, EC3ConfigurationUpdate } from "../../reporting/interfaces/EC3Configurations";
 use(chaiAsPromised);
 
-describe("EC3 Configurations Client", () => {
+describe("EC3ConfigurationsClient", () => {
   const configurationsClient: EC3ConfigurationsClient = new EC3ConfigurationsClient();
   const reportsClient: ReportsClient = new ReportsClient();
 

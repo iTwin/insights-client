@@ -13,7 +13,7 @@ import { EC3JobsClient } from "../../reporting/clients/EC3JobsClient";
 import { EC3Job, EC3JobCreate, EC3JobStatus } from "../../reporting/interfaces/EC3Jobs";
 use(chaiAsPromised);
 
-describe("EC3 Jobs Client", () => {
+describe("EC3JobsClient", () => {
   const configurationsClient: EC3ConfigurationsClient = new EC3ConfigurationsClient();
   const reportsClient: ReportsClient = new ReportsClient();
   const jobsClient: EC3JobsClient = new EC3JobsClient();

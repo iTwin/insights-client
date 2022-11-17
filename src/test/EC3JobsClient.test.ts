@@ -9,7 +9,7 @@ import { EC3JobsClient } from "../reporting/clients/EC3JobsClient";
 import { CarbonUploadState, EC3JobCreate } from "../reporting/interfaces/EC3Jobs";
 use(chaiAsPromised);
 
-describe("EC3 Jobs Client Client", () => {
+describe("EC3JobsClient", () => {
   const jobsClient: EC3JobsClient = new EC3JobsClient();
   const jobsClientNewBase: EC3JobsClient = new EC3JobsClient("BASE");
   let fetchStub: sinon.SinonStub;

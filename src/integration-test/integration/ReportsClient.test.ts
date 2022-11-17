@@ -49,6 +49,11 @@ describe("Reports Client", () => {
     report = await reportsClient.createReport(accessToken, newReport);
     reportIds.push(report.id);
 
+    // create deleted report
+    newReport.displayName = "Test";
+    report = await reportsClient.createReport(accessToken, newReport);
+    await reportsClient.deleteReport(accessToken, report.id);
+
     // create reportMappings for tests
     const newReportMapping: ReportMappingCreate = {
       mappingId: mappingIds[mappingIds.length-3],
@@ -103,6 +108,13 @@ describe("Reports Client", () => {
     const report = await reportsClient.updateReport(accessToken, reportIds[0], reportUpdate);
     expect(report).to.not.be.undefined;
     expect(report.description).to.be.eq("Updated");
+  });
+
+  it("Reports - Get all non deleted", async () => {
+    const reports = await reportsClient.getReports(accessToken, projectId, undefined, true);
+    expect(reports).to.not.be.undefined;
+    expect(reports.length).to.be.gt(3);
+    expect(reports.some((x) => x.deleted)).to.be.true;
   });
 
   it("Reports - Get all", async () => {
