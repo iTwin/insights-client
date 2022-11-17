@@ -23,7 +23,7 @@ export interface IEC3ConfigurationsClient {
 
   /**
    * Gets an async paged iterator for EC3 Configurations within the context of a Project.
-   * This method returns an iterator which loads pages of mappings as it is being iterated over.
+   * This method returns an iterator which loads pages of EC3 Configurations as it is being iterated over.
    * @param {string} projectId The projectId Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {number} top The number of entities to load per page.

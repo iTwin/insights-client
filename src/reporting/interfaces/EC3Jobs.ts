@@ -107,7 +107,7 @@ export interface EC3JobStatus {
    */
   status: CarbonUploadState;
   /**
-   * Message which specifies why certain issue occured. Null if no issue has occured.
+   * Message which specifies why an issue has occured. Null if no issue has occured.
    * @type {string}
    * @memberof EC3JobStatus
    */

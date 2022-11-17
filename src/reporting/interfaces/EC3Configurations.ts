@@ -53,7 +53,7 @@ export interface EC3Configuration {
    */
   modifiedOn: string;
   /**
-   * Email of the user who last modified the EC3 Configuration.
+   * User who last modified the EC3 Configuration.
    * @type {string}
    * @memberof EC3Configuration
    */
