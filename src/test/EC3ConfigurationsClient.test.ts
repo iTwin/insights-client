@@ -75,15 +75,15 @@ describe("EC3ConfigurationsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=projectId", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    const configurations: Array<EC3Configuration> = await configurationsClient.getConfigurations("auth", "iModelId");
+    const configurations: Array<EC3Configuration> = await configurationsClient.getConfigurations("auth", "projectId");
     expect(configurations.length).to.be.eq(4);
     expect(configurations[0]).to.be.eq(1);
     expect(configurations[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId",
+      "https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=projectId",
       "pass",
     )).to.be.true;
   });
@@ -105,15 +105,15 @@ describe("EC3ConfigurationsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=projectId", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    const configurationIt = configurationsClient.getConfigurationsIterator("auth", "iModelId").byPage();
+    const configurationIt = configurationsClient.getConfigurationsIterator("auth", "projectId").byPage();
     for await(const i of configurationIt) {
       expect(i.length).to.be.eq(2);
     }
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId",
+      "https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=projectId",
       "pass",
     )).to.be.true;
   });
@@ -135,15 +135,15 @@ describe("EC3ConfigurationsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId&$top=2", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=projectId&$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    const configurations: Array<EC3Configuration> = await configurationsClient.getConfigurations("auth", "iModelId", 2);
+    const configurations: Array<EC3Configuration> = await configurationsClient.getConfigurations("auth", "projectId", 2);
     expect(configurations.length).to.be.eq(4);
     expect(configurations[0]).to.be.eq(1);
     expect(configurations[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=iModelId&$top=2",
+      "https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=projectId&$top=2",
       "pass",
     )).to.be.true;
   });
