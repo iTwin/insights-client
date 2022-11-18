@@ -15,23 +15,23 @@ export class EC3ConfigurationsClient extends OperationsBase implements IEC3Confi
     super(basePath ?? CARBON_CALCULATION_BASE_PATH);
   }
 
-  public async getConfigurations(accessToken: string, iModelId: string, top?: number | undefined): Promise<EC3Configuration[]> {
+  public async getConfigurations(accessToken: string, projectId: string, top?: number | undefined): Promise<EC3Configuration[]> {
     const configurations: Array<EC3Configuration> = [];
-    const configIterator = this.getConfigurationsIterator(accessToken, iModelId, top);
+    const configIterator = this.getConfigurationsIterator(accessToken, projectId, top);
     for await(const config of configIterator) {
       configurations.push(config);
     }
     return configurations;
   }
 
-  public getConfigurationsIterator(accessToken: string, iModelId: string, top?: number | undefined): EntityListIterator<EC3Configuration> {
+  public getConfigurationsIterator(accessToken: string, projectId: string, top?: number | undefined): EntityListIterator<EC3Configuration> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
-    let url = `${this.basePath}/ec3/configurations?iTwinId=${iModelId}`;
+    let url = `${this.basePath}/ec3/configurations?iTwinId=${projectId}`;
     url += top ? `&$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<EC3Configuration>(
