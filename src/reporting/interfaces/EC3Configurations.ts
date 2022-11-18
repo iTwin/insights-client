@@ -61,7 +61,7 @@ export interface EC3Configuration {
   /**
    *
    * @type {EC3ConfigurationLinks}
-   * @memberof Mapping
+   * @memberof EC3Configuration
    */
   // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: EC3ConfigurationLinks;
