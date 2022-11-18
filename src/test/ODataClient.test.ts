@@ -39,7 +39,7 @@ describe("ODataClient", () => {
     };
     fetchStub.resolves(returns);
     await client.getODataReport("auth", "reportId");
-    expect(fetchStub.getCall(0).args[0]).to.match(new RegExp("^BASE"));
+    expect(fetchStub.getCall(0).args[0].substring(0, 4)).to.be.eq("BASE");
   });
 
   it("Get OData report", async () => {

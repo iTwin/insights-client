@@ -40,7 +40,7 @@ describe("EC3ConfigurationsClient", () => {
     };
     fetchStub.resolves(returns);
     await client.getConfiguration("auth", "configurationId");
-    expect(fetchStub.getCall(0).args[0]).to.match(new RegExp("^BASE"));
+    expect(fetchStub.getCall(0).args[0].substring(0, 4)).to.be.eq("BASE");
   });
 
   it("Configurations - Get", async () => {

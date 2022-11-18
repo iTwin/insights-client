@@ -110,7 +110,7 @@ describe("Reports Client", () => {
     expect(report.description).to.be.eq("Updated");
   });
 
-  it("Reports - Get all non deleted", async () => {
+  it("Reports - Get all including deleted", async () => {
     const reports = await reportsClient.getReports(accessToken, projectId, undefined, true);
     expect(reports).to.not.be.undefined;
     expect(reports.length).to.be.gt(3);

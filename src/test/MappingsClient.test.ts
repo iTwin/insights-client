@@ -39,7 +39,7 @@ describe("mappingsClient", () => {
     };
     fetchStub.resolves(returns);
     await client.getMapping("auth", "iModelId", "mappingId");
-    expect(fetchStub.getCall(0).args[0]).to.match(new RegExp("^BASE"));
+    expect(fetchStub.getCall(0).args[0].substring(0, 4)).to.be.eq("BASE");
   });
 
   it("Mappings - Get", async () => {
