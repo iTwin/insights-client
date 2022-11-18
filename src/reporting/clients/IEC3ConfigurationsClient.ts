@@ -53,7 +53,7 @@ export interface IEC3ConfigurationsClient {
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {ConfigurationCreate} configuration Request body.
    * @memberof IEC3ConfigurationsClient
-   * @link https://developer.bentley.com/apis/carbon-calculation/operations/create-ec3-job/
+   * @link https://developer.bentley.com/apis/carbon-calculation/operations/create-ec3-configuration/
    */
   createConfiguration(
     accessToken: AccessToken,
