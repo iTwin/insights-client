@@ -794,7 +794,7 @@ describe("mappingsClient", () => {
   it("isValid", () => {
     interface MappingsBase {
       isNullOrWhitespace(input: string | null | undefined): boolean;
-      isValidECProperty (prop: ECProperty): boolean;
+      isValidECProperty(prop: ECProperty): boolean;
     }
     const privateClient = new MappingsClient() as unknown as MappingsBase;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
