@@ -5,7 +5,7 @@
 
 /**
  * Carbon Calculation
- * - Carbon Calculation is a resource that assists with environmental impact calculations 
+ * - Carbon Calculation is a resource that assists with environmental impact calculations
  *   such as Life Cycle Assessments (LCA) or Embodied Carbon estimations (EPD).
  */
 

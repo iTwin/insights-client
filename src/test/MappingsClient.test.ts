@@ -6,6 +6,7 @@ import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
 import { CalculatedProperty, CalculatedPropertyCreate, CalculatedPropertyType, CustomCalculation, CustomCalculationCreate, DataType, ECProperty, Group, GroupCreate, GroupProperty, GroupPropertyCreate, GroupUpdate, Mapping, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, QuantityType } from "../reporting";
+import { IOperationsBase } from "./OperationsBase.test";
 use(chaiAsPromised);
 
 describe("mappingsClient", () => {
@@ -789,5 +790,36 @@ describe("mappingsClient", () => {
       "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations/propertyId",
       "pass",
     )).to.be.true;
+  });
+
+  it("isValid", () => {
+    const privateClient = new MappingsClient() as unknown as IOperationsBase;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const stub = sinon.stub(privateClient, "isNullOrWhitespace" as any);
+    stub.returns(false);
+    stub.withArgs("").returns(true);
+
+    const prop: ECProperty = {
+      ecSchemaName: "Name",
+      ecClassName: "Class",
+      ecPropertyName: "Property",
+      ecPropertyType: DataType.Integer,
+    };
+    expect(privateClient.isValidECProperty(prop)).to.be.true;
+
+    prop.ecClassName = "";
+    expect(privateClient.isValidECProperty(prop)).to.be.false;
+
+    prop.ecClassName = "Class";
+    prop.ecPropertyName = "";
+    expect(privateClient.isValidECProperty(prop)).to.be.false;
+
+    prop.ecPropertyName = "Property";
+    prop.ecSchemaName = "";
+    expect(privateClient.isValidECProperty(prop)).to.be.false;
+
+    prop.ecSchemaName = "Name";
+    prop.ecPropertyType = DataType.Undefined;
+    expect(privateClient.isValidECProperty(prop)).to.be.false;
   });
 });
