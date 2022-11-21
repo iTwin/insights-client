@@ -5,18 +5,16 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { DataType, ECProperty } from "../reporting";
 import "isomorphic-fetch";
 import { OperationsBase } from "../common/OperationsBase";
 use(chaiAsPromised);
 
-export interface IOperationsBase {
+interface IOperationsBase {
   createRequest(operation: string, accessToken: string, content?: string): RequestInit;
   fetchData(nextUrl: string, requestOptions: RequestInit): Promise<Response>;
   fetchJSON<T>(nextUrl: string, requestOptions: RequestInit): Promise<T>;
   isSimpleIdentifier(name: string | null | undefined): boolean;
   isNullOrWhitespace(input: string | null | undefined): boolean;
-  isValidECProperty (prop: ECProperty): boolean;
   topIsValid(top: number | undefined): boolean;
 }
 

@@ -6,7 +6,6 @@ import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
 import { CalculatedProperty, CalculatedPropertyCreate, CalculatedPropertyType, CustomCalculation, CustomCalculationCreate, DataType, ECProperty, Group, GroupCreate, GroupProperty, GroupPropertyCreate, GroupUpdate, Mapping, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, QuantityType } from "../reporting";
-import { IOperationsBase } from "./OperationsBase.test";
 use(chaiAsPromised);
 
 describe("mappingsClient", () => {
@@ -793,7 +792,11 @@ describe("mappingsClient", () => {
   });
 
   it("isValid", () => {
-    const privateClient = new MappingsClient() as unknown as IOperationsBase;
+    interface MappingsBase {
+      isNullOrWhitespace(input: string | null | undefined): boolean;
+      isValidECProperty (prop: ECProperty): boolean;
+    }
+    const privateClient = new MappingsClient() as unknown as MappingsBase;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const stub = sinon.stub(privateClient, "isNullOrWhitespace" as any);
     stub.returns(false);
