@@ -8,7 +8,7 @@ import type { CustomCalculation, CustomCalculationCreate, CustomCalculationUpdat
 import type { GroupProperty, GroupPropertyCreate, GroupPropertyUpdate } from "../interfaces/GroupProperties";
 import type { Group, GroupCreate, GroupUpdate } from "../interfaces/Groups";
 import type { Mapping, MappingCopy, MappingCreate, MappingUpdate } from "../interfaces/Mappings";
-import type { EntityListIterator } from "../iterators/EntityListIterator";
+import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IMappingsClient {
   /**

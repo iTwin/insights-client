@@ -5,8 +5,9 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { DataType, ECProperty, OperationsBase } from "../reporting";
+import { DataType, ECProperty } from "../reporting";
 import "isomorphic-fetch";
+import { OperationsBase } from "../common/OperationsBase";
 use(chaiAsPromised);
 
 interface IOperationsBase {

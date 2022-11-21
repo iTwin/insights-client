@@ -5,8 +5,8 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { EC3ConfigurationsClient } from "../reporting/clients/EC3ConfigurationsClient";
-import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../reporting/interfaces/EC3Configurations";
+import { EC3ConfigurationsClient } from "../carbon-calculation/clients/EC3ConfigurationsClient";
+import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
 use(chaiAsPromised);
 
 describe("EC3ConfigurationsClient", () => {

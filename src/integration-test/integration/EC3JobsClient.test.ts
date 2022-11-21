@@ -7,10 +7,10 @@ import { expect, use } from "chai";
 import { ReportCreate, ReportsClient } from "../../reporting";
 import "reflect-metadata";
 import { accessToken, projectId, testIModelGroup } from "../utils";
-import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationMaterial } from "../../reporting/interfaces/EC3Configurations";
-import { EC3ConfigurationsClient } from "../../reporting/clients/EC3ConfigurationsClient";
-import { EC3JobsClient } from "../../reporting/clients/EC3JobsClient";
-import { EC3Job, EC3JobCreate, EC3JobStatus } from "../../reporting/interfaces/EC3Jobs";
+import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationMaterial } from "../../carbon-calculation/interfaces/EC3Configurations";
+import { EC3ConfigurationsClient } from "../../carbon-calculation/clients/EC3ConfigurationsClient";
+import { EC3JobsClient } from "../../carbon-calculation/clients/EC3JobsClient";
+import { EC3Job, EC3JobCreate, EC3JobStatus } from "../../carbon-calculation/interfaces/EC3Jobs";
 use(chaiAsPromised);
 
 describe("EC3JobsClient", () => {

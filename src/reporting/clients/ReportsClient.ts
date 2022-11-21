@@ -4,10 +4,10 @@
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
 import { RequiredError } from "../interfaces/Errors";
-import type { EntityListIterator } from "../iterators/EntityListIterator";
-import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
-import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
-import { OperationsBase } from "../OperationsBase";
+import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
+import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
+import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
+import { OperationsBase } from "../../common/OperationsBase";
 import type { Report, ReportCollection, ReportCreate, ReportMapping, ReportMappingCollection, ReportMappingCreate, ReportMappingSingle, ReportSingle, ReportUpdate } from "../interfaces/Reports";
 import type { IReportsClient } from "./IReportsClient";
 

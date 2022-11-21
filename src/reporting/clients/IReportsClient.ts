@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
 import type { Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../interfaces/Reports";
-import type { EntityListIterator } from "../iterators/EntityListIterator";
+import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IReportsClient{
   /**

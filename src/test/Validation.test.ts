@@ -5,8 +5,8 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import { CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, ExtractionClient, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, ODataClient, ODataItem, QuantityType, ReportCreate, ReportMappingCreate, ReportsClient, ReportUpdate } from "../reporting";
-import { EC3ConfigurationsClient } from "../reporting/clients/EC3ConfigurationsClient";
-import { EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../reporting/interfaces/EC3Configurations";
+import { EC3ConfigurationsClient } from "../carbon-calculation/clients/EC3ConfigurationsClient";
+import { EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
 use(chaiAsPromised);
 
 describe("Validation", () => {

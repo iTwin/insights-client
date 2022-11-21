@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import type { PagedResponseLinks } from "./Links";
+import type { PagedResponseLinks } from "../../common/Links";
 
 /**
  * Defines a single Group (collection of iModel elements) in an iModel Mapping.

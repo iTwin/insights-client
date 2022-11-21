@@ -4,10 +4,10 @@
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
 import { RequiredError } from "../interfaces/Errors";
-import type { EntityListIterator } from "../iterators/EntityListIterator";
-import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
-import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
-import { OperationsBase } from "../OperationsBase";
+import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
+import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
+import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
+import { OperationsBase } from "../../common/OperationsBase";
 import { CalculatedProperty, CalculatedPropertyCollection, CalculatedPropertyCreate, CalculatedPropertySingle, CalculatedPropertyType, CalculatedPropertyUpdate } from "../interfaces/CalculatedProperties";
 import type { CustomCalculation, CustomCalculationCollection, CustomCalculationCreate, CustomCalculationSingle, CustomCalculationUpdate } from "../interfaces/CustomCalculations";
 import { DataType, GroupProperty, GroupPropertyCollection, GroupPropertyCreate, GroupPropertySingle, GroupPropertyUpdate } from "../interfaces/GroupProperties";

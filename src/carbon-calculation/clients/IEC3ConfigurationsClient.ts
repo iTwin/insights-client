@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
 import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../interfaces/EC3Configurations";
-import type { EntityListIterator } from "../iterators/EntityListIterator";
+import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IEC3ConfigurationsClient {
   /**

@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
 import type { ODataEntityResponse, ODataEntityValue, ODataItem, ODataResponse, ODataTable } from "../interfaces/OData";
-import type { EntityListIterator } from "../iterators/EntityListIterator";
+import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IOdataClient{
   /**

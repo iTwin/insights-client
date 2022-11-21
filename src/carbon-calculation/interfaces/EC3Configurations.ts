@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import type { Link, PagedResponseLinks } from "./Links";
+import type { Link, PagedResponseLinks } from "../../common/Links";
 
 /**
  * Defines an EC3 configuration. Each configuration holds information required to start an EC3 Job.

@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
-import { CC_BASE_PATH, JobCreate, OneClickLCAApi } from "./generated/api";
+import { CC_BASE_PATH, JobCreate, OneClickLCAApi } from "../generated/api";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 

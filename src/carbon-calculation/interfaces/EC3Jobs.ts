@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 
-import { Link } from "./Links";
+import { Link } from "../../common/Links";
 
 /**
  * Container for an EC3Job object.

@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import type { Link, PagedResponseLinks } from "./Links";
+import type { Link, PagedResponseLinks } from "../../common/Links";
 
 /**
  * Defines a unit of data that can be exposed as an OData feed. The contents of a Report are defined in Report Mappings.

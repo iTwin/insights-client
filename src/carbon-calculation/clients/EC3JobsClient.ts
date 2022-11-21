@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { CARBON_CALCULATION_BASE_PATH, OperationsBase } from "../OperationsBase";
+import { CARBON_CALCULATION_BASE_PATH, OperationsBase } from "../../common/OperationsBase";
 import { IEC3JobsClient } from "./IEC3JobsClient";
 import { EC3Job, EC3JobCreate, EC3JobSingle, EC3JobStatus, EC3JobStatusSingle } from "../interfaces/EC3Jobs";
 

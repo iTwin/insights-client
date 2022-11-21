@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import isomorphicFetch from "cross-fetch";
-import { DataType, ECProperty } from "./interfaces/GroupProperties";
+import { DataType, ECProperty } from "../reporting/interfaces/GroupProperties";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 export const REPORTING_BASE_PATH = "https://api.bentley.com/insights/reporting";

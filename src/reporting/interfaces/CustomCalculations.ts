@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { CalculatedPropertyLinks } from "./CalculatedProperties";
-import type { PagedResponseLinks } from "./Links";
+import type { PagedResponseLinks } from "../../common/Links";
 import type { DataType, QuantityType } from "./GroupProperties";
 
 /**

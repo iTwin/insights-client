@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import type { PagedResponseLinks } from "../interfaces/Links";
+import type { PagedResponseLinks } from "../Links";
 
 export interface Collection<TEntity> {
   values: Array<TEntity>;

@@ -7,8 +7,8 @@ import { expect, use } from "chai";
 import "reflect-metadata";
 import { accessToken, projectId, testIModelGroup } from "../utils";
 import { ReportCreate, ReportsClient } from "../../reporting";
-import { EC3ConfigurationsClient } from "../../reporting/clients/EC3ConfigurationsClient";
-import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationLabel, EC3ConfigurationMaterial, EC3ConfigurationUpdate } from "../../reporting/interfaces/EC3Configurations";
+import { EC3ConfigurationsClient } from "../../carbon-calculation/clients/EC3ConfigurationsClient";
+import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationLabel, EC3ConfigurationMaterial, EC3ConfigurationUpdate } from "../../carbon-calculation/interfaces/EC3Configurations";
 use(chaiAsPromised);
 
 describe("EC3ConfigurationsClient", () => {

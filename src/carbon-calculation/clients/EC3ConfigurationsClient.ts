@@ -3,11 +3,11 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { EC3Configuration, EC3ConfigurationCollection, EC3ConfigurationCreate, EC3ConfigurationSingle, EC3ConfigurationUpdate } from "../interfaces/EC3Configurations";
-import { RequiredError } from "../interfaces/Errors";
-import { EntityListIterator } from "../iterators/EntityListIterator";
-import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
-import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
-import { CARBON_CALCULATION_BASE_PATH, OperationsBase } from "../OperationsBase";
+import { RequiredError } from "../../reporting/interfaces/Errors";
+import { EntityListIterator } from "../../common/iterators/EntityListIterator";
+import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
+import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
+import { CARBON_CALCULATION_BASE_PATH, OperationsBase } from "../../common/OperationsBase";
 import { IEC3ConfigurationsClient } from "./IEC3ConfigurationsClient";
 
 export class EC3ConfigurationsClient extends OperationsBase implements IEC3ConfigurationsClient {
