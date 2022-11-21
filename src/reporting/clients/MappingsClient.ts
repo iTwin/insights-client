@@ -4,13 +4,13 @@
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
 import { RequiredError } from "../interfaces/Errors";
-import type { EntityListIterator } from "../iterators/EntityListIterator";
-import { EntityListIteratorImpl } from "../iterators/EntityListIteratorImpl";
-import { Collection, getEntityCollectionPage } from "../iterators/IteratorUtil";
-import { OperationsBase } from "../OperationsBase";
+import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
+import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
+import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
+import { OperationsBase } from "../../common/OperationsBase";
 import { CalculatedProperty, CalculatedPropertyCollection, CalculatedPropertyCreate, CalculatedPropertySingle, CalculatedPropertyType, CalculatedPropertyUpdate } from "../interfaces/CalculatedProperties";
 import type { CustomCalculation, CustomCalculationCollection, CustomCalculationCreate, CustomCalculationSingle, CustomCalculationUpdate } from "../interfaces/CustomCalculations";
-import { DataType, GroupProperty, GroupPropertyCollection, GroupPropertyCreate, GroupPropertySingle, GroupPropertyUpdate } from "../interfaces/GroupProperties";
+import { DataType, ECProperty, GroupProperty, GroupPropertyCollection, GroupPropertyCreate, GroupPropertySingle, GroupPropertyUpdate } from "../interfaces/GroupProperties";
 import type { Group, GroupCollection, GroupCreate, GroupSingle, GroupUpdate } from "../interfaces/Groups";
 import type { Mapping, MappingCollection, MappingCopy, MappingCreate, MappingSingle, MappingUpdate } from "../interfaces/Mappings";
 import type { IMappingsClient } from "./IMappingsClient";
@@ -637,5 +637,17 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/customCalculations/${encodeURIComponent(propertyId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
     return this.fetchJSON<Response>(url, requestOptions);
+  }
+
+  /**
+   * checks if given ECProperty is valid
+   * @param {ECProperty} prop
+   * @memberof OperationsBase
+   */
+  protected isValidECProperty(prop: ECProperty): boolean {
+    return !this.isNullOrWhitespace(prop.ecSchemaName) &&
+      !this.isNullOrWhitespace(prop.ecClassName) &&
+      !this.isNullOrWhitespace(prop.ecPropertyName) &&
+      DataType.Undefined !== prop.ecPropertyType;
   }
 }

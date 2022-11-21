@@ -2,7 +2,7 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import type { EntityCollectionPage } from "../../../../reporting/iterators/IteratorUtil";
+import type { EntityCollectionPage } from "../../../../common/iterators/IteratorUtil";
 import { Constants } from "../Constants";
 import type { AuthorizationParam, CollectionResponse, PreferReturn } from "./interfaces/CommonInterfaces";
 import type { Dictionary } from "./interfaces/UtilityTypes";

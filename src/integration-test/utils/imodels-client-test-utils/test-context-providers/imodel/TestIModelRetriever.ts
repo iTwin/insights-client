@@ -3,7 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
-import { toArray } from "../../../../../reporting/iterators/IteratorUtil";
+import { toArray } from "../../../../../common/iterators/IteratorUtil";
 import type { Lock } from "../../../imodels-client-authoring/base/interfaces/apiEntities/LockInterfaces";
 import type { GetLockListParams } from "../../../imodels-client-authoring/operations/lock/LockOperationParams";
 import type { IModel } from "../../../imodels-client-management/base/interfaces/apiEntities/IModelInterfaces";

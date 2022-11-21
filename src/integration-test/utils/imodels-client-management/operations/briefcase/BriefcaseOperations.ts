@@ -2,8 +2,8 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import type { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
-import { EntityListIteratorImpl } from "../../../../../reporting/iterators/EntityListIteratorImpl";
+import type { EntityListIterator } from "../../../../../common/iterators/EntityListIterator";
+import { EntityListIteratorImpl } from "../../../../../common/iterators/EntityListIteratorImpl";
 import type { Briefcase, BriefcasesResponse } from "../../base";
 import { OperationsBase } from "../../base/OperationsBase";
 import { PreferReturn } from "../../base/interfaces/CommonInterfaces";

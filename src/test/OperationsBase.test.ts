@@ -5,8 +5,8 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { DataType, ECProperty, OperationsBase } from "../reporting";
 import "isomorphic-fetch";
+import { OperationsBase } from "../common/OperationsBase";
 use(chaiAsPromised);
 
 interface IOperationsBase {
@@ -15,7 +15,6 @@ interface IOperationsBase {
   fetchJSON<T>(nextUrl: string, requestOptions: RequestInit): Promise<T>;
   isSimpleIdentifier(name: string | null | undefined): boolean;
   isNullOrWhitespace(input: string | null | undefined): boolean;
-  isValidECProperty (prop: ECProperty): boolean;
   topIsValid(top: number | undefined): boolean;
 }
 
@@ -48,35 +47,6 @@ describe("OperationsBase", () => {
     expect(operationsBase.isNullOrWhitespace("       ")).to.be.true;
     expect(operationsBase.isNullOrWhitespace("Test")).to.be.false;
     expect(operationsBase.isNullOrWhitespace("  Test  ")).to.be.false;
-  });
-
-  it("isValid", () => {
-    const stub = sinon.stub(operationsBase, "isNullOrWhitespace");
-    stub.returns(false);
-    stub.withArgs("").returns(true);
-
-    const prop: ECProperty = {
-      ecSchemaName: "Name",
-      ecClassName: "Class",
-      ecPropertyName: "Property",
-      ecPropertyType: DataType.Integer,
-    };
-    expect(operationsBase.isValidECProperty(prop)).to.be.true;
-
-    prop.ecClassName = "";
-    expect(operationsBase.isValidECProperty(prop)).to.be.false;
-
-    prop.ecClassName = "Class";
-    prop.ecPropertyName = "";
-    expect(operationsBase.isValidECProperty(prop)).to.be.false;
-
-    prop.ecPropertyName = "Property";
-    prop.ecSchemaName = "";
-    expect(operationsBase.isValidECProperty(prop)).to.be.false;
-
-    prop.ecSchemaName = "Name";
-    prop.ecPropertyType = DataType.Undefined;
-    expect(operationsBase.isValidECProperty(prop)).to.be.false;
   });
 
   it("fetch", async () => {

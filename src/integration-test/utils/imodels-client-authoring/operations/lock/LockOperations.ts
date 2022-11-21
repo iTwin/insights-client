@@ -3,8 +3,8 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 
-import type { EntityListIterator } from "../../../../../reporting/iterators/EntityListIterator";
-import { EntityListIteratorImpl } from "../../../../../reporting/iterators/EntityListIteratorImpl";
+import type { EntityListIterator } from "../../../../../common/iterators/EntityListIterator";
+import { EntityListIteratorImpl } from "../../../../../common/iterators/EntityListIteratorImpl";
 import { OperationsBase } from "../../../imodels-client-management/base/OperationsBase";
 import type { Lock, LockResponse, LocksResponse } from "../../base/interfaces/apiEntities/LockInterfaces";
 import type { OperationOptions } from "../OperationOptions";

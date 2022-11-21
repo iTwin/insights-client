@@ -9,5 +9,6 @@
  * @docs-group-description InsightsClient
  * Classes for communicating with the insights service.
  */
-export * from "./oneClickLCA/index";
+export * from "./carbon-calculation/index";
 export * from "./reporting/index";
+export * from "./common/Links";

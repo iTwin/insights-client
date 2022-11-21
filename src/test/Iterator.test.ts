@@ -4,8 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { EntityListIteratorImpl } from "../reporting/iterators/EntityListIteratorImpl";
-import { toArray } from "../reporting/iterators/IteratorUtil";
+import { EntityListIteratorImpl } from "../common/iterators/EntityListIteratorImpl";
+import { toArray } from "../common/iterators/IteratorUtil";
 use(chaiAsPromised);
 
 describe("mappings Client", () => {
