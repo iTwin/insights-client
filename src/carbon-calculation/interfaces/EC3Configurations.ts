@@ -223,5 +223,5 @@ export interface EC3ConfigurationMaterial {
    * @type {string}
    * @memberof EC3ConfigurationMaterial
    */
-  nameColumn: string;
+  nameColumn?: string;
 }
