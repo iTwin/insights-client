@@ -5,7 +5,7 @@ Fri, 25 Nov 2022
 
 ### Patches
 
-- Added missing exports.
+- Added missing base path exports.
 
 ## 0.3.3
 Tue, 15 Nov 2022
