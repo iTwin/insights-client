@@ -12,4 +12,4 @@
 export * from "./carbon-calculation/index";
 export * from "./reporting/index";
 export * from "./common/Links";
-export * from "./common/OperationsBase"
+export * from "./common/OperationsBase";
