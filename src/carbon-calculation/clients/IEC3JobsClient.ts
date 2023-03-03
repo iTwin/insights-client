@@ -20,8 +20,8 @@ export interface IEC3JobsClient {
 
   /**
    * Gets EC3 upload job status.
-   * @param {string} jobId Unique Identifier of the EC3 Job.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} jobId Unique Identifier of the EC3 Job.
    * @memberof IEC3JobsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/get-ec3-job-status/
    */
