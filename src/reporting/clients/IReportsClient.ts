@@ -6,11 +6,11 @@ import type { AccessToken } from "@itwin/core-bentley";
 import type { Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../interfaces/Reports";
 import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
-export interface IReportsClient{
+export interface IReportsClient {
   /**
    * Gets all Reports within the context of a Project. This method returns the full list of reports.
-   * @param {string} projectId The project Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} projectId The project Id.
    * @param {boolean} deleted Parameter to specify whether to include deleted reports.
    * @param {number} top The number of entities to load per page.
    * @memberof ReportingClient
@@ -26,8 +26,8 @@ export interface IReportsClient{
   /**
    * Gets an async paged iterator for Reports within the context of a Project.
    * This method returns an iterator which loads pages of reports as it is being iterated over.
-   * @param {string} projectId The project Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} projectId The project Id.
    * @param {boolean} deleted Parameter to specify whether to include deleted reports.
    * @param {number} top The number of entities to load per page.
    * @memberof ReportingClient
@@ -42,8 +42,8 @@ export interface IReportsClient{
 
   /**
    * Gets a single Report.
-   * @param {string} reportId The Report Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} reportId The Report Id.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report/
    */
@@ -66,8 +66,8 @@ export interface IReportsClient{
 
   /**
    * Updates a Report.
-   * @param {string} reportId The Report Id.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {string} reportId The Report Id.
    * @param {ReportUpdate} report Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/update-report/
@@ -80,8 +80,8 @@ export interface IReportsClient{
 
   /**
    * Marks a Report for deletion.
-   * @param {string} reportId The Report Id.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {string} reportId The Report Id.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-report/
    */
@@ -92,8 +92,8 @@ export interface IReportsClient{
 
   /**
    * Gets all Report Mappings for a Report. This method returns the full list of report mappings.
-   * @param {string} reportId The Report Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} reportId The Report Id.
    * @param {number} top The number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
@@ -107,8 +107,8 @@ export interface IReportsClient{
   /**
    * Gets an async paged iterator of Report Mappings for a Report.
    * This method returns an iterator which loads pages of report mappings as it is being iterated over.
-   * @param {string} reportId The Report Id.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} reportId The Report Id.
    * @param {number} top The number of entities to load per page.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-mappings/
@@ -121,8 +121,8 @@ export interface IReportsClient{
 
   /**
    * Creates a Report Mapping.
-   * @param {string} reportId The Report Id.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {string} reportId The Report Id.
    * @param {ReportMappingCreate} reportMapping Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-report-mapping/
@@ -135,9 +135,9 @@ export interface IReportsClient{
 
   /**
    * Deletes a Report Mapping from a Report.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {string} reportId The Report Id.
    * @param {string} reportMappingId The Report Mapping Id
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-report-mapping/
    */
