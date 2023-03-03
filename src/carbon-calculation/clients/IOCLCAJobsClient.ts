@@ -16,8 +16,8 @@ export interface IOCLCAJobsClient {
 
   /**
    * Gets OCLCA upload job status.
-   * @param {string} jobId Unique Identifier of the OCLCA Job.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} jobId Unique Identifier of the OCLCA Job.
    * @memberof IOCLCAJobsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/get-oneclicklca-job-status/
    */
