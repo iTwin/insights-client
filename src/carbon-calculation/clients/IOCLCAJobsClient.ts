@@ -7,7 +7,7 @@ import { OCLCAJob, OCLCAJobCreate, OCLCAJobStatus } from "../interfaces/OCLCAJob
 
 export interface IOCLCAJobsClient {
   /**
-   * Uploads report data to OCLCA.
+   * Uploads report data to One Click LCA.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {OCCLAJobCreate} job Request body.
    * @memberof IOCLCAJobsClient
@@ -19,7 +19,7 @@ export interface IOCLCAJobsClient {
   ): Promise<OCLCAJob>;
 
   /**
-   * Gets OCLCA upload job status.
+   * Queries One Click LCA job status.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {string} jobId Unique Identifier of the OCLCA Job.
    * @memberof IOCLCAJobsClient

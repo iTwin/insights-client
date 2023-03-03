@@ -5,6 +5,11 @@
 import { CarbonUploadState } from "../../common/CarbonCalculation";
 import { Link } from "../../common/Links";
 
+/**
+* Properties of the One Click LCA job to be created.
+* @export
+* @interface OCLCAJob
+*/
 export interface OCLCAJobCreate {
   /**
    * Report identifier used to upload report data to One Click LCA.
@@ -19,8 +24,9 @@ export interface OCLCAJobCreate {
    */
   token: string;
 }
+
 /**
-* Representation of One Click LCA job.
+* Representation of a One Click LCA job.
 * @export
 * @interface OCLCAJob
 */
@@ -39,6 +45,7 @@ export interface OCLCAJob {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: OCLCAJobLinks;
 }
+
 /**
 * Container for One Click LCA job object.
 * @export
@@ -52,6 +59,7 @@ export interface OCLCAJobSingle {
    */
   job: OCLCAJob;
 }
+
 /**
 * URLs for getting related data.
 * @export
@@ -71,6 +79,7 @@ export interface OCLCAJobLinks {
    */
   job: Link;
 }
+
 /**
 * Representation of One Click LCA job status.
 * @export
@@ -109,6 +118,7 @@ export interface OCLCAJobStatus {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: OCLCAJobStatusLinks;
 }
+
 /**
 * URLs for getting related data.
 * @export
@@ -128,8 +138,9 @@ export interface OCLCAJobStatusLinks {
    */
   oneclicklca: Link;
 }
+
 /**
-* Container for One Click LCA job object.
+* Container for One Click LCA job status object.
 * @export
 * @interface OCLCAJobStatusSingle
 */
@@ -142,6 +153,11 @@ export interface OCLCAJobStatusSingle {
   job: OCLCAJobStatus;
 }
 
+/**
+* One Click LCA API successful login response properties.
+* @export
+* @interface OCLCALoginResponse
+*/
 /* eslint-disable @typescript-eslint/naming-convention */
 export interface OCLCALoginResponse {
   username: string;

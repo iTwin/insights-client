@@ -7,7 +7,27 @@ Thu, 3 Mar 2023
 ### Minor
 
 - Removed `url` dependency.
-- Refactored OCLCA.
+- Enviroment variables for example, IMJS_URL_PREFIX, have been removed.
+- ### Renamed OneClickLCA Client and methods
+
+  - `OneClickLCAClient` > `OCLCAJobsClient`
+
+    - `getOneclicklcaAccessToken` > `getOCLCAAccessToken`
+    - `getOneclicklcaJobStatus` > `getOCLCAJobStatus`
+    - `createOneclicklcaJob` > `createJob`
+
+- ### Renamed Interfaces
+
+  - `JobCreate` > `OCLCAJobCreate`
+  - `JobCreation` > `OCLCAJob`
+  - `JobCreationResponse` > `OCLCAJobSingle`
+  - `JobLinks` > `OCLCAJobLinks`
+  - `JobStatus` > `OCLCAJobStatus`
+  - `JobStatusLinks` > `OCLCAJobStatusLinks`
+  - `JobStatusResponse` > `OCLCAJobStatusSingle`
+
+- ### Changes to Interfaces
+  - In `OCLCAJobStatus.status`, the type `StatusEnum` and associated namespace were removed and replaced with `CarbonUploadState`.
 
 ## 0.3.4
 
