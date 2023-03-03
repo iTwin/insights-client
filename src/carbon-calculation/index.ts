@@ -8,9 +8,8 @@
  * - Carbon Calculation is a resource that assists with environmental impact calculations
  *   such as Life Cycle Assessments (LCA) or Embodied Carbon estimations (EPD).
  */
-
-export * from "./generated/api";
-export * from "./clients/oneClickLCAClient";
+export * from "./clients/OCLCAJobsClient";
+export * from "./interfaces/OCLCAJobs";
 export * from "./clients/EC3ConfigurationsClient";
 export * from "./clients/EC3JobsClient";
 export * from "./clients/IEC3ConfigurationsClient";
