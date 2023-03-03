@@ -62,7 +62,7 @@ describe("OperationsBase", () => {
     expect(realResponse).to.not.be.undefined;
 
     myOptions = { status: 204, statusText: "Test" };
-    response = new Response("", myOptions);
+    response = new Response(undefined, myOptions);
     fetchStub.resolves(response);
     realResponse = await operationsBase.fetchJSON("url", {});
     expect(realResponse).to.not.be.undefined;
