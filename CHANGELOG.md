@@ -7,7 +7,7 @@ Thu, 3 Mar 2023
 ### Minor
 
 - Removed `url` dependency.
-- Environment variables for example, IMJS_URL_PREFIX, have been removed.
+- Environment variables for example, `IMJS_URL_PREFIX`, have been removed.
 - ### Renamed OneClickLCA Client and methods
 
   - `OneClickLCAClient` > `OCLCAJobsClient`
