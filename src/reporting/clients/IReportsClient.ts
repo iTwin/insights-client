@@ -11,8 +11,8 @@ export interface IReportsClient {
    * Gets all Reports within the context of a Project. This method returns the full list of reports.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {string} projectId The project Id.
-   * @param {boolean} deleted Parameter to specify whether to include deleted reports.
    * @param {number} top The number of entities to load per page.
+   * @param {boolean} deleted Parameter to specify whether to include deleted reports.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
@@ -28,8 +28,8 @@ export interface IReportsClient {
    * This method returns an iterator which loads pages of reports as it is being iterated over.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {string} projectId The project Id.
-   * @param {boolean} deleted Parameter to specify whether to include deleted reports.
    * @param {number} top The number of entities to load per page.
+   * @param {boolean} deleted Parameter to specify whether to include deleted reports.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-project-reports/
    */
