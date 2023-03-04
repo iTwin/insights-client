@@ -8,17 +8,12 @@ If you have questions, or wish to contribute to iTwin.js, see our [Contributing 
 
 ## About this Repository
 
-Contains the __@itwin/insights-client__ package that wraps sending requests to the reporting service. Visit the [Insights API](https://developer.bentley.com/apis/insights/) and [Carbon calculation API](https://developer.bentley.com/apis/carbon-calculation/) for more documentation on the insights service.
-
-## Environment Variables
-
-### Optional URL prefix for dev/qa environments
-```
-IMJS_URL_PREFIX=""
-```
+Contains the **@itwin/insights-client** package that wraps sending requests to the reporting service. Visit the [Insights API](https://developer.bentley.com/apis/insights/) and [Carbon calculation API](https://developer.bentley.com/apis/carbon-calculation/) for more documentation on the insights service.
 
 ### Authorization for running tests
+
 - Create .env file and configure the following variables:
+
 ```
 TEST_PROJECT_NAME=
 TEST_IMODEL_NAME=
@@ -37,6 +32,7 @@ TEST_USERS_ADMIN2_FULLY_FEATURED_EMAIL=
 TEST_USERS_ADMIN2_FULLY_FEATURED_PASSWORD=
 TEST_BEHAVIOR_OPTIONS_RECREATE_IMODEL=
 ```
+
 - Test project and imodel will be created automatically with provided names.
 - You can then run `npm run test:integration`.
 - There are currently no tests for `oneClickLcaClient`
@@ -44,23 +40,28 @@ TEST_BEHAVIOR_OPTIONS_RECREATE_IMODEL=
 ## Build Instructions
 
 Install dependencies and build source
+
 ```
 npm install
 npm run build
 ```
 
 Run tests
+
 ```
 npm run test
-  ```
+```
 
 Run linters
+
 ```
 npm run lint
 ```
 
 ## Helper files
+
 .githooks
+
 - copyright-linter
 
   To use custom hooks, run the command:

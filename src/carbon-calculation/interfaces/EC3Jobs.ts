@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 
+import { CarbonUploadState } from "../../common/CarbonCalculation";
 import { Link } from "../../common/Links";
 
 /**
@@ -133,11 +134,4 @@ export interface EC3JobStatusLinks {
    * @memberof EC3JobStatusLinks
    */
   ec3Project: Link;
-}
-
-export enum CarbonUploadState {
-  Queued = "Queued",
-  Running = "Running",
-  Succeeded = "Succeeded",
-  Failed = "Failed"
 }
