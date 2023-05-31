@@ -6,7 +6,7 @@ import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
 import { EC3ConfigurationsClient } from "../carbon-calculation/clients/EC3ConfigurationsClient";
-import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
+import { EC3ConfigurationCreate, EC3ConfigurationMinimal, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
 use(chaiAsPromised);
 
 describe("EC3ConfigurationsClient", () => {
@@ -78,7 +78,7 @@ describe("EC3ConfigurationsClient", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=projectId", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    const configurations: Array<EC3Configuration> = await configurationsClient.getConfigurations("auth", "projectId");
+    const configurations: Array<EC3ConfigurationMinimal> = await configurationsClient.getConfigurations("auth", "projectId");
     expect(configurations.length).to.be.eq(4);
     expect(configurations[0]).to.be.eq(1);
     expect(configurations[3]).to.be.eq(4);
@@ -109,7 +109,7 @@ describe("EC3ConfigurationsClient", () => {
       .withArgs("url", "pass").resolves(returns2);
 
     const configurationIt = configurationsClient.getConfigurationsIterator("auth", "projectId").byPage();
-    for await(const i of configurationIt) {
+    for await (const i of configurationIt) {
       expect(i.length).to.be.eq(2);
     }
     expect(fetchStub.calledWith(
@@ -138,7 +138,7 @@ describe("EC3ConfigurationsClient", () => {
     fetchStub.withArgs("https://api.bentley.com/insights/carbon-calculation/ec3/configurations?iTwinId=projectId&$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
-    const configurations: Array<EC3Configuration> = await configurationsClient.getConfigurations("auth", "projectId", 2);
+    const configurations: Array<EC3ConfigurationMinimal> = await configurationsClient.getConfigurations("auth", "projectId", 2);
     expect(configurations.length).to.be.eq(4);
     expect(configurations[0]).to.be.eq(1);
     expect(configurations[3]).to.be.eq(4);
@@ -153,7 +153,7 @@ describe("EC3ConfigurationsClient", () => {
       displayName: "Test",
       reportId: "id",
       labels: [{
-        materials : [{
+        materials: [{
           nameColumn: "col",
         }],
         name: "name",
@@ -186,7 +186,7 @@ describe("EC3ConfigurationsClient", () => {
       displayName: "Test",
       description: "",
       labels: [{
-        materials : [{
+        materials: [{
           nameColumn: "col",
         }],
         name: "name",

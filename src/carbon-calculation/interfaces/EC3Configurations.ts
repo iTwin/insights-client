@@ -5,11 +5,11 @@
 import type { Link, PagedResponseLinks } from "../../common/Links";
 
 /**
- * Defines an EC3 configuration. Each configuration holds information required to start an EC3 Job.
+ * Defines a minimal EC3 configuration. Each configuration holds information required to start an EC3 Job.
  * @export
- * @interface EC3Configuration
+ * @interface EC3ConfigurationMinimal
  */
-export interface EC3Configuration {
+export interface EC3ConfigurationMinimal {
   /**
    * The EC3 Configuration Id.
    * @type {string}
@@ -28,12 +28,6 @@ export interface EC3Configuration {
    * @memberof EC3Configuration
    */
   description?: string;
-  /**
-   * List of EC3 Configuration Labels.
-   * @type {Array<EC3ConfigurationLabel>}
-   * @memberof EC3Configuration
-   */
-  labels: EC3ConfigurationLabel[];
   /**
    * Date when the EC3 Configuration was created.
    * @type {string}
@@ -68,6 +62,20 @@ export interface EC3Configuration {
 }
 
 /**
+ * Defines an EC3 configuration. Each configuration holds information required to start an EC3 Job.
+ * @export
+ * @interface EC3Configuration
+ */
+export interface EC3Configuration extends EC3ConfigurationMinimal {
+  /**
+ * List of EC3 Configuration Labels.
+ * @type {Array<EC3ConfigurationLabel>}
+ * @memberof EC3Configuration
+ */
+  labels: EC3ConfigurationLabel[];
+}
+
+/**
  * List of EC3 Configurations.
  * @export
  * @interface EC3ConfigurationCollection
@@ -78,7 +86,7 @@ export interface EC3ConfigurationCollection {
    * @type {Array<EC3Configuration>}
    * @memberof EC3ConfigurationCollection
    */
-  configurations: Array<EC3Configuration>;
+  configurations: Array<EC3ConfigurationMinimal>;
   /**
    *
    * @type {PagedResponseLinks}
