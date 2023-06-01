@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
-import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../interfaces/EC3Configurations";
+import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationMinimal, EC3ConfigurationUpdate } from "../interfaces/EC3Configurations";
 import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IEC3ConfigurationsClient {
@@ -19,7 +19,7 @@ export interface IEC3ConfigurationsClient {
     accessToken: AccessToken,
     projectId: string,
     top?: number
-  ): Promise<EC3Configuration[]>;
+  ): Promise<EC3ConfigurationMinimal[]>;
 
   /**
    * Gets an async paged iterator for EC3 Configurations within the context of a Project.
@@ -34,7 +34,7 @@ export interface IEC3ConfigurationsClient {
     accessToken: AccessToken,
     projectId: string,
     top?: number
-  ): EntityListIterator<EC3Configuration>;
+  ): EntityListIterator<EC3ConfigurationMinimal>;
 
   /**
    * Gets a single EC3 Configuration.

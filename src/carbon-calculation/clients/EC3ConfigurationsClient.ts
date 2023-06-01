@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { EC3Configuration, EC3ConfigurationCollection, EC3ConfigurationCreate, EC3ConfigurationSingle, EC3ConfigurationUpdate } from "../interfaces/EC3Configurations";
+import { EC3Configuration, EC3ConfigurationCollection, EC3ConfigurationCreate, EC3ConfigurationMinimal, EC3ConfigurationSingle, EC3ConfigurationUpdate } from "../interfaces/EC3Configurations";
 import { RequiredError } from "../../reporting/interfaces/Errors";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
@@ -15,17 +15,17 @@ export class EC3ConfigurationsClient extends OperationsBase implements IEC3Confi
     super(basePath ?? CARBON_CALCULATION_BASE_PATH);
   }
 
-  public async getConfigurations(accessToken: string, projectId: string, top?: number | undefined): Promise<EC3Configuration[]> {
-    const configurations: Array<EC3Configuration> = [];
+  public async getConfigurations(accessToken: string, projectId: string, top?: number | undefined): Promise<EC3ConfigurationMinimal[]> {
+    const configurations: Array<EC3ConfigurationMinimal> = [];
     const configIterator = this.getConfigurationsIterator(accessToken, projectId, top);
-    for await(const config of configIterator) {
+    for await (const config of configIterator) {
       configurations.push(config);
     }
     return configurations;
   }
 
-  public getConfigurationsIterator(accessToken: string, projectId: string, top?: number | undefined): EntityListIterator<EC3Configuration> {
-    if(!this.topIsValid(top)) {
+  public getConfigurationsIterator(accessToken: string, projectId: string, top?: number | undefined): EntityListIterator<EC3ConfigurationMinimal> {
+    if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000]."
@@ -34,9 +34,9 @@ export class EC3ConfigurationsClient extends OperationsBase implements IEC3Confi
     let url = `${this.basePath}/ec3/configurations?iTwinId=${projectId}`;
     url += top ? `&$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
-    return new EntityListIteratorImpl(async () => getEntityCollectionPage<EC3Configuration>(
+    return new EntityListIteratorImpl(async () => getEntityCollectionPage<EC3ConfigurationMinimal>(
       url,
-      async (nextUrl: string): Promise<Collection<EC3Configuration>> => {
+      async (nextUrl: string): Promise<Collection<EC3ConfigurationMinimal>> => {
         const response: EC3ConfigurationCollection = await this.fetchJSON<EC3ConfigurationCollection>(nextUrl, request);
         return {
           values: response.configurations,
@@ -53,13 +53,13 @@ export class EC3ConfigurationsClient extends OperationsBase implements IEC3Confi
   }
 
   public async createConfiguration(accessToken: string, configuration: EC3ConfigurationCreate): Promise<EC3Configuration> {
-    if(configuration.labels.length === 0) {
+    if (configuration.labels.length === 0) {
       throw new RequiredError(
         "configuration",
         "Required field labels was empty."
       );
     }
-    if(configuration.labels.some((x) => x.materials.length === 0)) {
+    if (configuration.labels.some((x) => x.materials.length === 0)) {
       throw new RequiredError(
         "configuration",
         "Required field materials was empty."
@@ -72,13 +72,13 @@ export class EC3ConfigurationsClient extends OperationsBase implements IEC3Confi
   }
 
   public async updateConfiguration(accessToken: string, configurationId: string, configuration: EC3ConfigurationUpdate): Promise<EC3Configuration> {
-    if(configuration.labels.length === 0) {
+    if (configuration.labels.length === 0) {
       throw new RequiredError(
         "configuration",
         "Required field labels was empty."
       );
     }
-    if(configuration.labels.some((x) => x.materials.length === 0)) {
+    if (configuration.labels.some((x) => x.materials.length === 0)) {
       throw new RequiredError(
         "configuration",
         "Required field materials was empty."

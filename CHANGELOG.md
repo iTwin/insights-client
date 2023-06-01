@@ -1,5 +1,12 @@
 # Change Log - @itwin/insights-client
 
+## 0.5.0
+Wed, 31 May 2023
+
+Minor
+- ### Changes to Interfaces
+  - `EC3ConfigurationClient` `getConfigurations` return type has been corrected to match actual response.
+    - `EC3Configuration` > `EC3ConfigurationMinimal`
 ## 0.4.0
 
 Thu, 3 Mar 2023
