@@ -7,6 +7,7 @@ import isomorphicFetch from "cross-fetch";
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 export const REPORTING_BASE_PATH = "https://api.bentley.com/insights/reporting";
 export const CARBON_CALCULATION_BASE_PATH = "https://api.bentley.com/insights/carbon-calculation";
+const MAX_ATTEMPTS = 3;
 
 export class OperationsBase {
   protected readonly fetch = isomorphicFetch;
@@ -48,16 +49,30 @@ export class OperationsBase {
    * @memberof OperationsBase
    */
   protected async fetchData(nextUrl: string, requestOptions: RequestInit): Promise<Response> {
-    return this.fetch(
-      nextUrl,
+    return this.fetchDataImpl(nextUrl, requestOptions, 1);
+  }
+
+  private async fetchDataImpl(url: string, requestOptions: RequestInit, attempt: number): Promise<Response> {
+    const response = await this.fetch(
+      url,
       requestOptions
-    ).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        return response;
-      } else {
+    );
+
+    if (response.status >= 200 && response.status < 300) {
+      return response;
+    } else if (attempt < MAX_ATTEMPTS && 429 === response.status) {
+      const retryAfter = response.headers.get("Retry-After");
+      if (null === retryAfter) {
         throw response;
       }
-    });
+
+      const retryAfterSeconds = parseInt(retryAfter, 10);
+
+      await new Promise((resolve) => setTimeout(resolve, retryAfterSeconds * 1000));
+      return this.fetchDataImpl(url, requestOptions, attempt + 1);
+    } else {
+      throw response;
+    }
   }
 
   /**

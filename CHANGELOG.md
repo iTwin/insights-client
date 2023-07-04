@@ -1,12 +1,16 @@
 # Change Log - @itwin/insights-client
 
 ## 0.5.0
-Wed, 31 May 2023
+Mon, 4 Jul 2023
 
-Minor
+### Minor
 - ### Changes to Interfaces
   - `EC3ConfigurationClient` `getConfigurations` return type has been corrected to match actual response.
     - `EC3Configuration` > `EC3ConfigurationMinimal`
+
+### Patches
+- Added handling of responses with status code 429 Too Many Requests. Now the client will retry such responses, delaying each retry by the amount of seconds specified in the Retry-After response header. A maximum of 3 attempts will be made per request.
+
 ## 0.4.0
 
 Thu, 3 Mar 2023
