@@ -49,30 +49,32 @@ export class OperationsBase {
    * @memberof OperationsBase
    */
   protected async fetchData(nextUrl: string, requestOptions: RequestInit): Promise<Response> {
-    return this.fetchDataImpl(nextUrl, requestOptions, 1);
-  }
+    let response: Response | undefined;
 
-  private async fetchDataImpl(url: string, requestOptions: RequestInit, attempt: number): Promise<Response> {
-    const response = await this.fetch(
-      url,
-      requestOptions
-    );
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+      response = await this.fetch(
+        nextUrl,
+        requestOptions
+      );
 
-    if (response.status >= 200 && response.status < 300) {
-      return response;
-    } else if (attempt < MAX_ATTEMPTS && 429 === response.status) {
-      const retryAfter = response.headers.get("Retry-After");
-      if (null === retryAfter) {
+      if (response.status >= 200 && response.status < 300) {
+        return response;
+      } else if (attempt < MAX_ATTEMPTS && 429 === response.status) {
+        const retryAfter = response.headers.get("Retry-After");
+        if (null === retryAfter) {
+          throw response;
+        }
+
+        const retryAfterSeconds = parseInt(retryAfter, 10);
+
+        await new Promise((resolve) => setTimeout(resolve, retryAfterSeconds * 1000));
+      } else {
         throw response;
       }
-
-      const retryAfterSeconds = parseInt(retryAfter, 10);
-
-      await new Promise((resolve) => setTimeout(resolve, retryAfterSeconds * 1000));
-      return this.fetchDataImpl(url, requestOptions, attempt + 1);
-    } else {
-      throw response;
     }
+
+    // Should be unreachable, but lint has a hard time understanding that.
+    throw response;
   }
 
   /**

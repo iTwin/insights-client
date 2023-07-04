@@ -105,6 +105,20 @@ describe("OperationsBase", () => {
     expect(fetchStub.callCount).to.be.eq(3);
   });
 
+  it("fetch has no Retry-After header handling after last attempt", async () => {
+    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
+    const zeroHeaders = new Headers();
+    zeroHeaders.set("Retry-After", "0");
+    fetchStub.onFirstCall().resolves(new Response(null, { status: 429, headers: zeroHeaders }));
+    fetchStub.onSecondCall().resolves(new Response(null, { status: 429, headers: zeroHeaders }));
+    const lastHeaders = new Headers();
+    const headerStub = sinon.stub(lastHeaders, "get");
+    fetchStub.onThirdCall().resolves(new Response(null, { status: 429, headers: lastHeaders }));
+
+    await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
+    expect(headerStub.callCount).to.be.eq(0);
+  });
+
   it("createRequest", () => {
     let response: RequestInit;
     response = operationsBase.createRequest("GET", "5");
