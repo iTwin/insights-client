@@ -84,6 +84,41 @@ describe("OperationsBase", () => {
     await expect(operationsBase.fetchData("url", {})).to.be.rejected;
   });
 
+  it("fetch retries on 429", async () => {
+    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
+    const headers = new Headers();
+    headers.set("Retry-After", "1");
+    fetchStub.onFirstCall().resolves(new Response(null, { status: 429, headers }));
+    fetchStub.onSecondCall().resolves(new Response(null, { status: 204 }));
+
+    const response = await operationsBase.fetchJSON("url", {});
+    expect(response).to.not.be.undefined;
+  });
+
+  it("fetch has a maximum of 3 attempts for 429 responses", async () => {
+    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
+    const headers = new Headers();
+    headers.set("Retry-After", "0");
+    fetchStub.resolves(new Response(null, { status: 429, headers }));
+
+    await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
+    expect(fetchStub.callCount).to.be.eq(3);
+  });
+
+  it("fetch has no Retry-After header handling after last attempt", async () => {
+    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
+    const zeroHeaders = new Headers();
+    zeroHeaders.set("Retry-After", "0");
+    fetchStub.onFirstCall().resolves(new Response(null, { status: 429, headers: zeroHeaders }));
+    fetchStub.onSecondCall().resolves(new Response(null, { status: 429, headers: zeroHeaders }));
+    const lastHeaders = new Headers();
+    const headerStub = sinon.stub(lastHeaders, "get");
+    fetchStub.onThirdCall().resolves(new Response(null, { status: 429, headers: lastHeaders }));
+
+    await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
+    expect(headerStub.callCount).to.be.eq(0);
+  });
+
   it("createRequest", () => {
     let response: RequestInit;
     response = operationsBase.createRequest("GET", "5");
