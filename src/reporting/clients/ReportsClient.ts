@@ -8,7 +8,7 @@ import type { EntityListIterator } from "../../common/iterators/EntityListIterat
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
 import { OperationsBase } from "../../common/OperationsBase";
-import type { Report, ReportCollection, ReportCreate, ReportMapping, ReportMappingCollection, ReportMappingCreate, ReportMappingSingle, ReportSingle, ReportUpdate } from "../interfaces/Reports";
+import type { Report, ReportCollection, ReportCreate, ReportMapping, ReportMappingCollection, ReportMappingCreate, ReportMappingSingle, ReportSingle, ReportUpdate, ReportAggregation, ReportAggregationCollection, ReportAggregationCreate, ReportAggregationSingle } from "../interfaces/Reports";
 import type { IReportsClient } from "./IReportsClient";
 
 export class ReportsClient extends OperationsBase implements IReportsClient{
@@ -151,5 +151,64 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings/${encodeURIComponent(reportMappingId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
     return this.fetchJSON<Response>(url, requestOptions);
+  }
+
+  public async getReportAggregation (
+      accessToken: AccessToken,
+      reportId: string,
+      top?: number
+  ): Promise<ReportAggregation[]> {
+      const aggregations: Array<ReportAggregation> = [];
+      const reportAggregationIterator = this.getReportAggregationIterator(accessToken, reportId, top);
+      for await(const reportAggregation of reportAggregationIterator) {
+        aggregations.push(reportAggregation);
+      }
+      return aggregations;
+  }
+
+  public getReportAggregationIterator(
+      accessToken: AccessToken,
+      reportId: string,
+      top?: number
+  ): EntityListIterator<ReportAggregation> {
+      if(!this.topIsValid(top)) {
+          throw new RequiredError(
+              "top",
+              "Parameter top was outside of the valid range [1-1000]."
+          );
+      }
+      let url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/aggregations`;
+      url += top ? `/?$top=${top}` : "";
+      const request = this.createRequest("GET", accessToken);
+      return new EntityListIteratorImpl(async () => getEntityCollectionPage<ReportAggregation>(
+          url,
+          async (nextUrl: string): Promise<Collection<ReportAggregation>> => {
+              const response: ReportAggregationCollection = await this.fetchJSON<ReportAggregationCollection>(nextUrl, request);
+              return {
+                  values: response.aggregations,
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
+                  _links: response._links,
+              };
+          }));
+  }
+
+  public async createReportAggregation (
+      accessToken: AccessToken,
+      reportId: string,
+      aggregation: ReportAggregationCreate
+    ): Promise<ReportAggregation> {
+      const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/aggregations`;
+      const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(aggregation));
+      return (await this.fetchJSON<ReportAggregationSingle>(url, requestOptions)).reportAggregation;
+  }
+
+  public async deleteReportAggregation (
+      accessToken: AccessToken,
+      reportId: string,
+      aggregationTableSetId: string,
+    ): Promise<Response> {
+      const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/aggregations/${encodeURIComponent(aggregationTableSetId)}`;
+      const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
+      return this.fetchJSON<Response>(url, requestOptions);
   }
 }

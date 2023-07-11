@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
-import type { Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../interfaces/Reports";
+import type { Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate, ReportAggregation, ReportAggregationCreate } from "../interfaces/Reports";
 import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IReportsClient {
@@ -145,5 +145,62 @@ export interface IReportsClient {
     accessToken: AccessToken,
     reportId: string,
     reportMappingId: string
+  ): Promise<Response>;
+
+  /**
+   * Gets all Report Aggregations for a Report.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} reportId
+   * @param {number} top Optional max items to be sent in response.
+   * @memberof ReportingClient
+   * @link https://developer.bentley.com/apis/insights/operations/get-report-aggregations/
+   */
+  getReportAggregation (
+      accessToken: AccessToken,
+      reportId: string,
+      top?: number
+  ): Promise<ReportAggregation[]>;
+
+  /**
+   * Gets an async paged iterator of Report Aggregations for a Report.
+   * This method returns an iterator which loads pages of report mappings as it is being iterated over.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} reportId
+   * @param {number} top Optional max items to be sent in response.
+   * @memberof ReportingClient
+   * @link https://developer.bentley.com/apis/insights/operations/get-report-aggregations/
+   */
+  getReportAggregationIterator(
+    accessToken: AccessToken,
+    reportId: string,
+    top?: number
+  ): EntityListIterator<ReportAggregation>;
+
+  /**
+   * Creates a Report Aggregation.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {string} reportId The Report Id.
+   * @param {ReportAggregationCreate} aggregation Request body.
+   * @memberof ReportingClient
+   * @link https://developer.bentley.com/apis/insights/operations/create-report-aggregation/
+   */
+  createReportAggregation (
+    accessToken: AccessToken,
+    reportId: string,
+    aggregation: ReportAggregationCreate
+  ): Promise<ReportAggregation>;
+
+  /**
+   * Deletes a Report Aggregation from a Report.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {string} reportId
+   * @param {string} aggregationTableSetId
+   * @memberof ReportingClient
+   * @link https://developer.bentley.com/apis/insights/operations/delete-report-aggregation/
+   */
+  deleteReportAggregation (
+    accessToken: AccessToken,
+    reportId: string,
+    aggregationTableSetId: string,
   ): Promise<Response>;
 }
