@@ -257,3 +257,97 @@ export interface ReportUpdate {
    */
   deleted?: boolean;
 }
+
+/**
+ * Defines an output property of report aggregation.
+ * @export
+ * @interface ReportAggregation
+ */
+export interface ReportAggregation {
+  /**
+   * 
+   * @type {string}
+   * @memberof ReportAggregation
+   */
+  reportId: string;
+  /**
+   * 
+   * @type {string}
+   * @memberof ReportAggregation
+   */
+  aggregationTableSetId: string;
+  /**
+   * 
+   * @type {string}
+   * @memberof ReportAggregation
+   */
+  datasourceId: string;
+  /**
+   * 
+   * @type {string}
+   * @memberof ReportAggregation
+   */
+  datasourceType: string;
+  /**
+   *
+   * @type {ReportAggregationLinks}
+   * @memberof ReportAggregation
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  _links: ReportAggregationLinks;
+}
+
+export interface ReportAggregationCollection {
+  /**
+   * List of AggregationProperties.
+   * @type {Array<ReportAggregation>}
+   * @memberof ReportAggregationCollection
+   */
+  aggregations: Array<ReportAggregation>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof ReportAggregationCollection
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  _links: PagedResponseLinks;
+}
+
+export interface ReportAggregationLinks {
+  /**
+   * URL pointing to the related Report.
+   * @type {Link}
+   * @memberof ReportAggregationLinks
+   */
+  report: Link;
+  /**
+   * URL pointing to the related AggregationTableSet.
+   * @type {Link}
+   * @memberof ReportAggregationLinks
+   */
+  aggregationTableSet: Link;
+  /**
+   * URL pointing to the related Datasource.
+   * @type {Link}
+   * @memberof ReportAggregationLinks
+   */
+  datasource: Link;
+}
+
+export interface ReportAggregationSingle {
+  /**
+   *
+   * @type {ReportAggregation}
+   * @memberof ReportAggregationSingle
+   */
+  reportAggregation: ReportAggregation;
+}
+
+export interface ReportAggregationCreate {
+  /**
+   * 
+   * @type {string}
+   * @memberof ReportAggregationCreate
+   */
+  aggregationTableSetId?: string;
+}

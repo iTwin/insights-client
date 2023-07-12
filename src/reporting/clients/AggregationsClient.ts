@@ -173,7 +173,6 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
         }
         let url = `${this.basePath}/datasources/aggregations?datasourceId=${encodeURIComponent(datasourceId)}&datasourceType=${encodeURIComponent(datasourceType)}`;
         url += top ? `/&$top=${top}` : "";
-        // console.log(url)
         const request = this.createRequest("GET", accessToken);
         return new EntityListIteratorImpl(async () => getEntityCollectionPage<AggregationTableSet>(
             url,
@@ -192,7 +191,6 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
         aggregationTableSetId: string,
     ): Promise<AggregationTableSet> {
         const url = `${this.basePath}/datasources/aggregations/${encodeURIComponent(aggregationTableSetId)}`;
-        // console.log(url)
         const requestOptions: RequestInit = this.createRequest("GET", accessToken);
         return (await this.fetchJSON<AggregationTableSetSingle>(url, requestOptions)).aggregationTableSet;
     }
