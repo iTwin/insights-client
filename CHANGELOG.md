@@ -1,5 +1,11 @@
 # Change Log - @itwin/insights-client
 
+## 0.5.2
+Tuesday, 12 July, 2023
+### Minor
+- Added `AggregationClient` and `IAggregationClient` files to clients and `AggregationProperties` to interfaces for implementing the aggregation functionalities.
+- Added funtions in `IReportsClient`, `ReportsClient` and `Reports` to implement the aggregation functionalities.
+
 ## 0.5.1
 Fri, 7 Jul 2023
 ### Patches
