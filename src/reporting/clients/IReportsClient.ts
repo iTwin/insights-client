@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
-import type { Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate, ReportAggregation, ReportAggregationCreate } from "../interfaces/Reports";
+import type { Report, ReportAggregation, ReportAggregationCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../interfaces/Reports";
 import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IReportsClient {
@@ -155,10 +155,10 @@ export interface IReportsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-aggregations/
    */
-  getReportAggregation (
-      accessToken: AccessToken,
-      reportId: string,
-      top?: number
+  getReportAggregation(
+    accessToken: AccessToken,
+    reportId: string,
+    top?: number
   ): Promise<ReportAggregation[]>;
 
   /**
@@ -184,7 +184,7 @@ export interface IReportsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-report-aggregation/
    */
-  createReportAggregation (
+  createReportAggregation(
     accessToken: AccessToken,
     reportId: string,
     aggregation: ReportAggregationCreate
@@ -198,7 +198,7 @@ export interface IReportsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-report-aggregation/
    */
-  deleteReportAggregation (
+  deleteReportAggregation(
     accessToken: AccessToken,
     reportId: string,
     aggregationTableSetId: string,

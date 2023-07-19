@@ -265,25 +265,25 @@ export interface ReportUpdate {
  */
 export interface ReportAggregation {
   /**
-   * 
+   *
    * @type {string}
    * @memberof ReportAggregation
    */
   reportId: string;
   /**
-   * 
+   *
    * @type {string}
    * @memberof ReportAggregation
    */
   aggregationTableSetId: string;
   /**
-   * 
+   *
    * @type {string}
    * @memberof ReportAggregation
    */
   datasourceId: string;
   /**
-   * 
+   *
    * @type {string}
    * @memberof ReportAggregation
    */
@@ -345,7 +345,7 @@ export interface ReportAggregationSingle {
 
 export interface ReportAggregationCreate {
   /**
-   * 
+   *
    * @type {string}
    * @memberof ReportAggregationCreate
    */
