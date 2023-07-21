@@ -5,7 +5,7 @@
 import { inject, injectable } from "inversify";
 import { TestAuthorizationProvider } from "../test-context-providers/auth/TestAuthorizationProvider";
 import { TestIModelsClient } from "../test-context-providers/imodel/TestIModelsClient";
-import { TestProjectProvider } from "../test-context-providers/project/TestProjectProvider";
+import { TestITwinProvider } from "../test-context-providers/itwin/TestITwinProvider";
 import { TestIModelGroup } from "./TestIModelGroup";
 
 @injectable()
@@ -15,8 +15,8 @@ export class TestIModelGroupFactory {
     private readonly _iModelsClient: TestIModelsClient,
     @inject(TestAuthorizationProvider)
     private readonly _testAuthorizationProvider: TestAuthorizationProvider,
-    @inject(TestProjectProvider)
-    private readonly _testProjectProvider: TestProjectProvider
+    @inject(TestITwinProvider)
+    private readonly _testProjectProvider: TestITwinProvider
   ) { }
 
   public create(testRunContext: {

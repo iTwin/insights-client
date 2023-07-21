@@ -6,10 +6,11 @@ import * as dotenv from "dotenv";
 import { injectable } from "inversify";
 import type { ApisConfigValues, AuthConfigValues, BaseIntegrationTestsConfig, BehaviorOptions, TestUsersConfigValues } from "../utils/imodels-client-test-utils/BaseIntegrationTestsConfig";
 import { TestSetupError } from "../utils/imodels-client-test-utils/CommonTestUtils";
+import { CARBON_CALCULATION_BASE_PATH, REPORTING_BASE_PATH } from "../../insights-client";
 
 @injectable()
 export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
-  public readonly testProjectName: string;
+  public readonly testITwinName: string;
   public readonly testIModelName: string;
   public readonly auth: AuthConfigValues;
   public readonly apis: ApisConfigValues;
@@ -20,7 +21,7 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
     dotenv.config();
     this.validateAllValuesPresent();
 
-    this.testProjectName = process.env.TEST_PROJECT_NAME ?? "";
+    this.testITwinName = process.env.TEST_ITWIN_NAME ?? "";
     this.testIModelName = process.env.TEST_IMODEL_NAME ?? "";
 
     this.auth = {
@@ -36,20 +37,24 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
         version: process.env.APIS_IMODELS_VERSION ?? "",
         scopes: process.env.APIS_IMODELS_SCOPES ?? "",
       },
-      projects: {
-        baseUrl: process.env.APIS_PROJECTS_BASE_URL ?? "",
-        scopes: process.env.APIS_PROJECTS_SCOPES ?? "",
+      iTwins: {
+        baseUrl: process.env.APIS_ITWINS_BASE_URL ?? "",
+        scopes: process.env.APIS_ITWINS_SCOPES ?? "",
       },
+      reporting: {
+        baseUrl: process.env.APIS_REPORTING_BASE_URL ?? REPORTING_BASE_PATH,
+        scopes: process.env.APIS_REPORTING_SCOPES ?? "",
+      },
+      carbonCalculation: {
+        baseUrl: process.env.APIS_CARBONCALCULATION_BASE_URL ?? CARBON_CALCULATION_BASE_PATH,
+        scopes: process.env.APIS_CARBONCALCULATION_BASE_SCOPES ?? "",
+      }
     };
 
     this.testUsers = {
       admin1: {
         email: process.env.TEST_USERS_ADMIN1_EMAIL ?? "",
         password: process.env.TEST_USERS_ADMIN1_PASSWORD ?? "",
-      },
-      admin2FullyFeatured: {
-        email: process.env.TEST_USERS_ADMIN2_FULLY_FEATURED_EMAIL ?? "",
-        password: process.env.TEST_USERS_ADMIN2_FULLY_FEATURED_PASSWORD ?? "",
       },
     };
 
@@ -59,7 +64,7 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
   }
 
   private validateAllValuesPresent(): void {
-    this.validateConfigValue("TEST_PROJECT_NAME");
+    this.validateConfigValue("TEST_ITWIN_NAME");
     this.validateConfigValue("TEST_IMODEL_NAME");
 
     this.validateConfigValue("AUTH_AUTHORITY");
@@ -71,14 +76,14 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
     this.validateConfigValue("APIS_IMODELS_VERSION");
     this.validateConfigValue("APIS_IMODELS_SCOPES");
 
-    this.validateConfigValue("APIS_PROJECTS_BASE_URL");
-    this.validateConfigValue("APIS_PROJECTS_SCOPES");
+    this.validateConfigValue("APIS_ITWINS_BASE_URL");
+    this.validateConfigValue("APIS_ITWINS_SCOPES");
+
+    this.validateConfigValue("APIS_REPORTING_BASE_URL");
+    this.validateConfigValue("APIS_CARBONCALCULATION_BASE_URL");
 
     this.validateConfigValue("TEST_USERS_ADMIN1_EMAIL");
     this.validateConfigValue("TEST_USERS_ADMIN1_PASSWORD");
-
-    this.validateConfigValue("TEST_USERS_ADMIN2_FULLY_FEATURED_EMAIL");
-    this.validateConfigValue("TEST_USERS_ADMIN2_FULLY_FEATURED_PASSWORD");
   }
 
   private validateConfigValue(key: string): void {

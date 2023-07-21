@@ -4,27 +4,21 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { ReportCreate, ReportsClient } from "../../reporting";
+import { ReportCreate } from "../../reporting";
 import "reflect-metadata";
-import { accessToken, projectId, testIModelGroup } from "../utils";
+import { accessToken, configurationsClient, jobsClient, iTwinId, reportsClient } from "../utils";
 import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationMaterial } from "../../carbon-calculation/interfaces/EC3Configurations";
-import { EC3ConfigurationsClient } from "../../carbon-calculation/clients/EC3ConfigurationsClient";
-import { EC3JobsClient } from "../../carbon-calculation/clients/EC3JobsClient";
 import { EC3Job, EC3JobCreate, EC3JobStatus } from "../../carbon-calculation/interfaces/EC3Jobs";
 use(chaiAsPromised);
 
 describe("EC3JobsClient", () => {
-  const configurationsClient: EC3ConfigurationsClient = new EC3ConfigurationsClient();
-  const reportsClient: ReportsClient = new ReportsClient();
-  const jobsClient: EC3JobsClient = new EC3JobsClient();
-
   let configurationId: string;
   let reportId: string;
 
   before(async () => {
     const newReport: ReportCreate = {
       displayName: "testReport",
-      projectId,
+      projectId: iTwinId,
     };
     const report = await reportsClient.createReport(accessToken, newReport);
     reportId = report.id;
@@ -53,7 +47,6 @@ describe("EC3JobsClient", () => {
   after(async () => {
     await configurationsClient.deleteConfiguration(accessToken, configurationId);
     await reportsClient.deleteReport(accessToken, reportId);
-    await testIModelGroup.cleanupIModels();
   });
 
   it("jobs - run extraction and get status", async () => {

@@ -3,7 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import type { Container } from "inversify";
-import type { IModelsClientOptions } from "../imodels-client-authoring/IModelsClient";
+import type { IModelsClientOptions } from "@itwin/imodels-client-authoring";
 import { TestAuthorizationClient } from "./test-context-providers/auth/TestAuthorizationClient";
 import { TestAuthorizationClientConfig } from "./test-context-providers/auth/TestAuthorizationClientConfigImpl";
 import { TestAuthorizationProvider } from "./test-context-providers/auth/TestAuthorizationProvider";
@@ -14,10 +14,10 @@ import { TestIModelFileProvider } from "./test-context-providers/imodel/TestIMod
 import { TestIModelRetriever } from "./test-context-providers/imodel/TestIModelRetriever";
 import { TestIModelsClient } from "./test-context-providers/imodel/TestIModelsClient";
 import { TestIModelsClientOptions } from "./test-context-providers/imodel/TestModelsClientOptions";
-import { ProjectsClient } from "./test-context-providers/project/ProjectsClient";
-import { ProjectsClientConfig } from "./test-context-providers/project/ProjectsClientConfig";
-import { TestProjectProvider } from "./test-context-providers/project/TestProjectProvider";
-import { TestProjectProviderConfig } from "./test-context-providers/project/TestProjectProviderConfig";
+import { TestITwinsClient } from "./test-context-providers/itwin/TestITwinsClient";
+import { ITwinsClientConfig } from "./test-context-providers/itwin/ITwinsClientConfig";
+import { TestITwinProvider } from "./test-context-providers/itwin/TestITwinProvider";
+import { TestITwinProviderConfig } from "./test-context-providers/itwin/TestITwinProviderConfig";
 import { TestAuthorizationProviderConfig } from "./test-context-providers/auth/TestAuthorizationProviderConfig";
 import { TestIModelGroupFactory } from "./test-imodel-group/TestIModelGroupFactory";
 import { testUtilTypes } from "./TestUtilTypes";
@@ -34,10 +34,10 @@ export class TestUtilBootstrapper {
     container.bind(TestAuthorizationProviderConfig).toSelf().inSingletonScope();
     container.bind(TestAuthorizationProvider).toSelf().inSingletonScope();
 
-    container.bind(ProjectsClientConfig).toSelf().inSingletonScope();
-    container.bind(ProjectsClient).toSelf().inSingletonScope();
-    container.bind(TestProjectProviderConfig).toSelf().inSingletonScope();
-    container.bind(TestProjectProvider).toSelf().inSingletonScope();
+    container.bind(ITwinsClientConfig).toSelf().inSingletonScope();
+    container.bind(TestITwinsClient).toSelf().inSingletonScope();
+    container.bind(TestITwinProviderConfig).toSelf().inSingletonScope();
+    container.bind(TestITwinProvider).toSelf().inSingletonScope();
 
     container.bind<IModelsClientOptions>(testUtilTypes.iModelsClientOptions).to(TestIModelsClientOptions).inSingletonScope();
     container.bind(TestIModelsClient).toSelf().inSingletonScope();
