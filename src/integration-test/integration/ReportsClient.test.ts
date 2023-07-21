@@ -5,7 +5,7 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
-import { accessToken, mappingsClient, iTwinId, reportsClient, testIModel } from "../utils";
+import { accessToken, iTwinId, mappingsClient, reportsClient, testIModel } from "../utils";
 import { MappingCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../../reporting";
 use(chaiAsPromised);
 

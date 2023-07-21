@@ -3,8 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
-import type { Lock, LockedObjects } from "@itwin/imodels-client-authoring";
-import { LockLevel } from "@itwin/imodels-client-authoring";
+import { Lock, LockedObjects, LockLevel } from "@itwin/imodels-client-authoring";
 import { TestITwinProvider } from "../itwin/TestITwinProvider";
 import { TestIModelFileProvider } from "./TestIModelFileProvider";
 import type { BriefcaseMetadata, IModelMetadata, ReusableIModelMetadata } from "./TestIModelInterfaces";

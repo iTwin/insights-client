@@ -6,7 +6,7 @@ import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import { ExtractionStatus, ExtractorState, GroupCreate, MappingCreate, ODataItem, ReportCreate, ReportMappingCreate } from "../../reporting";
 import "reflect-metadata";
-import { accessToken, iTwinId, sleep, testIModel, mappingsClient, extractionClient, oDataClient, reportsClient } from "../utils";
+import { accessToken, extractionClient, iTwinId, mappingsClient, oDataClient, reportsClient, sleep, testIModel } from "../utils";
 use(chaiAsPromised);
 
 describe("OData Client", () => {

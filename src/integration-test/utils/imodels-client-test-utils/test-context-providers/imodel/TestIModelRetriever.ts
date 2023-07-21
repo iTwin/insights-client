@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
 import { toArray } from "../../../../../common/iterators/IteratorUtil";
-import type { Lock, GetLockListParams, IModel, GetBriefcaseListParams } from "@itwin/imodels-client-authoring";
+import type { GetBriefcaseListParams, GetLockListParams, IModel, Lock } from "@itwin/imodels-client-authoring";
 import { TestSetupError } from "../../CommonTestUtils";
 import { TestAuthorizationProvider } from "../auth/TestAuthorizationProvider";
 import { TestITwinProvider } from "../itwin/TestITwinProvider";

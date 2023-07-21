@@ -2,16 +2,21 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { IModelMetadata, testUtilTypes } from "./imodels-client-test-utils/iModelsClientTestUtilsExports";
+import { testUtilTypes } from "./imodels-client-test-utils/TestUtilTypes";
+import { IModelMetadata } from "./imodels-client-test-utils/test-context-providers/imodel/TestIModelInterfaces";
 import { cleanupDirectory, createDirectory, createGuidValue } from "./imodels-client-test-utils/CommonTestUtils";
 import { TestAuthorizationProvider } from "./imodels-client-test-utils/test-context-providers/auth/TestAuthorizationProvider";
 import { ReusableTestIModelProvider } from "./imodels-client-test-utils/test-context-providers/imodel/ReusableTestIModelProvider";
 import { TestITwinProvider } from "./imodels-client-test-utils/test-context-providers/itwin/TestITwinProvider";
 import { TestConstants } from "./Constants";
 import { getTestDIContainer } from "./TestDiContainerProvider";
-import { ExtractionClient, MappingsClient, ODataClient, ReportsClient } from "../../reporting";
+import { ExtractionClient } from "../../reporting/clients/ExtractionClient";
+import { MappingsClient } from "../../reporting/clients/MappingsClient";
+import { ODataClient } from "../../reporting/clients/ODataClient";
+import { ReportsClient } from "../../reporting/clients/ReportsClient";
 import { BaseIntegrationTestsConfig } from "../utils/imodels-client-test-utils/BaseIntegrationTestsConfig";
-import { EC3ConfigurationsClient, EC3JobsClient } from "../../carbon-calculation";
+import { EC3ConfigurationsClient } from "../../carbon-calculation/clients/EC3ConfigurationsClient";
+import { EC3JobsClient } from "../../carbon-calculation/clients/EC3JobsClient";
 
 let testRunId: string;
 export function getTestRunId(): string {

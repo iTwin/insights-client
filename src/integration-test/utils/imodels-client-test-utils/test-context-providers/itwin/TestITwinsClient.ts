@@ -5,14 +5,14 @@
 import { decorate, inject, injectable } from "inversify";
 import type { AuthorizationParam } from "@itwin/imodels-client-authoring";
 import { ITwinsClientConfig } from "./ITwinsClientConfig";
-import { ITwin, ITwinsAccessClient, ITwinsAPIResponse, ITwinClass, ITwinSubClass } from "@itwin/itwins-client";
+import { ITwin, ITwinClass, ITwinsAccessClient, ITwinsAPIResponse, ITwinSubClass } from "@itwin/itwins-client";
 
 decorate(injectable(), ITwinsAccessClient);
 
 @injectable()
 export class TestITwinsClient extends ITwinsAccessClient {
   constructor(
-    @inject(ITwinsClientConfig)
+  @inject(ITwinsClientConfig)
     config: ITwinsClientConfig
   ) {
     super(config.baseUrl);

@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import { injectable } from "inversify";
 import type { ApisConfigValues, AuthConfigValues, BaseIntegrationTestsConfig, BehaviorOptions, TestUsersConfigValues } from "../utils/imodels-client-test-utils/BaseIntegrationTestsConfig";
 import { TestSetupError } from "../utils/imodels-client-test-utils/CommonTestUtils";
-import { CARBON_CALCULATION_BASE_PATH, REPORTING_BASE_PATH } from "../../insights-client";
+import { CARBON_CALCULATION_BASE_PATH, REPORTING_BASE_PATH } from "../../common/OperationsBase";
 
 @injectable()
 export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
@@ -48,7 +48,7 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
       carbonCalculation: {
         baseUrl: process.env.APIS_CARBONCALCULATION_BASE_URL ?? CARBON_CALCULATION_BASE_PATH,
         scopes: process.env.APIS_CARBONCALCULATION_BASE_SCOPES ?? "",
-      }
+      },
     };
 
     this.testUsers = {
