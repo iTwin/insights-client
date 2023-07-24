@@ -6,7 +6,7 @@ import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
 import { accessToken, projectId, testIModel, testIModelGroup } from "../utils";
-import { MappingCreate, MappingsClient, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../../reporting";
+import { MappingCreate, MappingsClient, ReportAggregation, ReportAggregationCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../../reporting";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {
@@ -16,6 +16,7 @@ describe("Reports Client", () => {
   const mappingIds: Array<string> = [];
   const reportIds: Array<string> = [];
   const reportMappingIds: Array<string> = [];
+  const reportAggregations: Array<string> = [];
 
   before(async () => {
     // create mappings for tests
@@ -69,6 +70,21 @@ describe("Reports Client", () => {
     newReportMapping.mappingId = mappingIds[mappingIds.length-1];
     reportMapping = await reportsClient.createReportMapping(accessToken, reportIds[0], newReportMapping);
     reportMappingIds.push(reportMapping.mappingId);
+
+    // create report aggregations for tests
+    const newAggregation: ReportAggregationCreate = {
+      aggregationTableSetId: "1",
+    };
+    let aggregation = await reportsClient.createReportAggregation(accessToken, reportIds[0], newAggregation);
+    reportAggregations.push(aggregation.aggregationTableSetId);
+
+    newAggregation.aggregationTableSetId = "2";
+    aggregation = await reportsClient.createReportAggregation(accessToken, reportIds[0], newAggregation);
+    reportAggregations.push(aggregation.aggregationTableSetId);
+
+    newAggregation.aggregationTableSetId = "2";
+    aggregation = await reportsClient.createReportAggregation(accessToken, reportIds[0], newAggregation);
+    reportAggregations.push(aggregation.aggregationTableSetId);
   });
 
   after(async () => {
@@ -208,6 +224,66 @@ describe("Reports Client", () => {
       if(reportMappings.length) {
         expect([...mappingIds]).to.include(reportMappings[0].mappingId);
         elementCount += reportMappings.length;
+      }
+    }
+    expect(flag).to.be.true;
+    expect(elementCount).to.not.be.eq(0);
+  });
+
+  // report aggregation tests
+  it("Report aggregations - Create and delete", async () => {
+    const newReport: ReportCreate = {
+      displayName: "Test",
+      projectId,
+    };
+    const report = await reportsClient.createReport(accessToken, newReport);
+    expect(report).to.not.be.undefined;
+    expect(report.displayName).to.be.eq("Test");
+    reportIds.push(report.id);
+
+    const newAggregation: ReportAggregationCreate = {
+      aggregationTableSetId: "10",
+    };
+    const aggregation = await reportsClient.createReportAggregation(accessToken, reportIds[reportIds.length - 1], newAggregation);
+    expect(aggregation).to.not.be.undefined;
+    expect(aggregation.aggregationTableSetId).to.be.eq("10");
+    reportAggregations.push(aggregation.aggregationTableSetId);
+
+    let response: Response;
+    response = await reportsClient.deleteReportAggregation(accessToken, reportIds[reportIds.length - 1], reportAggregations.pop()!);
+    expect(response.status).to.be.eq(204);
+    response = await reportsClient.deleteReport(accessToken, reportIds.pop()!);
+    expect(response.status).to.be.eq(204);
+  });
+
+  it("Report aggregations - Get all", async () => {
+    const aggregations: Array<ReportAggregation> = await reportsClient.getReportAggregations(accessToken, reportIds[0]);
+    expect(aggregations).to.not.be.undefined;
+    expect(aggregations.length).to.be.above(2);
+    expect([...reportIds]).to.include(aggregations[0].reportId);
+  });
+
+  it("Report aggregations - Get with iterator", async () => {
+    const aggregationsIt = reportsClient.getReportAggregationsIterator(accessToken, reportIds[0], 2);
+    let flag = false;
+    for await(const aggregation of aggregationsIt) {
+      flag = true;
+      expect(aggregation).to.not.be.undefined;
+      expect([...reportIds]).to.include(aggregation.reportId);
+    }
+    expect(flag).to.be.true;
+  });
+
+  it("Report aggregations - Get pages with iterator", async () => {
+    const aggregationsIt = reportsClient.getReportAggregationsIterator(accessToken, reportIds[0], 2);
+    let elementCount = 0;
+    let flag = false;
+    for await(const aggregations of aggregationsIt.byPage()) {
+      flag = true;
+      expect(aggregations).to.not.be.undefined;
+      if(aggregations.length) {
+        expect([...reportIds]).to.include(aggregations[0].reportId);
+        elementCount += aggregations.length;
       }
     }
     expect(flag).to.be.true;

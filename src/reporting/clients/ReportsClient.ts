@@ -153,20 +153,20 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     return this.fetchJSON<Response>(url, requestOptions);
   }
 
-  public async getReportAggregation(
+  public async getReportAggregations(
     accessToken: AccessToken,
     reportId: string,
     top?: number
   ): Promise<ReportAggregation[]> {
     const aggregations: Array<ReportAggregation> = [];
-    const reportAggregationIterator = this.getReportAggregationIterator(accessToken, reportId, top);
+    const reportAggregationIterator = this.getReportAggregationsIterator(accessToken, reportId, top);
     for await(const reportAggregation of reportAggregationIterator) {
       aggregations.push(reportAggregation);
     }
     return aggregations;
   }
 
-  public getReportAggregationIterator(
+  public getReportAggregationsIterator(
     accessToken: AccessToken,
     reportId: string,
     top?: number
@@ -197,9 +197,15 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     reportId: string,
     aggregation: ReportAggregationCreate
   ): Promise<ReportAggregation> {
+    if (!aggregation.aggregationTableSetId) {
+      throw new RequiredError(
+        "aggregationTableSetId",
+        "Required field aggregationTableSetId was null or undefined.",
+      );
+    }
     const url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/aggregations`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(aggregation));
-    return (await this.fetchJSON<ReportAggregationSingle>(url, requestOptions)).reportAggregation;
+    return (await this.fetchJSON<ReportAggregationSingle>(url, requestOptions)).aggregation;
   }
 
   public async deleteReportAggregation(

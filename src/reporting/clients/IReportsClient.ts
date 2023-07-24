@@ -148,14 +148,14 @@ export interface IReportsClient {
   ): Promise<Response>;
 
   /**
-   * Gets all Report Aggregations for a Report.
+   * Gets all Report Aggregations for a Report. This method returns the full list of aggregations.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
-   * @param {string} reportId
+   * @param {string} reportId The Report Id.
    * @param {number} top Optional max items to be sent in response.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-aggregations/
    */
-  getReportAggregation(
+  getReportAggregations(
     accessToken: AccessToken,
     reportId: string,
     top?: number
@@ -163,14 +163,14 @@ export interface IReportsClient {
 
   /**
    * Gets an async paged iterator of Report Aggregations for a Report.
-   * This method returns an iterator which loads pages of report mappings as it is being iterated over.
+   * This method returns an iterator which loads pages of report aggregations as it is being iterated over.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
-   * @param {string} reportId
+   * @param {string} reportId The Report Id.
    * @param {number} top Optional max items to be sent in response.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report-aggregations/
    */
-  getReportAggregationIterator(
+  getReportAggregationsIterator(
     accessToken: AccessToken,
     reportId: string,
     top?: number
@@ -193,8 +193,8 @@ export interface IReportsClient {
   /**
    * Deletes a Report Aggregation from a Report.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
-   * @param {string} reportId
-   * @param {string} aggregationTableSetId
+   * @param {string} reportId The Report Id.
+   * @param {string} aggregationTableSetId The Aggregation Table Set Id.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-report-aggregation/
    */

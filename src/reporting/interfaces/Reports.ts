@@ -259,7 +259,7 @@ export interface ReportUpdate {
 }
 
 /**
- * Defines an output property of report aggregation.
+ * Defines a relationship between Report and AggregationTableSet. An AggregationTableSet can be associated with more than one Report.
  * @export
  * @interface ReportAggregation
  */
@@ -299,7 +299,7 @@ export interface ReportAggregation {
 
 export interface ReportAggregationCollection {
   /**
-   * List of AggregationProperties.
+   * List of Report Aggregations.
    * @type {Array<ReportAggregation>}
    * @memberof ReportAggregationCollection
    */
@@ -340,7 +340,7 @@ export interface ReportAggregationSingle {
    * @type {ReportAggregation}
    * @memberof ReportAggregationSingle
    */
-  reportAggregation: ReportAggregation;
+  aggregation: ReportAggregation;
 }
 
 export interface ReportAggregationCreate {
@@ -349,5 +349,5 @@ export interface ReportAggregationCreate {
    * @type {string}
    * @memberof ReportAggregationCreate
    */
-  aggregationTableSetId?: string;
+  aggregationTableSetId: string;
 }

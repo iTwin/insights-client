@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, ExtractionClient, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, ODataClient, ODataItem, QuantityType, ReportCreate, ReportMappingCreate, ReportsClient, ReportUpdate } from "../reporting";
+import { AggregationPropertyCreate, AggregationPropertyType, AggregationPropertyUpdate, AggregationsClient, AggregationTableCreate, AggregationTableSetCreate, AggregationTableSetUpdate, AggregationTableUpdate, CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, ExtractionClient, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, ODataClient, ODataItem, QuantityType, ReportAggregationCreate, ReportCreate, ReportMappingCreate, ReportsClient, ReportUpdate } from "../reporting";
 import { EC3ConfigurationsClient } from "../carbon-calculation/clients/EC3ConfigurationsClient";
 import { EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
 use(chaiAsPromised);
@@ -12,6 +12,7 @@ use(chaiAsPromised);
 describe("Validation", () => {
   const reportsClient = new ReportsClient();
   const mappingsClient = new MappingsClient();
+  const aggregationsClient = new AggregationsClient();
   const oDataClient = new ODataClient();
   const extractionClient = new ExtractionClient();
   const configurationsClient = new EC3ConfigurationsClient();
@@ -358,6 +359,162 @@ describe("Validation", () => {
     );
     await expect(mappingsClient.getCustomCalculations("-", "-", "-", "-", 1001)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000]."
+    );
+  });
+
+  it("Report Aggregations - Create unsuccessfully", async () => {
+    const newAggregation: ReportAggregationCreate = {
+      aggregationTableSetId: "",
+    };
+    await expect(reportsClient.createReportAggregation("-", "-", newAggregation)).to.be.rejectedWith(
+      "Required field aggregationTableSetId was null or undefined.",
+    );
+  });
+
+  it("Report Aggregations - Faulty top value", async () => {
+    await expect(reportsClient.getReportAggregations("-", "-", 0)).to.be.rejectedWith(
+      "Parameter top was outside of the valid range [1-1000]."
+    );
+    await expect(reportsClient.getReportAggregations("-", "-", 1001)).to.be.rejectedWith(
+      "Parameter top was outside of the valid range [1-1000]."
+    );
+  });
+
+  it("Aggregation Table Set - Create unsuccessfully", async () => {
+    const newAggregationTableSet: AggregationTableSetCreate = {
+      tableSetName: "",
+      description: "",
+      datasourceId: "1",
+      datasourceType: "validsource",
+    };
+    await expect(aggregationsClient.createAggregationTableSet("-", newAggregationTableSet)).to.be.rejectedWith(
+      "Field tableSetName was invalid.",
+    );
+
+    newAggregationTableSet.tableSetName = "validname";
+    newAggregationTableSet.datasourceId = "";
+    await expect(aggregationsClient.createAggregationTableSet("-", newAggregationTableSet)).to.be.rejectedWith(
+      "Required field datasourceId was null or undefined.",
+    );
+
+    newAggregationTableSet.datasourceId = "1";
+    newAggregationTableSet.datasourceType = "";
+    await expect(aggregationsClient.createAggregationTableSet("-", newAggregationTableSet)).to.be.rejectedWith(
+      "Field datasourceType was invalid.",
+    );
+  });
+
+  it("Aggregation Table Set - Update unsuccessfully", async () => {
+    const tablesetUpdate: AggregationTableSetUpdate = {};
+    await expect(aggregationsClient.updateAggregationTableSet("-", "-", tablesetUpdate)).to.be.rejectedWith(
+      "All properties of tableset were missing."
+    );
+
+    tablesetUpdate.tableSetName = "";
+    await expect(aggregationsClient.updateAggregationTableSet("-", "-", tablesetUpdate)).to.be.rejectedWith(
+      "Field tableSetName was invalid."
+    );
+  });
+
+  it("Aggregation Table Set - Faulty top value", async () => {
+    await expect(aggregationsClient.getAggregationTableSets("-", "-", "-", 0)).to.be.rejectedWith(
+      "Parameter top was outside of the valid range [1-1000]."
+    );
+    await expect(aggregationsClient.getAggregationTableSets("-", "-", "-", 1001)).to.be.rejectedWith(
+      "Parameter top was outside of the valid range [1-1000]."
+    );
+  });
+
+  it("Aggregation Table - Create unsuccessfully", async () => {
+    const newAggregationTable: AggregationTableCreate = {
+      tableName: "",
+      description: "",
+      sourceTableName: "validname",
+    };
+    await expect(aggregationsClient.createAggregationTable("-", "-", newAggregationTable)).to.be.rejectedWith(
+      "Field tableName was invalid.",
+    );
+
+    newAggregationTable.tableName = "validname";
+    newAggregationTable.sourceTableName = "";
+    await expect(aggregationsClient.createAggregationTable("-", "-", newAggregationTable)).to.be.rejectedWith(
+      "Field sourceTableName was invalid.",
+    );
+  });
+
+  it("Aggregation Table - Update unsuccessfully", async () => {
+    const tableUpdate: AggregationTableUpdate = {};
+    await expect(aggregationsClient.updateAggregationTable("-", "-", "-", tableUpdate)).to.be.rejectedWith(
+      "All properties of table were missing."
+    );
+
+    tableUpdate.tableName = "";
+    tableUpdate.sourceTableName = "validname";
+    await expect(aggregationsClient.updateAggregationTable("-", "-", "-", tableUpdate)).to.be.rejectedWith(
+      "Field tableName was invalid."
+    );
+    tableUpdate.tableName = "validname";
+    tableUpdate.sourceTableName = "";
+    await expect(aggregationsClient.updateAggregationTable("-", "-", "-", tableUpdate)).to.be.rejectedWith(
+      "Field sourceTableName was invalid."
+    );
+  });
+
+  it("Aggregation Table - Faulty top value", async () => {
+    await expect(aggregationsClient.getAggregationTables("-", "-", 0)).to.be.rejectedWith(
+      "Parameter top was outside of the valid range [1-1000]."
+    );
+    await expect(aggregationsClient.getAggregationTables("-", "-", 1001)).to.be.rejectedWith(
+      "Parameter top was outside of the valid range [1-1000]."
+    );
+  });
+
+  it("Aggregation Property - Create unsuccessfully", async () => {
+    const newAggregationProperty: AggregationPropertyCreate = {
+      propertyName: "",
+      sourcePropertyName: "validname",
+      type: "Count" as AggregationPropertyType,
+    };
+    await expect(aggregationsClient.createAggregationProperty("-", "-", "-", newAggregationProperty)).to.be.rejectedWith(
+      "Field propertyName was invalid.",
+    );
+
+    newAggregationProperty.propertyName = "validname";
+    newAggregationProperty.sourcePropertyName = "";
+    await expect(aggregationsClient.createAggregationProperty("-", "-", "-", newAggregationProperty)).to.be.rejectedWith(
+      "Field sourcePropertyName was invalid.",
+    );
+
+    newAggregationProperty.sourcePropertyName = "validname";
+    newAggregationProperty.type = AggregationPropertyType.Undefined;
+    await expect(aggregationsClient.createAggregationProperty("-", "-", "-", newAggregationProperty)).to.be.rejectedWith(
+      "Required field type was null or undefined.",
+    );
+  });
+
+  it("Aggregation Property - Update unsuccessfully", async () => {
+    const propertyUpdate: AggregationPropertyUpdate = {};
+    await expect(aggregationsClient.updateAggregationProperty("-", "-", "-", "-", propertyUpdate)).to.be.rejectedWith(
+      "All properties of property were missing."
+    );
+
+    propertyUpdate.propertyName = "";
+    propertyUpdate.sourcePropertyName = "validname";
+    propertyUpdate.type = "Count" as AggregationPropertyType;
+    await expect(aggregationsClient.updateAggregationProperty("-", "-", "-", "-", propertyUpdate)).to.be.rejectedWith(
+      "Field propertyName was invalid."
+    );
+    propertyUpdate.propertyName = "validname";
+    propertyUpdate.sourcePropertyName = "";
+    propertyUpdate.type = "Count" as AggregationPropertyType;
+    await expect(aggregationsClient.updateAggregationProperty("-", "-", "-", "-", propertyUpdate)).to.be.rejectedWith(
+      "Field sourcePropertyName was invalid."
+    );
+    propertyUpdate.propertyName = "validname";
+    propertyUpdate.sourcePropertyName = "validname";
+    propertyUpdate.type = AggregationPropertyType.Undefined;
+    await expect(aggregationsClient.updateAggregationProperty("-", "-", "-", "-", propertyUpdate)).to.be.rejectedWith(
+      "Required field type was null or undefined."
     );
   });
 

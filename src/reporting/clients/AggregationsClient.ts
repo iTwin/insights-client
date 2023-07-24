@@ -171,8 +171,8 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
-    let url = `${this.basePath}/datasources/aggregations?datasourceId=${encodeURIComponent(datasourceId)}&datasourceType=${encodeURIComponent(datasourceType)}`;
-    url += top ? `/&$top=${top}` : "";
+    let url = `${this.basePath}/datasources/aggregations?${encodeURIComponent(datasourceId)}&${encodeURIComponent(datasourceType)}`;
+    url += top ? `&$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<AggregationTableSet>(
       url,
@@ -234,6 +234,12 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
         "Field datasourceType was invalid.",
       );
     }
+    if (!tableset.datasourceId) {
+      throw new RequiredError(
+        "datasourceId",
+        "Required field datasourceId was null or undefined.",
+      );
+    }
     const url = `${this.basePath}/datasources/aggregations`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(tableset));
     return (await this.fetchJSON<AggregationTableSetSingle>(url, requestOptions)).aggregationTableSet;
@@ -273,7 +279,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
       );
     }
     let url = `${this.basePath}/datasources/aggregations/${encodeURIComponent(aggregationTableSetId)}/tables`;
-    url += top ? `/?$top=${top}` : "";
+    url += top ? `?$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<AggregationTable>(
       url,
@@ -315,6 +321,12 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
         "Field tableName was invalid.",
       );
     }
+    if (null != table.sourceTableName && !this.isSimpleIdentifier(table.sourceTableName)) {
+      throw new RequiredError(
+        "sourceTableName",
+        "Field sourceTableName was invalid.",
+      );
+    }
 
     const url = `${this.basePath}/datasources/aggregations/${encodeURIComponent(aggregationTableSetId)}/tables/${encodeURIComponent(aggregationTableId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(table));
@@ -330,6 +342,12 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
       throw new RequiredError(
         "tableName",
         "Field tableName was invalid.",
+      );
+    }
+    if (!this.isSimpleIdentifier(table.sourceTableName)) {
+      throw new RequiredError(
+        "sourceTableName",
+        "Field sourceTableName was invalid.",
       );
     }
     const url = `${this.basePath}/datasources/aggregations/${encodeURIComponent(aggregationTableSetId)}/tables`;
