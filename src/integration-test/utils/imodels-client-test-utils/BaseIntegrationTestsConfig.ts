@@ -16,8 +16,10 @@ export interface ApiConfigValues {
 }
 
 export interface ApisConfigValues {
-  projects: ApiConfigValues;
+  iTwins: ApiConfigValues;
   iModels: ApiConfigValues;
+  reporting: ApiConfigValues;
+  carbonCalculation: ApiConfigValues;
 }
 
 export interface TestUserConfigValues {
@@ -27,7 +29,6 @@ export interface TestUserConfigValues {
 
 export interface TestUsersConfigValues {
   admin1: TestUserConfigValues;
-  admin2FullyFeatured: TestUserConfigValues;
 }
 
 export interface BehaviorOptions {
@@ -39,7 +40,7 @@ export interface BehaviorOptions {
 }
 
 export interface BaseIntegrationTestsConfig {
-  testProjectName: string;
+  testITwinName: string;
   testIModelName: string;
   auth: AuthConfigValues;
   apis: ApisConfigValues;

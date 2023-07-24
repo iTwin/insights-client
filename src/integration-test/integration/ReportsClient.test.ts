@@ -5,14 +5,11 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
-import { accessToken, projectId, testIModel, testIModelGroup } from "../utils";
-import { MappingCreate, MappingsClient, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../../reporting";
+import { accessToken, iTwinId, mappingsClient, reportsClient, testIModel } from "../utils";
+import { MappingCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../../reporting";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {
-  const reportsClient: ReportsClient = new ReportsClient();
-  const mappingsClient: MappingsClient = new MappingsClient();
-
   const mappingIds: Array<string> = [];
   const reportIds: Array<string> = [];
   const reportMappingIds: Array<string> = [];
@@ -36,7 +33,7 @@ describe("Reports Client", () => {
     // create reports for tests
     const newReport: ReportCreate = {
       displayName: "Test1",
-      projectId,
+      projectId: iTwinId,
     };
     let report = await reportsClient.createReport(accessToken, newReport);
     reportIds.push(report.id);
@@ -78,14 +75,13 @@ describe("Reports Client", () => {
     while(reportIds.length > 0) {
       await reportsClient.deleteReport(accessToken, reportIds.pop()!);
     }
-    await testIModelGroup.cleanupIModels();
   });
 
   // reports tests
   it("Reports - Create and delete", async () => {
     const newReport: ReportCreate = {
       displayName: "Test",
-      projectId,
+      projectId: iTwinId,
     };
     const report = await reportsClient.createReport(accessToken, newReport);
     expect(report).to.not.be.undefined;
@@ -111,14 +107,14 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get all including deleted", async () => {
-    const reports = await reportsClient.getReports(accessToken, projectId, undefined, true);
+    const reports = await reportsClient.getReports(accessToken, iTwinId, undefined, true);
     expect(reports).to.not.be.undefined;
     expect(reports.length).to.be.gt(3);
     expect(reports.some((x) => x.deleted)).to.be.true;
   });
 
   it("Reports - Get all", async () => {
-    const reports = await reportsClient.getReports(accessToken, projectId);
+    const reports = await reportsClient.getReports(accessToken, iTwinId);
     expect(reports).to.not.be.undefined;
     expect(reports.length).to.be.above(2);
     for(const report of reports) {
@@ -127,7 +123,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get with iterator", async () => {
-    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
+    const reportsIt = reportsClient.getReportsIterator(accessToken, iTwinId, 2);
     let flag = false;
     for await(const report of reportsIt) {
       flag = true;
@@ -138,7 +134,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get pages", async () => {
-    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
+    const reportsIt = reportsClient.getReportsIterator(accessToken, iTwinId, 2);
     let elementCount = 0;
     let flag = false;
     for await(const reports of reportsIt.byPage()) {

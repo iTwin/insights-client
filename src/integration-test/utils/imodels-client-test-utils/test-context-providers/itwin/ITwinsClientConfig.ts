@@ -7,13 +7,13 @@ import type { BaseIntegrationTestsConfig } from "../../BaseIntegrationTestsConfi
 import { testUtilTypes } from "../../TestUtilTypes";
 
 @injectable()
-export class ProjectsClientConfig {
+export class ITwinsClientConfig {
   public baseUrl: string;
 
   constructor(
   @inject(testUtilTypes.baseIntegrationTestsConfig)
     config: BaseIntegrationTestsConfig
   ) {
-    this.baseUrl = config.apis.projects.baseUrl;
+    this.baseUrl = config.apis.iTwins.baseUrl;
   }
 }

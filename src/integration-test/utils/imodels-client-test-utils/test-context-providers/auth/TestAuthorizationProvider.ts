@@ -3,7 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
-import type { Authorization, AuthorizationCallback } from "../../../imodels-client-management/base/interfaces/CommonInterfaces";
+import type { Authorization, AuthorizationCallback } from "@itwin/imodels-client-authoring";
 import { TestAuthorizationClient } from "./TestAuthorizationClient";
 import { TestAuthorizationProviderConfig } from "./TestAuthorizationProviderConfig";
 
@@ -22,12 +22,8 @@ export class TestAuthorizationProvider {
     return this.getAuthorization({ ...this._config.testUsers.admin1, scopes: this._config.apiScopes.iModels });
   }
 
-  public getFullyFeaturedAdmin2Authorization(): AuthorizationCallback {
-    return this.getAuthorization({ ...this._config.testUsers.admin2FullyFeatured, scopes: this._config.apiScopes.iModels });
-  }
-
   public getAdmin1AuthorizationForProjects(): AuthorizationCallback {
-    return this.getAuthorization({ ...this._config.testUsers.admin1, scopes: this._config.apiScopes.projects });
+    return this.getAuthorization({ ...this._config.testUsers.admin1, scopes: this._config.apiScopes.iTwins });
   }
 
   private getAuthorization(testUser: { email: string, password: string, scopes: string }): AuthorizationCallback {

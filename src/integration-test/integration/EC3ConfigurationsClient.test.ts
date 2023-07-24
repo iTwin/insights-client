@@ -5,16 +5,12 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
-import { accessToken, projectId, testIModelGroup } from "../utils";
-import { ReportCreate, ReportsClient } from "../../reporting";
-import { EC3ConfigurationsClient } from "../../carbon-calculation/clients/EC3ConfigurationsClient";
+import { accessToken, configurationsClient, iTwinId, reportsClient } from "../utils";
+import { ReportCreate } from "../../reporting";
 import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationLabel, EC3ConfigurationMaterial, EC3ConfigurationUpdate } from "../../carbon-calculation/interfaces/EC3Configurations";
 use(chaiAsPromised);
 
 describe("EC3ConfigurationsClient", () => {
-  const configurationsClient: EC3ConfigurationsClient = new EC3ConfigurationsClient();
-  const reportsClient: ReportsClient = new ReportsClient();
-
   const configurationIds: Array<string> = [];
   let reportId: string;
 
@@ -23,7 +19,7 @@ describe("EC3ConfigurationsClient", () => {
   before(async () => {
     const newReport: ReportCreate = {
       displayName: "testReport",
-      projectId,
+      projectId: iTwinId,
     };
     const report = await reportsClient.createReport(accessToken, newReport);
     reportId = report.id;
@@ -62,7 +58,6 @@ describe("EC3ConfigurationsClient", () => {
       await configurationsClient.deleteConfiguration(accessToken, configurationIds.pop()!);
     }
     await reportsClient.deleteReport(accessToken, reportId);
-    await testIModelGroup.cleanupIModels();
   });
 
   it("Configurations - create and delete", async () => {
@@ -98,7 +93,7 @@ describe("EC3ConfigurationsClient", () => {
   });
 
   it("Configurations - Get all", async () => {
-    const configs = await configurationsClient.getConfigurations(accessToken, projectId);
+    const configs = await configurationsClient.getConfigurations(accessToken, iTwinId);
     expect(configs).to.not.be.undefined;
     expect(configs.length).to.be.above(2);
     for(const config of configs) {
@@ -107,7 +102,7 @@ describe("EC3ConfigurationsClient", () => {
   });
 
   it("Configurations - Get all with top", async () => {
-    const configs = await configurationsClient.getConfigurations(accessToken, projectId, 2);
+    const configs = await configurationsClient.getConfigurations(accessToken, iTwinId, 2);
     expect(configs).to.not.be.undefined;
     expect(configs.length).to.be.above(2);
     for(const config of configs) {
@@ -116,7 +111,7 @@ describe("EC3ConfigurationsClient", () => {
   });
 
   it("Configurations - Get with iterator", async () => {
-    const confingsIt = configurationsClient.getConfigurationsIterator(accessToken, projectId, 2);
+    const confingsIt = configurationsClient.getConfigurationsIterator(accessToken, iTwinId, 2);
     let flag = false;
     for await(const config of confingsIt) {
       flag = true;
@@ -127,7 +122,7 @@ describe("EC3ConfigurationsClient", () => {
   });
 
   it("Configurations - Get pages with iterator", async () => {
-    const configsIt = configurationsClient.getConfigurationsIterator(accessToken, projectId, 2);
+    const configsIt = configurationsClient.getConfigurationsIterator(accessToken, iTwinId, 2);
     let elementCount = 0;
     let flag = false;
     for await(const configs of configsIt.byPage()) {

@@ -7,10 +7,10 @@ import type { BaseIntegrationTestsConfig } from "../../BaseIntegrationTestsConfi
 import { testUtilTypes } from "../../TestUtilTypes";
 
 @injectable()
-export class TestProjectProviderConfig {
-  public testProjectName: string;
+export class TestITwinProviderConfig {
+  public testITwinName: string;
 
   constructor(@inject(testUtilTypes.baseIntegrationTestsConfig) config: BaseIntegrationTestsConfig) {
-    this.testProjectName = config.testProjectName;
+    this.testITwinName = config.testITwinName;
   }
 }
