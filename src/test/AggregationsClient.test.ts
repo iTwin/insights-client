@@ -57,62 +57,6 @@ describe("Aggregations Client", () => {
     )).to.be.true;
   });
 
-  // it("Reports - Get all non deleted", async () => {
-  //   const returns1 = {
-  //     reports: [1, 2],
-  //     // eslint-disable-next-line @typescript-eslint/naming-convention
-  //     _links: {
-  //       next: {
-  //         href: "url",
-  //       },
-  //     },
-  //   };
-  //   const returns2 = {
-  //     reports: [3, 4],
-  //     // eslint-disable-next-line @typescript-eslint/naming-convention
-  //     _links: {
-  //       next: undefined,
-  //     },
-  //   };
-  //   fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports?projectId=projectId&deleted=false", "pass").resolves(returns1)
-  //     .withArgs("url", "pass").resolves(returns2);
-
-  //   const reports: Array<Report> = await reportsClient.getReports("auth", "projectId");
-  //   expect(reports.length).to.be.eq(4);
-  //   expect(reports[0]).to.be.eq(1);
-  //   expect(reports[3]).to.be.eq(4);
-  //   expect(fetchStub.calledWith(
-  //     "https://api.bentley.com/insights/reporting/reports?projectId=projectId&deleted=false",
-  //     "pass"
-  //   )).to.be.true;
-  // });
-
-  // it("Get iterator with and without top", async () => {
-  //   const returns = {
-  //     reports: [1, 2],
-  //     // eslint-disable-next-line @typescript-eslint/naming-convention
-  //     _links: {
-  //       next: undefined,
-  //     },
-  //   };
-  //   fetchStub.resolves(returns);
-  //   let it = reportsClient.getReportsIterator("auth", "projectId");
-  //   expect(it).to.not.be.undefined;
-  //   await it.next();
-  //   expect(fetchStub.calledWith(
-  //     "https://api.bentley.com/insights/reporting/reports?projectId=projectId&deleted=false",
-  //     "pass"
-  //   )).to.be.true;
-
-  //   it = reportsClient.getReportsIterator("auth", "projectId", 2);
-  //   expect(it).to.not.be.undefined;
-  //   await it.next();
-  //   expect(fetchStub.calledWith(
-  //     `https://api.bentley.com/insights/reporting/reports?projectId=projectId&deleted=false&$top=2`,
-  //     "pass"
-  //   )).to.be.true;
-  // });
-
   it("Aggregation Table Set - Get all", async () => {
     const returns1 = {
       aggregationTableSets: [1, 2],
@@ -130,7 +74,7 @@ describe("Aggregations Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/aggregations?datasourceId&datasourceType", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/aggregations?datasourceId=datasourceId&datasourceType=datasourceType", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
     const aggregationTableSets: Array<AggregationTableSet> = await aggregationsClient.getAggregationTableSets("auth", "datasourceId", "datasourceType");
@@ -138,7 +82,7 @@ describe("Aggregations Client", () => {
     expect(aggregationTableSets[0]).to.be.eq(1);
     expect(aggregationTableSets[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/aggregations?datasourceId&datasourceType",
+      "https://api.bentley.com/insights/reporting/datasources/aggregations?datasourceId=datasourceId&datasourceType=datasourceType",
       "pass"
     )).to.be.true;
   });
@@ -160,7 +104,7 @@ describe("Aggregations Client", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/aggregations?datasourceId&datasourceType&$top=2", "pass").resolves(returns1)
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/aggregations?datasourceId=datasourceId&datasourceType=datasourceType&$top=2", "pass").resolves(returns1)
       .withArgs("url", "pass").resolves(returns2);
 
     const aggregationTableSets: Array<AggregationTableSet> = await aggregationsClient.getAggregationTableSets("auth", "datasourceId", "datasourceType", 2);
@@ -168,7 +112,7 @@ describe("Aggregations Client", () => {
     expect(aggregationTableSets[0]).to.be.eq(1);
     expect(aggregationTableSets[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/aggregations?datasourceId&datasourceType&$top=2",
+      "https://api.bentley.com/insights/reporting/datasources/aggregations?datasourceId=datasourceId&datasourceType=datasourceType&$top=2",
       "pass"
     )).to.be.true;
   });
