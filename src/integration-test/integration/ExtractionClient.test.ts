@@ -4,15 +4,12 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { Extraction, ExtractionClient, ExtractionLog, ExtractionRun, ExtractionStatus, ExtractorState, MappingCreate, MappingsClient } from "../../reporting";
+import { Extraction, ExtractionLog, ExtractionRun, ExtractionStatus, ExtractorState, MappingCreate } from "../../reporting";
 import "reflect-metadata";
-import { accessToken, testIModel, testIModelGroup } from "../utils";
+import { accessToken, extractionClient, mappingsClient, testIModel } from "../utils";
 use(chaiAsPromised);
 
 describe("Extraction Client", () => {
-  const extractionClient: ExtractionClient = new ExtractionClient();
-  const mappingsClient: MappingsClient = new MappingsClient();
-
   let extractionId: string;
   let mappingId: string;
 
@@ -29,7 +26,6 @@ describe("Extraction Client", () => {
 
   after(async () => {
     await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingId);
-    await testIModelGroup.cleanupIModels();
   });
 
   it("run extraction", async () => {

@@ -4,17 +4,12 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { ExtractionClient, ExtractionStatus, ExtractorState, GroupCreate, MappingCreate, MappingsClient, ODataClient, ODataItem, ReportCreate, ReportMappingCreate, ReportsClient } from "../../reporting";
+import { ExtractionStatus, ExtractorState, GroupCreate, MappingCreate, ODataItem, ReportCreate, ReportMappingCreate } from "../../reporting";
 import "reflect-metadata";
-import { accessToken, projectId, sleep, testIModel, testIModelGroup } from "../utils";
+import { accessToken, extractionClient, iTwinId, mappingsClient, oDataClient, reportsClient, sleep, testIModel } from "../utils";
 use(chaiAsPromised);
 
 describe("OData Client", () => {
-  const oDataClient: ODataClient = new ODataClient();
-  const reportsClient: ReportsClient = new ReportsClient();
-  const mappingsClient: MappingsClient = new MappingsClient();
-  const extractionClient: ExtractionClient = new ExtractionClient();
-
   let reportId: string;
   let oDataItem: ODataItem;
   let mappingId: string;
@@ -34,7 +29,7 @@ describe("OData Client", () => {
 
     const newReport: ReportCreate = {
       displayName: "Test",
-      projectId,
+      projectId: iTwinId,
     };
     const report = await reportsClient.createReport(accessToken, newReport);
     reportId = report.id;
@@ -63,8 +58,6 @@ describe("OData Client", () => {
   after(async () => {
     await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingId);
     await reportsClient.deleteReport(accessToken, reportId);
-
-    await testIModelGroup.cleanupIModels();
   });
 
   it("get OData report", async () => {

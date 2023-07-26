@@ -171,7 +171,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
-    let url = `${this.basePath}/datasources/aggregations?${encodeURIComponent(datasourceId)}&${encodeURIComponent(datasourceType)}`;
+    let url = `${this.basePath}/datasources/aggregations?datasourceId=${encodeURIComponent(datasourceId)}&datasourceType=${encodeURIComponent(datasourceType)}`;
     url += top ? `&$top=${top}` : "";
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<AggregationTableSet>(

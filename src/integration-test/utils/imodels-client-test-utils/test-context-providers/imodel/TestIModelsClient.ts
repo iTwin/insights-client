@@ -3,8 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { decorate, inject, injectable } from "inversify";
-import type { IModelsClientOptions } from "../../../imodels-client-authoring/IModelsClientExports";
-import { IModelsClient } from "../../../imodels-client-authoring/IModelsClient";
+import { IModelsClient, IModelsClientOptions } from "@itwin/imodels-client-authoring";
 import { testUtilTypes } from "../../TestUtilTypes";
 
 decorate(injectable(), IModelsClient);

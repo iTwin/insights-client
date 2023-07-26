@@ -5,18 +5,16 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
-import { accessToken, projectId, testIModel, testIModelGroup } from "../utils";
-import { MappingCreate, MappingsClient, ReportAggregation, ReportAggregationCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../../reporting";
+import { accessToken, aggregationsClient, iTwinId, mappingsClient, reportsClient, testIModel } from "../utils";
+import { AggregationTableSetCreate, MappingCreate, ReportAggregation, ReportAggregationCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../../reporting";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {
-  const reportsClient: ReportsClient = new ReportsClient();
-  const mappingsClient: MappingsClient = new MappingsClient();
-
   const mappingIds: Array<string> = [];
   const reportIds: Array<string> = [];
   const reportMappingIds: Array<string> = [];
   const reportAggregations: Array<string> = [];
+  const aggregationIds: Array<string> = [];
 
   before(async () => {
     // create mappings for tests
@@ -37,7 +35,7 @@ describe("Reports Client", () => {
     // create reports for tests
     const newReport: ReportCreate = {
       displayName: "Test1",
-      projectId,
+      projectId: iTwinId,
     };
     let report = await reportsClient.createReport(accessToken, newReport);
     reportIds.push(report.id);
@@ -71,18 +69,36 @@ describe("Reports Client", () => {
     reportMapping = await reportsClient.createReportMapping(accessToken, reportIds[0], newReportMapping);
     reportMappingIds.push(reportMapping.mappingId);
 
+    // create table sets for test
+    const newAggregationTableSet: AggregationTableSetCreate = {
+      tableSetName: "TableSet1",
+      description: "AggregationTableSet for a mapping",
+      datasourceId: mappingIds[mappingIds.length-3],
+      datasourceType: "IModelMapping",
+    };
+    let tableSet = await aggregationsClient.createAggregationTableSet(accessToken, newAggregationTableSet);
+    aggregationIds.push(tableSet.id);
+
+    newAggregationTableSet.tableSetName = "TableSet2";
+    tableSet = await aggregationsClient.createAggregationTableSet(accessToken, newAggregationTableSet);
+    aggregationIds.push(tableSet.id);
+
+    newAggregationTableSet.tableSetName = "TableSet3";
+    tableSet = await aggregationsClient.createAggregationTableSet(accessToken, newAggregationTableSet);
+    aggregationIds.push(tableSet.id);
+
     // create report aggregations for tests
     const newAggregation: ReportAggregationCreate = {
-      aggregationTableSetId: "1",
+      aggregationTableSetId: aggregationIds[aggregationIds.length-3],
     };
     let aggregation = await reportsClient.createReportAggregation(accessToken, reportIds[0], newAggregation);
     reportAggregations.push(aggregation.aggregationTableSetId);
 
-    newAggregation.aggregationTableSetId = "2";
+    newAggregation.aggregationTableSetId = aggregationIds[aggregationIds.length-2];
     aggregation = await reportsClient.createReportAggregation(accessToken, reportIds[0], newAggregation);
     reportAggregations.push(aggregation.aggregationTableSetId);
 
-    newAggregation.aggregationTableSetId = "2";
+    newAggregation.aggregationTableSetId = aggregationIds[aggregationIds.length-1];
     aggregation = await reportsClient.createReportAggregation(accessToken, reportIds[0], newAggregation);
     reportAggregations.push(aggregation.aggregationTableSetId);
   });
@@ -94,14 +110,13 @@ describe("Reports Client", () => {
     while(reportIds.length > 0) {
       await reportsClient.deleteReport(accessToken, reportIds.pop()!);
     }
-    await testIModelGroup.cleanupIModels();
   });
 
   // reports tests
   it("Reports - Create and delete", async () => {
     const newReport: ReportCreate = {
       displayName: "Test",
-      projectId,
+      projectId: iTwinId,
     };
     const report = await reportsClient.createReport(accessToken, newReport);
     expect(report).to.not.be.undefined;
@@ -127,14 +142,14 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get all including deleted", async () => {
-    const reports = await reportsClient.getReports(accessToken, projectId, undefined, true);
+    const reports = await reportsClient.getReports(accessToken, iTwinId, undefined, true);
     expect(reports).to.not.be.undefined;
     expect(reports.length).to.be.gt(3);
     expect(reports.some((x) => x.deleted)).to.be.true;
   });
 
   it("Reports - Get all", async () => {
-    const reports = await reportsClient.getReports(accessToken, projectId);
+    const reports = await reportsClient.getReports(accessToken, iTwinId);
     expect(reports).to.not.be.undefined;
     expect(reports.length).to.be.above(2);
     for(const report of reports) {
@@ -143,7 +158,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get with iterator", async () => {
-    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
+    const reportsIt = reportsClient.getReportsIterator(accessToken, iTwinId, 2);
     let flag = false;
     for await(const report of reportsIt) {
       flag = true;
@@ -154,7 +169,7 @@ describe("Reports Client", () => {
   });
 
   it("Reports - Get pages", async () => {
-    const reportsIt = reportsClient.getReportsIterator(accessToken, projectId, 2);
+    const reportsIt = reportsClient.getReportsIterator(accessToken, iTwinId, 2);
     let elementCount = 0;
     let flag = false;
     for await(const reports of reportsIt.byPage()) {
@@ -232,27 +247,27 @@ describe("Reports Client", () => {
 
   // report aggregation tests
   it("Report aggregations - Create and delete", async () => {
-    const newReport: ReportCreate = {
-      displayName: "Test",
-      projectId,
+    const newAggregationTableSet: AggregationTableSetCreate = {
+      tableSetName: "TableSet1",
+      description: "AggregationTableSet for a mapping",
+      datasourceId: mappingIds[mappingIds.length-3],
+      datasourceType: "IModelMapping",
     };
-    const report = await reportsClient.createReport(accessToken, newReport);
-    expect(report).to.not.be.undefined;
-    expect(report.displayName).to.be.eq("Test");
-    reportIds.push(report.id);
+    const tableSet = await aggregationsClient.createAggregationTableSet(accessToken, newAggregationTableSet);
+    aggregationIds.push(tableSet.id);
 
     const newAggregation: ReportAggregationCreate = {
-      aggregationTableSetId: "10",
+      aggregationTableSetId: aggregationIds[aggregationIds.length - 1],
     };
-    const aggregation = await reportsClient.createReportAggregation(accessToken, reportIds[reportIds.length - 1], newAggregation);
+    const aggregation = await reportsClient.createReportAggregation(accessToken, reportIds[0], newAggregation);
     expect(aggregation).to.not.be.undefined;
-    expect(aggregation.aggregationTableSetId).to.be.eq("10");
+    expect(aggregation.aggregationTableSetId).to.be.eq(aggregationIds[aggregationIds.length - 1]);
     reportAggregations.push(aggregation.aggregationTableSetId);
 
     let response: Response;
-    response = await reportsClient.deleteReportAggregation(accessToken, reportIds[reportIds.length - 1], reportAggregations.pop()!);
+    response = await reportsClient.deleteReportAggregation(accessToken, reportIds[0], reportAggregations.pop()!);
     expect(response.status).to.be.eq(204);
-    response = await reportsClient.deleteReport(accessToken, reportIds.pop()!);
+    response = await aggregationsClient.deleteAggregationTableSet(accessToken, aggregationIds.pop()!);
     expect(response.status).to.be.eq(204);
   });
 

@@ -4,14 +4,12 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, QuantityType } from "../../reporting";
+import { CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingCreate, MappingUpdate, QuantityType } from "../../reporting";
 import "reflect-metadata";
-import { accessToken, testIModel, testIModelGroup } from "../utils/";
+import { accessToken, mappingsClient, testIModel } from "../utils/";
 use(chaiAsPromised);
 
 describe("Mapping Client", () => {
-  const mappingsClient: MappingsClient = new MappingsClient();
-
   const mappingIds: Array<string> = [];
   let groupId: string;
   let groupPropertyId: string;
@@ -104,7 +102,6 @@ describe("Mapping Client", () => {
     while(mappingIds.length > 0) {
       await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop()!);
     }
-    await testIModelGroup.cleanupIModels();
   });
 
   // mapping tests

@@ -7,4 +7,3 @@ export * from "./Constants";
 export * from "./GlobalSetup";
 export * from "./TestDiContainerProvider";
 export * from "./imodels-client-test-utils/iModelsClientTestUtilsExports";
-export * from "./imodels-client-authoring/IModelsClientExports";

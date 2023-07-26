@@ -15,22 +15,22 @@ Contains the **@itwin/insights-client** package that wraps sending requests to t
 - Create .env file and configure the following variables:
 
 ```
-TEST_PROJECT_NAME=
-TEST_IMODEL_NAME=
-AUTH_AUTHORITY=
-AUTH_CLIENT_ID=
-AUTH_CLIENT_SECRET=
-AUTH_REDIRECT_URL=
-APIS_IMODELS_BASE_URL=
-APIS_IMODELS_VERSION=
-APIS_IMODELS_SCOPES=
-APIS_PROJECTS_BASE_URL=
-APIS_PROJECTS_SCOPES=
-TEST_USERS_ADMIN1_EMAIL=
-TEST_USERS_ADMIN1_PASSWORD=
-TEST_USERS_ADMIN2_FULLY_FEATURED_EMAIL=
-TEST_USERS_ADMIN2_FULLY_FEATURED_PASSWORD=
-TEST_BEHAVIOR_OPTIONS_RECREATE_IMODEL=
+TEST_ITWIN_NAME=<name to use for test iTwin>
+TEST_IMODEL_NAME=<name to use for test iModel>
+AUTH_AUTHORITY="https://ims.bentley.com"
+AUTH_CLIENT_ID=<client id of a "Web App" client created in https://developer.bentley.com>
+AUTH_CLIENT_SECRET=<client secret of a "Web App" client created in https://developer.bentley.com>
+AUTH_REDIRECT_URL=<redirect url of a "Web App" client created in https://developer.bentley.com>
+APIS_REPORTING_BASE_URL=https://api.bentley.com/insights/reporting
+APIS_CARBONCALCULATION_BASE_URL=https://api.bentley.com/insights/carbon-calculation
+APIS_IMODELS_BASE_URL=https://api.bentley.com/imodels
+APIS_IMODELS_VERSION=itwin-platform.v2
+APIS_IMODELS_SCOPES=imodels:read imodels:modify insights:read insights:modify
+APIS_ITWINS_BASE_URL=https://api.bentley.com/itwins
+APIS_ITWINS_SCOPES=itwins:read itwins:modify
+TEST_USERS_ADMIN1_EMAIL=<email of your test user>
+TEST_USERS_ADMIN1_PASSWORD=<password of your test user>
+TEST_BEHAVIOR_OPTIONS_RECREATE_IMODEL=<1 to recreate iModel for each test suite run>
 ```
 
 - Test project and imodel will be created automatically with provided names.

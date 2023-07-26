@@ -5,127 +5,102 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
-import { accessToken, testIModel, testIModelGroup } from "../utils";
-import { AggregationPropertyCreate, AggregationPropertyType, AggregationPropertyUpdate, AggregationsClient, AggregationTableCreate, AggregationTableSetCreate, AggregationTableSetUpdate, AggregationTableUpdate, MappingCreate, MappingsClient } from "../../reporting";
+import { accessToken, aggregationsClient, mappingsClient, testIModel } from "../utils";
+import { AggregationPropertyCreate, AggregationPropertyType, AggregationPropertyUpdate, AggregationTableCreate, AggregationTableSetCreate, AggregationTableSetUpdate, AggregationTableUpdate, GroupCreate, MappingCreate } from "../../reporting";
 use(chaiAsPromised);
 
 describe("Aggregations Client", () => {
-  const aggregationsClient: AggregationsClient = new AggregationsClient();
-  const mappingsClient: MappingsClient = new MappingsClient();
 
-  const mappingIds: Array<string> = [];
-  const tablesetIds: Array<string> = [];
-  const tableIds: Array<string> = [];
-  const propertyIds: Array<string> = [];
+  let mappingId: string;
+  let tablesetId: string;
+  let tableId: string;
+  let propertyId: string;
+  let groupname: string;
 
   before(async () => {
     // create mappings for tests
     const newMapping: MappingCreate = {
       mappingName: "Test1",
     };
-    let mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    mappingIds.push(mapping.id);
+    const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
+    mappingId = mapping.id;
 
-    newMapping.mappingName = "Test2";
-    mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    mappingIds.push(mapping.id);
-
-    newMapping.mappingName = "Test3";
-    mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    mappingIds.push(mapping.id);
+    const newGroup: GroupCreate = {
+      groupName: "Test1",
+      query: "select * from biscore.element limit 10",
+    };
+    const group = await mappingsClient.createGroup(accessToken, testIModel.id, mappingId, newGroup);
+    groupname = group.groupName;
 
     // create table sets for tests
     const newAggregationTableSet: AggregationTableSetCreate = {
       tableSetName: "TableSet1",
       description: "AggregationTableSet for a mapping",
-      datasourceId: mappingIds[mappingIds.length - 3],
+      datasourceId: mappingId,
       datasourceType: "IModelMapping",
     };
     let tableSet = await aggregationsClient.createAggregationTableSet(accessToken, newAggregationTableSet);
-    tablesetIds.push(tableSet.id);
+    tablesetId = tableSet.id;
 
     newAggregationTableSet.tableSetName = "TableSet2";
-    newAggregationTableSet.datasourceId = mappingIds[mappingIds.length - 2];
     tableSet = await aggregationsClient.createAggregationTableSet(accessToken, newAggregationTableSet);
-    tablesetIds.push(tableSet.id);
 
     newAggregationTableSet.tableSetName = "TableSet3";
-    newAggregationTableSet.datasourceId = mappingIds[mappingIds.length - 1];
     tableSet = await aggregationsClient.createAggregationTableSet(accessToken, newAggregationTableSet);
-    tablesetIds.push(tableSet.id);
 
     // create tables for tests
     const newAggregationTable: AggregationTableCreate = {
       tableName: "Table1",
       description: "Aggregation of Group table.",
-      sourceTableName: "SampleGroupName",
+      sourceTableName: groupname,
     };
-    let table = await aggregationsClient.createAggregationTable(accessToken, tablesetIds[tablesetIds.length - 3], newAggregationTable);
-    tableIds.push(table.id);
+    let table = await aggregationsClient.createAggregationTable(accessToken, tablesetId, newAggregationTable);
+    tableId = table.id;
 
     newAggregationTable.tableName = "Table2";
-    table = await aggregationsClient.createAggregationTable(accessToken, tablesetIds[tablesetIds.length - 2], newAggregationTable);
-    tableIds.push(table.id);
+    table = await aggregationsClient.createAggregationTable(accessToken, tablesetId, newAggregationTable);
 
     newAggregationTable.tableName = "Table3";
-    table = await aggregationsClient.createAggregationTable(accessToken, tablesetIds[tablesetIds.length - 1], newAggregationTable);
-    tableIds.push(table.id);
+    table = await aggregationsClient.createAggregationTable(accessToken, tablesetId, newAggregationTable);
 
     // create properties for tests
     const newAggregationProperty: AggregationPropertyCreate = {
-      propertyName: "Property1",
-      sourcePropertyName: "SamplePropertyName",
-      type: "Count" as AggregationPropertyType ?? AggregationPropertyType.Undefined,
+      propertyName: "Test",
+      sourcePropertyName: "ECClassId",
+      type: "Count" as AggregationPropertyType,
     };
-    let property = await aggregationsClient.createAggregationProperty(accessToken, tablesetIds[tablesetIds.length - 3], tableIds[tableIds.length - 3], newAggregationProperty);
-    propertyIds.push(property.id);
+    let property = await aggregationsClient.createAggregationProperty(accessToken, tablesetId, tableId, newAggregationProperty);
+    propertyId = property.id;
 
-    newAggregationTable.tableName = "Property2";
-    property = await aggregationsClient.createAggregationProperty(accessToken, tablesetIds[tablesetIds.length - 2], tableIds[tableIds.length - 2], newAggregationProperty);
-    propertyIds.push(property.id);
+    newAggregationProperty.propertyName = "Property2";
+    property = await aggregationsClient.createAggregationProperty(accessToken, tablesetId, tableId, newAggregationProperty);
 
-    newAggregationTable.tableName = "Property3";
-    property = await aggregationsClient.createAggregationProperty(accessToken, tablesetIds[tablesetIds.length - 1], tableIds[tableIds.length - 1], newAggregationProperty);
-    propertyIds.push(property.id);
+    newAggregationProperty.propertyName = "Property3";
+    property = await aggregationsClient.createAggregationProperty(accessToken, tablesetId, tableId, newAggregationProperty);
   });
 
   after(async () => {
-    while(mappingIds.length > 0) {
-      await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop()!);
-    }
-    while(tablesetIds.length > 0) {
-      await aggregationsClient.deleteAggregationTableSet(accessToken, tablesetIds.pop()!);
-    }
-    await testIModelGroup.cleanupIModels();
+    await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingId);
   });
 
   // aggregation table sets tests
   it("Aggregation Table Sets - Create and delete", async () => {
-    const newMapping: MappingCreate = {
-      mappingName: "Test4",
-    };
-    const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    mappingIds.push(mapping.id);
     const newAggregationTableSet: AggregationTableSetCreate = {
-      tableSetName: "AggregationTableSet_name",
+      tableSetName: "TableSet4",
       description: "AggregationTableSet for a mapping",
-      datasourceId: mappingIds[mappingIds.length - 1],
+      datasourceId: mappingId,
       datasourceType: "IModelMapping",
     };
     const aggregationTableSet = await aggregationsClient.createAggregationTableSet(accessToken, newAggregationTableSet);
     expect(aggregationTableSet).to.not.be.undefined;
-    expect(aggregationTableSet.tableSetName).to.be.eq("AggregationTableSet_name");
-    tablesetIds.push(aggregationTableSet.id);
+    expect(aggregationTableSet.tableSetName).to.be.eq("TableSet4");
 
-    let response: Response;
-    response = await aggregationsClient.deleteAggregationTableSet(accessToken, tablesetIds.pop()!);
-    expect(response.status).to.be.eq(204);
-    response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop()!);
+    const response = await aggregationsClient.deleteAggregationTableSet(accessToken, aggregationTableSet.id);
     expect(response.status).to.be.eq(204);
   });
 
   it("Aggregation Table Sets - Get", async () => {
-    const aggregationTableSet = await aggregationsClient.getAggregationTableSet(accessToken, tablesetIds[0]);
+    const aggregationTableSet = await aggregationsClient.getAggregationTableSet(accessToken, tablesetId);
     expect(aggregationTableSet).to.not.be.undefined;
     expect(aggregationTableSet.tableSetName).to.be.eq("TableSet1");
   });
@@ -134,13 +109,13 @@ describe("Aggregations Client", () => {
     const newAggregationTableSet: AggregationTableSetUpdate = {
       description: "Updated",
     };
-    const aggregationTableSet = await aggregationsClient.updateAggregationTableSet(accessToken, tablesetIds[0], newAggregationTableSet);
+    const aggregationTableSet = await aggregationsClient.updateAggregationTableSet(accessToken, tablesetId, newAggregationTableSet);
     expect(aggregationTableSet).to.not.be.undefined;
     expect(aggregationTableSet.description).to.be.eq("Updated");
   });
 
   it("Aggregation Table Sets - Get all", async () => {
-    const aggregationTableSets = await aggregationsClient.getAggregationTableSets(accessToken, tablesetIds[0], "IModelMapping");
+    const aggregationTableSets = await aggregationsClient.getAggregationTableSets(accessToken, mappingId, "IModelMapping");
     expect(aggregationTableSets).to.not.be.undefined;
     expect(aggregationTableSets.length).to.be.above(2);
     for(const tableset of aggregationTableSets) {
@@ -149,7 +124,7 @@ describe("Aggregations Client", () => {
   });
 
   it("Aggregation Table Sets - Get with iterator", async () => {
-    const aggregationTableSetsIt = aggregationsClient.getAggregationTableSetsIterator(accessToken, tablesetIds[0], "IModelMapping", 2);
+    const aggregationTableSetsIt = aggregationsClient.getAggregationTableSetsIterator(accessToken, mappingId, "IModelMapping", 2);
     let flag = false;
     for await(const tableset of aggregationTableSetsIt) {
       flag = true;
@@ -160,7 +135,7 @@ describe("Aggregations Client", () => {
   });
 
   it("Aggregation Table Sets - Get pages", async () => {
-    const aggregationTableSetsIt = aggregationsClient.getAggregationTableSetsIterator(accessToken, tablesetIds[0], "IModelMapping", 2);
+    const aggregationTableSetsIt = aggregationsClient.getAggregationTableSetsIterator(accessToken, mappingId, "IModelMapping", 2);
     let elementCount = 0;
     let flag = false;
     for await(const tablesets of aggregationTableSetsIt.byPage()) {
@@ -176,44 +151,38 @@ describe("Aggregations Client", () => {
     expect(flag).to.be.true;
     expect(elementCount).to.not.be.eq(0);
   });
+
   // aggregation tables tests
   it("Aggregation Tables - Create and delete", async () => {
-    const newMapping: MappingCreate = {
-      mappingName: "Test4",
+    const newGroup: GroupCreate = {
+      groupName: "Test1",
+      query: "select * from biscore.element limit 10",
     };
-    const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    mappingIds.push(mapping.id);
+    const group = await mappingsClient.createGroup(accessToken, testIModel.id, mappingId, newGroup);
+
     const newAggregationTableSet: AggregationTableSetCreate = {
-      tableSetName: "AggregationTableSet_name",
+      tableSetName: "TableSet1",
       description: "AggregationTableSet for a mapping",
-      datasourceId: mappingIds[mappingIds.length - 1],
+      datasourceId: mappingId,
       datasourceType: "IModelMapping",
     };
-    const aggregationTableSet = await aggregationsClient.createAggregationTableSet(accessToken, newAggregationTableSet);
-    expect(aggregationTableSet).to.not.be.undefined;
-    expect(aggregationTableSet.tableSetName).to.be.eq("AggregationTableSet_name");
-    tablesetIds.push(aggregationTableSet.id);
-    const newAggregationTable: AggregationTableCreate = {
-      tableName: "AggregationTable_name",
-      description: "Aggregation of Group table `Group1`.",
-      sourceTableName: "SampleGroup",
-    };
-    const aggregationTable = await aggregationsClient.createAggregationTable(accessToken, tablesetIds[tablesetIds.length - 1], newAggregationTable);
-    expect(aggregationTable).to.not.be.undefined;
-    expect(aggregationTable.tableName).to.be.eq("AggregationTable_name");
-    tableIds.push(aggregationTable.id);
+    const tableSet = await aggregationsClient.createAggregationTableSet(accessToken, newAggregationTableSet);
 
-    let response: Response;
-    response = await aggregationsClient.deleteAggregationTable(accessToken, tablesetIds[tablesetIds.length - 1], tableIds.pop()!);
-    expect(response.status).to.be.eq(204);
-    response = await aggregationsClient.deleteAggregationTableSet(accessToken, tablesetIds.pop()!);
-    expect(response.status).to.be.eq(204);
-    response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop()!);
+    const newAggregationTable: AggregationTableCreate = {
+      tableName: "Table5",
+      description: "Aggregation of Group table.",
+      sourceTableName: group.groupName,
+    };
+    const table = await aggregationsClient.createAggregationTable(accessToken, tableSet.id, newAggregationTable);
+    expect(table).to.not.be.undefined;
+    expect(table.tableName).to.be.eq("Table5");
+
+    const response = await aggregationsClient.deleteAggregationTable(accessToken, tableSet.id, table.id);
     expect(response.status).to.be.eq(204);
   });
 
   it("Aggregation Tables - Get", async () => {
-    const aggregationTable = await aggregationsClient.getAggregationTable(accessToken, tablesetIds[0], tableIds[0]);
+    const aggregationTable = await aggregationsClient.getAggregationTable(accessToken, tablesetId, tableId);
     expect(aggregationTable).to.not.be.undefined;
     expect(aggregationTable.tableName).to.be.eq("Table1");
   });
@@ -222,13 +191,13 @@ describe("Aggregations Client", () => {
     const newAggregationTable: AggregationTableUpdate = {
       description: "Updated",
     };
-    const aggregationTable = await aggregationsClient.updateAggregationTable(accessToken, tablesetIds[0], tableIds[0], newAggregationTable);
+    const aggregationTable = await aggregationsClient.updateAggregationTable(accessToken, tablesetId, tableId, newAggregationTable);
     expect(aggregationTable).to.not.be.undefined;
     expect(aggregationTable.description).to.be.eq("Updated");
   });
 
   it("Aggregation Tables - Get all", async () => {
-    const aggregationTables = await aggregationsClient.getAggregationTables(accessToken, tablesetIds[0]);
+    const aggregationTables = await aggregationsClient.getAggregationTables(accessToken, tablesetId);
     expect(aggregationTables).to.not.be.undefined;
     expect(aggregationTables.length).to.be.above(2);
     for(const table of aggregationTables) {
@@ -237,7 +206,7 @@ describe("Aggregations Client", () => {
   });
 
   it("Aggregation Tables - Get with iterator", async () => {
-    const aggregationTablesIt = aggregationsClient.getAggregationTablesIterator(accessToken, tablesetIds[0], 2);
+    const aggregationTablesIt = aggregationsClient.getAggregationTablesIterator(accessToken, tablesetId, 2);
     let flag = false;
     for await(const table of aggregationTablesIt) {
       flag = true;
@@ -248,7 +217,7 @@ describe("Aggregations Client", () => {
   });
 
   it("Aggregation Tables - Get pages", async () => {
-    const aggregationTablesIt = aggregationsClient.getAggregationTablesIterator(accessToken, tablesetIds[0], 2);
+    const aggregationTablesIt = aggregationsClient.getAggregationTablesIterator(accessToken, tablesetId, 2);
     let elementCount = 0;
     let flag = false;
     for await(const tables of aggregationTablesIt.byPage()) {
@@ -267,66 +236,36 @@ describe("Aggregations Client", () => {
 
   // aggregation properties tests
   it("Aggregation Properties - Create and delete", async () => {
-    const newMapping: MappingCreate = {
-      mappingName: "Test4",
-    };
-    const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
-    mappingIds.push(mapping.id);
-    const newAggregationTableSet: AggregationTableSetCreate = {
-      tableSetName: "AggregationTableSet_name",
-      description: "AggregationTableSet for a mapping",
-      datasourceId: mappingIds[mappingIds.length - 1],
-      datasourceType: "IModelMapping",
-    };
-    const aggregationTableSet = await aggregationsClient.createAggregationTableSet(accessToken, newAggregationTableSet);
-    expect(aggregationTableSet).to.not.be.undefined;
-    expect(aggregationTableSet.tableSetName).to.be.eq("AggregationTableSet_name");
-    tablesetIds.push(aggregationTableSet.id);
-    const newAggregationTable: AggregationTableCreate = {
-      tableName: "AggregationTable_name",
-      description: "Aggregation of Group table `Group1`.",
-      sourceTableName: "SampleGroup",
-    };
-    const aggregationTable = await aggregationsClient.createAggregationTable(accessToken, tablesetIds[tablesetIds.length - 1], newAggregationTable);
-    expect(aggregationTable).to.not.be.undefined;
-    expect(aggregationTable.tableName).to.be.eq("AggregationTable_name");
-    tableIds.push(aggregationTable.id);
     const newAggregationProperty: AggregationPropertyCreate = {
-      propertyName: "Property4",
-      sourcePropertyName: "SamplePropertyName",
-      type: "Count" as AggregationPropertyType ?? AggregationPropertyType.Undefined,
+      propertyName: "Property5",
+      sourcePropertyName: "ECClassId",
+      type: "Count" as AggregationPropertyType,
     };
-    const property = await aggregationsClient.createAggregationProperty(accessToken, tablesetIds[tablesetIds.length - 1], tableIds[tableIds.length - 1], newAggregationProperty);
-    propertyIds.push(property.id);
+    const property = await aggregationsClient.createAggregationProperty(accessToken, tablesetId, tableId, newAggregationProperty);
+    expect(property).to.not.be.undefined;
+    expect(property.propertyName).to.be.eq("Property5");
 
-    let response: Response;
-    response = await aggregationsClient.deleteAggregationProperty(accessToken, tablesetIds[tablesetIds.length - 1], tableIds[tableIds.length - 1], propertyIds.pop()!);
-    expect(response.status).to.be.eq(204);
-    response = await aggregationsClient.deleteAggregationTable(accessToken, tablesetIds[tablesetIds.length - 1], tableIds.pop()!);
-    expect(response.status).to.be.eq(204);
-    response = await aggregationsClient.deleteAggregationTableSet(accessToken, tablesetIds.pop()!);
-    expect(response.status).to.be.eq(204);
-    response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop()!);
+    const response = await aggregationsClient.deleteAggregationProperty(accessToken, tablesetId, tableId, property.id);
     expect(response.status).to.be.eq(204);
   });
 
   it("Aggregation Properties - Get", async () => {
-    const aggregationProperty = await aggregationsClient.getAggregationProperty(accessToken, tablesetIds[0], tableIds[0], propertyIds[0]);
+    const aggregationProperty = await aggregationsClient.getAggregationProperty(accessToken, tablesetId, tableId, propertyId);
     expect(aggregationProperty).to.not.be.undefined;
-    expect(aggregationProperty.propertyName).to.be.eq("Property1");
+    expect(aggregationProperty.propertyName).to.be.eq("Test");
   });
 
   it("Aggregation Properties - Update", async () => {
     const newAggregationProperty: AggregationPropertyUpdate = {
-      propertyName: "NewRowCount",
+      propertyName: "Property1",
     };
-    const aggregationProperty = await aggregationsClient.updateAggregationProperty(accessToken, tablesetIds[0], tableIds[0], propertyIds[0], newAggregationProperty);
+    const aggregationProperty = await aggregationsClient.updateAggregationProperty(accessToken, tablesetId, tableId, propertyId, newAggregationProperty);
     expect(aggregationProperty).to.not.be.undefined;
-    expect(aggregationProperty.propertyName).to.be.eq("NewRowCount");
+    expect(aggregationProperty.propertyName).to.be.eq("Property1");
   });
 
   it("Aggregation Properties - Get all", async () => {
-    const aggregationProperties = await aggregationsClient.getAggregationProperties(accessToken, tablesetIds[0], tableIds[0]);
+    const aggregationProperties = await aggregationsClient.getAggregationProperties(accessToken, tablesetId, tableId);
     expect(aggregationProperties).to.not.be.undefined;
     expect(aggregationProperties.length).to.be.above(2);
     for(const report of aggregationProperties) {
@@ -335,7 +274,7 @@ describe("Aggregations Client", () => {
   });
 
   it("Aggregation Properties - Get with iterator", async () => {
-    const aggregationPropertiesIt = aggregationsClient.getAggregationPropertiesIterator(accessToken, tablesetIds[0], tableIds[0], 2);
+    const aggregationPropertiesIt = aggregationsClient.getAggregationPropertiesIterator(accessToken, tablesetId, tableId, 2);
     let flag = false;
     for await(const property of aggregationPropertiesIt) {
       flag = true;
@@ -346,7 +285,7 @@ describe("Aggregations Client", () => {
   });
 
   it("Aggregation Properties - Get pages", async () => {
-    const aggregationPropertiesIt = aggregationsClient.getAggregationPropertiesIterator(accessToken, tablesetIds[0], tableIds[0], 2);
+    const aggregationPropertiesIt = aggregationsClient.getAggregationPropertiesIterator(accessToken, tablesetId, tableId, 2);
     let elementCount = 0;
     let flag = false;
     for await(const properties of aggregationPropertiesIt.byPage()) {
