@@ -13,7 +13,7 @@ export interface IAggregationsClient {
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {number} top The number of entities to load per page.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-aggregationproperties/
    */
   getAggregationProperties(
@@ -30,7 +30,7 @@ export interface IAggregationsClient {
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {number} top The number of entities to load per page.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-aggregationproperties/
    */
   getAggregationPropertiesIterator(
@@ -46,7 +46,7 @@ export interface IAggregationsClient {
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {string} aggregationPropertyId Id of the aggregation property.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-aggregationproperty/
    */
   getAggregationProperty(
@@ -58,12 +58,12 @@ export interface IAggregationsClient {
 
   /**
    * Updates an aggregation property.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {string} aggregationPropertyId Id of the aggregation property.
    * @param {AggregationPropertyUpdate} property Request body.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/update-aggregationproperty/
    */
   updateAggregationProperty(
@@ -76,11 +76,11 @@ export interface IAggregationsClient {
 
   /**
    * Creates an aggregation property.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {AggregationPropertyCreate} property Request body.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/create-aggregationproperty/
    */
   createAggregationProperty(
@@ -92,11 +92,11 @@ export interface IAggregationsClient {
 
   /**
    * Deletes an aggregation property.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {string} aggregationPropertyId Id of the aggregation property.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-aggregationproperty/
    */
   deleteAggregationProperty(
@@ -112,7 +112,7 @@ export interface IAggregationsClient {
    * @param {string} datasourceId Id of the data source to query for all its aggregation table sets.
    * @param {string} datasourceType Type of the data source that this aggregation table set works with.
    * @param {number} top Optional max items to be sent in response.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-aggregationtablesets/
    */
   getAggregationTableSets(
@@ -129,7 +129,7 @@ export interface IAggregationsClient {
    * @param {string} datasourceId Id of the data source to query for all its aggregation table sets.
    * @param {string} datasourceType Type of the data source that this aggregation table set works with.
    * @param {number} top Optional max items to be sent in response.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-aggregationtablesets/
    */
   getAggregationTableSetsIterator(
@@ -143,7 +143,7 @@ export interface IAggregationsClient {
    * Retrieves an aggregation table set.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-aggregationtableset/
    */
   getAggregationTableSet(
@@ -153,10 +153,10 @@ export interface IAggregationsClient {
 
   /**
    * Update an aggregation table set.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {AggregationTableSetUpdate} tableset Request body.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/update-aggregationtableset/
    */
   updateAggregationTableSet(
@@ -167,9 +167,9 @@ export interface IAggregationsClient {
 
   /**
    * Creates an aggregation table set for a data source.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {AggregationTableSetCreate} tableset Request body.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/create-aggregationproperty/
    */
   createAggregationTableSet(
@@ -179,9 +179,9 @@ export interface IAggregationsClient {
 
   /**
    * Deletes an aggregation table set.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-aggregationtableset/
    */
   deleteAggregationTableSet(
@@ -194,7 +194,7 @@ export interface IAggregationsClient {
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {number} top Optional max items to be sent in response.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-aggregationtables/
    */
   getAggregationTables(
@@ -209,7 +209,7 @@ export interface IAggregationsClient {
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {number} top Optional max items to be sent in response.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-aggregationtables/
    */
   getAggregationTablesIterator(
@@ -223,7 +223,7 @@ export interface IAggregationsClient {
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-aggregationtable/
    */
   getAggregationTable(
@@ -234,11 +234,11 @@ export interface IAggregationsClient {
 
   /**
    * Update an aggregation table.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {AggregationTableUpdate} table Request body.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/update-aggregationtable/
    */
   updateAggregationTable(
@@ -250,10 +250,10 @@ export interface IAggregationsClient {
 
   /**
    * Creates an aggregation table.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {AggregationTableCreate} table Request body.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/create-aggregationtable/
    */
   createAggregationTable(
@@ -264,10 +264,10 @@ export interface IAggregationsClient {
 
   /**
    * Deletes an aggregation table.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
-   * @memberof ReportingClient
+   * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-aggregationtable/
    */
   deleteAggregationTable(

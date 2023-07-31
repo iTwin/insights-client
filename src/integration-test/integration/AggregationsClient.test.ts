@@ -10,7 +10,6 @@ import { AggregationPropertyCreate, AggregationPropertyType, AggregationProperty
 use(chaiAsPromised);
 
 describe("Aggregations Client", () => {
-
   let mappingId: string;
   let tablesetId: string;
   let tableId: string;
