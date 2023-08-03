@@ -5,7 +5,7 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { Report, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../reporting";
+import { Report, ReportAggregation, ReportAggregationCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../reporting";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {
@@ -326,6 +326,102 @@ describe("Reports Client", () => {
     expect(report.status).to.be.eq(200);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/reportId/datasources/imodelMappings/reportMappingId",
+      "pass",
+    )).to.be.true;
+  });
+
+  it("Report Aggregations - Get All", async () => {
+    const returns1 = {
+      aggregations: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      _links: {
+        next: {
+          href: "url",
+        },
+      },
+    };
+    const returns2 = {
+      aggregations: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      _links: {
+        next: undefined,
+      },
+    };
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports/reportId/datasources/aggregations", "pass").resolves(returns1)
+      .withArgs("url", "pass").resolves(returns2);
+
+    const aggregations: Array<ReportAggregation> = await reportsClient.getReportAggregations("auth", "reportId");
+    expect(aggregations.length).to.be.eq(4);
+    expect(aggregations[0]).to.be.eq(1);
+    expect(aggregations[3]).to.be.eq(4);
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/insights/reporting/reports/reportId/datasources/aggregations",
+      "pass",
+    )).to.be.true;
+  });
+
+  it("Report Aggregations -  Get all with top", async () => {
+    const returns1 = {
+      aggregations: [1, 2],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      _links: {
+        next: {
+          href: "url",
+        },
+      },
+    };
+    const returns2 = {
+      aggregations: [3, 4],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      _links: {
+        next: undefined,
+      },
+    };
+    fetchStub.withArgs("https://api.bentley.com/insights/reporting/reports/reportId/datasources/aggregations/?$top=2", "pass").resolves(returns1)
+      .withArgs("url", "pass").resolves(returns2);
+
+    const aggregations: Array<ReportAggregation> = await reportsClient.getReportAggregations("auth", "reportId", 2);
+    expect(aggregations.length).to.be.eq(4);
+    expect(aggregations[0]).to.be.eq(1);
+    expect(aggregations[3]).to.be.eq(4);
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/insights/reporting/reports/reportId/datasources/aggregations/?$top=2",
+      "pass",
+    )).to.be.true;
+  });
+
+  it("Report Aggregations - Create", async () => {
+    const newAggregation: ReportAggregationCreate = {
+      aggregationTableSetId: "id",
+    };
+    const returns = {
+      aggregation: {
+        aggregationTableSetId: "1",
+      },
+    };
+    fetchStub.resolves(returns);
+    const aggregation = await reportsClient.createReportAggregation("auth", "reportId", newAggregation);
+    expect(aggregation.aggregationTableSetId).to.be.eq("1");
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/insights/reporting/reports/reportId/datasources/aggregations",
+      "pass",
+    )).to.be.true;
+    expect(requestStub.calledWith(
+      "POST",
+      "auth",
+      JSON.stringify(newAggregation)
+    )).to.be.true;
+  });
+
+  it("Report Aggregations - Delete", async () => {
+    const returns = {
+      status: 200,
+    };
+    fetchStub.resolves(returns);
+    const aggregation = await reportsClient.deleteReportAggregation("auth", "reportId", "aggregationTableSetId");
+    expect(aggregation.status).to.be.eq(200);
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/insights/reporting/reports/reportId/datasources/aggregations/aggregationTableSetId",
       "pass",
     )).to.be.true;
   });

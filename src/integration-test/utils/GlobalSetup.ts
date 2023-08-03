@@ -17,6 +17,7 @@ import { ReportsClient } from "../../reporting/clients/ReportsClient";
 import { BaseIntegrationTestsConfig } from "../utils/imodels-client-test-utils/BaseIntegrationTestsConfig";
 import { EC3ConfigurationsClient } from "../../carbon-calculation/clients/EC3ConfigurationsClient";
 import { EC3JobsClient } from "../../carbon-calculation/clients/EC3JobsClient";
+import { AggregationsClient } from "../../reporting/clients/AggregationsClient";
 
 let testRunId: string;
 export function getTestRunId(): string {
@@ -35,6 +36,7 @@ export let jobsClient: EC3JobsClient;
 export let extractionClient: ExtractionClient;
 export let mappingsClient: MappingsClient;
 export let oDataClient: ODataClient;
+export let aggregationsClient: AggregationsClient;
 
 export async function mochaGlobalSetup() {
   createDirectory(TestConstants.testDownloadDirectoryPath);
@@ -59,6 +61,7 @@ export async function mochaGlobalSetup() {
   extractionClient = new ExtractionClient(config.apis.reporting.baseUrl);
   mappingsClient = new MappingsClient(config.apis.reporting.baseUrl);
   oDataClient = new ODataClient(config.apis.reporting.baseUrl);
+  aggregationsClient = new AggregationsClient(config.apis.reporting.baseUrl);
 }
 
 export async function mochaGlobalTeardown() {
