@@ -5,7 +5,7 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { Extraction, ExtractionClient, ExtractionLog, ExtractorState } from "../reporting";
+import { Extraction, ExtractionClient, ExtractionLog, ExtractionRunRequest, ExtractorState } from "../reporting";
 use(chaiAsPromised);
 
 describe("ExtractionClient", () => {
@@ -54,6 +54,36 @@ describe("ExtractionClient", () => {
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/run",
       "pass",
+    )).to.be.true;
+    expect(requestStub.calledWith(
+      "POST",
+      "auth",
+      undefined,
+    )).to.be.true;
+  });
+
+  it("run extraction with parameters", async () => {
+    const returns = {
+      run: {
+        id: 1,
+      },
+    };
+    fetchStub.resolves(returns);
+    const extractionRequest: ExtractionRunRequest = {
+      changesetId: "changesetId",
+      mappings: [{ id: "mappingId" }],
+      ecInstanceIds: ["ecInstanceId"],
+    };
+    const extraction = await extractionClient.runExtraction("auth", "iModelId", extractionRequest);
+    expect(extraction.id).to.be.eq(1);
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/extraction/run",
+      "pass",
+    )).to.be.true;
+    expect(requestStub.calledWith(
+      "POST",
+      "auth",
+      JSON.stringify(extractionRequest),
     )).to.be.true;
   });
 

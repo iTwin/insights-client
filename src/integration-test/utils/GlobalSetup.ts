@@ -3,7 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { testUtilTypes } from "./imodels-client-test-utils/TestUtilTypes";
-import { IModelMetadata } from "./imodels-client-test-utils/test-context-providers/imodel/TestIModelInterfaces";
+import { ReusableIModelMetadata } from "./imodels-client-test-utils/test-context-providers/imodel/TestIModelInterfaces";
 import { cleanupDirectory, createDirectory, createGuidValue } from "./imodels-client-test-utils/CommonTestUtils";
 import { TestAuthorizationProvider } from "./imodels-client-test-utils/test-context-providers/auth/TestAuthorizationProvider";
 import { ReusableTestIModelProvider } from "./imodels-client-test-utils/test-context-providers/imodel/ReusableTestIModelProvider";
@@ -28,7 +28,7 @@ export function getTestRunId(): string {
 }
 
 export let accessToken: string;
-export let testIModel: IModelMetadata;
+export let testIModel: ReusableIModelMetadata;
 export let iTwinId: string;
 export let reportsClient: ReportsClient;
 export let configurationsClient: EC3ConfigurationsClient;

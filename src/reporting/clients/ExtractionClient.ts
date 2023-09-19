@@ -7,7 +7,7 @@ import type { EntityListIterator } from "../../common/iterators/EntityListIterat
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
 import { OperationsBase } from "../../common/OperationsBase";
-import type { Extraction, ExtractionCollection, ExtractionLog, ExtractionLogCollection, ExtractionRun, ExtractionRunSingle, ExtractionStatus, ExtractionStatusSingle } from "../interfaces/ExtractionProcess";
+import type { Extraction, ExtractionCollection, ExtractionLog, ExtractionLogCollection, ExtractionRun, ExtractionRunRequest, ExtractionRunSingle, ExtractionStatus, ExtractionStatusSingle } from "../interfaces/ExtractionProcess";
 import type { IExtractionClient } from "./IExtractionClient";
 import { RequiredError } from "../interfaces/Errors";
 
@@ -15,14 +15,14 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
   public async getExtractionLogs(accessToken: AccessToken, jobId: string, top?: number): Promise<ExtractionLog[]> {
     const logs: Array<ExtractionLog> = [];
     const logIterator = this.getExtractionLogsIterator(accessToken, jobId, top);
-    for await(const log of logIterator) {
+    for await (const log of logIterator) {
       logs.push(log);
     }
     return logs;
   }
 
   public getExtractionLogsIterator(accessToken: AccessToken, jobId: string, top?: number): EntityListIterator<ExtractionLog> {
-    if(!this.topIsValid(top)) {
+    if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000]."
@@ -43,9 +43,12 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
       }));
   }
 
-  public async runExtraction(accessToken: AccessToken, iModelId: string): Promise<ExtractionRun> {
+  public async runExtraction(
+    accessToken: AccessToken,
+    iModelId: string,
+    extractionRequest: ExtractionRunRequest | undefined = undefined): Promise<ExtractionRun> {
     const url = `${this.basePath}/datasources/imodels/${iModelId}/extraction/run`;
-    const requestOptions: RequestInit = this.createRequest("POST", accessToken);
+    const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(extractionRequest));
     return (await this.fetchJSON<ExtractionRunSingle>(url, requestOptions)).run;
   }
 
@@ -58,14 +61,14 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
   public async getExtractionHistory(accessToken: AccessToken, iModelId: string, top?: number): Promise<Extraction[]> {
     const extractions: Array<Extraction> = [];
     const extractionIterator = this.getExtractionHistoryIterator(accessToken, iModelId, top);
-    for await(const extraction of extractionIterator) {
+    for await (const extraction of extractionIterator) {
       extractions.push(extraction);
     }
     return extractions;
   }
 
   public getExtractionHistoryIterator(accessToken: AccessToken, iModelId: string, top?: number): EntityListIterator<Extraction> {
-    if(!this.topIsValid(top)) {
+    if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000]."

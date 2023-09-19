@@ -5,6 +5,46 @@
 import type { Link, PagedResponseLinks } from "../../common/Links";
 
 /**
+ * Mapping configuration for a manual extraction run.
+ * @export
+ * @interface ExtractionRequestMapping
+ */
+export interface ExtractionRequestMapping {
+  /**
+  * Mapping Id.
+  * @type {string}
+  * @memberof ExtractionRequestMapping
+  */
+  id: string;
+}
+
+/**
+ * Properties of the Extraction Run to be started.
+ * @export
+ * @interface ExtractionRunRequest
+ */
+export interface ExtractionRunRequest {
+  /**
+   * ChangesetId to run the new extraction run against.
+   * @type {string}
+   * @memberof ExtractionRunRequest
+   */
+  changesetId?: string;
+  /**
+   * List of Mappings to extract during new extraction run.
+   * @type {ExtractionRequestMapping[]}
+   * @memberof ExtractionRunRequest
+   */
+  mappings?: ExtractionRequestMapping[];
+  /**
+   * List of ECInstanceIds to extract during new extraction run.
+   * @type {string[]}
+   * @memberof ExtractionRunRequest
+   */
+  ecInstanceIds?: string[];
+}
+
+/**
  * Contains contextual hyperlinks to related data.
  * @export
  * @interface ExtractionStatusLinks

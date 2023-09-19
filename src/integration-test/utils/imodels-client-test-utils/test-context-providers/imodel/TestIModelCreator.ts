@@ -54,11 +54,12 @@ export class TestIModelCreator {
   public async createReusable(iModelName: string): Promise<ReusableIModelMetadata> {
     const iModel = await this.createEmpty(iModelName);
     const briefcase = await this.acquireBriefcase(iModel.id);
-    await this.uploadChangesets(iModel.id, briefcase.id);
+    const changesets = await this.uploadChangesets(iModel.id, briefcase.id);
     const lock = await this.createLockOnReusableIModel(iModel.id, briefcase.id);
 
     return {
       ...iModel,
+      changesetId: changesets[changesets.length - 1],
       briefcase,
       lock,
     };
@@ -86,7 +87,7 @@ export class TestIModelCreator {
     return acquiredLocks;
   }
 
-  public async uploadChangesets(iModelId: string, briefcaseId: number): Promise<void> {
+  public async uploadChangesets(iModelId: string, briefcaseId: number): Promise<string[]> {
     for (let i = 0; i < this._testIModelFileProvider.changesets.length; i++) {
       await this._iModelsClient.changesets.create({
         authorization: this._testAuthorizationProvider.getAdmin1Authorization(),
@@ -104,6 +105,8 @@ export class TestIModelCreator {
         },
       });
     }
+
+    return this._testIModelFileProvider.changesets.map((x) => (x.id));
   }
 
   private async acquireBriefcase(iModelId: string): Promise<BriefcaseMetadata> {

@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import { inject, injectable } from "inversify";
 import { toArray } from "../../../../../common/iterators/IteratorUtil";
-import type { GetBriefcaseListParams, GetLockListParams, IModel, Lock } from "@itwin/imodels-client-authoring";
+import type { GetBriefcaseListParams, GetChangesetListParams, GetLockListParams, IModel, Lock } from "@itwin/imodels-client-authoring";
 import { TestSetupError } from "../../CommonTestUtils";
 import { TestAuthorizationProvider } from "../auth/TestAuthorizationProvider";
 import { TestITwinProvider } from "../itwin/TestITwinProvider";
@@ -43,14 +43,28 @@ export class TestIModelRetriever {
   public async queryRelatedData(iModel: IModel): Promise<ReusableIModelMetadata> {
     const briefcase = await this.queryAndValidateBriefcase(iModel.id);
     const lock = await this.queryAndValidateLock(iModel.id);
+    const changesetIds = await this.getChangesetIds(iModel.id);
 
     return {
       id: iModel.id,
+      changesetId: changesetIds[changesetIds.length - 1],
       name: iModel.name,
       description: iModel.description ?? "",
       briefcase,
       lock,
     };
+  }
+
+  private async getChangesetIds(iModelId: string): Promise<string[]> {
+    const getChangesetListParams: GetChangesetListParams = {
+      authorization: this._testAuthorizationProvider.getAdmin1Authorization(),
+      iModelId,
+    };
+    const changesets = await toArray(this._iModelsClient.changesets.getMinimalList(getChangesetListParams));
+    if (changesets.length === 0)
+      throw new TestSetupError("No changesets found for reusable test IModel.");
+
+    return changesets.map((x) => (x.id));
   }
 
   private async queryAndValidateBriefcase(iModelId: string): Promise<BriefcaseMetadata> {

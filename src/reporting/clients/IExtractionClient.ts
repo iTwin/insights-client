@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
-import type { Extraction, ExtractionLog, ExtractionRun, ExtractionStatus } from "../interfaces/ExtractionProcess";
+import type { Extraction, ExtractionLog, ExtractionRun, ExtractionRunRequest, ExtractionStatus } from "../interfaces/ExtractionProcess";
 import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IExtractionClient {
@@ -40,12 +40,14 @@ export interface IExtractionClient {
    * Manually run Extraction of data from an iModel.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {string} iModelId The iModel Id.
+   * @param {ExtractionRunRequest | undefined} extractionRequest Extraction properties.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/run-extraction/
    */
   runExtraction(
     accessToken: AccessToken,
-    iModelId: string
+    iModelId: string,
+    extractionRequest: ExtractionRunRequest | undefined
   ): Promise<ExtractionRun>;
 
   /**
