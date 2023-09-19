@@ -1,6 +1,6 @@
 {
   "name": "@itwin/insights-client",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Insights client for the iTwin platform",
   "main": "lib/cjs/insights-client.js",
   "module": "lib/esm/insights-client.js",
@@ -72,6 +72,9 @@
     "source-map-support": "^0.5.21",
     "ts-node": "^10.8.2",
     "typescript": "~4.4.0"
+  },
+  "peerDependencies": {
+    "@itwin/core-bentley": "^3.0.0 || ^4.0.0"
   },
   "eslintConfig": {
     "plugins": [
