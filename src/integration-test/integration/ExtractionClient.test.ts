@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { Extraction, ExtractionLog, ExtractionRun, ExtractionStatus, ExtractorState, MappingCreate } from "../../reporting";
+import { Extraction, ExtractionLog, ExtractionRun, ExtractionRunRequest, ExtractionStatus, ExtractorState, MappingCreate } from "../../reporting";
 import "reflect-metadata";
 import { accessToken, extractionClient, mappingsClient, testIModel } from "../utils";
 use(chaiAsPromised);
@@ -30,6 +30,16 @@ describe("Extraction Client", () => {
 
   it("run extraction", async () => {
     const extraction: ExtractionRun = await extractionClient.runExtraction(accessToken, testIModel.id);
+    expect(extraction).to.not.be.undefined;
+    expect(extraction.id).to.not.be.undefined;
+  });
+
+  it("run extraction with parameters", async () => {
+    const extractionRequest: ExtractionRunRequest = {
+      changesetId: testIModel.changesetId,
+      mappings: [{ id: mappingId }],
+    };
+    const extraction: ExtractionRun = await extractionClient.runExtraction(accessToken, testIModel.id, extractionRequest);
     expect(extraction).to.not.be.undefined;
     expect(extraction.id).to.not.be.undefined;
   });
