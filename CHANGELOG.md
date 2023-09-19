@@ -1,5 +1,11 @@
 # Change Log - @itwin/insights-client
 
+## 0.5.3
+Tuesday, 19 September, 2023
+### Minor
+- Added `ExtractionRunRequest` interface.
+- Added optional `extractionRequest` parameter in `runExtraction` function to specify Extraction properties.
+
 ## 0.5.2
 Tuesday, 12 July, 2023
 ### Minor
