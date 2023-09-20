@@ -1,6 +1,6 @@
 # Change Log - @itwin/insights-client
 
-## 0.5.3
+## 0.6.0
 Wednesday, 20 September, 2023
 ### Patches
 - Added `@itwin/core-bentley` into `peerDependencies`.
