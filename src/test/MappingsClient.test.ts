@@ -1,11 +1,31 @@
 /*---------------------------------------------------------------------------------------------
-* Copyright (c) Bentley Systems, Incorporated. All rights reserved.
-* See LICENSE.md in the project root for license terms and full copyright notice.
-*--------------------------------------------------------------------------------------------*/
+ * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
+ * See LICENSE.md in the project root for license terms and full copyright notice.
+ *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { CalculatedProperty, CalculatedPropertyCreate, CalculatedPropertyType, CustomCalculation, CustomCalculationCreate, DataType, ECProperty, Group, GroupCreate, GroupProperty, GroupPropertyCreate, GroupUpdate, Mapping, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, QuantityType } from "../reporting";
+import {
+  CalculatedProperty,
+  CalculatedPropertyCreate,
+  CalculatedPropertyType,
+  CustomCalculation,
+  CustomCalculationCreate,
+  DataType,
+  ECProperty,
+  Group,
+  GroupCreate,
+  GroupCreateCopy,
+  GroupProperty,
+  GroupPropertyCreate,
+  GroupUpdate,
+  Mapping,
+  MappingCopy,
+  MappingCreate,
+  MappingsClient,
+  MappingUpdate,
+  QuantityType,
+} from "../reporting";
 use(chaiAsPromised);
 
 describe("mappingsClient", () => {
@@ -49,12 +69,18 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const mapping = await mappingsClient.getMapping("auth", "iModelId", "mappingId");
+    const mapping = await mappingsClient.getMapping(
+      "auth",
+      "iModelId",
+      "mappingId"
+    );
     expect(mapping.id).to.be.eq(1);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Mappings - Get all", async () => {
@@ -74,17 +100,28 @@ describe("mappingsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2);
+    fetchStub
+      .withArgs(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings",
+        "pass"
+      )
+      .resolves(returns1)
+      .withArgs("url", "pass")
+      .resolves(returns2);
 
-    const mappings: Array<Mapping> = await mappingsClient.getMappings("auth", "iModelId");
+    const mappings: Array<Mapping> = await mappingsClient.getMappings(
+      "auth",
+      "iModelId"
+    );
     expect(mappings.length).to.be.eq(4);
     expect(mappings[0]).to.be.eq(1);
     expect(mappings[3]).to.be.eq(4);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Mappings - Get all by page", async () => {
@@ -104,17 +141,27 @@ describe("mappingsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2);
+    fetchStub
+      .withArgs(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings",
+        "pass"
+      )
+      .resolves(returns1)
+      .withArgs("url", "pass")
+      .resolves(returns2);
 
-    const mappingIt = mappingsClient.getMappingsIterator("auth", "iModelId").byPage();
-    for await(const i of mappingIt) {
+    const mappingIt = mappingsClient
+      .getMappingsIterator("auth", "iModelId")
+      .byPage();
+    for await (const i of mappingIt) {
       expect(i.length).to.be.eq(2);
     }
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Mappings - get all with top", async () => {
@@ -134,17 +181,29 @@ describe("mappingsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/?$top=2", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2);
+    fetchStub
+      .withArgs(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/?$top=2",
+        "pass"
+      )
+      .resolves(returns1)
+      .withArgs("url", "pass")
+      .resolves(returns2);
 
-    const mappings: Array<Mapping> = await mappingsClient.getMappings("auth", "iModelId", 2);
+    const mappings: Array<Mapping> = await mappingsClient.getMappings(
+      "auth",
+      "iModelId",
+      2
+    );
     expect(mappings.length).to.be.eq(4);
     expect(mappings[0]).to.be.eq(1);
     expect(mappings[3]).to.be.eq(4);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/?$top=2",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/?$top=2",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Mappings - Create", async () => {
@@ -157,17 +216,20 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const mapping = await mappingsClient.createMapping("auth", "iModelId", newMapping);
-    expect(mapping.id).to.be.eq("1");
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings",
-      "pass",
-    )).to.be.true;
-    expect(requestStub.calledWith(
-      "POST",
+    const mapping = await mappingsClient.createMapping(
       "auth",
-      JSON.stringify(newMapping)
-    )).to.be.true;
+      "iModelId",
+      newMapping
+    );
+    expect(mapping.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings",
+        "pass"
+      )
+    ).to.be.true;
+    expect(requestStub.calledWith("POST", "auth", JSON.stringify(newMapping)))
+      .to.be.true;
   });
 
   it("Mappings - Update", async () => {
@@ -180,17 +242,21 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const mapping = await mappingsClient.updateMapping("auth", "iModelId", "mappingId", newMapping);
-    expect(mapping.id).to.be.eq("1");
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId",
-      "pass",
-    )).to.be.true;
-    expect(requestStub.calledWith(
-      "PATCH",
+    const mapping = await mappingsClient.updateMapping(
       "auth",
-      JSON.stringify(newMapping)
-    )).to.be.true;
+      "iModelId",
+      "mappingId",
+      newMapping
+    );
+    expect(mapping.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId",
+        "pass"
+      )
+    ).to.be.true;
+    expect(requestStub.calledWith("PATCH", "auth", JSON.stringify(newMapping)))
+      .to.be.true;
   });
 
   it("Mappings - Delete", async () => {
@@ -198,12 +264,18 @@ describe("mappingsClient", () => {
       status: 200,
     };
     fetchStub.resolves(returns);
-    const mapping = await mappingsClient.deleteMapping("auth", "iModelId", "mappingId");
+    const mapping = await mappingsClient.deleteMapping(
+      "auth",
+      "iModelId",
+      "mappingId"
+    );
     expect(mapping.status).to.be.eq(200);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Mappings - Copy", async () => {
@@ -217,17 +289,21 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const mapping = await mappingsClient.copyMapping("auth", "iModelId", "mappingId", newMapping);
-    expect(mapping.id).to.be.eq("1");
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/copy",
-      "pass",
-    )).to.be.true;
-    expect(requestStub.calledWith(
-      "POST",
+    const mapping = await mappingsClient.copyMapping(
       "auth",
-      JSON.stringify(newMapping)
-    )).to.be.true;
+      "iModelId",
+      "mappingId",
+      newMapping
+    );
+    expect(mapping.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/copy",
+        "pass"
+      )
+    ).to.be.true;
+    expect(requestStub.calledWith("POST", "auth", JSON.stringify(newMapping)))
+      .to.be.true;
   });
 
   it("Groups - Get", async () => {
@@ -237,12 +313,19 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const group = await mappingsClient.getGroup("auth", "iModelId", "mappingId", "groupId");
+    const group = await mappingsClient.getGroup(
+      "auth",
+      "iModelId",
+      "mappingId",
+      "groupId"
+    );
     expect(group.id).to.be.eq(1);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Groups - Get all", async () => {
@@ -262,17 +345,29 @@ describe("mappingsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2);
+    fetchStub
+      .withArgs(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups",
+        "pass"
+      )
+      .resolves(returns1)
+      .withArgs("url", "pass")
+      .resolves(returns2);
 
-    const groups: Array<Group> = await mappingsClient.getGroups("auth", "iModelId", "mappingId");
+    const groups: Array<Group> = await mappingsClient.getGroups(
+      "auth",
+      "iModelId",
+      "mappingId"
+    );
     expect(groups.length).to.be.eq(4);
     expect(groups[0]).to.be.eq(1);
     expect(groups[3]).to.be.eq(4);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Groups - get all with top", async () => {
@@ -292,17 +387,30 @@ describe("mappingsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/?$top=2", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2);
+    fetchStub
+      .withArgs(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/?$top=2",
+        "pass"
+      )
+      .resolves(returns1)
+      .withArgs("url", "pass")
+      .resolves(returns2);
 
-    const groups: Array<Group> = await mappingsClient.getGroups("auth", "iModelId", "mappingId", 2);
+    const groups: Array<Group> = await mappingsClient.getGroups(
+      "auth",
+      "iModelId",
+      "mappingId",
+      2
+    );
     expect(groups.length).to.be.eq(4);
     expect(groups[0]).to.be.eq(1);
     expect(groups[3]).to.be.eq(4);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/?$top=2",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/?$top=2",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Groups - Create", async () => {
@@ -316,17 +424,48 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const group = await mappingsClient.createGroup("auth", "iModelId", "mappingId", newGroup);
-    expect(group.id).to.be.eq("1");
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups",
-      "pass",
-    )).to.be.true;
-    expect(requestStub.calledWith(
-      "POST",
+    const group = await mappingsClient.createGroup(
       "auth",
-      JSON.stringify(newGroup)
-    )).to.be.true;
+      "iModelId",
+      "mappingId",
+      newGroup
+    );
+    expect(group.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups",
+        "pass"
+      )
+    ).to.be.true;
+    expect(requestStub.calledWith("POST", "auth", JSON.stringify(newGroup))).to
+      .be.true;
+  });
+
+  it("Groups - Copy", async () => {
+    const newGroup: GroupCreateCopy = {
+      groupName: "Test",
+      query: "auth",
+      source: {
+        mappingId: "2",
+        groupId: "3",
+      },
+    };
+    const returns = {
+      group: {
+        id: "1",
+      },
+    };
+    fetchStub.resolves(returns);
+    const group = await mappingsClient.copyGroup("auth", "mappingId", newGroup);
+    expect(group.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/grouping-and-mapping/datasources/imodel-mappings/mappingId/groups",
+        "pass"
+      )
+    ).to.be.true;
+    expect(requestStub.calledWith("POST", "auth", JSON.stringify(newGroup))).to
+      .be.true;
   });
 
   it("Groups - Update", async () => {
@@ -339,17 +478,22 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const group = await mappingsClient.updateGroup("auth", "iModelId", "mappingId", "groupId", newGroup);
-    expect(group.id).to.be.eq("1");
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId",
-      "pass",
-    )).to.be.true;
-    expect(requestStub.calledWith(
-      "PATCH",
+    const group = await mappingsClient.updateGroup(
       "auth",
-      JSON.stringify(newGroup)
-    )).to.be.true;
+      "iModelId",
+      "mappingId",
+      "groupId",
+      newGroup
+    );
+    expect(group.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId",
+        "pass"
+      )
+    ).to.be.true;
+    expect(requestStub.calledWith("PATCH", "auth", JSON.stringify(newGroup))).to
+      .be.true;
   });
 
   it("Groups - Delete", async () => {
@@ -357,12 +501,19 @@ describe("mappingsClient", () => {
       status: 200,
     };
     fetchStub.resolves(returns);
-    const group = await mappingsClient.deleteGroup("auth", "iModelId", "mappingId", "groupId");
+    const group = await mappingsClient.deleteGroup(
+      "auth",
+      "iModelId",
+      "mappingId",
+      "groupId"
+    );
     expect(group.status).to.be.eq(200);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Group properties - Get", async () => {
@@ -372,12 +523,20 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const property = await mappingsClient.getGroupProperty("auth", "iModelId", "mappingId", "groupId", "propertyId");
+    const property = await mappingsClient.getGroupProperty(
+      "auth",
+      "iModelId",
+      "mappingId",
+      "groupId",
+      "propertyId"
+    );
     expect(property.id).to.be.eq(1);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties/propertyId",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties/propertyId",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Group properties - Get all", async () => {
@@ -397,17 +556,31 @@ describe("mappingsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2);
+    fetchStub
+      .withArgs(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties",
+        "pass"
+      )
+      .resolves(returns1)
+      .withArgs("url", "pass")
+      .resolves(returns2);
 
-    const properties: Array<GroupProperty> = await mappingsClient.getGroupProperties("auth", "iModelId", "mappingId", "groupId");
+    const properties: Array<GroupProperty> =
+      await mappingsClient.getGroupProperties(
+        "auth",
+        "iModelId",
+        "mappingId",
+        "groupId"
+      );
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
     expect(properties[3]).to.be.eq(4);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Group properties - get all with top", async () => {
@@ -427,17 +600,32 @@ describe("mappingsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties/?$top=2", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2);
+    fetchStub
+      .withArgs(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties/?$top=2",
+        "pass"
+      )
+      .resolves(returns1)
+      .withArgs("url", "pass")
+      .resolves(returns2);
 
-    const properties: Array<GroupProperty> = await mappingsClient.getGroupProperties("auth", "iModelId", "mappingId", "groupId", 2);
+    const properties: Array<GroupProperty> =
+      await mappingsClient.getGroupProperties(
+        "auth",
+        "iModelId",
+        "mappingId",
+        "groupId",
+        2
+      );
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
     expect(properties[3]).to.be.eq(4);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties/?$top=2",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties/?$top=2",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Group properties - Create", async () => {
@@ -459,17 +647,23 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const property = await mappingsClient.createGroupProperty("auth", "iModelId", "mappingId", "groupId", newGroupProperty);
-    expect(property.id).to.be.eq("1");
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties",
-      "pass",
-    )).to.be.true;
-    expect(requestStub.calledWith(
-      "POST",
+    const property = await mappingsClient.createGroupProperty(
       "auth",
-      JSON.stringify(newGroupProperty)
-    )).to.be.true;
+      "iModelId",
+      "mappingId",
+      "groupId",
+      newGroupProperty
+    );
+    expect(property.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties",
+        "pass"
+      )
+    ).to.be.true;
+    expect(
+      requestStub.calledWith("POST", "auth", JSON.stringify(newGroupProperty))
+    ).to.be.true;
   });
 
   it("Group properties - Update", async () => {
@@ -491,17 +685,24 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const property = await mappingsClient.updateGroupProperty("auth", "iModelId", "mappingId", "groupId", "propertyId", newGroupProperty);
-    expect(property.id).to.be.eq("1");
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties/propertyId",
-      "pass",
-    )).to.be.true;
-    expect(requestStub.calledWith(
-      "PUT",
+    const property = await mappingsClient.updateGroupProperty(
       "auth",
-      JSON.stringify(newGroupProperty)
-    )).to.be.true;
+      "iModelId",
+      "mappingId",
+      "groupId",
+      "propertyId",
+      newGroupProperty
+    );
+    expect(property.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties/propertyId",
+        "pass"
+      )
+    ).to.be.true;
+    expect(
+      requestStub.calledWith("PUT", "auth", JSON.stringify(newGroupProperty))
+    ).to.be.true;
   });
 
   it("Group properties - Delete", async () => {
@@ -509,12 +710,20 @@ describe("mappingsClient", () => {
       status: 200,
     };
     fetchStub.resolves(returns);
-    const property = await mappingsClient.deleteGroupProperty("auth", "iModelId", "mappingId", "groupId", "propertyId");
+    const property = await mappingsClient.deleteGroupProperty(
+      "auth",
+      "iModelId",
+      "mappingId",
+      "groupId",
+      "propertyId"
+    );
     expect(property.status).to.be.eq(200);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties/propertyId",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/properties/propertyId",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Calculated properties - Get", async () => {
@@ -524,12 +733,20 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const property = await mappingsClient.getCalculatedProperty("auth", "iModelId", "mappingId", "groupId", "propertyId");
+    const property = await mappingsClient.getCalculatedProperty(
+      "auth",
+      "iModelId",
+      "mappingId",
+      "groupId",
+      "propertyId"
+    );
     expect(property.id).to.be.eq(1);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties/propertyId",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties/propertyId",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Calculated properties - Get all", async () => {
@@ -549,17 +766,31 @@ describe("mappingsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2);
+    fetchStub
+      .withArgs(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties",
+        "pass"
+      )
+      .resolves(returns1)
+      .withArgs("url", "pass")
+      .resolves(returns2);
 
-    const properties: Array<CalculatedProperty> = await mappingsClient.getCalculatedProperties("auth", "iModelId", "mappingId", "groupId");
+    const properties: Array<CalculatedProperty> =
+      await mappingsClient.getCalculatedProperties(
+        "auth",
+        "iModelId",
+        "mappingId",
+        "groupId"
+      );
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
     expect(properties[3]).to.be.eq(4);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Calculated properties - get all with top", async () => {
@@ -579,17 +810,32 @@ describe("mappingsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties/?$top=2", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2);
+    fetchStub
+      .withArgs(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties/?$top=2",
+        "pass"
+      )
+      .resolves(returns1)
+      .withArgs("url", "pass")
+      .resolves(returns2);
 
-    const properties: Array<CalculatedProperty> = await mappingsClient.getCalculatedProperties("auth", "iModelId", "mappingId", "groupId", 2);
+    const properties: Array<CalculatedProperty> =
+      await mappingsClient.getCalculatedProperties(
+        "auth",
+        "iModelId",
+        "mappingId",
+        "groupId",
+        2
+      );
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
     expect(properties[3]).to.be.eq(4);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties/?$top=2",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties/?$top=2",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Calculated properties - Create", async () => {
@@ -603,17 +849,27 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const property = await mappingsClient.createCalculatedProperty("auth", "iModelId", "mappingId", "groupId", newCalculatedProperty);
-    expect(property.id).to.be.eq("1");
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties",
-      "pass",
-    )).to.be.true;
-    expect(requestStub.calledWith(
-      "POST",
+    const property = await mappingsClient.createCalculatedProperty(
       "auth",
-      JSON.stringify(newCalculatedProperty)
-    )).to.be.true;
+      "iModelId",
+      "mappingId",
+      "groupId",
+      newCalculatedProperty
+    );
+    expect(property.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties",
+        "pass"
+      )
+    ).to.be.true;
+    expect(
+      requestStub.calledWith(
+        "POST",
+        "auth",
+        JSON.stringify(newCalculatedProperty)
+      )
+    ).to.be.true;
   });
 
   it("Calculated properties - Update", async () => {
@@ -627,17 +883,28 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const property = await mappingsClient.updateCalculatedProperty("auth", "iModelId", "mappingId", "groupId", "propertyId", newCalculatedProperty);
-    expect(property.id).to.be.eq("1");
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties/propertyId",
-      "pass",
-    )).to.be.true;
-    expect(requestStub.calledWith(
-      "PATCH",
+    const property = await mappingsClient.updateCalculatedProperty(
       "auth",
-      JSON.stringify(newCalculatedProperty)
-    )).to.be.true;
+      "iModelId",
+      "mappingId",
+      "groupId",
+      "propertyId",
+      newCalculatedProperty
+    );
+    expect(property.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties/propertyId",
+        "pass"
+      )
+    ).to.be.true;
+    expect(
+      requestStub.calledWith(
+        "PATCH",
+        "auth",
+        JSON.stringify(newCalculatedProperty)
+      )
+    ).to.be.true;
   });
 
   it("Calculated properties - Delete", async () => {
@@ -645,12 +912,20 @@ describe("mappingsClient", () => {
       status: 200,
     };
     fetchStub.resolves(returns);
-    const property = await mappingsClient.deleteCalculatedProperty("auth", "iModelId", "mappingId", "groupId", "propertyId");
+    const property = await mappingsClient.deleteCalculatedProperty(
+      "auth",
+      "iModelId",
+      "mappingId",
+      "groupId",
+      "propertyId"
+    );
     expect(property.status).to.be.eq(200);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties/propertyId",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/calculatedProperties/propertyId",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Custom calculations - Get", async () => {
@@ -660,12 +935,20 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const property = await mappingsClient.getCustomCalculation("auth", "iModelId", "mappingId", "groupId", "propertyId");
+    const property = await mappingsClient.getCustomCalculation(
+      "auth",
+      "iModelId",
+      "mappingId",
+      "groupId",
+      "propertyId"
+    );
     expect(property.id).to.be.eq(1);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations/propertyId",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations/propertyId",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Custom calculations - Get all", async () => {
@@ -685,17 +968,31 @@ describe("mappingsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2);
+    fetchStub
+      .withArgs(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations",
+        "pass"
+      )
+      .resolves(returns1)
+      .withArgs("url", "pass")
+      .resolves(returns2);
 
-    const properties: Array<CustomCalculation> = await mappingsClient.getCustomCalculations("auth", "iModelId", "mappingId", "groupId");
+    const properties: Array<CustomCalculation> =
+      await mappingsClient.getCustomCalculations(
+        "auth",
+        "iModelId",
+        "mappingId",
+        "groupId"
+      );
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
     expect(properties[3]).to.be.eq(4);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Custom calculations - get all with top", async () => {
@@ -715,17 +1012,32 @@ describe("mappingsClient", () => {
         next: undefined,
       },
     };
-    fetchStub.withArgs("https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations/?$top=2", "pass").resolves(returns1)
-      .withArgs("url", "pass").resolves(returns2);
+    fetchStub
+      .withArgs(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations/?$top=2",
+        "pass"
+      )
+      .resolves(returns1)
+      .withArgs("url", "pass")
+      .resolves(returns2);
 
-    const properties: Array<CustomCalculation> = await mappingsClient.getCustomCalculations("auth", "iModelId", "mappingId", "groupId", 2);
+    const properties: Array<CustomCalculation> =
+      await mappingsClient.getCustomCalculations(
+        "auth",
+        "iModelId",
+        "mappingId",
+        "groupId",
+        2
+      );
     expect(properties.length).to.be.eq(4);
     expect(properties[0]).to.be.eq(1);
     expect(properties[3]).to.be.eq(4);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations/?$top=2",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations/?$top=2",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("Custom calculations - Create", async () => {
@@ -740,17 +1052,27 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const property = await mappingsClient.createCustomCalculation("auth", "iModelId", "mappingId", "groupId", newCustomCalculation);
-    expect(property.id).to.be.eq("1");
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations",
-      "pass",
-    )).to.be.true;
-    expect(requestStub.calledWith(
-      "POST",
+    const property = await mappingsClient.createCustomCalculation(
       "auth",
-      JSON.stringify(newCustomCalculation)
-    )).to.be.true;
+      "iModelId",
+      "mappingId",
+      "groupId",
+      newCustomCalculation
+    );
+    expect(property.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations",
+        "pass"
+      )
+    ).to.be.true;
+    expect(
+      requestStub.calledWith(
+        "POST",
+        "auth",
+        JSON.stringify(newCustomCalculation)
+      )
+    ).to.be.true;
   });
 
   it("Custom calculations - Update", async () => {
@@ -765,17 +1087,28 @@ describe("mappingsClient", () => {
       },
     };
     fetchStub.resolves(returns);
-    const property = await mappingsClient.updateCustomCalculation("auth", "iModelId", "mappingId", "groupId", "propertyId", newCustomCalculation);
-    expect(property.id).to.be.eq("1");
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations/propertyId",
-      "pass",
-    )).to.be.true;
-    expect(requestStub.calledWith(
-      "PATCH",
+    const property = await mappingsClient.updateCustomCalculation(
       "auth",
-      JSON.stringify(newCustomCalculation)
-    )).to.be.true;
+      "iModelId",
+      "mappingId",
+      "groupId",
+      "propertyId",
+      newCustomCalculation
+    );
+    expect(property.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations/propertyId",
+        "pass"
+      )
+    ).to.be.true;
+    expect(
+      requestStub.calledWith(
+        "PATCH",
+        "auth",
+        JSON.stringify(newCustomCalculation)
+      )
+    ).to.be.true;
   });
 
   it("Custom calculations - Delete", async () => {
@@ -783,12 +1116,20 @@ describe("mappingsClient", () => {
       status: 200,
     };
     fetchStub.resolves(returns);
-    const property = await mappingsClient.deleteCustomCalculation("auth", "iModelId", "mappingId", "groupId", "propertyId");
+    const property = await mappingsClient.deleteCustomCalculation(
+      "auth",
+      "iModelId",
+      "mappingId",
+      "groupId",
+      "propertyId"
+    );
     expect(property.status).to.be.eq(200);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations/propertyId",
-      "pass",
-    )).to.be.true;
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/insights/reporting/datasources/imodels/iModelId/mappings/mappingId/groups/groupId/customCalculations/propertyId",
+        "pass"
+      )
+    ).to.be.true;
   });
 
   it("isValid", () => {

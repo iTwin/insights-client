@@ -1,20 +1,26 @@
 /*---------------------------------------------------------------------------------------------
-* Copyright (c) Bentley Systems, Incorporated. All rights reserved.
-* See LICENSE.md in the project root for license terms and full copyright notice.
-*--------------------------------------------------------------------------------------------*/
+ * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
+ * See LICENSE.md in the project root for license terms and full copyright notice.
+ *--------------------------------------------------------------------------------------------*/
 import isomorphicFetch from "cross-fetch";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 export const REPORTING_BASE_PATH = "https://api.bentley.com/insights/reporting";
-export const CARBON_CALCULATION_BASE_PATH = "https://api.bentley.com/insights/carbon-calculation";
+export const GROUPING_AND_MAPPING_BASE_PATH =
+  "https://api.bentley.com/grouping-and-mapping";
+export const CARBON_CALCULATION_BASE_PATH =
+  "https://api.bentley.com/insights/carbon-calculation";
 const MAX_ATTEMPTS = 3;
 
 export class OperationsBase {
   protected readonly fetch = isomorphicFetch;
   protected readonly basePath;
+  protected readonly groupingAndMappingBasePath;
 
-  constructor(basePath?: string) {
+  constructor(basePath?: string, groupingAndMappingBasePath?: string) {
     this.basePath = basePath ?? REPORTING_BASE_PATH;
+    this.groupingAndMappingBasePath =
+      groupingAndMappingBasePath ?? GROUPING_AND_MAPPING_BASE_PATH;
   }
 
   /**
@@ -24,7 +30,11 @@ export class OperationsBase {
    * @param {string} content request body
    * @memberof OperationsBase
    */
-  protected createRequest(operation: string, accessToken: string, content?: string): RequestInit {
+  protected createRequest(
+    operation: string,
+    accessToken: string,
+    content?: string
+  ): RequestInit {
     const request: RequestInit = {
       method: operation,
     };
@@ -35,8 +45,7 @@ export class OperationsBase {
       Accept: ACCEPT,
     };
     if (content) {
-      header["Content-Type"] = "application/json",
-      request.body = content;
+      (header["Content-Type"] = "application/json"), (request.body = content);
     }
     request.headers = header;
     return request;
@@ -48,14 +57,14 @@ export class OperationsBase {
    * @param {RequestInit} requestOptions information about the fetch
    * @memberof OperationsBase
    */
-  protected async fetchData(nextUrl: string, requestOptions: RequestInit): Promise<Response> {
+  protected async fetchData(
+    nextUrl: string,
+    requestOptions: RequestInit
+  ): Promise<Response> {
     let response: Response | undefined;
 
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-      response = await this.fetch(
-        nextUrl,
-        requestOptions
-      );
+      response = await this.fetch(nextUrl, requestOptions);
 
       if (response.status >= 200 && response.status < 300) {
         return response;
@@ -67,7 +76,9 @@ export class OperationsBase {
 
         const retryAfterSeconds = parseInt(retryAfter, 10);
 
-        await new Promise((resolve) => setTimeout(resolve, retryAfterSeconds * 1000));
+        await new Promise((resolve) =>
+          setTimeout(resolve, retryAfterSeconds * 1000)
+        );
       } else {
         throw response;
       }
@@ -83,7 +94,10 @@ export class OperationsBase {
    * @param {RequestInit} requestOptions information about the fetch
    * @memberof OperationsBase
    */
-  protected async fetchJSON<T>(nextUrl: string, requestOptions: RequestInit): Promise<T> {
+  protected async fetchJSON<T>(
+    nextUrl: string,
+    requestOptions: RequestInit
+  ): Promise<T> {
     const response = await this.fetchData(nextUrl, requestOptions);
     return response.status === 204 ? response : response.json();
   }
@@ -94,8 +108,9 @@ export class OperationsBase {
    * @memberof OperationsBase
    */
   protected isSimpleIdentifier(name: string | null | undefined): boolean {
-    const reg = /^[\p{L}\p{Nl}_][\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,}$/u;
-    return name ? (name.length <= 128 && reg.test(name)) : false;
+    const reg =
+      /^[\p{L}\p{Nl}_][\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,}$/u;
+    return name ? name.length <= 128 && reg.test(name) : false;
   }
 
   /**
@@ -113,6 +128,6 @@ export class OperationsBase {
    * @memberof OperationsBase
    */
   protected topIsValid(top: number | undefined): boolean {
-    return top !== undefined ? (top > 0 && top <= 1000) : true;
+    return top !== undefined ? top > 0 && top <= 1000 : true;
   }
 }

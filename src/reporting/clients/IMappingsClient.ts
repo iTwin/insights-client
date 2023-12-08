@@ -1,13 +1,35 @@
 /*---------------------------------------------------------------------------------------------
-* Copyright (c) Bentley Systems, Incorporated. All rights reserved.
-* See LICENSE.md in the project root for license terms and full copyright notice.
-*--------------------------------------------------------------------------------------------*/
+ * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
+ * See LICENSE.md in the project root for license terms and full copyright notice.
+ *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
-import type { CalculatedProperty, CalculatedPropertyCreate, CalculatedPropertyUpdate } from "../interfaces/CalculatedProperties";
-import type { CustomCalculation, CustomCalculationCreate, CustomCalculationUpdate } from "../interfaces/CustomCalculations";
-import type { GroupProperty, GroupPropertyCreate, GroupPropertyUpdate } from "../interfaces/GroupProperties";
-import type { Group, GroupCreate, GroupUpdate } from "../interfaces/Groups";
-import type { Mapping, MappingCopy, MappingCreate, MappingUpdate } from "../interfaces/Mappings";
+import type {
+  CalculatedProperty,
+  CalculatedPropertyCreate,
+  CalculatedPropertyUpdate,
+} from "../interfaces/CalculatedProperties";
+import type {
+  CustomCalculation,
+  CustomCalculationCreate,
+  CustomCalculationUpdate,
+} from "../interfaces/CustomCalculations";
+import type {
+  GroupProperty,
+  GroupPropertyCreate,
+  GroupPropertyUpdate,
+} from "../interfaces/GroupProperties";
+import type {
+  Group,
+  GroupCreate,
+  GroupCreateCopy,
+  GroupUpdate,
+} from "../interfaces/Groups";
+import type {
+  Mapping,
+  MappingCopy,
+  MappingCreate,
+  MappingUpdate,
+} from "../interfaces/Mappings";
 import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IMappingsClient {
@@ -161,6 +183,20 @@ export interface IMappingsClient {
     iModelId: string,
     mappingId: string,
     group: GroupCreate
+  ): Promise<Group>;
+
+  /**
+   * Copy a Group for a Mapping.
+   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {string} mappingId The Mapping Id.
+   * @param {GroupCreateCopy} group Request body.
+   * @memberof ReportingClient
+   * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/create-group/
+   */
+  copyGroup(
+    accessToken: AccessToken,
+    mappingId: string,
+    group: GroupCreateCopy
   ): Promise<Group>;
 
   /**
