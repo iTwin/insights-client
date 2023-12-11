@@ -217,8 +217,8 @@ describe("Mapping Client", () => {
       query: "select * from biscore.element limit 10",
       source: {
         mappingId: mappingIds[0],
-        groupId: groupId
-      }
+        groupId,
+      },
     };
     const group = await mappingsClient.copyGroup(accessToken, mappingIds[0], newGroup);
     expect(group).to.not.be.undefined;

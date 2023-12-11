@@ -112,7 +112,6 @@ export interface SourceGroupReference {
   groupId: string;
 }
 
-
 /**
  * Container for a Group object.
  * @export
