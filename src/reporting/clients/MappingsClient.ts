@@ -11,7 +11,7 @@ import { OperationsBase } from "../../common/OperationsBase";
 import { CalculatedProperty, CalculatedPropertyCollection, CalculatedPropertyCreate, CalculatedPropertySingle, CalculatedPropertyType, CalculatedPropertyUpdate } from "../interfaces/CalculatedProperties";
 import type { CustomCalculation, CustomCalculationCollection, CustomCalculationCreate, CustomCalculationSingle, CustomCalculationUpdate } from "../interfaces/CustomCalculations";
 import { DataType, ECProperty, GroupProperty, GroupPropertyCollection, GroupPropertyCreate, GroupPropertySingle, GroupPropertyUpdate } from "../interfaces/GroupProperties";
-import type { Group, GroupCollection, GroupCreate, GroupSingle, GroupUpdate } from "../interfaces/Groups";
+import type { Group, GroupCollection, GroupCreate, GroupCreateCopy, GroupSingle, GroupUpdate } from "../interfaces/Groups";
 import type { Mapping, MappingCollection, MappingCopy, MappingCreate, MappingSingle, MappingUpdate } from "../interfaces/Mappings";
 import type { IMappingsClient } from "./IMappingsClient";
 
@@ -190,6 +190,35 @@ export class MappingsClient extends OperationsBase implements IMappingsClient{
 
     const url = `${this.basePath}/datasources/imodels/${encodeURIComponent(iModelId)}/mappings/${encodeURIComponent(mappingId)}/groups`;
     const requestOptions: RequestInit =  this.createRequest("POST", accessToken, JSON.stringify(group));
+    return (await this.fetchJSON<GroupSingle>(url, requestOptions)).group;
+  }
+
+  public async copyGroup(
+    accessToken: AccessToken,
+    mappingId: string,
+    group: GroupCreateCopy
+  ): Promise<Group> {
+    if (!this.isSimpleIdentifier(group.groupName)) {
+      throw new RequiredError(
+        "groupName",
+        "Required field groupName was invalid."
+      );
+    }
+    if (this.isNullOrWhitespace(group.query)) {
+      throw new RequiredError(
+        "query",
+        "Required field query was null or undefined."
+      );
+    }
+
+    const url = `${
+      this.groupingAndMappingBasePath
+    }/datasources/imodel-mappings/${encodeURIComponent(mappingId)}/groups`;
+    const requestOptions: RequestInit = this.createRequest(
+      "POST",
+      accessToken,
+      JSON.stringify(group)
+    );
     return (await this.fetchJSON<GroupSingle>(url, requestOptions)).group;
   }
 
