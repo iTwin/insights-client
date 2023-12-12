@@ -20,6 +20,7 @@ export interface ApisConfigValues {
   iModels: ApiConfigValues;
   reporting: ApiConfigValues;
   carbonCalculation: ApiConfigValues;
+  groupingAndMapping: ApiConfigValues;
 }
 
 export interface TestUserConfigValues {
