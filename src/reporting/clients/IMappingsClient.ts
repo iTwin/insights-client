@@ -165,7 +165,7 @@ export interface IMappingsClient {
 
   /**
    * Copy a Group for a Mapping.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {string} accessToken OAuth access token with scope `imodels:modify`.
    * @param {string} mappingId The Mapping Id.
    * @param {GroupCreateCopy} group Request body.
    * @memberof ReportingClient
