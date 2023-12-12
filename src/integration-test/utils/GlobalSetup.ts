@@ -59,7 +59,7 @@ export async function mochaGlobalSetup() {
   configurationsClient = new EC3ConfigurationsClient(config.apis.carbonCalculation.baseUrl);
   jobsClient = new EC3JobsClient(config.apis.carbonCalculation.baseUrl);
   extractionClient = new ExtractionClient(config.apis.reporting.baseUrl);
-  mappingsClient = new MappingsClient(config.apis.reporting.baseUrl);
+  mappingsClient = new MappingsClient(config.apis.reporting.baseUrl, config.apis.reporting.groupingAndMappingBaseUrl);
   oDataClient = new ODataClient(config.apis.reporting.baseUrl);
   aggregationsClient = new AggregationsClient(config.apis.reporting.baseUrl);
 }

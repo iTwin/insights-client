@@ -11,6 +11,7 @@ export interface AuthConfigValues {
 
 export interface ApiConfigValues {
   baseUrl: string;
+  groupingAndMappingBaseUrl?: string,
   version?: string;
   scopes: string;
 }
