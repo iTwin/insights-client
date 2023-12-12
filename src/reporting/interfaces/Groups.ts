@@ -84,6 +84,35 @@ export interface GroupCreate {
 }
 
 /**
+ * Properties of the GroupCopy to be created.
+ * @export
+ * @interface GroupCreateCopy
+ */
+export interface GroupCreateCopy extends GroupCreate {
+  /**
+   * Ids used for copying a group.
+   * @type {SourceGroupReference}
+   * @memberof GroupCreateCopy
+   */
+  source: SourceGroupReference;
+}
+
+export interface SourceGroupReference {
+  /**
+   * Id of a mapping that contains the group being copied.
+   * @type {string}
+   * @memberof SourceGroupReference
+   */
+  mappingId: string;
+  /**
+   * Id of a group to copy.
+   * @type {string}
+   * @memberof SourceGroupReference
+   */
+  groupId: string;
+}
+
+/**
  * Container for a Group object.
  * @export
  * @interface GroupSingle

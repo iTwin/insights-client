@@ -1,5 +1,12 @@
 # Change Log - @itwin/insights-client
 
+## 0.5.4
+Tuesday, 12 December, 2023
+### Minor
+- Added `GroupCreateCopy` and `SourceGroupReference` interfaces.
+- Added new base path `GROUPING_AND_MAPPING_BASE_PATH`.
+- Added `copyGroup` function to implement group copying functionaliy.
+
 ## 0.5.3
 Tuesday, 19 September, 2023
 ### Minor

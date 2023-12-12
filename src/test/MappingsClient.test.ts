@@ -5,7 +5,7 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { CalculatedProperty, CalculatedPropertyCreate, CalculatedPropertyType, CustomCalculation, CustomCalculationCreate, DataType, ECProperty, Group, GroupCreate, GroupProperty, GroupPropertyCreate, GroupUpdate, Mapping, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, QuantityType } from "../reporting";
+import { CalculatedProperty, CalculatedPropertyCreate, CalculatedPropertyType, CustomCalculation, CustomCalculationCreate, DataType, ECProperty, Group, GroupCreate, GroupCreateCopy, GroupProperty, GroupPropertyCreate, GroupUpdate, Mapping, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, QuantityType } from "../reporting";
 use(chaiAsPromised);
 
 describe("mappingsClient", () => {
@@ -327,6 +327,33 @@ describe("mappingsClient", () => {
       "auth",
       JSON.stringify(newGroup)
     )).to.be.true;
+  });
+
+  it("Groups - Copy", async () => {
+    const newGroup: GroupCreateCopy = {
+      groupName: "Test",
+      query: "auth",
+      source: {
+        mappingId: "2",
+        groupId: "3",
+      },
+    };
+    const returns = {
+      group: {
+        id: "1",
+      },
+    };
+    fetchStub.resolves(returns);
+    const group = await mappingsClient.copyGroup("auth", "mappingId", newGroup);
+    expect(group.id).to.be.eq("1");
+    expect(
+      fetchStub.calledWith(
+        "https://api.bentley.com/grouping-and-mapping/datasources/imodel-mappings/mappingId/groups",
+        "pass"
+      )
+    ).to.be.true;
+    expect(requestStub.calledWith("POST", "auth", JSON.stringify(newGroup))).to
+      .be.true;
   });
 
   it("Groups - Update", async () => {

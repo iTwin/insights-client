@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingCreate, MappingUpdate, QuantityType } from "../../reporting";
+import { CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, GroupCreate, GroupCreateCopy, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingCreate, MappingUpdate, QuantityType } from "../../reporting";
 import "reflect-metadata";
 import { accessToken, mappingsClient, testIModel } from "../utils/";
 use(chaiAsPromised);
@@ -204,6 +204,23 @@ describe("Mapping Client", () => {
       query: "select * from biscore.element limit 10",
     };
     const group = await mappingsClient.createGroup(accessToken, testIModel.id, mappingIds[0], newGroup);
+    expect(group).to.not.be.undefined;
+    expect(group.groupName).to.be.eq("Test");
+
+    const response = await mappingsClient.deleteGroup(accessToken, testIModel.id, mappingIds[0], group.id);
+    expect(response.status).to.be.eq(204);
+  });
+
+  it("Groups - Copy and delete", async () => {
+    const newGroup: GroupCreateCopy = {
+      groupName: "Test",
+      query: "select * from biscore.element limit 10",
+      source: {
+        mappingId: mappingIds[0],
+        groupId,
+      },
+    };
+    const group = await mappingsClient.copyGroup(accessToken, mappingIds[0], newGroup);
     expect(group).to.not.be.undefined;
     expect(group.groupName).to.be.eq("Test");
 
