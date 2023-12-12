@@ -1,5 +1,13 @@
 # Change Log - @itwin/insights-client
 
+## 0.5.4
+Tuesday, 12 December, 2023
+### Minor
+- Added `GroupCreateCopy` and `SourceGroupReference` interfaces.
+- Added `GROUPING_AND_MAPPING_BASE_PATH` in `OperationsBase.ts`.
+- Added `copyGroup` function in `MappingsClient.ts` to implement group copying functionaliy.
+- Added the unit test and integration test for the new group copying functionality.
+
 ## 0.5.3
 Tuesday, 19 September, 2023
 ### Minor
