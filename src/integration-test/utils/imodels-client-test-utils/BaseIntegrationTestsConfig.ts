@@ -11,7 +11,6 @@ export interface AuthConfigValues {
 
 export interface ApiConfigValues {
   baseUrl: string;
-  groupingAndMappingBaseUrl?: string;
   version?: string;
   scopes: string;
 }
@@ -21,6 +20,7 @@ export interface ApisConfigValues {
   iModels: ApiConfigValues;
   reporting: ApiConfigValues;
   carbonCalculation: ApiConfigValues;
+  groupingAndMapping: ApiConfigValues;
 }
 
 export interface TestUserConfigValues {

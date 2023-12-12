@@ -43,12 +43,15 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
       },
       reporting: {
         baseUrl: process.env.APIS_REPORTING_BASE_URL ?? REPORTING_BASE_PATH,
-        groupingAndMappingBaseUrl: process.env.APIS_GROUPING_AND_MAPPING_BASE_URL ?? GROUPING_AND_MAPPING_BASE_PATH,
         scopes: process.env.APIS_REPORTING_SCOPES ?? "",
       },
       carbonCalculation: {
         baseUrl: process.env.APIS_CARBONCALCULATION_BASE_URL ?? CARBON_CALCULATION_BASE_PATH,
         scopes: process.env.APIS_CARBONCALCULATION_BASE_SCOPES ?? "",
+      },
+      groupingAndMapping: {
+        baseUrl: process.env.APIS_GROUPING_AND_MAPPING_BASE_URL ?? GROUPING_AND_MAPPING_BASE_PATH,
+        scopes: process.env.APIS_GROUPING_AND_MAPPING_SCOPES ?? "",
       },
     };
 
@@ -82,6 +85,7 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
 
     this.validateConfigValue("APIS_REPORTING_BASE_URL");
     this.validateConfigValue("APIS_CARBONCALCULATION_BASE_URL");
+    this.validateConfigValue("APIS_GROUPING_AND_MAPPING_BASE_URL");
 
     this.validateConfigValue("TEST_USERS_ADMIN1_EMAIL");
     this.validateConfigValue("TEST_USERS_ADMIN1_PASSWORD");
