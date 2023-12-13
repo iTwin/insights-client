@@ -7,20 +7,20 @@ Tuesday, 12 December, 2023
 
 ## 0.5.4
 Tuesday, 12 December, 2023
-### Minor
+### Patches
 - Added `GroupCreateCopy` and `SourceGroupReference` interfaces.
 - Added new base path `GROUPING_AND_MAPPING_BASE_PATH`.
 - Added `copyGroup` function to implement group copying functionaliy.
 
 ## 0.5.3
 Tuesday, 19 September, 2023
-### Minor
+### Patches
 - Added `ExtractionRunRequest` interface.
 - Added optional `extractionRequest` parameter in `runExtraction` function to specify Extraction properties.
 
 ## 0.5.2
 Tuesday, 12 July, 2023
-### Minor
+### Patches
 - Added `AggregationClient` and `IAggregationClient` files to clients and `AggregationProperties` to interfaces for implementing the aggregation functionalities.
 - Added funtions in `IReportsClient`, `ReportsClient` and `Reports` to implement the aggregation functionalities.
 - Added the unit tests and integration tests for the aggregation client functionalities.
@@ -32,18 +32,14 @@ Fri, 7 Jul 2023
 
 ## 0.5.0
 Wed, 5 Jul 2023
-
 ### Minor
 - ### Changes to Interfaces
   - `EC3ConfigurationClient` `getConfigurations` return type has been corrected to match actual response.
     - `EC3Configuration` > `EC3ConfigurationMinimal`
 
 ## 0.4.0
-
 Thu, 3 Mar 2023
-
 ### Minor
-
 - Removed `url` dependency.
 - Environment variables for example, `IMJS_URL_PREFIX`, have been removed.
 - ### Renamed OneClickLCA Client and methods
@@ -68,18 +64,12 @@ Thu, 3 Mar 2023
   - In `OCLCAJobStatus.status`, the type `StatusEnum` and associated namespace were removed and replaced with `CarbonUploadState`.
 
 ## 0.3.4
-
 Fri, 25 Nov 2022
-
 ### Patches
-
 - Added missing base path exports.
 
 ## 0.3.3
-
 Tue, 15 Nov 2022
-
 ### Patches
-
 - Added EC3 Jobs client.
 - Added EC3 Configurations client.
