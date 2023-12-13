@@ -2,7 +2,7 @@
 
 ## 0.5.4
 Tuesday, 12 December, 2023
-### Minor
+### Patches
 - Added `GroupCreateCopy` and `SourceGroupReference` interfaces.
 - Added new base path `GROUPING_AND_MAPPING_BASE_PATH`.
 - Added `copyGroup` function to implement group copying functionaliy.
