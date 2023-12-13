@@ -151,7 +151,7 @@ export interface ExtractionLog {
    * @type {string}
    * @memberof ExtractionLog
    */
-  message?: string;
+  message: string | null;
   /**
    * If Extraction Log contains an issue, this is marked as true.
    * @type {boolean}

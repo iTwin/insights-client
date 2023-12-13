@@ -1,5 +1,10 @@
 # Change Log - @itwin/insights-client
 
+## 0.6.0
+Tuesday, 12 December, 2023
+### Minor
+- Fixed `ExtractionLog` `message` type.
+
 ## 0.5.4
 Tuesday, 12 December, 2023
 ### Patches
