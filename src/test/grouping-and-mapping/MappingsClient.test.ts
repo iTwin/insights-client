@@ -3,12 +3,12 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
-import { MappingsClient } from "../../grouping-and-mapping/clients/MappingsClient";
+import { MappingsClientV2 } from "../../grouping-and-mapping/clients/MappingsClientV2";
 import { MappingContainer, MappingCreate } from "../../grouping-and-mapping/interfaces/Mappings";
 import * as sinon from "sinon";
 
 describe.only("Mappings Client Unit tests", ()=> {
-  const mappingsClient: MappingsClient = new MappingsClient();
+  const mappingsClient: MappingsClientV2 = new MappingsClientV2();
   let fetchStub: sinon.SinonStub;
   let requestStub: sinon.SinonStub;
 

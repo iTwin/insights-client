@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 
-import { Link } from "../../common/Links";
+import { Link, PagedResponseLinks } from "../../common/Links";
 
 /**
  * Contains contextual hyperlinks to related data.
@@ -121,6 +121,27 @@ export interface MappingCreate {
   sourceMappingId?: string;
 }
 
+export interface MappingUpdate {
+  /**
+    * Name of the Mapping (OData v4 SimpleIdentifier).
+    * @type {string}
+    * @memberof MappingUpdate
+    */
+  mappingName?: string;
+  /**
+    * Description of the Mapping.
+    * @type {string}
+    * @memberof MappingUpdate
+    */
+  description?: string;
+  /**
+    * Value of false excludes the mapping from the Run Extraction operation and automatic Data Extraction execution after new changes to the iModel are ready to be processed.
+    * @type {boolean}
+    * @memberof MappingUpdate
+    */
+  extractionEnabled?: boolean;
+}
+
 /**
  * Container for a Mapping object.
  * @export
@@ -133,4 +154,25 @@ export interface MappingContainer {
      * @memberof MappingSingle
      */
   mapping: Mapping;
+}
+
+/**
+ * List of Mappings.
+ * @export
+ * @interface MappingCollection
+ */
+export interface MappingCollection {
+  /**
+    * List of Mappings.
+    * @type {Array<Mapping>}
+    * @memberof MappingCollection
+    */
+  mappings: Array<Mapping>;
+  /**
+    *
+    * @type {PagedResponseLinks}
+    * @memberof MappingCollection
+    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  _links: PagedResponseLinks;
 }
