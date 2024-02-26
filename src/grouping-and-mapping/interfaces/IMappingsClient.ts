@@ -1,5 +1,6 @@
 import { AccessToken } from "@itwin/core-bentley";
 import { Mapping, MappingCreate, MappingUpdate } from "./Mappings";
+import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IMappingsClient {
   /**
@@ -30,14 +31,25 @@ export interface IMappingsClient {
   getMapping(accessToken: AccessToken, mappingId: string): Promise<Mapping>;
 
   /**
-   * Gets all mappings of an iModel.
-   * @param {string} accessToken OAuth access token with scope `imodels:read`.
+   * Gets an async paged iterator of Mappings for an iModel.
+   * This method returns an iterator which loads pages of mappings as it is being iterated over.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {string} iModelId The iModel Id.
-   * @param {number} top Optional max items to be sent in response.
+   * @param {number} top The number of entities to load per page.
    * @memberof MappingsClient
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-mappings/
    */
-  // getMappings(accessToken: AccessToken, iModelId: string, top?: number): Promise<Mapping[]>;
+  getMappingsIterator(accessToken: AccessToken, iModelId: string, top?: number): EntityListIterator<Mapping>;
+
+  /**
+   * Gets all Mappings for an iModel. This method returns the full list of mappings.
+   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {string} iModelId The iModel Id.
+   * @param {number} top The number of entities to load per page.
+   * @memberof MappingsClient
+   * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-mappings/
+   */
+  getMappings( accessToken: AccessToken, iModelId: string, top?: number ): Promise<Mapping[]>;
 
   /**
    * Updates a Mapping for an iModel.
@@ -47,4 +59,5 @@ export interface IMappingsClient {
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/update-mapping/
    */
   updateMapping(accessToken: AccessToken, mappingId: string, mappingUpdate: MappingUpdate): Promise<Mapping>;
+
 }
