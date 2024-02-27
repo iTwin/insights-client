@@ -1,5 +1,5 @@
 import { AccessToken } from "@itwin/core-bentley";
-import { Mapping, MappingCreate, MappingUpdate } from "./Mappings";
+import { Mapping, MappingCreate, MappingExtraction, MappingUpdate } from "./Mappings";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IMappingsClient {
@@ -60,4 +60,11 @@ export interface IMappingsClient {
    */
   updateMapping(accessToken: AccessToken, mappingId: string, mappingUpdate: MappingUpdate): Promise<Mapping>;
 
+  /**
+   * Gets a list of extractions executed on a mapping.
+   * @param {string} mappingId The Mapping id
+   * @param {number} top Optional max items to be sent in response
+   * continuationToken ??
+   */
+  getMappingExtractions(accessToken: AccessToken, mappingId: string, top?: number): Promise<MappingExtraction[]>;
 }

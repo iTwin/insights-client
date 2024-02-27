@@ -15,6 +15,7 @@ describe.only("Mappings Client Integration Tests", ()=> {
       iModelId: testIModel.id,
       mappingName: "mappingZero",
       description: "Mapping created for testing",
+      extractionEnabled: true,
     });
     mappingIds.push(mappingZero.id);
 
@@ -103,6 +104,15 @@ describe.only("Mappings Client Integration Tests", ()=> {
     expect(updatedMapping.id).to.deep.equal(mappingIds[2]);
     expect(updatedMapping.mappingName).to.deep.equal("UpdatedMapping");
     expect(updatedMapping.description).to.deep.equal("Updated mapping test");
+  });
+
+  it("Mappings - Get mapping extractions", async ()=> {
+    await mappingsClientV2.getMapping(accessToken, mappingIds[0]);
+    await mappingsClientV2.getMapping(accessToken, mappingIds[0]);
+
+    const extractions = await mappingsClientV2.getMappingExtractions(accessToken, mappingIds[0], 2);
+
+    expect(extractions).not.be.undefined;
   });
 
 });
