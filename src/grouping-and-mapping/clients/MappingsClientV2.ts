@@ -28,19 +28,19 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
   }
 
   public async updateMapping(accessToken: string, mappingId: string, mappingUpdate: MappingUpdate): Promise<Mapping> {
-    const url = `${this._mappingsUrl}/${mappingId}`;
+    const url = `${this._mappingsUrl}/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(mappingUpdate));
     return (await this.fetchJSON<MappingContainer>(url, requestOptions)).mapping;
   }
 
   public async deleteMapping(accessToken: AccessToken, mappingId: string): Promise<Response> {
-    const url = `${this._mappingsUrl}/${mappingId}`;
+    const url = `${this._mappingsUrl}/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
     return this.fetchJSON<Response>(url, requestOptions);
   }
 
   public async getMapping(accessToken: AccessToken, mappingId: string): Promise<Mapping> {
-    const url = `${this._mappingsUrl}/${mappingId}`;
+    const url = `${this._mappingsUrl}/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     return (await this.fetchJSON<MappingContainer>(url, requestOptions)).mapping;
   }
@@ -52,7 +52,9 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
-    const url = top ? `${this._mappingsUrl}?iModelId=${iModelId}&$top=${top}` : `${this._mappingsUrl}?iModelId=${iModelId}`;
+    const url = top ? `${this._mappingsUrl}?iModelId=${encodeURIComponent(iModelId)}&$top=${top}` :
+      `${this._mappingsUrl}?iModelId=${encodeURIComponent(iModelId)}`;
+
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl( async ()=> getEntityCollectionPage(url, async (nextUrl: string)=> {
       const response = await this.fetchJSON<MappingCollection>(nextUrl, request);
@@ -65,8 +67,7 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
 
   public async getMappings(accessToken: string, iModelId: string, top?: number | undefined ): Promise<Mapping[]> {
     return toArray<Mapping>(
-      this.getMappingsIterator(accessToken, iModelId, top)
-    );
+      this.getMappingsIterator(accessToken, iModelId, top));
   }
 
   public getMappingExtractionsIterator(accessToken: string, mappingId: string, top?: number | undefined): EntityListIterator<MappingExtraction> {
@@ -76,7 +77,8 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
-    const url = top ? `${this._mappingsUrl}/${mappingId}/extractions?$top=${top}` : `${this._mappingsUrl}/${mappingId}/extractions`;
+    const url = top ? `${this._mappingsUrl}/${encodeURIComponent(mappingId)}/extractions?$top=${top}` :
+      `${this._mappingsUrl}/${encodeURIComponent(mappingId)}/extractions`;
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl( async ()=> getEntityCollectionPage(url, async (nextUrl: string)=> {
       const response = await this.fetchJSON<MappingExtractionCollection>(nextUrl, request);
@@ -89,8 +91,7 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
 
   public async getMappingExtractions(accessToken: string, mappingId: string, top?: number | undefined): Promise<MappingExtraction[]> {
     return toArray<MappingExtraction>(
-      this.getMappingExtractionsIterator(accessToken, mappingId, top)
-    );
+      this.getMappingExtractionsIterator(accessToken, mappingId, top));
   }
 
 }
