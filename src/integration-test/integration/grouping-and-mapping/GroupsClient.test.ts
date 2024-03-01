@@ -7,7 +7,7 @@ import { Mapping } from "../../../grouping-and-mapping/interfaces/Mappings";
 import { accessToken, groupsClient, mappingsClientV2, testIModel } from "../../utils";
 import { Group, GroupUpdate } from "../../../grouping-and-mapping/interfaces/Groups";
 
-describe.only("Groups Client Tests", async ()=>{
+describe("Groups Client Tests", async ()=>{
   let mappingForGroups: Mapping;
   let groupOne: Group;
   let groupTwo: Group;
@@ -74,7 +74,6 @@ describe.only("Groups Client Tests", async ()=>{
         expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.groupName);
       }
     }
-
     expect(flag).to.be.true;
   });
 

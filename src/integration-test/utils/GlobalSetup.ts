@@ -21,6 +21,7 @@ import { AggregationsClient } from "../../reporting/clients/AggregationsClient";
 
 import { MappingsClientV2 } from "../../grouping-and-mapping/clients/MappingsClientV2";
 import { GroupsClient } from "../../grouping-and-mapping/clients/GroupsClient";
+import { PropertiesClient } from "../../grouping-and-mapping/clients/PropertiesClient";
 
 let testRunId: string;
 export function getTestRunId(): string {
@@ -38,8 +39,11 @@ export let configurationsClient: EC3ConfigurationsClient;
 export let jobsClient: EC3JobsClient;
 export let extractionClient: ExtractionClient;
 export let mappingsClient: MappingsClient;
+
 export let mappingsClientV2: MappingsClientV2;
 export let groupsClient: GroupsClient;
+export let propertiesClient: PropertiesClient;
+
 export let oDataClient: ODataClient;
 export let aggregationsClient: AggregationsClient;
 
@@ -65,8 +69,11 @@ export async function mochaGlobalSetup() {
   jobsClient = new EC3JobsClient(config.apis.carbonCalculation.baseUrl);
   extractionClient = new ExtractionClient(config.apis.reporting.baseUrl);
   mappingsClient = new MappingsClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
+
   mappingsClientV2 = new MappingsClientV2(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
   groupsClient = new GroupsClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
+  propertiesClient = new PropertiesClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
+
   oDataClient = new ODataClient(config.apis.reporting.baseUrl);
   aggregationsClient = new AggregationsClient(config.apis.reporting.baseUrl);
 }
