@@ -13,7 +13,7 @@ describe.only("Groups Client Tests", async ()=>{
   let groupTwo: Group;
   let groupThree: Group;
 
-  beforeEach(async ()=> {
+  before(async ()=> {
     // Create mappings for testing
     mappingForGroups = await mappingsClientV2.createMapping(accessToken, {
       iModelId: testIModel.id,
@@ -41,9 +41,41 @@ describe.only("Groups Client Tests", async ()=>{
     });
   });
 
-  // Create test groups
   after(async () => {
     await mappingsClientV2.deleteMapping(accessToken, mappingForGroups.id);
+  });
+
+  it("Groups - Get group", async ()=> {
+    const getGroupTwo = await groupsClient.getGroup(accessToken, mappingForGroups.id, groupTwo.id);
+    const getGroupThree = await groupsClient.getGroup(accessToken, mappingForGroups.id, groupThree.id);
+
+    expect(getGroupTwo.groupName).to.deep.equal(groupTwo.groupName);
+    expect(getGroupThree.groupName).to.deep.equal(groupThree.groupName);
+  });
+
+  it("Groups - Get all groups", async ()=> {
+    const groups = await groupsClient.getGroups(accessToken, mappingForGroups.id);
+    for(const group of groups.groups){
+      expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.groupName);
+    }
+  });
+
+  it("Groups - Get top groups", async ()=> {
+    const topGroups = await groupsClient.getGroups(accessToken, mappingForGroups.id, 2);
+    expect(topGroups.groups.length).to.equal(2);
+  });
+
+  it("Groups - Get pages of groups", async ()=> {
+    const groupsIterator = groupsClient.getGroupsIterator(accessToken, mappingForGroups.id, 2);
+    let flag = false;
+    for await (const groupsPage of groupsIterator.byPage()) {
+      flag = true;
+      for(const group of groupsPage){
+        expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.groupName);
+      }
+    }
+
+    expect(flag).to.be.true;
   });
 
   it("Groups - Create and Delete", async ()=> {
@@ -71,39 +103,6 @@ describe.only("Groups Client Tests", async ()=>{
     expect(updatedGroup.groupName).not.be.undefined;
     expect(updatedGroup.groupName).to.deep.equal(updatedGroupOne.groupName);
     expect(updatedGroup.description).to.deep.equal(updatedGroupOne.description);
-  });
-
-  it("Groups - Get group", async ()=> {
-    const getGroupTwo = await groupsClient.getGroup(accessToken, mappingForGroups.id, groupTwo.id);
-    const getGroupThree = await groupsClient.getGroup(accessToken, mappingForGroups.id, groupThree.id);
-
-    expect(getGroupTwo.groupName).to.deep.equal(groupTwo.groupName);
-    expect(getGroupThree.groupName).to.deep.equal(groupThree.groupName);
-  });
-
-  it("Groups - Get all groups", async ()=> {
-    const groups = await groupsClient.getGroups(accessToken, mappingForGroups.id);
-    for(const group of groups){
-      expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.groupName);
-    }
-  });
-
-  it("Groups - Get top groups", async ()=> {
-    const topGroups = await groupsClient.getGroups(accessToken, mappingForGroups.id, 2);
-    expect(topGroups.length).to.equal(2);
-  });
-
-  it("Groups - Get pages of groups", async ()=> {
-    const groupsIterator = groupsClient.getGroupsIterator(accessToken, mappingForGroups.id, 2);
-    let flag = false;
-    for await (const groupsPage of groupsIterator.byPage()) {
-      flag = true;
-      for(const group of groupsPage){
-        expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.groupName);
-      }
-    }
-
-    expect(flag).to.be.true;
   });
 
 });

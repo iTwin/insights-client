@@ -6,7 +6,7 @@ import { expect } from "chai";
 import { MappingCreate, MappingUpdate } from "../../../grouping-and-mapping/interfaces/Mappings";
 import { accessToken, mappingsClientV2, testIModel } from "../../utils";
 
-describe("Mappings Client Integration Tests", ()=> {
+describe.only("Mappings Client Integration Tests", ()=> {
   let mappingIds: Array<string> = [];
 
   before(async () => {
@@ -39,7 +39,7 @@ describe("Mappings Client Integration Tests", ()=> {
     mappingIds = [];
   });
 
-  it("Mappings - Get mappings iterator", async ()=> {
+  it("Mappings - Get mappings with iterator", async ()=> {
     const mappingsIt = mappingsClientV2.getMappingsIterator(accessToken, testIModel.id, 2);
     let flag = false;
     for await(const mapping of mappingsIt) {
@@ -51,12 +51,17 @@ describe("Mappings Client Integration Tests", ()=> {
   });
 
   it("Mappings - Get all mappings", async ()=> {
-    const mappings = await mappingsClientV2.getMappings(accessToken, testIModel.id);
+    const mappings = (await mappingsClientV2.getMappings(accessToken, testIModel.id)).mappings;
     expect(mappings).to.not.be.undefined;
 
     for(const mapping of mappings) {
       expect(["mappingZero", "mappingOne", "mappingTwo"]).to.include(mapping.mappingName);
     }
+  });
+
+  it("Mappings - Get top mappings", async ()=> {
+    const mappings = (await mappingsClientV2.getMappings(accessToken, testIModel.id, 2)).mappings;
+    expect(mappings.length).to.be.equal(2);
   });
 
   it("Mappings - Get mapping", async ()=> {
@@ -107,11 +112,7 @@ describe("Mappings Client Integration Tests", ()=> {
   });
 
   it("Mappings - Get mapping extractions", async ()=> {
-    await mappingsClientV2.getMapping(accessToken, mappingIds[0]);
-    await mappingsClientV2.getMapping(accessToken, mappingIds[0]);
-
     const extractions = await mappingsClientV2.getMappingExtractions(accessToken, mappingIds[0], 2);
-
     expect(extractions).not.be.undefined;
   });
 

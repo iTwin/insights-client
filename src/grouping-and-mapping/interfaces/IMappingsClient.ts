@@ -1,5 +1,5 @@
 import { AccessToken } from "@itwin/core-bentley";
-import { Mapping, MappingCreate, MappingExtraction, MappingUpdate } from "./Mappings";
+import { Mapping, MappingCollection, MappingCreate, MappingExtractionCollection, MappingUpdate } from "./Mappings";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IMappingsClient {
@@ -35,7 +35,7 @@ export interface IMappingsClient {
    * This method returns an iterator which loads pages of mappings as it is being iterated over.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {string} iModelId The iModel Id.
-   * @param {number} top The number of entities to load per page.
+   * @param {number} top The number of mappings that are at the top to return.
    * @memberof MappingsClient
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-mappings/
    */
@@ -45,11 +45,11 @@ export interface IMappingsClient {
    * Gets all Mappings for an iModel. This method returns the full list of mappings.
    * @param {string} accessToken OAuth access token with scope `insights:read`.
    * @param {string} iModelId The iModel Id.
-   * @param {number} top The number of entities to load per page.
+   * @param {number} top The number of mappings that are at the top to return.
    * @memberof MappingsClient
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-mappings/
    */
-  getMappings( accessToken: AccessToken, iModelId: string, top?: number ): Promise<Mapping[]>;
+  getMappings( accessToken: AccessToken, iModelId: string, top?: number ): Promise<MappingCollection>;
 
   /**
    * Updates a Mapping for an iModel.
@@ -66,5 +66,5 @@ export interface IMappingsClient {
    * @param {number} top Optional max items to be sent in response
    * continuationToken ??
    */
-  getMappingExtractions(accessToken: AccessToken, mappingId: string, top?: number): Promise<MappingExtraction[]>;
+  getMappingExtractions(accessToken: AccessToken, mappingId: string, top?: number): Promise<MappingExtractionCollection>;
 }

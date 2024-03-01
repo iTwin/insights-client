@@ -10,7 +10,7 @@ import { IMappingsClient } from "../interfaces/IMappingsClient";
 import { Mapping, MappingCollection, MappingContainer, MappingCreate, MappingExtraction, MappingExtractionCollection, MappingUpdate } from "../interfaces/Mappings";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
-import { getEntityCollectionPage, toArray } from "../../common/iterators/IteratorUtil";
+import { getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
 
 export class MappingsClientV2 extends OperationsBase implements IMappingsClient {
   private _mappingsUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings`;
@@ -27,7 +27,7 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
     return (await this.fetchJSON<MappingContainer>(this._mappingsUrl, requestOptions)).mapping;
   }
 
-  public async updateMapping(accessToken: string, mappingId: string, mappingUpdate: MappingUpdate): Promise<Mapping> {
+  public async updateMapping(accessToken: AccessToken, mappingId: string, mappingUpdate: MappingUpdate): Promise<Mapping> {
     const url = `${this._mappingsUrl}/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(mappingUpdate));
     return (await this.fetchJSON<MappingContainer>(url, requestOptions)).mapping;
@@ -45,7 +45,7 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
     return (await this.fetchJSON<MappingContainer>(url, requestOptions)).mapping;
   }
 
-  public getMappingsIterator(accessToken: string, iModelId: string, top?: number | undefined): EntityListIterator<Mapping> {
+  public getMappingsIterator(accessToken: AccessToken, iModelId: string, top?: number | undefined): EntityListIterator<Mapping> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -65,12 +65,22 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
     }));
   }
 
-  public async getMappings(accessToken: string, iModelId: string, top?: number | undefined ): Promise<Mapping[]> {
-    return toArray<Mapping>(
-      this.getMappingsIterator(accessToken, iModelId, top));
+  public async getMappings(accessToken: AccessToken, iModelId: string, top?: number | undefined ): Promise<MappingCollection> {
+    if(!this.topIsValid(top)) {
+      throw new RequiredError(
+        "top",
+        "Parameter top was outside of the valid range [1-1000]."
+      );
+    }
+
+    const url = top ? `${this._mappingsUrl}?iModelId=${encodeURIComponent(iModelId)}&$top=${top}` :
+      `${this._mappingsUrl}?iModelId=${encodeURIComponent(iModelId)}`;
+    const request = this.createRequest("GET", accessToken);
+    const response = await this.fetchJSON<MappingCollection>(url, request);
+    return response;
   }
 
-  public getMappingExtractionsIterator(accessToken: string, mappingId: string, top?: number | undefined): EntityListIterator<MappingExtraction> {
+  public getMappingExtractionsIterator(accessToken: AccessToken, mappingId: string, top?: number | undefined): EntityListIterator<MappingExtraction> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -89,9 +99,12 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
     }));
   }
 
-  public async getMappingExtractions(accessToken: string, mappingId: string, top?: number | undefined): Promise<MappingExtraction[]> {
-    return toArray<MappingExtraction>(
-      this.getMappingExtractionsIterator(accessToken, mappingId, top));
+  public async getMappingExtractions(accessToken: AccessToken, mappingId: string, top?: number | undefined): Promise<MappingExtractionCollection> {
+    const url = top ? `${this._mappingsUrl}/${encodeURIComponent(mappingId)}/extractions?$top=${top}` :
+      `${this._mappingsUrl}/${encodeURIComponent(mappingId)}/extractions`;
+    const request = this.createRequest("GET", accessToken);
+    const response = await this.fetchJSON<MappingExtractionCollection>(url, request);
+    return response;
   }
 
 }

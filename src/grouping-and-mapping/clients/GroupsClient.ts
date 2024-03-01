@@ -72,7 +72,7 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
     return (await this.fetchJSON<GroupContainer>(url, requestOptions)).group;
   }
 
-  public async getGroups(accessToken: string,  mappingId: string, top?: number | undefined): Promise<Group[]> {
+  public async getGroups(accessToken: string,  mappingId: string, top?: number | undefined): Promise<GroupCollection> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -83,7 +83,7 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
     const url = top ? `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups?$top=${top}` : `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups`;
     const request = this.createRequest("GET", accessToken);
     const response =  await this.fetchJSON<GroupCollection>(url, request);
-    return response.groups;
+    return response;
   }
 
   public getGroupsIterator(accessToken: string,  mappingId: string, top?: number | undefined): EntityListIterator<Group> {
