@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 /* eslint-disable @typescript-eslint/naming-convention */
-import type { Link } from "../../common/Links";
+import type { Link, PagedResponseLinks } from "../../common/Links";
 
 /**
  * Reference to an ECProperty in an iModel.
@@ -190,6 +190,27 @@ export interface PropertyContainer{
     * @memberof PropertyContainer
     */
   property: Property;
+}
+
+/**
+ * List of properties
+ * @exports
+ * @interface PropertyList
+ */
+export interface PropertyList {
+  /**
+   * List of properties
+   * @type {Property[]}
+   * @memberof PropertyList
+   */
+  properties: Property[];
+
+  /**
+   * Contains the hyperlinks to the current and next pages of results.
+   * @type {PagedResponseLinks}
+   * @memberof PagedResponseLinks
+   */
+  _links: PagedResponseLinks;
 }
 
 /**
