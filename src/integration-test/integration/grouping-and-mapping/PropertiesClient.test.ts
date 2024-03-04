@@ -50,7 +50,6 @@ describe.only("Properties Client Tests", ()=> {
       propertyName: "propertyFour",
       dataType: DataType.Double,
     });
-
   });
 
   after(async ()=> {

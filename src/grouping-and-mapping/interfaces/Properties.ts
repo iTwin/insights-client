@@ -111,7 +111,7 @@ export interface Property {
     * @type {string}
     * @memberof Property
     */
-  calculatedPropertyType?: string;
+  calculatedPropertyType?: CalculatedPropertyType;
 
   /**
     * A mathematical formula which will be evaluated for each row returned by the group's query.
@@ -168,7 +168,7 @@ export interface PropertyModify {
     * @type {string}
     * @memberof PropertyModify
     */
-  calculatedPropertyType?: string;
+  calculatedPropertyType?: CalculatedPropertyType;
 
   /**
     * A mathematical formula which will be evaluated for each row returned by the group's query.
@@ -230,7 +230,7 @@ export enum DataType {
 * @export
 * @enum QuantityType
 */
-export enum QuantityType{
+export enum QuantityType {
   Area = "Area",
   Distance = "Distance",
   Force = "Force",
@@ -238,4 +238,17 @@ export enum QuantityType{
   Monetary = "Monetary",
   Time = "Time",
   Volume = "Volume"
+}
+
+export enum CalculatedPropertyType {
+  Volume = "Volume",
+  Length = "Length",
+  Area = "Area",
+  BoundingBoxLongestEdgeLength = "BoundingBoxLongestEdgeLength",
+  BoundingBoxIntermediateEdgeLength = "BoundingBoxIntermediateEdgeLength",
+  BoundingBoxShortestEdgeLength = "BoundingBoxShortestEdgeLength",
+  BoundingBoxDiagonalLength = "BoundingBoxDiagonalLength",
+  BoundingBoxLongestFaceDiagonalLength = "BoundingBoxLongestFaceDiagonalLength",
+  BoundingBoxIntermediateFaceDiagonalLength = "BoundingBoxIntermediateFaceDiagonalLength",
+  BoundingBoxShortestFaceDiagonalLength = "BoundingBoxShortestFaceDiagonalLength"
 }
