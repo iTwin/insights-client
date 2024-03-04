@@ -87,6 +87,22 @@ describe.only("Properties Client Tests", ()=> {
     expect(topProperties._links.next).not.be.undefined;
   });
 
+  it("Properties - Get pages of properties using iterator", async ()=> {
+    const propertiesIterator = propertiesClient.getPropertiesIterator(accessToken, mappingOne.id, groupOne.id, 2);
+
+    for await(const propertiesPage of propertiesIterator.byPage()){
+      expect(propertiesPage.length).to.be.equal(2);
+      for(const property of propertiesPage){
+        expect([
+          propertyOne.propertyName,
+          propertyTwo.propertyName,
+          propertyThree.propertyName,
+          propertyFour.propertyName,
+        ]).to.include(property.propertyName);
+      }
+    }
+  });
+
   it("Properties - Create and Delete", async ()=> {
     const newProperty = await propertiesClient.createProperty(accessToken, mappingOne.id, groupOne.id, {
       propertyName: "newProperty",

@@ -7,6 +7,8 @@ import { OperationsBase } from "../../common/OperationsBase";
 import { RequiredError } from "../../reporting/interfaces/Errors";
 import { IPropertiesClient } from "../interfaces/IPropertiesClient";
 import { ECPropertyReference, Property, PropertyContainer, PropertyList, PropertyModify } from "../interfaces/Properties";
+import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
+import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
 
 export class PropertiesClient extends OperationsBase implements IPropertiesClient {
   private _propertiesUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings`;
@@ -48,6 +50,27 @@ export class PropertiesClient extends OperationsBase implements IPropertiesClien
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     const response =  await this.fetchJSON<PropertyList>(url, requestOptions);
     return response;
+  }
+
+  public getPropertiesIterator(accessToken: string, mappingId: string, groupId: string, top?: number | undefined){
+    if(!this.topIsValid(top)) {
+      throw new RequiredError(
+        "top",
+        "Parameter top was outside of the valid range [1-1000]."
+      );
+    }
+
+    const url = top ? `${this._propertiesUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties?$top=${top}`
+      : `${this._propertiesUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
+    const requestOptions: RequestInit = this.createRequest("GET", accessToken);
+    return new EntityListIteratorImpl(async () => getEntityCollectionPage<Property>( url, async (nextUrl: string): Promise<Collection<Property>> => {
+      const response =  await this.fetchJSON<PropertyList>(nextUrl, requestOptions);
+      return {
+        values: response.properties,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        _links: response._links,
+      };
+    }));
   }
 
   public async updateProperty(accessToken: string, mappingId: string, groupId: string, propertyId: string, propertyUpdate: PropertyModify): Promise<Property> {
