@@ -6,7 +6,7 @@ import { expect } from "chai";
 import { MappingCreate, MappingUpdate } from "../../../grouping-and-mapping/interfaces/Mappings";
 import { accessToken, mappingsClientV2, testIModel } from "../../utils";
 
-describe("Mappings Client Integration Tests", ()=> {
+describe.only("Mappings Client Integration Tests", ()=> {
   let mappingIds: Array<string> = [];
 
   before(async () => {

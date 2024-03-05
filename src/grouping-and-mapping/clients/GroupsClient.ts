@@ -6,8 +6,8 @@ import { OperationsBase } from "../../common/OperationsBase";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
-import { RequiredError } from "../../reporting/interfaces/Errors";
-import { Group, GroupCollection, GroupContainer, GroupCreate, GroupUpdate } from "../interfaces/Groups";
+import { RequiredError } from "../../common/Errors";
+import { Group, GroupContainer, GroupCreate, GroupList, GroupUpdate } from "../interfaces/Groups";
 import { IGroupsClient } from "../interfaces/IGroupsClient";
 
 export class GroupsClient extends OperationsBase  implements IGroupsClient {
@@ -72,7 +72,7 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
     return (await this.fetchJSON<GroupContainer>(url, requestOptions)).group;
   }
 
-  public async getGroups(accessToken: string,  mappingId: string, top?: number | undefined): Promise<GroupCollection> {
+  public async getGroups(accessToken: string,  mappingId: string, top?: number | undefined): Promise<GroupList> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -82,7 +82,7 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
 
     const url = top ? `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups?$top=${top}` : `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups`;
     const request = this.createRequest("GET", accessToken);
-    const response =  await this.fetchJSON<GroupCollection>(url, request);
+    const response =  await this.fetchJSON<GroupList>(url, request);
     return response;
   }
 
@@ -96,7 +96,7 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
     const url = top ? `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups?$top=${top}` : `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups`;
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Group>( url, async (nextUrl: string): Promise<Collection<Group>> => {
-      const response: GroupCollection = await this.fetchJSON<GroupCollection>(nextUrl, request);
+      const response = await this.fetchJSON<GroupList>(nextUrl, request);
       return {
         values: response.groups,
         // eslint-disable-next-line @typescript-eslint/naming-convention

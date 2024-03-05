@@ -90,7 +90,7 @@ export interface Property {
     * @type {string}
     * @memberof Property
     */
-  dataType: string;
+  dataType: DataType;
 
   /**
     * The quantity type of the property. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', or 'Volume'.
@@ -147,14 +147,14 @@ export interface PropertyModify {
     * @type {string}
     * @memberof PropertyModify
     */
-  dataType: string;
+  dataType: DataType;
 
   /**
     * The quantity type of the property. One of 'Area', 'Distance', 'Force', 'Mass', 'Monetary', 'Time', or 'Volume'.
     * @type {string}
     * @memberof PropertyModify
     */
-  quantityType?: string;
+  quantityType?: QuantityType;
 
   /**
    * A prioritized list of ECProperty references for mapping values

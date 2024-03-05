@@ -6,7 +6,7 @@ import { expect } from "chai";
 import { Group } from "../../../grouping-and-mapping/interfaces/Groups";
 import { Mapping } from "../../../grouping-and-mapping/interfaces/Mappings";
 import { accessToken, groupsClient, mappingsClientV2, propertiesClient, testIModel } from "../../utils";
-import { DataType, Property, QuantityType } from "../../../grouping-and-mapping/interfaces/Properties";
+import { CalculatedPropertyType, DataType, ECPropertyReference, Property, QuantityType } from "../../../grouping-and-mapping/interfaces/Properties";
 
 describe.only("Properties Client Tests", ()=> {
   let mappingOne: Mapping;
@@ -115,11 +115,49 @@ describe.only("Properties Client Tests", ()=> {
     expect(response.status).to.be.deep.equal(204);
   });
 
+  it("Properties - Create calculated property", async ()=> {
+    const calculatedProperty = await propertiesClient.createProperty(accessToken, mappingOne.id, groupOne.id, {
+      propertyName: "BeamVolume",
+      dataType: DataType.Double,
+      quantityType: QuantityType.Volume,
+      ecProperties: [{
+        ecSchemaName: "*",
+        ecClassName: "*",
+        ecPropertyName: "Volume",
+      }],
+      calculatedPropertyType: CalculatedPropertyType.Volume,
+    });
+
+    expect(calculatedProperty).not.be.undefined;
+    expect(calculatedProperty.propertyName).to.be.equal("BeamVolume");
+    expect(calculatedProperty.calculatedPropertyType).to.be.equal(CalculatedPropertyType.Volume);
+  });
+
+  it("Properties - Create custom calculation property", async ()=> {
+    const customCalculationProperty = await propertiesClient.createProperty(accessToken, mappingOne.id, groupOne.id, {
+      propertyName: "CustomPrice",
+      dataType: DataType.Double,
+      quantityType: QuantityType.Monetary,
+      formula: "100 * 3.123",
+    });
+
+    expect(customCalculationProperty).not.be.undefined;
+    expect(customCalculationProperty.propertyName).to.be.equal("CustomPrice");
+    expect(customCalculationProperty.formula).to.be.equal("100 * 3.123");
+  });
+
   it("Properties - Update", async ()=> {
+    const ecProperty: ECPropertyReference = {
+      ecClassName: "class",
+      ecPropertyName: "property",
+      ecSchemaName: "schema",
+    };
+
     const updatedProperty = await propertiesClient.updateProperty(accessToken, mappingOne.id, groupOne.id, propertyFour.id, {
       propertyName: "updatedPropertyFour",
       dataType: DataType.Integer,
       quantityType: QuantityType.Volume,
+      ecProperties:[ecProperty],
     });
 
     expect(updatedProperty.id).to.not.be.undefined;
@@ -128,5 +166,4 @@ describe.only("Properties Client Tests", ()=> {
     expect(updatedProperty.quantityType).to.deep.equal(QuantityType.Volume);
     expect(updatedProperty.propertyName).to.deep.equal("updatedPropertyFour");
   });
-
 });

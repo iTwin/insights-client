@@ -5,21 +5,29 @@
 /**
  * Contains error information.
  * @export
- * @interface ErrorDetails
+ * @interface ErrorInfo
  */
-export interface ErrorDetails {
+export interface ErrorInfo {
   /**
    * One of a server-defined set of error codes.
    * @type {string}
-   * @memberof ErrorDetails
+   * @memberof ErrorInfo
    */
   code: string;
+
   /**
    * A human-readable representation of the error.
    * @type {string}
-   * @memberof ErrorDetails
+   * @memberof ErrorInfo
    */
   message: string;
+
+  /**
+   * The target of the error
+   * @type {string}
+   * @memberof ErrorInfo
+   */
+  target?: string;
 }
 
 /**
@@ -33,33 +41,54 @@ export interface ErrorResponse {
    * @type {Error}
    * @memberof ErrorResponse
    */
-  error: ModelError;
+  error: ErrorInfo;
 }
 
 /**
 * Contains error information and an optional array of more specific errors.
 * @export
-* @interface ModelError
+* @interface DetailedError
 */
-export interface ModelError {
+export interface DetailedError {
   /**
    * One of a server-defined set of error codes.
    * @type {string}
-   * @memberof ModelError
+   * @memberof DetailedError
    */
   code: string;
+
   /**
    * A human-readable representation of the error.
    * @type {string}
-   * @memberof ModelError
+   * @memberof DetailedError
    */
   message: string;
+
+  /**
+   * The target of the error
+   * @type {string}
+   * @memberof DetailedError
+   */
+  target?: string;
+
   /**
    * Optional array of more specific errors.
-   * @type {Array<ErrorDetails>}
-   * @memberof ModelError
+   * @type {Array<ErrorInfo>}
+   * @memberof DetailedError
    */
-  details?: Array<ErrorDetails>;
+  details: Array<ErrorInfo>;
+}
+
+/**
+ * Gives a detailed error that occurred while handling the request.
+ */
+export interface DetailedErrorResponse {
+  /**
+   * Error detailed information.
+   * @type {DetailedError}
+   * @memberof DetailedErrorResponse
+   */
+  error: DetailedError;
 }
 
 export class RequiredError extends Error {

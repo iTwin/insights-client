@@ -7,7 +7,7 @@ import { Mapping } from "../../../grouping-and-mapping/interfaces/Mappings";
 import { accessToken, groupsClient, mappingsClientV2, testIModel } from "../../utils";
 import { Group, GroupUpdate } from "../../../grouping-and-mapping/interfaces/Groups";
 
-describe("Groups Client Tests", ()=> {
+describe.only("Groups Client Tests", ()=> {
   let mappingForGroups: Mapping;
   let groupOne: Group;
   let groupTwo: Group;

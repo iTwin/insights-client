@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { AccessToken } from "@itwin/core-bentley";
-import { Group, GroupCollection, GroupCreate, GroupUpdate  } from "./Groups";
+import { Group, GroupCreate, GroupList, GroupUpdate  } from "./Groups";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IGroupsClient {
@@ -56,7 +56,7 @@ export interface IGroupsClient {
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-groups/
    */
-  getGroups(accessToken: AccessToken,  mappingId: string, top?: number): Promise<GroupCollection>;
+  getGroups(accessToken: AccessToken,  mappingId: string, top?: number): Promise<GroupList>;
 
   /**
    * Gets an async paged iterator of Groups for a Mapping.

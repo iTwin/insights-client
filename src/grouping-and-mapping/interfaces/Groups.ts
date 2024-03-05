@@ -161,19 +161,19 @@ export interface GroupUpdate {
 /**
  * List of Groups.
  * @export
- * @interface GroupCollection
+ * @interface GroupList
  */
-export interface GroupCollection {
+export interface GroupList {
   /**
    * List of Groups.
    * @type {Array<Group>}
-   * @memberof GroupCollection
+   * @memberof GroupList
    */
   groups: Array<Group>;
   /**
    *
    * @type {PagedResponseLinks}
-   * @memberof GroupCollection
+   * @memberof GroupList
    */
   // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: PagedResponseLinks;

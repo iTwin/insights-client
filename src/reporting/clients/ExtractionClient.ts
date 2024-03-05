@@ -9,7 +9,7 @@ import { Collection, getEntityCollectionPage } from "../../common/iterators/Iter
 import { OperationsBase } from "../../common/OperationsBase";
 import type { Extraction, ExtractionCollection, ExtractionLog, ExtractionLogCollection, ExtractionRun, ExtractionRunRequest, ExtractionRunSingle, ExtractionStatus, ExtractionStatusSingle } from "../interfaces/ExtractionProcess";
 import type { IExtractionClient } from "./IExtractionClient";
-import { RequiredError } from "../interfaces/Errors";
+import { RequiredError } from "../../common/Errors";
 
 export class ExtractionClient extends OperationsBase implements IExtractionClient {
   public async getExtractionLogs(accessToken: AccessToken, jobId: string, top?: number): Promise<ExtractionLog[]> {

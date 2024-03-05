@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
-import { RequiredError } from "../interfaces/Errors";
+import { RequiredError } from "../../common/Errors";
 import type { PagedResponseLinks } from "../../common/Links";
 import { ODataEntityResponse, ODataEntityValue, ODataItem, ODataMetaDataEntitySet, ODataMetaDataEntityType, ODataMetaDataProperty, ODataMetaDataSchema, ODataResponse, ODataTable } from "../interfaces/OData";
 import type { EntityListIterator } from "../../common/iterators/EntityListIterator";

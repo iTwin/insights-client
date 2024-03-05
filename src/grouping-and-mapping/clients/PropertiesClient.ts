@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import { AccessToken } from "@itwin/core-bentley";
 import { OperationsBase } from "../../common/OperationsBase";
-import { RequiredError } from "../../reporting/interfaces/Errors";
+import { RequiredError } from "../../common/Errors";
 import { IPropertiesClient } from "../interfaces/IPropertiesClient";
 import { ECPropertyReference, Property, PropertyContainer, PropertyList, PropertyModify } from "../interfaces/Properties";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";

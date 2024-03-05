@@ -5,9 +5,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AccessToken } from "@itwin/core-bentley";
 import { OperationsBase } from "../../common/OperationsBase";
-import { RequiredError } from "../../reporting/interfaces/Errors";
+import { RequiredError } from "../../common/Errors";
 import { IMappingsClient } from "../interfaces/IMappingsClient";
-import { Mapping, MappingCollection, MappingContainer, MappingCreate, MappingExtraction, MappingExtractionCollection, MappingUpdate } from "../interfaces/Mappings";
+import { Mapping, MappingContainer, MappingCreate, MappingExtraction, MappingExtractionCollection, MappingList, MappingUpdate } from "../interfaces/Mappings";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 import { getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
@@ -57,7 +57,7 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
 
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl( async ()=> getEntityCollectionPage(url, async (nextUrl: string)=> {
-      const response = await this.fetchJSON<MappingCollection>(nextUrl, request);
+      const response = await this.fetchJSON<MappingList>(nextUrl, request);
       return {
         values: response.mappings,
         _links: response._links,
@@ -65,7 +65,7 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
     }));
   }
 
-  public async getMappings(accessToken: AccessToken, iModelId: string, top?: number | undefined ): Promise<MappingCollection> {
+  public async getMappings(accessToken: AccessToken, iModelId: string, top?: number | undefined ): Promise<MappingList> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -76,7 +76,7 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
     const url = top ? `${this._mappingsUrl}?iModelId=${encodeURIComponent(iModelId)}&$top=${top}` :
       `${this._mappingsUrl}?iModelId=${encodeURIComponent(iModelId)}`;
     const request = this.createRequest("GET", accessToken);
-    const response = await this.fetchJSON<MappingCollection>(url, request);
+    const response = await this.fetchJSON<MappingList>(url, request);
     return response;
   }
 

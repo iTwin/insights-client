@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
-import { RequiredError } from "../interfaces/Errors";
+import { RequiredError } from "../../common/Errors";
 import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";

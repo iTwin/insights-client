@@ -172,13 +172,13 @@ export interface MappingContainer {
 /**
  * List of Mappings.
  * @export
- * @interface MappingCollection
+ * @interface MappingList
  */
-export interface MappingCollection {
+export interface MappingList {
   /**
     * List of Mappings.
     * @type {Array<Mapping>}
-    * @memberof MappingCollection
+    * @memberof MappingList
     */
   mappings: Array<Mapping>;
 

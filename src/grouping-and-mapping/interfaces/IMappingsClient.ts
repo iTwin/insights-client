@@ -1,5 +1,5 @@
 import { AccessToken } from "@itwin/core-bentley";
-import { Mapping, MappingCollection, MappingCreate, MappingExtractionCollection, MappingUpdate } from "./Mappings";
+import { Mapping, MappingCreate, MappingExtractionCollection, MappingList, MappingUpdate } from "./Mappings";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IMappingsClient {
@@ -49,7 +49,7 @@ export interface IMappingsClient {
    * @memberof MappingsClient
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-mappings/
    */
-  getMappings( accessToken: AccessToken, iModelId: string, top?: number ): Promise<MappingCollection>;
+  getMappings( accessToken: AccessToken, iModelId: string, top?: number ): Promise<MappingList>;
 
   /**
    * Updates a Mapping for an iModel.
