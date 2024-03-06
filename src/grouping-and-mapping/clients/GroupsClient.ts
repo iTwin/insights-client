@@ -11,7 +11,7 @@ import { Group, GroupContainer, GroupCreate, GroupList, GroupUpdate } from "../i
 import { IGroupsClient } from "../interfaces/IGroupsClient";
 
 export class GroupsClient extends OperationsBase  implements IGroupsClient {
-  private _groupsUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings/`;
+  private _groupsUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings`;
 
   public async createGroup(accessToken: string, mappingId: string, group: GroupCreate): Promise<Group> {
     if (!this.isSimpleIdentifier(group.groupName)) {

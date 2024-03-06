@@ -8,7 +8,7 @@ import { Mapping } from "../../../grouping-and-mapping/interfaces/Mappings";
 import { accessToken, groupsClient, mappingsClientV2, propertiesClient, testIModel } from "../../utils";
 import { CalculatedPropertyType, DataType, ECPropertyReference, Property, QuantityType } from "../../../grouping-and-mapping/interfaces/Properties";
 
-describe.only("Properties Client Tests", ()=> {
+describe("Properties Client", ()=> {
   let mappingOne: Mapping;
   let groupOne: Group;
 

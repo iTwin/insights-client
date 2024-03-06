@@ -6,7 +6,7 @@ import { expect } from "chai";
 import { MappingCreate, MappingUpdate } from "../../../grouping-and-mapping/interfaces/Mappings";
 import { accessToken, mappingsClientV2, testIModel } from "../../utils";
 
-describe.only("Mappings Client Integration Tests", ()=> {
+describe("Mappings Client", ()=> {
   let mappingIds: Array<string> = [];
 
   before(async () => {
@@ -51,17 +51,17 @@ describe.only("Mappings Client Integration Tests", ()=> {
   });
 
   it("Mappings - Get all mappings", async ()=> {
-    const mappings = (await mappingsClientV2.getMappings(accessToken, testIModel.id)).mappings;
+    const mappings = (await mappingsClientV2.getMappings(accessToken, testIModel.id));
     expect(mappings).to.not.be.undefined;
 
-    for(const mapping of mappings) {
+    for(const mapping of mappings.mappings) {
       expect(["mappingZero", "mappingOne", "mappingTwo"]).to.include(mapping.mappingName);
     }
   });
 
   it("Mappings - Get top mappings", async ()=> {
-    const mappings = (await mappingsClientV2.getMappings(accessToken, testIModel.id, 2)).mappings;
-    expect(mappings.length).to.be.equal(2);
+    const mappings = (await mappingsClientV2.getMappings(accessToken, testIModel.id, 2));
+    expect(mappings.mappings.length).to.be.equal(2);
   });
 
   it("Mappings - Get mapping", async ()=> {
