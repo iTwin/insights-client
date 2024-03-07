@@ -12,3 +12,15 @@
  * With the Grouping and Mapping API you can define any number of Mappings, Groups, and Properties as a one-time,
  * reusable configuration that codes a reduced view of the data which can then be reused as configuration across all applicable workflows.
  */
+export * from "./interfaces/Mappings";
+export * from "./interfaces/IMappingsClient";
+export * from "./clients/MappingsClient";
+
+export * from "./interfaces/Groups";
+export * from "./interfaces/IGroupsClient";
+export * from "./clients/GroupsClient";
+
+export * from "./interfaces/Properties";
+export * from "./interfaces/IPropertiesClient";
+export * from "./clients/PropertiesClient";
+

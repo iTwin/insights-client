@@ -4,14 +4,14 @@
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
 import { MappingCreate, MappingUpdate } from "../../../grouping-and-mapping/interfaces/Mappings";
-import { accessToken, mappingsClientV2, testIModel } from "../../utils";
+import { accessToken, mappingsClient, testIModel } from "../../utils";
 
 describe("Mappings Client", ()=> {
   let mappingIds: Array<string> = [];
 
   before(async () => {
     // Create mappings for testing
-    const mappingZero = await mappingsClientV2.createMapping(accessToken, {
+    const mappingZero = await mappingsClient.createMapping(accessToken, {
       iModelId: testIModel.id,
       mappingName: "mappingZero",
       description: "Mapping created for testing",
@@ -19,13 +19,13 @@ describe("Mappings Client", ()=> {
     });
     mappingIds.push(mappingZero.id);
 
-    const mappingOne = await mappingsClientV2.createMapping(accessToken, {
+    const mappingOne = await mappingsClient.createMapping(accessToken, {
       iModelId: testIModel.id,
       mappingName: "mappingOne",
     });
     mappingIds.push(mappingOne.id);
 
-    const mappingTwo = await mappingsClientV2.createMapping(accessToken, {
+    const mappingTwo = await mappingsClient.createMapping(accessToken, {
       iModelId: testIModel.id,
       mappingName: "mappingTwo",
     });
@@ -34,13 +34,13 @@ describe("Mappings Client", ()=> {
 
   after(async () => {
     for(const id of mappingIds){
-      await mappingsClientV2.deleteMapping(accessToken, id);
+      await mappingsClient.deleteMapping(accessToken, id);
     }
     mappingIds = [];
   });
 
   it("Mappings - Get mappings with iterator", async ()=> {
-    const mappingsIt = mappingsClientV2.getMappingsIterator(accessToken, testIModel.id, 2);
+    const mappingsIt = mappingsClient.getMappingsIterator(accessToken, testIModel.id, 2);
     let flag = false;
     for await(const mapping of mappingsIt) {
       flag = true;
@@ -51,7 +51,7 @@ describe("Mappings Client", ()=> {
   });
 
   it("Mappings - Get all mappings", async ()=> {
-    const mappings = (await mappingsClientV2.getMappings(accessToken, testIModel.id));
+    const mappings = (await mappingsClient.getMappings(accessToken, testIModel.id));
     expect(mappings).to.not.be.undefined;
 
     for(const mapping of mappings.mappings) {
@@ -60,12 +60,12 @@ describe("Mappings Client", ()=> {
   });
 
   it("Mappings - Get top mappings", async ()=> {
-    const mappings = (await mappingsClientV2.getMappings(accessToken, testIModel.id, 2));
+    const mappings = (await mappingsClient.getMappings(accessToken, testIModel.id, 2));
     expect(mappings.mappings.length).to.be.equal(2);
   });
 
   it("Mappings - Get mapping", async ()=> {
-    const retrievedMapping = await mappingsClientV2.getMapping(accessToken, mappingIds[1]);
+    const retrievedMapping = await mappingsClient.getMapping(accessToken, mappingIds[1]);
 
     expect(retrievedMapping.id).to.deep.equal(mappingIds[1]);
     expect(retrievedMapping.mappingName).to.deep.equal("mappingOne");
@@ -76,17 +76,17 @@ describe("Mappings Client", ()=> {
       iModelId: testIModel.id,
       mappingName: "MappingToDelete",
     };
-    const mapping = await mappingsClientV2.createMapping(accessToken, newMapping);
+    const mapping = await mappingsClient.createMapping(accessToken, newMapping);
 
     expect(mapping).not.be.undefined;
     expect(mapping.mappingName).to.deep.equal("MappingToDelete");
 
-    const response = await mappingsClientV2.deleteMapping(accessToken, mapping.id);
+    const response = await mappingsClient.deleteMapping(accessToken, mapping.id);
     expect(response.status).to.be.eq(204);
   });
 
   it("Mappings - Create from a source mapping", async () => {
-    const mappingCopy = await mappingsClientV2.createMapping(accessToken, {
+    const mappingCopy = await mappingsClient.createMapping(accessToken, {
       iModelId: testIModel.id,
       mappingName: "MappingCopy",
       sourceMappingId: mappingIds[0],
@@ -104,7 +104,7 @@ describe("Mappings Client", ()=> {
       extractionEnabled: true,
     };
 
-    const updatedMapping = await mappingsClientV2.updateMapping(accessToken, mappingIds[2], mappingUpdate);
+    const updatedMapping = await mappingsClient.updateMapping(accessToken, mappingIds[2], mappingUpdate);
 
     expect(updatedMapping.id).to.deep.equal(mappingIds[2]);
     expect(updatedMapping.mappingName).to.deep.equal("UpdatedMapping");
@@ -112,7 +112,7 @@ describe("Mappings Client", ()=> {
   });
 
   it("Mappings - Get mapping extractions", async ()=> {
-    const extractions = await mappingsClientV2.getMappingExtractions(accessToken, mappingIds[0], 2);
+    const extractions = await mappingsClient.getMappingExtractions(accessToken, mappingIds[0], 2);
     expect(extractions).not.be.undefined;
   });
 

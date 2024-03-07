@@ -5,7 +5,7 @@
 import { expect } from "chai";
 import { Group } from "../../../grouping-and-mapping/interfaces/Groups";
 import { Mapping } from "../../../grouping-and-mapping/interfaces/Mappings";
-import { accessToken, groupsClient, mappingsClientV2, propertiesClient, testIModel } from "../../utils";
+import { accessToken, groupsClient, mappingsClient, propertiesClient, testIModel } from "../../utils";
 import { CalculatedPropertyType, DataType, ECPropertyReference, Property, QuantityType } from "../../../grouping-and-mapping/interfaces/Properties";
 
 describe("Properties Client", ()=> {
@@ -18,7 +18,7 @@ describe("Properties Client", ()=> {
   let propertyFour: Property;
 
   before(async ()=> {
-    mappingOne = await mappingsClientV2.createMapping(accessToken, {
+    mappingOne = await mappingsClient.createMapping(accessToken, {
       iModelId: testIModel.id,
       mappingName: "MappingForGroups",
       description: "Mapping created for groups testing",
@@ -53,7 +53,7 @@ describe("Properties Client", ()=> {
   });
 
   after(async ()=> {
-    await mappingsClientV2.deleteMapping(accessToken, mappingOne.id);
+    await mappingsClient.deleteMapping(accessToken, mappingOne.id);
   });
 
   it("Properties - Get property", async ()=> {

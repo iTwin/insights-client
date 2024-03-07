@@ -4,14 +4,21 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { AggregationPropertyCreate, AggregationPropertyType, AggregationPropertyUpdate, AggregationsClient, AggregationTableCreate, AggregationTableSetCreate, AggregationTableSetUpdate, AggregationTableUpdate, CalculatedPropertyCreate, CalculatedPropertyType, CalculatedPropertyUpdate, CustomCalculationCreate, CustomCalculationUpdate, DataType, ECProperty, ExtractionClient, GroupCreate, GroupPropertyCreate, GroupPropertyUpdate, GroupUpdate, MappingCopy, MappingCreate, MappingsClient, MappingUpdate, ODataClient, ODataItem, QuantityType, ReportAggregationCreate, ReportCreate, ReportMappingCreate, ReportsClient, ReportUpdate } from "../reporting";
+import {
+  AggregationPropertyCreate, AggregationPropertyType, AggregationPropertyUpdate, AggregationsClient,
+  AggregationTableCreate, AggregationTableSetCreate, AggregationTableSetUpdate, AggregationTableUpdate,
+  ExtractionClient, ODataClient, ODataItem, ReportAggregationCreate, ReportCreate, ReportMappingCreate,
+  ReportsClient, ReportUpdate } from "../reporting";
 import { EC3ConfigurationsClient } from "../carbon-calculation/clients/EC3ConfigurationsClient";
 import { EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
+import { DataType, ECPropertyReference, GroupCreate, GroupsClient, GroupUpdate, MappingCreate, MappingsClient, MappingUpdate, PropertiesClient, PropertyModify, QuantityType } from "../grouping-and-mapping";
 use(chaiAsPromised);
 
 describe("Validation", () => {
   const reportsClient = new ReportsClient();
   const mappingsClient = new MappingsClient();
+  const groupsClient = new GroupsClient();
+  const propertiesClient = new PropertiesClient();
   const aggregationsClient = new AggregationsClient();
   const oDataClient = new ODataClient();
   const extractionClient = new ExtractionClient();
@@ -82,20 +89,21 @@ describe("Validation", () => {
   it("Mappings - Create unsuccessfully", async () => {
     const newMapping: MappingCreate = {
       mappingName: "",
+      iModelId: "",
     };
-    await expect(mappingsClient.createMapping("-", "-", newMapping)).to.be.rejectedWith(
+    await expect(mappingsClient.createMapping("-", newMapping)).to.be.rejectedWith(
       "Required field mappingName was missing or invalid.",
     );
   });
 
   it("Mappings - Update unsuccessfully", async () => {
     const mappingUpdate: MappingUpdate = {};
-    await expect(mappingsClient.updateMapping("-", "-", "-", mappingUpdate)).to.be.rejectedWith(
+    await expect(mappingsClient.updateMapping("-", "-", mappingUpdate)).to.be.rejectedWith(
       "All properties of mapping were missing.",
     );
     mappingUpdate.description = "Valid description",
     mappingUpdate.mappingName = "";
-    await expect(mappingsClient.updateMapping("-", "-", "-", mappingUpdate)).to.be.rejectedWith(
+    await expect(mappingsClient.updateMapping("-", "-", mappingUpdate)).to.be.rejectedWith(
       "Required field mappingName was invalid.",
     );
   });
@@ -109,255 +117,129 @@ describe("Validation", () => {
     );
   });
 
-  it("Mappings - Copy unsuccessfully", async () => {
-    let mappingCopy: MappingCopy = {
-      targetIModelId: "-",
-      mappingName: "",
-    };
-    await expect(mappingsClient.copyMapping("-", "-", "-", mappingCopy)).to.be.rejectedWith(
-      "Field mappingName was invalid.",
-    );
-
-    mappingCopy = {
-      targetIModelId: "",
-      mappingName: "Test",
-    };
-    await expect(mappingsClient.copyMapping("-", "-", "-", mappingCopy)).to.be.rejectedWith(
-      "Required field targetIModelId was missing.",
-    );
-  });
-
   it("Groups - Create unsuccessfully", async () => {
     const newGroup: GroupCreate = {
       groupName: "Test",
       query: "",
     };
-    await expect(mappingsClient.createGroup("-", "-", "-", newGroup)).to.be.rejectedWith(
+    await expect(groupsClient.createGroup("-", "-", newGroup)).to.be.rejectedWith(
       "Required field query was null or undefined.",
     );
     newGroup.groupName = "";
     newGroup.query = "Valid query";
-    await expect(mappingsClient.createGroup("-", "-", "-", newGroup)).to.be.rejectedWith(
-      "Required field groupName was invalid.",
+    await expect(groupsClient.createGroup("-", "-", newGroup)).to.be.rejectedWith(
+      "Field groupName was invalid.",
     );
   });
 
   it("Groups - Update unsuccessfully", async () => {
     let groupUpdate: GroupUpdate = {};
-    await expect(mappingsClient.updateGroup("-", "-", "-", "-", groupUpdate)).to.be.rejectedWith(
+    await expect(groupsClient.updateGroup("-", "-", "-", groupUpdate)).to.be.rejectedWith(
       "All properties of group were missing.",
     );
     groupUpdate.groupName = "";
-    await expect(mappingsClient.updateGroup("-", "-", "-", "-", groupUpdate)).to.be.rejectedWith(
+    await expect(groupsClient.updateGroup("-", "-", "-", groupUpdate)).to.be.rejectedWith(
       "Field groupName was invalid.",
     );
     groupUpdate = {
       description: "Valid description",
       query: "",
     };
-    await expect(mappingsClient.updateGroup("-", "-", "-", "-", groupUpdate)).to.be.rejectedWith(
+    await expect(groupsClient.updateGroup("-", "-", "-", groupUpdate)).to.be.rejectedWith(
       "Required field query was null or undefined.",
     );
   });
 
   it("Groups - Faulty top value", async () => {
-    await expect(mappingsClient.getGroups("-", "-", "-", 0)).to.be.rejectedWith(
+    await expect(groupsClient.getGroups("-", "-", 0)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000]."
     );
-    await expect(mappingsClient.getGroups("-", "-", "-", 1001)).to.be.rejectedWith(
+    await expect(groupsClient.getGroups("-", "-", 1001)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000]."
     );
   });
 
-  it("Group properties - Create unsuccessfully", async () => {
-    const ecProperty: ECProperty = {
+  it("Properties - Create unsuccessfully", async () => {
+    const ecProperty: ECPropertyReference = {
       ecClassName: "class",
       ecPropertyName: "property",
-      ecPropertyType: DataType.String,
       ecSchemaName: "schema",
     };
-    const newProperty: GroupPropertyCreate = {
+    const newProperty: PropertyModify = {
       propertyName: "",
-      dataType: DataType.Number,
+      dataType: DataType.Integer,
       quantityType: QuantityType.Distance,
       ecProperties: [ecProperty],
     };
-    await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
+    await expect(propertiesClient.createProperty("-", "-", "-", newProperty)).to.be.rejectedWith(
       "Field propertyName was invalid.",
     );
-
-    newProperty.propertyName = "Name";
-    newProperty.dataType = DataType.Undefined;
-    await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Required field dataType was null or undefined.",
-    );
-
-    newProperty.dataType = DataType.Number;
-    newProperty.ecProperties = [];
-    await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Required field ecProperties was null or empty.",
-    );
+    newProperty.propertyName = "validName";
 
     ecProperty.ecClassName = "";
     newProperty.ecProperties = [ecProperty];
-    await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
+    await expect(propertiesClient.createProperty("-", "-", "-", newProperty)).to.be.rejectedWith(
       "Field ecProperties was invalid.",
     );
 
     ecProperty.ecClassName = "Class";
     ecProperty.ecPropertyName = "";
     newProperty.ecProperties = [ecProperty];
-    await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
+    await expect(propertiesClient.createProperty("-", "-", "-", newProperty)).to.be.rejectedWith(
       "Field ecProperties was invalid.",
     );
 
     ecProperty.ecPropertyName = "Property";
     ecProperty.ecSchemaName = "";
     newProperty.ecProperties = [ecProperty];
-    await expect(mappingsClient.createGroupProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
+    await expect(propertiesClient.createProperty("-", "-", "-", newProperty)).to.be.rejectedWith(
       "Field ecProperties was invalid.",
     );
   });
 
-  it("Group properties - Update unsuccessfully", async () => {
-    const ecProperty: ECProperty = {
+  it("Properties - Update unsuccessfully", async () => {
+    const ecProperty: ECPropertyReference = {
       ecClassName: "class",
       ecPropertyName: "property",
-      ecPropertyType: DataType.String,
       ecSchemaName: "schema",
     };
-    const newProperty: GroupPropertyUpdate = {
+    const newProperty: PropertyModify = {
       propertyName: "",
-      dataType: DataType.Number,
+      dataType: DataType.Integer,
       quantityType: QuantityType.Distance,
       ecProperties: [ecProperty],
     };
-    await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
+    await expect(propertiesClient.updateProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
       "Field propertyName was invalid.",
     );
-
-    newProperty.propertyName = "Name";
-    newProperty.dataType = DataType.Undefined;
-    await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Required field dataType was null or undefined.",
-    );
-
-    newProperty.dataType = DataType.Number;
-    newProperty.ecProperties = [];
-    await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Required field ecProperties was null or empty.",
-    );
+    newProperty.propertyName = "validName";
 
     ecProperty.ecClassName = "";
     newProperty.ecProperties = [ecProperty];
-    await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
+    await expect(propertiesClient.updateProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
       "Field ecProperties was invalid.",
     );
 
     ecProperty.ecClassName = "Class";
     ecProperty.ecPropertyName = "";
     newProperty.ecProperties = [ecProperty];
-    await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
+    await expect(propertiesClient.updateProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
       "Field ecProperties was invalid.",
     );
 
     ecProperty.ecPropertyName = "Property";
     ecProperty.ecSchemaName = "";
     newProperty.ecProperties = [ecProperty];
-    await expect(mappingsClient.updateGroupProperty("-", "-", "-", "-", "-", newProperty)).to.be.rejectedWith(
+    await expect(propertiesClient.updateProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
       "Field ecProperties was invalid.",
     );
   });
 
-  it("Group properties - Faulty top value", async () => {
-    await expect(mappingsClient.getGroupProperties("-", "-", "-", "-", 0)).to.be.rejectedWith(
+  it("Properties - Faulty top value", async () => {
+    await expect(propertiesClient.getProperties("-", "-", "-", 0)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000]."
     );
-    await expect(mappingsClient.getGroupProperties("-", "-", "-", "-", 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
-    );
-  });
-
-  it("Calculated properties - Create unsuccessfully", async () => {
-    const newProperty: CalculatedPropertyCreate = {
-      propertyName: "",
-      type: CalculatedPropertyType.Length,
-    };
-    await expect(mappingsClient.createCalculatedProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Field propertyName was invalid.",
-    );
-
-    newProperty.propertyName = "Test";
-    newProperty.type = CalculatedPropertyType.Undefined;
-    await expect(mappingsClient.createCalculatedProperty("-", "-", "-", "-", newProperty)).to.be.rejectedWith(
-      "Required field type was null or undefined.",
-    );
-  });
-
-  it("Calculated properties - Update unsuccessfully", async () => {
-    const calcPropertyUpdate: CalculatedPropertyUpdate = {};
-    await expect(mappingsClient.updateCalculatedProperty("-", "-", "-", "-", "-", calcPropertyUpdate)).to.be.rejectedWith(
-      "All properties of property were missing.",
-    );
-    calcPropertyUpdate.propertyName = "";
-    await expect(mappingsClient.updateCalculatedProperty("-", "-", "-", "-", "-", calcPropertyUpdate)).to.be.rejectedWith(
-      "Field propertyName was invalid.",
-    );
-
-    calcPropertyUpdate.propertyName = "Test";
-    calcPropertyUpdate.type = CalculatedPropertyType.Undefined;
-    await expect(mappingsClient.updateCalculatedProperty("-", "-", "-", "-", "-", calcPropertyUpdate)).to.be.rejectedWith(
-      "Required field type was null or undefined.",
-    );
-  });
-
-  it("Calculated properties - Faulty top value", async () => {
-    await expect(mappingsClient.getCalculatedProperties("-", "-", "-", "-", 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
-    );
-    await expect(mappingsClient.getCalculatedProperties("-", "-", "-", "-", 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
-    );
-  });
-
-  it("Custom calculations - Create unsuccessfully", async () => {
-    const newCalculation: CustomCalculationCreate = {
-      propertyName: "",
-      formula: "1+1",
-      quantityType: QuantityType.Distance,
-    };
-    await expect(mappingsClient.createCustomCalculation("-", "-", "-", "-", newCalculation)).to.be.rejectedWith(
-      "Field propertyName was invalid.",
-    );
-
-    newCalculation.propertyName = "Test";
-    newCalculation.formula = "";
-    await expect(mappingsClient.createCustomCalculation("-", "-", "-", "-", newCalculation)).to.be.rejectedWith(
-      "Required field formula was null or undefined.",
-    );
-  });
-
-  it("Custom calculations - Update unsuccessfully", async () => {
-    const custCalculationUpdate: CustomCalculationUpdate = {};
-    await expect(mappingsClient.updateCustomCalculation("-", "-", "-", "-", "-", custCalculationUpdate)).to.be.rejectedWith(
-      "All properties of property were missing.",
-    );
-    custCalculationUpdate.propertyName = "";
-    await expect(mappingsClient.updateCustomCalculation("-", "-", "-", "-", "-", custCalculationUpdate)).to.be.rejectedWith(
-      "Field propertyName was invalid.",
-    );
-    custCalculationUpdate.propertyName = "Test";
-    custCalculationUpdate.formula = "";
-    await expect(mappingsClient.updateCustomCalculation("-", "-", "-", "-", "-", custCalculationUpdate)).to.be.rejectedWith(
-      "Required field formula was null or undefined.",
-    );
-  });
-
-  it("Custom calculations - Faulty top value", async () => {
-    await expect(mappingsClient.getCustomCalculations("-", "-", "-", "-", 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
-    );
-    await expect(mappingsClient.getCustomCalculations("-", "-", "-", "-", 1001)).to.be.rejectedWith(
+    await expect(propertiesClient.getProperties("-", "-", "-", 1001)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000]."
     );
   });

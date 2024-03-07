@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
 import { Mapping } from "../../../grouping-and-mapping/interfaces/Mappings";
-import { accessToken, groupsClient, mappingsClientV2, testIModel } from "../../utils";
+import { accessToken, groupsClient, mappingsClient, testIModel } from "../../utils";
 import { Group, GroupUpdate } from "../../../grouping-and-mapping/interfaces/Groups";
 
 describe("Groups Client", ()=> {
@@ -15,7 +15,7 @@ describe("Groups Client", ()=> {
 
   before(async ()=> {
     // Create mappings for testing
-    mappingForGroups = await mappingsClientV2.createMapping(accessToken, {
+    mappingForGroups = await mappingsClient.createMapping(accessToken, {
       iModelId: testIModel.id,
       mappingName: "MappingForGroups",
       description: "Mapping created for groups testing",
@@ -42,7 +42,7 @@ describe("Groups Client", ()=> {
   });
 
   after(async () => {
-    await mappingsClientV2.deleteMapping(accessToken, mappingForGroups.id);
+    await mappingsClient.deleteMapping(accessToken, mappingForGroups.id);
   });
 
   it("Groups - Get group", async ()=> {

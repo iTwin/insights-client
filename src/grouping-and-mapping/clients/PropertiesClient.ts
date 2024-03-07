@@ -16,10 +16,21 @@ export class PropertiesClient extends OperationsBase implements IPropertiesClien
   public async createProperty(accessToken: AccessToken, mappingId: string, groupId: string, property: PropertyModify): Promise<Property> {
     if (!this.isSimpleIdentifier(property.propertyName)) {
       throw new RequiredError(
-        "mappingName",
-        "Required field mappingName was missing or invalid.",
+        "propertyName",
+        "Field propertyName was invalid.",
       );
     }
+
+    if(property.ecProperties)
+      for(const ecProperty of property.ecProperties) {
+        if (!this.isValidECProperty(ecProperty)) {
+          throw new RequiredError(
+            "ecProperties",
+            "Field ecProperties was invalid.",
+          );
+        }
+      }
+
     const url = `${this._propertiesUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(property));
     return (await this.fetchJSON<PropertyContainer>(url, requestOptions)).property;
@@ -111,5 +122,4 @@ export class PropertiesClient extends OperationsBase implements IPropertiesClien
       !this.isNullOrWhitespace(prop.ecClassName) &&
       !this.isNullOrWhitespace(prop.ecPropertyName);
   }
-
 }

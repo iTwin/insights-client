@@ -16,8 +16,8 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
   public async createGroup(accessToken: string, mappingId: string, group: GroupCreate): Promise<Group> {
     if (!this.isSimpleIdentifier(group.groupName)) {
       throw new RequiredError(
-        "mappingName",
-        "Required field mappingName was missing or invalid.",
+        "groupName",
+        "Field groupName was invalid.",
       );
     }
 

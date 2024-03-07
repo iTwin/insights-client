@@ -12,7 +12,7 @@ import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 import { getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
 
-export class MappingsClientV2 extends OperationsBase implements IMappingsClient {
+export class MappingsClient extends OperationsBase implements IMappingsClient {
   private _mappingsUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings`;
 
   public async createMapping(accessToken: AccessToken, mappingCreate: MappingCreate): Promise<Mapping> {
@@ -28,6 +28,19 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
   }
 
   public async updateMapping(accessToken: AccessToken, mappingId: string, mappingUpdate: MappingUpdate): Promise<Mapping> {
+    if (mappingUpdate.description == null && mappingUpdate.extractionEnabled == null && mappingUpdate.mappingName == null) {
+      throw new RequiredError(
+        "mapping",
+        "All properties of mapping were missing.",
+      );
+    }
+    if (mappingUpdate.mappingName != null && !this.isSimpleIdentifier(mappingUpdate.mappingName)) {
+      throw new RequiredError(
+        "mappingName",
+        "Required field mappingName was invalid.",
+      );
+    }
+
     const url = `${this._mappingsUrl}/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(mappingUpdate));
     return (await this.fetchJSON<MappingContainer>(url, requestOptions)).mapping;
@@ -106,5 +119,4 @@ export class MappingsClientV2 extends OperationsBase implements IMappingsClient 
     const response = await this.fetchJSON<MappingExtractionCollection>(url, request);
     return response;
   }
-
 }
