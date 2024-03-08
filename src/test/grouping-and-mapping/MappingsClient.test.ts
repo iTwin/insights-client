@@ -7,7 +7,7 @@ import { MappingsClient } from "../../grouping-and-mapping/clients/MappingsClien
 import { MappingContainer, MappingCreate, MappingExtractionCollection, MappingList, MappingUpdate } from "../../grouping-and-mapping/interfaces/Mappings";
 import * as sinon from "sinon";
 
-describe.only("Mappings Client Unit tests", ()=> {
+describe("Mappings Client Unit tests", ()=> {
   const mappingsClient: MappingsClient = new MappingsClient();
   let fetchStub: sinon.SinonStub;
   let requestStub: sinon.SinonStub;

@@ -6,7 +6,7 @@
 import type { Link, PagedResponseLinks } from "../../common/Links";
 
 /**
- * Properties of the group to be created.
+ * Defines a single Group (collection of iModel elements) in an iModel Mapping.
  */
 export interface Group {
   /**

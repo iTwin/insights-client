@@ -97,7 +97,7 @@ export interface Property {
     * @type {string}
     * @memberof Property
     */
-  quantityType?: string;
+  quantityType?: QuantityType ;
 
   /**
    * A prioritized list of ECProperty references for mapping values

@@ -13,7 +13,7 @@ import { EntityListIteratorImpl } from "../../common/iterators/EntityListIterato
 import { getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
 
 export class MappingsClient extends OperationsBase implements IMappingsClient {
-  private _mappingsUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings`;
+  private _baseUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings`;
 
   public async createMapping(accessToken: AccessToken, mappingCreate: MappingCreate): Promise<Mapping> {
     if (!this.isSimpleIdentifier(mappingCreate.mappingName)) {
@@ -24,7 +24,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
     }
 
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(mappingCreate));
-    return (await this.fetchJSON<MappingContainer>(this._mappingsUrl, requestOptions)).mapping;
+    return (await this.fetchJSON<MappingContainer>(this._baseUrl, requestOptions)).mapping;
   }
 
   public async updateMapping(accessToken: AccessToken, mappingId: string, mappingUpdate: MappingUpdate): Promise<Mapping> {
@@ -41,21 +41,21 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
       );
     }
 
-    const url = `${this._mappingsUrl}/${encodeURIComponent(mappingId)}`;
+    const mappingUrl = `${this._baseUrl}/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(mappingUpdate));
-    return (await this.fetchJSON<MappingContainer>(url, requestOptions)).mapping;
+    return (await this.fetchJSON<MappingContainer>(mappingUrl, requestOptions)).mapping;
   }
 
   public async deleteMapping(accessToken: AccessToken, mappingId: string): Promise<Response> {
-    const url = `${this._mappingsUrl}/${encodeURIComponent(mappingId)}`;
+    const mappingUrl = `${this._baseUrl}/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
-    return this.fetchJSON<Response>(url, requestOptions);
+    return this.fetchJSON<Response>(mappingUrl, requestOptions);
   }
 
   public async getMapping(accessToken: AccessToken, mappingId: string ): Promise<Mapping> {
-    const url = `${this._mappingsUrl}/${encodeURIComponent(mappingId)}`;
+    const mappingUrl = `${this._baseUrl}/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return (await this.fetchJSON<MappingContainer>(url, requestOptions)).mapping;
+    return (await this.fetchJSON<MappingContainer>(mappingUrl, requestOptions)).mapping;
   }
 
   public getMappingsIterator(accessToken: AccessToken, iModelId: string, top?: number): EntityListIterator<Mapping> {
@@ -66,7 +66,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
       );
     }
 
-    const baseUrl = `${this._mappingsUrl}?iModelId=${encodeURIComponent(iModelId)}`;
+    const baseUrl = `${this._baseUrl}?iModelId=${encodeURIComponent(iModelId)}`;
     const url = `${baseUrl}${top ? `&$top=${top}` : ""}`;
 
     const request = this.createRequest("GET", accessToken);
@@ -87,7 +87,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
       );
     }
 
-    const baseUrl = `${this._mappingsUrl}?iModelId=${encodeURIComponent(iModelId)}`;
+    const baseUrl = `${this._baseUrl}?iModelId=${encodeURIComponent(iModelId)}`;
     const url = `${baseUrl}${top ? `&$top=${top}` : ""}`;
 
     const request = this.createRequest("GET", accessToken);
@@ -103,7 +103,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
       );
     }
 
-    const baseUrl = `${this._mappingsUrl}/${encodeURIComponent(mappingId)}/extractions`;
+    const baseUrl = `${this._baseUrl}/${encodeURIComponent(mappingId)}/extractions`;
     const url = `${baseUrl}${top ? `?$top=${top}` : ""}`;
 
     const request = this.createRequest("GET", accessToken);
@@ -124,7 +124,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
       );
     }
 
-    const baseUrl = `${this._mappingsUrl}/${encodeURIComponent(mappingId)}/extractions`;
+    const baseUrl = `${this._baseUrl}/${encodeURIComponent(mappingId)}/extractions`;
     const url = `${baseUrl}${top ? `?$top=${top}` : ""}`;
 
     const request = this.createRequest("GET", accessToken);

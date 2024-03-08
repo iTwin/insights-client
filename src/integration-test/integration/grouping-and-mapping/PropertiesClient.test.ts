@@ -115,7 +115,7 @@ describe("Properties Client", ()=> {
     expect(response.status).to.be.deep.equal(204);
   });
 
-  it("Properties - Create calculated property", async ()=> {
+  it("Properties - Create property with all parameters in a single request", async ()=> {
     const calculatedProperty = await propertiesClient.createProperty(accessToken, mappingOne.id, groupOne.id, {
       propertyName: "BeamVolume",
       dataType: DataType.Double,
@@ -133,7 +133,7 @@ describe("Properties Client", ()=> {
     expect(calculatedProperty.calculatedPropertyType).to.be.equal(CalculatedPropertyType.Volume);
   });
 
-  it("Properties - Create custom calculation property", async ()=> {
+  it("Properties - Create a custom calculation property", async ()=> {
     const customCalculationProperty = await propertiesClient.createProperty(accessToken, mappingOne.id, groupOne.id, {
       propertyName: "CustomPrice",
       dataType: DataType.Double,

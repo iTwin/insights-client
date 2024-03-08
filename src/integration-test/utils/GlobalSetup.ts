@@ -17,7 +17,6 @@ import { BaseIntegrationTestsConfig } from "../utils/imodels-client-test-utils/B
 import { EC3ConfigurationsClient } from "../../carbon-calculation/clients/EC3ConfigurationsClient";
 import { EC3JobsClient } from "../../carbon-calculation/clients/EC3JobsClient";
 import { AggregationsClient } from "../../reporting/clients/AggregationsClient";
-
 import { MappingsClient } from "../../grouping-and-mapping/clients/MappingsClient";
 import { GroupsClient } from "../../grouping-and-mapping/clients/GroupsClient";
 import { PropertiesClient } from "../../grouping-and-mapping/clients/PropertiesClient";
