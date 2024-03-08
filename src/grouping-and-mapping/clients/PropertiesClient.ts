@@ -31,19 +31,19 @@ export class PropertiesClient extends OperationsBase implements IPropertiesClien
         }
       }
 
-    const url = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
+    const url = this.constructUrl(mappingId, groupId);
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(property));
     return (await this.fetchJSON<PropertyContainer>(url, requestOptions)).property;
   }
 
   public async deleteProperty(accessToken: AccessToken, mappingId: string, groupId: string, propertyId: string): Promise<Response> {
-    const url = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
+    const url = this.constructUrl(mappingId, groupId, propertyId);
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
     return this.fetchJSON<Response>(url, requestOptions);
   }
 
   public async getProperty(accessToken: AccessToken, mappingId: string, groupId: string, propertyId: string): Promise<Property> {
-    const url = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
+    const url = this.constructUrl(mappingId, groupId, propertyId);
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     return (await this.fetchJSON<PropertyContainer>(url, requestOptions)).property;
   }
@@ -56,8 +56,7 @@ export class PropertiesClient extends OperationsBase implements IPropertiesClien
       );
     }
 
-    const url = top ? `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties?$top=${top}`
-      : `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
+    const url = this.constructUrl(mappingId, groupId, undefined, top);
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     const response =  await this.fetchJSON<PropertyList>(url, requestOptions);
     return response;
@@ -71,8 +70,7 @@ export class PropertiesClient extends OperationsBase implements IPropertiesClien
       );
     }
 
-    const url = top ? `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties?$top=${top}`
-      : `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
+    const url = this.constructUrl(mappingId, groupId, undefined, top);
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Property>( url, async (nextUrl: string): Promise<Collection<Property>> => {
       const response =  await this.fetchJSON<PropertyList>(nextUrl, requestOptions);
@@ -108,7 +106,7 @@ export class PropertiesClient extends OperationsBase implements IPropertiesClien
         }
       }
 
-    const url = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
+    const url = this.constructUrl(mappingId, groupId, propertyId);
     const requestOptions: RequestInit = this.createRequest("PUT", accessToken, JSON.stringify(propertyUpdate));
     return (await this.fetchJSON<PropertyContainer>(url, requestOptions)).property;
   }
@@ -121,5 +119,23 @@ export class PropertiesClient extends OperationsBase implements IPropertiesClien
     return !this.isNullOrWhitespace(prop.ecSchemaName) &&
       !this.isNullOrWhitespace(prop.ecClassName) &&
       !this.isNullOrWhitespace(prop.ecPropertyName);
+  }
+
+  /**
+   * Constructs the endpoint with the provided params
+   * @param mappingId Mapping Id.
+   * @param groupId Group Id.
+   * @param propertyId Optional group Id.
+   * @param top Optional top number.
+   * @returns url endpoint.
+   */
+  protected constructUrl(mappingId: string, groupId: string, propertyId?: string, top?: number): string {
+    if(propertyId)
+      return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
+
+    if(top)
+      return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties?$top=${top}`;
+
+    return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
   }
 }

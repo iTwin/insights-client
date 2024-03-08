@@ -29,13 +29,13 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
       );
     }
 
-    const url = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups`;
+    const url = this.constructUrl(mappingId);
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(group));
     return (await this.fetchJSON<GroupContainer>(url, requestOptions)).group;
   }
 
   public async deleteGroup(accessToken: AccessToken, mappingId: string, groupId: string): Promise<Response> {
-    const url = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
+    const url = this.constructUrl(mappingId, groupId);
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
     return this.fetchJSON<Response>(url, requestOptions);
   }
@@ -62,13 +62,13 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
       );
     }
 
-    const url = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
+    const url = this.constructUrl(mappingId, groupId);
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(group));
     return (await this.fetchJSON<GroupContainer>(url, requestOptions)).group;
   }
 
   public async getGroup(accessToken: AccessToken, mappingId: string, groupId: string): Promise<Group> {
-    const url = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
+    const url = this.constructUrl(mappingId, groupId);
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     return (await this.fetchJSON<GroupContainer>(url, requestOptions)).group;
   }
@@ -81,9 +81,7 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
       );
     }
 
-    const baseUrl = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups`;
-    const url = `${baseUrl}${top ? `?$top=${top}` : ""}`;
-
+    const url = this.constructUrl(mappingId, undefined, top);
     const request = this.createRequest("GET", accessToken);
     const response =  await this.fetchJSON<GroupList>(url, request);
     return response;
@@ -97,9 +95,7 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
       );
     }
 
-    const baseUrl = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups`;
-    const url = `${baseUrl}${top ? `?$top=${top}` : ""}`;
-
+    const url = this.constructUrl(mappingId, undefined, top);
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Group>( url, async (nextUrl: string): Promise<Collection<Group>> => {
       const response = await this.fetchJSON<GroupList>(nextUrl, request);
@@ -109,5 +105,22 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
         _links: response._links,
       };
     }));
+  }
+
+  /**
+   * Construct group endpoint with provided params.
+   * @param mappingId Mapping Id.
+   * @param groupId Group Id.
+   * @param top Optional top number.
+   * @returns url endpoint.
+   */
+  protected constructUrl(mappingId: string, groupId?: string, top?: number): string {
+    if(groupId)
+      return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
+
+    if(top)
+      return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups?$top=${top}`;
+
+    return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups`;
   }
 }

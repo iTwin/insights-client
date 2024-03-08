@@ -225,7 +225,6 @@ describe("Properties Client Unit tests", ()=> {
       "PUT",
       "authToken"
     )).to.be.true;
-
   });
 });
 
