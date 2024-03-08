@@ -72,7 +72,7 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
     return (await this.fetchJSON<GroupContainer>(url, requestOptions)).group;
   }
 
-  public async getGroups(accessToken: string,  mappingId: string, top?: number | undefined): Promise<GroupList> {
+  public async getGroups(accessToken: string,  mappingId: string, top?: number ): Promise<GroupList> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -86,7 +86,7 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
     return response;
   }
 
-  public getGroupsIterator(accessToken: string,  mappingId: string, top?: number | undefined): EntityListIterator<Group> {
+  public getGroupsIterator(accessToken: string,  mappingId: string, top?: number ): EntityListIterator<Group> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",

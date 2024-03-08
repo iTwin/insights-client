@@ -8,13 +8,13 @@ import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IGroupsClient {
   /**
-     * Creates a Group for a Mapping.
-     * @param {string} accessToken OAuth access token with scope `insights:modify`.
-     * @param {string} mappingId The Mapping Id.
-     * @param {GroupCreate} group Request body.
-     * @memberof GroupsClient
-     * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/create-group/
-     */
+    * Creates a Group for a Mapping.
+    * @param {string} accessToken OAuth access token with scope `insights:modify`.
+    * @param {string} mappingId The Mapping Id.
+    * @param {GroupCreate} group Request body.
+    * @memberof GroupsClient
+    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/create-group/
+    */
   createGroup( accessToken: AccessToken, mappingId: string, group: GroupCreate): Promise<Group>;
 
   /**

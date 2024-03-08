@@ -12,10 +12,10 @@ import { Link, PagedResponseLinks } from "../../common/Links";
  */
 export interface MappingLinks {
   /**
-       *
-       * @type {Link}
-       * @memberof MappingLinks
-       */
+    *
+    * @type {Link}
+    * @memberof MappingLinks
+    */
   iModel: Link;
 }
 
@@ -26,66 +26,66 @@ export interface MappingLinks {
  */
 export interface Mapping {
   /**
-     * The Mapping Id.
-     * @type {string}
-     * @memberof Mapping
-     */
+    * The Mapping Id.
+    * @type {string}
+    * @memberof Mapping
+    */
   id: string;
 
   /**
-     * Name of the Mapping (OData v4 SimpleIdentifier).
-     * @type {string}
-     * @memberof Mapping
-     */
+    * Name of the Mapping (OData v4 SimpleIdentifier).
+    * @type {string}
+    * @memberof Mapping
+    */
   mappingName: string;
 
   /**
-     * Description of the Mapping.
-     * @type {string}
-     * @memberof Mapping
-     */
+    * Description of the Mapping.
+    * @type {string}
+    * @memberof Mapping
+    */
   description: string;
 
   /**
-     * Value of `false` excludes a `Mapping` from the `Run Extraction` operation and automatic execution after the `Create iModel Named Version` operation.
-     * @type {boolean}
-     * @memberof Mapping
-     */
+    * Value of `false` excludes a `Mapping` from the `Run Extraction` operation and automatic execution after the `Create iModel Named Version` operation.
+    * @type {boolean}
+    * @memberof Mapping
+    */
   extractionEnabled: boolean;
 
   /**
-     * Date when the Mapping was created.
-     * @type {string}
-     * @memberof Mapping
-     */
+    * Date when the Mapping was created.
+    * @type {string}
+    * @memberof Mapping
+    */
   createdOn: string;
 
   /**
-     * Email of the user who created the Mapping.
-     * @type {string}
-     * @memberof Mapping
-     */
+    * Email of the user who created the Mapping.
+    * @type {string}
+    * @memberof Mapping
+    */
   createdBy: string;
 
   /**
-     * Date when the Mapping was last modified.
-     * @type {string}
-     * @memberof Mapping
-     */
+    * Date when the Mapping was last modified.
+    * @type {string}
+    * @memberof Mapping
+    */
   modifiedOn: string;
 
   /**
-     * Email of the user who last modified the Mapping.
-     * @type {string}
-     * @memberof Mapping
-     */
+    * Email of the user who last modified the Mapping.
+    * @type {string}
+    * @memberof Mapping
+    */
   modifiedBy: string;
 
   /**
-     *
-     * @type {MappingLinks}
-     * @memberof Mapping
-     */
+    *
+    * @type {MappingLinks}
+    * @memberof Mapping
+    */
   _links: MappingLinks;
 }
 
@@ -162,10 +162,10 @@ export interface MappingUpdate {
  */
 export interface MappingContainer {
   /**
-     *
-     * @type {Mapping}
-     * @memberof MappingSingle
-     */
+    *
+    * @type {Mapping}
+    * @memberof MappingSingle
+    */
   mapping: Mapping;
 }
 
@@ -208,7 +208,7 @@ export interface MappingExtraction {
    * @type {string}
    * @memberof MappingExtraction
    */
-  extractionTimeStamp: string;
+  extractionTimestamp: string;
 
   /**
    * Index of the iModel Changeset that the mapping was extracted from.
@@ -233,12 +233,13 @@ export interface MappingExtraction {
 }
 
 /**
+ * Hyperlinks to related data which complements this entity.
  * @export
  * @interface MappingExtractionLinks
  */
 export interface MappingExtractionLinks {
   /**
-   * Hyperlinks to related data which complements this entity.
+   * Link to retrieve the Common Data Model.
    * @type {Link}
    * @memberof MappingExtractionLinks
    */
