@@ -36,7 +36,7 @@ describe("Properties Client Unit tests", ()=> {
         id: "1",
         propertyName: "BeamVolume",
         dataType: DataType.Double,
-        quantityType: "Volume",
+        quantityType: QuantityType.Volume,
         calculatedPropertyType: CalculatedPropertyType.Volume,
         _links: {
           iModel: {
@@ -88,7 +88,7 @@ describe("Properties Client Unit tests", ()=> {
         id: "1",
         propertyName: "BeamVolume",
         dataType: DataType.Double,
-        quantityType: "Volume",
+        quantityType: QuantityType.Volume,
         ecProperties: [{
           ecSchemaName: "*",
           ecClassName: "*",
@@ -129,7 +129,7 @@ describe("Properties Client Unit tests", ()=> {
         id: "1",
         propertyName: "BeamVolume",
         dataType: DataType.Double,
-        quantityType: "Volume",
+        quantityType: QuantityType.Volume,
         ecProperties: [{
           ecSchemaName: "*",
           ecClassName: "*",
@@ -190,7 +190,7 @@ describe("Properties Client Unit tests", ()=> {
         id: "1",
         propertyName: "BeamVolume",
         dataType: DataType.Double,
-        quantityType: "Volume",
+        quantityType: QuantityType.Volume,
         calculatedPropertyType: CalculatedPropertyType.Volume,
         ecProperties:[{
           ecSchemaName: "*",
@@ -225,7 +225,6 @@ describe("Properties Client Unit tests", ()=> {
       "PUT",
       "authToken"
     )).to.be.true;
-
   });
 });
 

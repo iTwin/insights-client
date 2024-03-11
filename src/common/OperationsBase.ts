@@ -22,7 +22,7 @@ export class OperationsBase {
 
   /**
    * Creates a request body and headers
-   * @param {string} operation string specifying which opperation will be performed
+   * @param {string} operation string specifying which operation will be performed
    * @param {string} accessToken OAuth access token with scope `insights:read`
    * @param {string} content request body
    * @memberof OperationsBase

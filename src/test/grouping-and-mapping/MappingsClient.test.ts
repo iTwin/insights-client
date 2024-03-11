@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
 import { MappingsClient } from "../../grouping-and-mapping/clients/MappingsClient";
-import { MappingContainer, MappingCreate, MappingList, MappingUpdate } from "../../grouping-and-mapping/interfaces/Mappings";
+import { MappingContainer, MappingCreate, MappingExtractionCollection, MappingList, MappingUpdate } from "../../grouping-and-mapping/interfaces/Mappings";
 import * as sinon from "sinon";
 
 describe("Mappings Client Unit tests", ()=> {
@@ -59,7 +59,12 @@ describe("Mappings Client Unit tests", ()=> {
       "pass",
     )).to.be.true;
 
-    expect(requestStub.calledWith( "POST", "authToken", JSON.stringify(newMapping))).to.be.true;
+    expect(requestStub.calledWith(
+      "POST",
+      "authToken",
+      JSON.stringify(newMapping)
+    )).to.be.true;
+
   });
 
   it("Mappings client - Delete", async () => {
@@ -206,4 +211,42 @@ describe("Mappings Client Unit tests", ()=> {
     });
   });
 
+  it("Mappings Client - Get mapping extractions", async ()=> {
+    const returns: MappingExtractionCollection = {
+      extractions: [{
+        extractionId: "someExtractionId",
+        extractionTimestamp: "2023-01-10T13:44:56+00:00",
+        changesetIndex: 5,
+        mappingTimestamp: "2022-01-10T13:44:56+00:00",
+        _links: {
+          cdm: {
+            href: "https://api.bentley.com/grouping-and-mapping/datasources/imodel-mappings/mappingId/extractions/someExtractionId/cdm",
+          },
+        },
+      }],
+      _links: {
+        next: undefined,
+        self: {
+          href: "https://api.bentley.com/grouping-and-mapping/datasources/imodel-mappings/mappingId/extractions?$top=10",
+        },
+      },
+    };
+    fetchStub.resolves(returns);
+
+    const mappingExtractions = await mappingsClient.getMappingExtractions("authToken", "mappingId", 10);
+
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/grouping-and-mapping/datasources/imodel-mappings/mappingId/extractions?$top=10",
+      "pass",
+    )).to.be.true;
+
+    expect(requestStub.calledWith(
+      "GET",
+      "authToken",
+    )).to.be.true;
+
+    expect(mappingExtractions.extractions.length).to.be.equal(1);
+    expect(mappingExtractions.extractions[0].extractionId).to.deep.equal("someExtractionId");
+    expect(mappingExtractions._links.next).to.be.undefined;
+  });
 });

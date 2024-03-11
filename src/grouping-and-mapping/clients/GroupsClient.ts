@@ -9,11 +9,12 @@ import { Collection, getEntityCollectionPage } from "../../common/iterators/Iter
 import { RequiredError } from "../../common/Errors";
 import { Group, GroupContainer, GroupCreate, GroupList, GroupUpdate } from "../interfaces/Groups";
 import { IGroupsClient } from "../interfaces/IGroupsClient";
+import { AccessToken } from "@itwin/core-bentley";
 
 export class GroupsClient extends OperationsBase  implements IGroupsClient {
-  private _groupsUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings`;
+  private _baseUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings`;
 
-  public async createGroup(accessToken: string, mappingId: string, group: GroupCreate): Promise<Group> {
+  public async createGroup(accessToken: AccessToken, mappingId: string, group: GroupCreate): Promise<Group> {
     if (!this.isSimpleIdentifier(group.groupName)) {
       throw new RequiredError(
         "groupName",
@@ -28,18 +29,18 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
       );
     }
 
-    const url = `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups`;
+    const url = this.constructUrl(mappingId);
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(group));
     return (await this.fetchJSON<GroupContainer>(url, requestOptions)).group;
   }
 
-  public async deleteGroup(accessToken: string, mappingId: string, groupId: string): Promise<Response> {
-    const url = `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
+  public async deleteGroup(accessToken: AccessToken, mappingId: string, groupId: string): Promise<Response> {
+    const url = this.constructUrl(mappingId, groupId);
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);
     return this.fetchJSON<Response>(url, requestOptions);
   }
 
-  public async updateGroup(accessToken: string, mappingId: string, groupId: string, group: GroupUpdate): Promise<Group> {
+  public async updateGroup(accessToken: AccessToken, mappingId: string, groupId: string, group: GroupUpdate): Promise<Group> {
     if(null == group.groupName && null == group.description && null == group.query) {
       throw new RequiredError(
         "group",
@@ -61,18 +62,18 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
       );
     }
 
-    const url = `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
+    const url = this.constructUrl(mappingId, groupId);
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(group));
     return (await this.fetchJSON<GroupContainer>(url, requestOptions)).group;
   }
 
-  public async getGroup(accessToken: string, mappingId: string, groupId: string): Promise<Group> {
-    const url = `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
+  public async getGroup(accessToken: AccessToken, mappingId: string, groupId: string): Promise<Group> {
+    const url = this.constructUrl(mappingId, groupId);
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     return (await this.fetchJSON<GroupContainer>(url, requestOptions)).group;
   }
 
-  public async getGroups(accessToken: string,  mappingId: string, top?: number | undefined): Promise<GroupList> {
+  public async getGroups(accessToken: AccessToken,  mappingId: string, top?: number ): Promise<GroupList> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -80,20 +81,21 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
       );
     }
 
-    const url = top ? `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups?$top=${top}` : `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups`;
+    const url = this.constructUrl(mappingId, undefined, top);
     const request = this.createRequest("GET", accessToken);
     const response =  await this.fetchJSON<GroupList>(url, request);
     return response;
   }
 
-  public getGroupsIterator(accessToken: string,  mappingId: string, top?: number | undefined): EntityListIterator<Group> {
+  public getGroupsIterator(accessToken: AccessToken,  mappingId: string, top?: number ): EntityListIterator<Group> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
-    const url = top ? `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups?$top=${top}` : `${this._groupsUrl}/${encodeURIComponent(mappingId)}/groups`;
+
+    const url = this.constructUrl(mappingId, undefined, top);
     const request = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<Group>( url, async (nextUrl: string): Promise<Collection<Group>> => {
       const response = await this.fetchJSON<GroupList>(nextUrl, request);
@@ -103,5 +105,22 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
         _links: response._links,
       };
     }));
+  }
+
+  /**
+   * Construct group endpoint with provided params.
+   * @param mappingId Mapping Id.
+   * @param groupId Group Id.
+   * @param top Optional top number.
+   * @returns url endpoint.
+   */
+  protected constructUrl(mappingId: string, groupId?: string, top?: number): string {
+    if(groupId)
+      return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
+
+    if(top)
+      return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups?$top=${top}`;
+
+    return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups`;
   }
 }
