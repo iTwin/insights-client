@@ -7,11 +7,11 @@ import { expect, use } from "chai";
 import {
   AggregationPropertyCreate, AggregationPropertyType, AggregationPropertyUpdate, AggregationsClient,
   AggregationTableCreate, AggregationTableSetCreate, AggregationTableSetUpdate, AggregationTableUpdate,
-  ExtractionClient, ODataClient, ODataItem, ReportAggregationCreate, ReportCreate, ReportMappingCreate,
+  ODataClient, ODataItem, ReportAggregationCreate, ReportCreate, ReportMappingCreate,
   ReportsClient, ReportUpdate } from "../reporting";
 import { EC3ConfigurationsClient } from "../carbon-calculation/clients/EC3ConfigurationsClient";
 import { EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
-import { DataType, ECPropertyReference, GroupCreate, GroupsClient, GroupUpdate, MappingCreate, MappingsClient, MappingUpdate, PropertiesClient, PropertyModify, QuantityType } from "../grouping-and-mapping";
+import { DataType, ECPropertyReference, ExtractionClient, GroupCreate, GroupsClient, GroupUpdate, MappingCreate, MappingsClient, MappingUpdate, PropertiesClient, PropertyModify, QuantityType } from "../grouping-and-mapping";
 use(chaiAsPromised);
 
 describe("Validation", () => {
@@ -405,15 +405,6 @@ describe("Validation", () => {
       "Parameter top was outside of the valid range [1-1000]."
     );
     await expect(extractionClient.getExtractionLogs("-", "-", 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
-    );
-  });
-
-  it("Extraction history - Faulty top value", async () => {
-    await expect(extractionClient.getExtractionHistory("-", "-", 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
-    );
-    await expect(extractionClient.getExtractionHistory("-", "-", 1001)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000]."
     );
   });
