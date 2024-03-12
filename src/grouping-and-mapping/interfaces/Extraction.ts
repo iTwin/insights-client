@@ -2,7 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { Link } from "../../common/Links";
+/* eslint-disable @typescript-eslint/naming-convention */
+
+import { Link, PagedResponseLinks } from "../../common/Links";
 
 /**
  * Properties of the Extraction Run to be started.
@@ -53,6 +55,8 @@ export interface ExtractionMapping {
 
 /**
  * Current status of an extraction.
+ * @export
+ * @interface ExtractionStatus
  */
 export interface ExtractionStatus {
   /**
@@ -73,27 +77,37 @@ export interface ExtractionStatus {
 
   /**
    * Start time of the extraction.
+   * @type {string}
+   * @memberof ExtractionStatus
    */
   startedOn: string;
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
+  /**
+   * Contains contextual hyperlinks to related data.
+   * @type {ExtractionLinks}
+   * @memberof ExtractionStatus
+   */
   _links: ExtractionLinks;
 }
 
 /**
  * Hyperlinks to related data which complements this entity.
+ * @export
+ * @interface ExtractionLinks
  */
 export interface ExtractionLinks {
   /**
-    * Link to retrieve the extraction status.
-    * @type {Link}
-    * @memberof ExtractionLinks
-    */
+   * Link to retrieve the extraction status.
+   * @type {Link}
+   * @memberof ExtractionLinks
+   */
   status: Link;
 }
 
 /**
  * Container for an extraction status object.
+ * @export
+ * @interface ExtractionContainer
  */
 export interface ExtractionContainer {
   /**
@@ -104,6 +118,114 @@ export interface ExtractionContainer {
   extraction: ExtractionStatus;
 }
 
+/**
+ * Collection of extractions.
+ * @export
+ * @interface ExtractionsResponse
+ */
+export interface ExtractionsResponse {
+  /**
+   * List of extractions
+   * @type {ExtractionStatus[]}
+   * @memberof ExtractionsResponse
+   */
+  extractions: ExtractionStatus[];
+
+  /**
+   * Contains the hyperlinks to the current and next pages of results.
+   * @type {PagedResponseLinks}
+   * @memberof ExtractionsResponse
+   */
+  _links: PagedResponseLinks;
+}
+
+/**
+ * A single extraction log entry.
+ * @export
+ * @interface ExtractionLogEntry
+ */
+export interface ExtractionLogEntry {
+
+  /**
+   * Current state of the extraction.
+   * One of `Queued`, `Running`, `Succeeded`,
+   * `PartiallySucceeded`, `Failed`.
+   * @type {ExtractionState}
+   * @memberof ExtractionLogEntry
+   */
+  state: ExtractionState;
+
+  /**
+   * Time when this log entry was created.
+   * @type {string}
+   * @memberof ExtractionLogEntry
+   */
+  dateTime: string;
+
+  /**
+   * Type of context for which this log
+   * entry was created, e.g, 'IModel', 'Mapping'
+   * @type {string}
+   * @memberof ExtractionLogEntry
+   */
+  contextType: string;
+
+  /**
+   * Id of the context that this log entry is related to.
+   * @type {string}
+   * @memberof ExtractionLogEntry.
+   */
+  contextId: string;
+
+  /**
+   * Level of the log entry. One of 'information', 'Warning', 'Error'.
+   * @type {string}
+   * @memberof ExtractionLogEntry.
+   */
+  level: string;
+
+  /**
+   * Category of the log entry, e.g., 'GroupQuery', 'QueryTranslation', 'QueryExecution', 'StateChange'.
+   * @type {string}
+   * @memberof ExtractionLogEntry.
+   */
+  category: string;
+
+  /**
+   * Message of the log entry.
+   * @type {string}
+   * @memberof ExtractionLogEntry.
+   */
+  message: string;
+}
+
+/**
+ * Collection of extraction logs.
+ * @export
+ * @interface ExtractionLogsResponse
+ */
+export interface ExtractionLogsResponse {
+  /**
+   * List of extraction logs.
+   * @type {ExtractionLogEntry[]}
+   * @memberof ExtractionLogsResponse
+   */
+  logs: ExtractionLogEntry[];
+
+  /**
+   * Contains the hyperlinks to the current and next pages of results.
+   * @type {PagedResponseLinks}
+   * @memberof ExtractionLogsResponse
+   */
+  _links: PagedResponseLinks;
+
+}
+
+/**
+ * Allowed current state of extraction.
+ * @export
+ * @interface ExtractionState
+ */
 export enum ExtractionState {
   Queued = "Queued",
   Running = "Running",
