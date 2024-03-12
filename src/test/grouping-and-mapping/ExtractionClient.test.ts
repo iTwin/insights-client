@@ -5,11 +5,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { ExtractionClient } from "../../grouping-and-mapping/clients/ExtractionClient";
-import { ExtractionContainer, ExtractionRequestDetails, ExtractionsResponse, ExtractionState } from "../../grouping-and-mapping/interfaces/Extraction";
+import { ExtractionContainer, ExtractionLogsResponse, ExtractionRequestDetails, ExtractionsResponse, ExtractionState, LogLevelEntry } from "../../grouping-and-mapping/interfaces/Extraction";
 import { expect } from "chai";
 import * as sinon from "sinon";
 
-describe.only("Extraction Client unit tests", ()=> {
+describe("Extraction Client unit tests", ()=> {
   let fetchStub: sinon.SinonStub;
   let requestStub: sinon.SinonStub;
   const extractionClient = new ExtractionClient();
@@ -143,7 +143,50 @@ describe.only("Extraction Client unit tests", ()=> {
   });
 
   it("Extraction Client - Get Extraction logs", async ()=> {
-    // do logs
+    const returns: ExtractionLogsResponse = {
+      logs: [
+        {
+          state: ExtractionState.Succeeded,
+          dateTime: "2022-09-10T13:44:56+00:00",
+          contextType: "IModel",
+          contextId: "70a3d6d3",
+          level: LogLevelEntry.Information,
+          category: "StateChange",
+          message: "Completed.",
+        },
+        {
+          state: ExtractionState.Running,
+          dateTime: "2022-09-10T13:43:56+00:00",
+          contextType: "IModel",
+          contextId: "70a3d6d3",
+          level: LogLevelEntry.Information,
+          category: "StateChange",
+          message: "Not completed yet.",
+        },
+      ],
+      _links: {
+        next: undefined,
+        self: {
+          href: "https://api.bentley.com/grouping-and-mapping/datasources/imodel-mappings/extractions/extractionId/logs?$top=2",
+        },
+      },
+    };
+    fetchStub.resolves(returns);
+
+    const extractionLogs = await extractionClient.getExtractionLogs("authToken", "extractionId", 2);
+
+    expect(extractionLogs.logs.length).to.be.equal(2);
+
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/grouping-and-mapping/datasources/imodel-mappings/extractions/extractionId/logs?$top=2",
+      "pass",
+    )).to.be.true;
+
+    expect(requestStub.calledWith(
+      "GET",
+      "authToken",
+    )).to.be.true;
+
   });
 
 });

@@ -178,11 +178,11 @@ export interface ExtractionLogEntry {
   contextId: string;
 
   /**
-   * Level of the log entry. One of 'information', 'Warning', 'Error'.
+   * Level of the log entry. One of 'Information', 'Warning', 'Error'.
    * @type {string}
    * @memberof ExtractionLogEntry.
    */
-  level: string;
+  level: LogLevelEntry;
 
   /**
    * Category of the log entry, e.g., 'GroupQuery', 'QueryTranslation', 'QueryExecution', 'StateChange'.
@@ -230,6 +230,18 @@ export enum ExtractionState {
   Queued = "Queued",
   Running = "Running",
   Succeeded = "Succeeded",
+  PartiallySucceeded = "PartiallySucceeded",
   Failed = "Failed"
+}
+
+/**
+ * Level of the log entry.
+ * @export
+ * @interface LogLevelEntry
+ */
+export enum LogLevelEntry {
+  Information = "Information",
+  Warning = "Warning",
+  Error = "Error"
 }
 

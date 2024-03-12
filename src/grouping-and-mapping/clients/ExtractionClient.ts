@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import { AccessToken } from "@itwin/core-bentley";
 import { OperationsBase } from "../../common/OperationsBase";
-import { ExtractionContainer, ExtractionRequestDetails, ExtractionsResponse, ExtractionStatus } from "../interfaces/Extraction";
+import { ExtractionContainer, ExtractionLogsResponse, ExtractionRequestDetails, ExtractionsResponse, ExtractionStatus } from "../interfaces/Extraction";
 import { IExtractionClient } from "../interfaces/IExtractionClient";
 import { RequiredError } from "../../common/Errors";
 
@@ -35,13 +35,17 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
     return response;
   }
 
-  public async getExtractionLogs(accessToken: string, extractionId: string, top?: number | undefined): Promise<any> {
+  public async getExtractionLogs(accessToken: string, extractionId: string, top?: number | undefined): Promise<ExtractionLogsResponse> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
+    const url = `${this._baseUrl}/${encodeURIComponent(extractionId)}/logs${top ? `?$top=${top}` : `` }`;
+    const requestOptions: RequestInit = this.createRequest("GET", accessToken);
+    const response = await this.fetchJSON<ExtractionLogsResponse>(url, requestOptions);
+    return response;
   }
 
 }

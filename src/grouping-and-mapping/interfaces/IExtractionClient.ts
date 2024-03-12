@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { AccessToken } from "@itwin/core-bentley";
-import { ExtractionRequestDetails, ExtractionsResponse, ExtractionStatus } from "./Extraction";
+import { ExtractionLogsResponse, ExtractionRequestDetails, ExtractionsResponse, ExtractionStatus } from "./Extraction";
 
 export interface IExtractionClient {
   /**
@@ -40,6 +40,6 @@ export interface IExtractionClient {
    * @param extractionId The extraction Id.
    * @param top Optional max items to be sent in response.
    */
-  getExtractionLogs(accessToken: AccessToken, extractionId: string, top?: number): Promise<any>;
+  getExtractionLogs(accessToken: AccessToken, extractionId: string, top?: number): Promise<ExtractionLogsResponse>;
 
 }
