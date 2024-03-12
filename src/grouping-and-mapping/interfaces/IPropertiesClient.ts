@@ -4,6 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import { AccessToken } from "@itwin/core-bentley";
 import { Property, PropertyList, PropertyModify } from "./Properties";
+import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 
 export interface IPropertiesClient {
 
@@ -42,7 +43,7 @@ export interface IPropertiesClient {
   getProperty( accessToken: AccessToken, mappingId: string, groupId: string, propertyId: string): Promise<Property>;
 
   /**
-   * Gets all GroupProperties for a Group. This method returns the full list of group properties.
+   * Gets properties for a Group. This method returns the full list of group properties.
    * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param {string} mappingId The Mapping Id.
    * @param {string} groupId The Group Id.
@@ -51,6 +52,17 @@ export interface IPropertiesClient {
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-properties/
    */
   getProperties( accessToken: AccessToken, mappingId: string, groupId: string, top?: number): Promise<PropertyList>;
+
+  /**
+   * Gets an async paged iterator of properties for a Group.
+   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {string} mappingId The Mapping Id.
+   * @param {string} groupId The Group Id.
+   * @param {number} top The number of entities to load per page.
+   * @memberof PropertiesClient
+   * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-properties/
+   */
+  getPropertiesIterator(accessToken: AccessToken, mappingId: string, groupId: string, top?: number ): EntityListIteratorImpl<Property>;
 
   /**
    * Updates a Property for a Group.

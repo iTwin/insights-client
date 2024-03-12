@@ -28,17 +28,17 @@ export interface ExtractionRequestDetails {
 
   /**
     * List of mappings to extract.
-    * @type {ExtractionMapping[]}
+    * @type {Array<ExtractionMapping>}
     * @memberof ExtractionRequestDetails
     */
-  mappings: ExtractionMapping[];
+  mappings: Array<ExtractionMapping>;
 
   /**
     * List of ECInstanceIds to extract during new extraction run.
-    * @type {string[]}
+    * @type {Array<string>}
     * @memberof ExtractionRequestDetails
     */
-  ecInstanceIds?: string[];
+  ecInstanceIds?: Array<string>;
 }
 
 /**
@@ -126,10 +126,10 @@ export interface ExtractionContainer {
 export interface ExtractionsResponse {
   /**
    * List of extractions
-   * @type {ExtractionStatus[]}
+   * @type {Array<ExtractionStatus>}
    * @memberof ExtractionsResponse
    */
-  extractions: ExtractionStatus[];
+  extractions: Array<ExtractionStatus>;
 
   /**
    * Contains the hyperlinks to the current and next pages of results.
@@ -207,10 +207,10 @@ export interface ExtractionLogEntry {
 export interface ExtractionLogsResponse {
   /**
    * List of extraction logs.
-   * @type {ExtractionLogEntry[]}
+   * @type {Array<ExtractionLogEntry>}
    * @memberof ExtractionLogsResponse
    */
-  logs: ExtractionLogEntry[];
+  logs: Array<ExtractionLogEntry>;
 
   /**
    * Contains the hyperlinks to the current and next pages of results.
