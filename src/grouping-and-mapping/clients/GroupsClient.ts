@@ -115,12 +115,13 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
    * @returns url endpoint.
    */
   protected constructUrl(mappingId: string, groupId?: string, top?: number): string {
-    if(groupId)
-      return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}`;
+    let url = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups`;
 
-    if(top)
-      return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups?$top=${top}`;
-
-    return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups`;
+    if(groupId){
+      url += `/${encodeURIComponent(groupId)}`;
+    }else if(top){
+      url += `?$top=${top}`;
+    }
+    return url;
   }
 }
