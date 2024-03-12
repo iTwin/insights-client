@@ -130,12 +130,13 @@ export class PropertiesClient extends OperationsBase implements IPropertiesClien
    * @returns url endpoint.
    */
   protected constructUrl(mappingId: string, groupId: string, propertyId?: string, top?: number): string {
-    if(propertyId)
-      return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties/${encodeURIComponent(propertyId)}`;
+    let url = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
 
-    if(top)
-      return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties?$top=${top}`;
-
-    return `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups/${encodeURIComponent(groupId)}/properties`;
+    if(propertyId){
+      url += `/${encodeURIComponent(propertyId)}`;
+    }else if(top){
+      url += `?$top=${top}`;
+    }
+    return url;
   }
 }
