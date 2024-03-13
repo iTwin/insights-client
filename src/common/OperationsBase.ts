@@ -65,14 +65,14 @@ export class OperationsBase {
       } else if (attempt < MAX_ATTEMPTS && 429 === response.status) {
         const retryAfter = response.headers.get("Retry-After");
         if (null === retryAfter) {
-          throw await response.json();
+          throw response;
         }
 
         const retryAfterSeconds = parseInt(retryAfter, 10);
 
         await new Promise((resolve) => setTimeout(resolve, retryAfterSeconds * 1000));
       } else {
-        throw await response.json();
+        throw response;
       }
     }
 
