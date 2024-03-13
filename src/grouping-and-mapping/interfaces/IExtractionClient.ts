@@ -50,6 +50,7 @@ export interface IExtractionClient {
    * @param {AccessToken} accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param {string}extractionId The extraction Id.
    * @param {number} top Optional max items to be sent in response.
+   * @memberof ExtractionClient
    * @link "https://developer.bentley.com/apis/grouping-and-mapping/operations/get-extraction-logs/"
    */
   getExtractionLogs(accessToken: AccessToken, extractionId: string, top?: number): Promise<ExtractionLogsResponse>;
@@ -59,6 +60,7 @@ export interface IExtractionClient {
    * @param {AccessToken} accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param {string} extractionId The extraction Id.
    * @param {number} top Optional max items to be sent in response.
+   * @memberof ExtractionClient
    * @link "https://developer.bentley.com/apis/grouping-and-mapping/operations/get-extraction-logs/"
    */
   getExtractionLogsIterator(accessToken: AccessToken, extractionId: string, top?: number): EntityListIterator<ExtractionLogEntry>;
