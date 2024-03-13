@@ -48,10 +48,9 @@ describe("OData Client", () => {
       iModelId: testIModel.id,
       mappings: [
         { id : mappingId },
-      ], // TODO: INVESTIGATE IF MAPPING ID IS NEEDED HERE AS WELL.
+      ],
     };
 
-    // TODO: TEST AGAIN AND FIX
     const extraction = await extractionClient.runExtraction(accessToken, extractionRequestDetails);
     let state = ExtractionState.Queued;
     let status: ExtractionStatus;
