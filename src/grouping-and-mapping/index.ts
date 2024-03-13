@@ -24,3 +24,7 @@ export * from "./interfaces/Properties";
 export * from "./interfaces/IPropertiesClient";
 export * from "./clients/PropertiesClient";
 
+export * from "./interfaces/Extraction";
+export * from "./interfaces/IExtractionClient";
+export * from "./clients/ExtractionClient";
+
