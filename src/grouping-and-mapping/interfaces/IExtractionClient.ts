@@ -9,7 +9,7 @@ import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 export interface IExtractionClient {
   /**
    * Manually run Extraction of data from an iModel.
-   * @param {string} accessToken OAuth access token with imodels:modify or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with imodels:modify or itwin-platform scope.
    * @param {ExtractionRunRequest} extractionRequestDetails Extraction properties.
    * @memberof ExtractionClient
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/run-extraction/
@@ -18,7 +18,7 @@ export interface IExtractionClient {
 
   /**
    * Gets the status of an extraction.
-   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param {string} extractionId The extraction Id.
    * @memberof ExtractionClient
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-extraction-status/
@@ -27,7 +27,7 @@ export interface IExtractionClient {
 
   /**
    * Gets all of the extractions that were run on a given iModel.
-   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param {string} iModelId The extraction Id.
    * @param {number} top Optional max items to be sent in response.
    * @memberof ExtractionClient
@@ -37,7 +37,7 @@ export interface IExtractionClient {
 
   /**
    * Gets an async paged iterator of IModel extractions.
-   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param {string} iModelId The extraction Id.
    * @param {number} top Optional max items to be sent in response.
    * @memberof ExtractionClient

@@ -10,7 +10,6 @@
  * - Leverage the OData feed Data Access to generate reports by combining data from multiple data streams in the digital twin.
  */
 
-export * from "../common/Errors";
 export * from "./interfaces/OData";
 export * from "./interfaces/Reports";
 export * from "./interfaces/AggregationProperties";

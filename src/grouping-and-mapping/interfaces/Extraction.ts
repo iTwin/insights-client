@@ -3,7 +3,6 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 /* eslint-disable @typescript-eslint/naming-convention */
-
 import { Link, PagedResponseLinks } from "../../common/Links";
 
 /**
@@ -179,7 +178,7 @@ export interface ExtractionLogEntry {
 
   /**
    * Level of the log entry. One of 'Information', 'Warning', 'Error'.
-   * @type {string}
+   * @type {LogLevelEntry}
    * @memberof ExtractionLogEntry.
    */
   level: LogLevelEntry;
