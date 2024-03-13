@@ -5,8 +5,9 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
-import { accessToken, aggregationsClient, mappingsClient, testIModel } from "../utils";
-import { AggregationPropertyCreate, AggregationPropertyType, AggregationPropertyUpdate, AggregationTableCreate, AggregationTableSetCreate, AggregationTableSetUpdate, AggregationTableUpdate, GroupCreate, MappingCreate } from "../../reporting";
+import { accessToken, aggregationsClient, groupsClient, mappingsClient, testIModel } from "../utils";
+import { AggregationPropertyCreate, AggregationPropertyType, AggregationPropertyUpdate, AggregationTableCreate, AggregationTableSetCreate, AggregationTableSetUpdate, AggregationTableUpdate } from "../../reporting";
+import { GroupCreate, MappingCreate } from "../../grouping-and-mapping";
 use(chaiAsPromised);
 
 describe("Aggregations Client", () => {
@@ -20,15 +21,16 @@ describe("Aggregations Client", () => {
     // create mappings for tests
     const newMapping: MappingCreate = {
       mappingName: "Test1",
+      iModelId: testIModel.id,
     };
-    const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
+    const mapping = await mappingsClient.createMapping(accessToken, newMapping);
     mappingId = mapping.id;
 
     const newGroup: GroupCreate = {
       groupName: "Test1",
       query: "select * from biscore.element limit 10",
     };
-    const group = await mappingsClient.createGroup(accessToken, testIModel.id, mappingId, newGroup);
+    const group = await groupsClient.createGroup(accessToken, mappingId, newGroup);
     groupname = group.groupName;
 
     // create table sets for tests
@@ -79,7 +81,7 @@ describe("Aggregations Client", () => {
   });
 
   after(async () => {
-    await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingId);
+    await mappingsClient.deleteMapping(accessToken, mappingId);
   });
 
   // aggregation table sets tests
@@ -157,7 +159,7 @@ describe("Aggregations Client", () => {
       groupName: "Test1",
       query: "select * from biscore.element limit 10",
     };
-    const group = await mappingsClient.createGroup(accessToken, testIModel.id, mappingId, newGroup);
+    const group = await groupsClient.createGroup(accessToken, mappingId, newGroup);
 
     const newAggregationTableSet: AggregationTableSetCreate = {
       tableSetName: "TableSet1",

@@ -6,7 +6,8 @@ import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
 import { accessToken, aggregationsClient, iTwinId, mappingsClient, reportsClient, testIModel } from "../utils";
-import { AggregationTableSetCreate, MappingCreate, ReportAggregation, ReportAggregationCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../../reporting";
+import { AggregationTableSetCreate, ReportAggregation, ReportAggregationCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../../reporting";
+import { MappingCreate } from "../../grouping-and-mapping";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {
@@ -20,16 +21,17 @@ describe("Reports Client", () => {
     // create mappings for tests
     const newMapping: MappingCreate = {
       mappingName: "Test1",
+      iModelId: testIModel.id,
     };
-    let mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
+    let mapping = await mappingsClient.createMapping(accessToken, newMapping);
     mappingIds.push(mapping.id);
 
     newMapping.mappingName = "Test2";
-    mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
+    mapping = await mappingsClient.createMapping(accessToken, newMapping);
     mappingIds.push(mapping.id);
 
     newMapping.mappingName = "Test3";
-    mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
+    mapping = await mappingsClient.createMapping(accessToken, newMapping);
     mappingIds.push(mapping.id);
 
     // create reports for tests
@@ -105,7 +107,7 @@ describe("Reports Client", () => {
 
   after(async () => {
     while(mappingIds.length > 0) {
-      await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop()!);
+      await mappingsClient.deleteMapping(accessToken, mappingIds.pop()!);
     }
     while(reportIds.length > 0) {
       await reportsClient.deleteReport(accessToken, reportIds.pop()!);
@@ -190,8 +192,9 @@ describe("Reports Client", () => {
   it("Report mappings - Create and delete", async () => {
     const newMapping: MappingCreate = {
       mappingName: "Test",
+      iModelId: testIModel.id,
     };
-    const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
+    const mapping = await mappingsClient.createMapping(accessToken, newMapping);
     expect(mapping).to.not.be.undefined;
     mappingIds.push(mapping.id);
 
@@ -207,7 +210,7 @@ describe("Reports Client", () => {
     let response: Response;
     response = await reportsClient.deleteReportMapping(accessToken, reportIds[0], reportMappingIds.pop()!);
     expect(response.status).to.be.eq(204);
-    response = await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingIds.pop()!);
+    response = await mappingsClient.deleteMapping(accessToken, mappingIds.pop()!);
     expect(response.status).to.be.eq(204);
   });
 

@@ -11,13 +11,15 @@ import { TestITwinProvider } from "./imodels-client-test-utils/test-context-prov
 import { TestConstants } from "./Constants";
 import { getTestDIContainer } from "./TestDiContainerProvider";
 import { ExtractionClient } from "../../reporting/clients/ExtractionClient";
-import { MappingsClient } from "../../reporting/clients/MappingsClient";
 import { ODataClient } from "../../reporting/clients/ODataClient";
 import { ReportsClient } from "../../reporting/clients/ReportsClient";
 import { BaseIntegrationTestsConfig } from "../utils/imodels-client-test-utils/BaseIntegrationTestsConfig";
 import { EC3ConfigurationsClient } from "../../carbon-calculation/clients/EC3ConfigurationsClient";
 import { EC3JobsClient } from "../../carbon-calculation/clients/EC3JobsClient";
 import { AggregationsClient } from "../../reporting/clients/AggregationsClient";
+import { MappingsClient } from "../../grouping-and-mapping/clients/MappingsClient";
+import { GroupsClient } from "../../grouping-and-mapping/clients/GroupsClient";
+import { PropertiesClient } from "../../grouping-and-mapping/clients/PropertiesClient";
 
 let testRunId: string;
 export function getTestRunId(): string {
@@ -35,6 +37,8 @@ export let configurationsClient: EC3ConfigurationsClient;
 export let jobsClient: EC3JobsClient;
 export let extractionClient: ExtractionClient;
 export let mappingsClient: MappingsClient;
+export let groupsClient: GroupsClient;
+export let propertiesClient: PropertiesClient;
 export let oDataClient: ODataClient;
 export let aggregationsClient: AggregationsClient;
 
@@ -60,6 +64,9 @@ export async function mochaGlobalSetup() {
   jobsClient = new EC3JobsClient(config.apis.carbonCalculation.baseUrl);
   extractionClient = new ExtractionClient(config.apis.reporting.baseUrl);
   mappingsClient = new MappingsClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
+  groupsClient = new GroupsClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
+  propertiesClient = new PropertiesClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
+
   oDataClient = new ODataClient(config.apis.reporting.baseUrl);
   aggregationsClient = new AggregationsClient(config.apis.reporting.baseUrl);
 }

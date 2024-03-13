@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { EC3Configuration, EC3ConfigurationCollection, EC3ConfigurationCreate, EC3ConfigurationMinimal, EC3ConfigurationSingle, EC3ConfigurationUpdate } from "../interfaces/EC3Configurations";
-import { RequiredError } from "../../reporting/interfaces/Errors";
+import { RequiredError } from "../../common/Errors";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";

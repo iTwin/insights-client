@@ -4,9 +4,10 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { ExtractionStatus, ExtractorState, GroupCreate, MappingCreate, ODataItem, ReportCreate, ReportMappingCreate } from "../../reporting";
+import { ExtractionStatus, ExtractorState, ODataItem, ReportCreate, ReportMappingCreate } from "../../reporting";
 import "reflect-metadata";
-import { accessToken, extractionClient, iTwinId, mappingsClient, oDataClient, reportsClient, sleep, testIModel } from "../utils";
+import { accessToken, extractionClient, groupsClient, iTwinId, mappingsClient, oDataClient, reportsClient, sleep, testIModel } from "../utils";
+import { GroupCreate, MappingCreate } from "../../grouping-and-mapping";
 use(chaiAsPromised);
 
 describe("OData Client", () => {
@@ -17,15 +18,17 @@ describe("OData Client", () => {
   before(async () => {
     const newMapping: MappingCreate = {
       mappingName: "Test",
+      iModelId: testIModel.id,
+      extractionEnabled: true,
     };
-    const mapping = await mappingsClient.createMapping(accessToken, testIModel.id, newMapping);
+    const mapping = await mappingsClient.createMapping(accessToken, newMapping);
     mappingId = mapping.id;
 
     const newGroup: GroupCreate = {
       groupName: "Test",
       query: "select * from biscore.element limit 10",
     };
-    await mappingsClient.createGroup(accessToken, testIModel.id, mapping.id, newGroup);
+    await groupsClient.createGroup(accessToken, mapping.id, newGroup);
 
     const newReport: ReportCreate = {
       displayName: "Test",
@@ -56,7 +59,7 @@ describe("OData Client", () => {
   });
 
   after(async () => {
-    await mappingsClient.deleteMapping(accessToken, testIModel.id, mappingId);
+    await mappingsClient.deleteMapping(accessToken, mappingId);
     await reportsClient.deleteReport(accessToken, reportId);
   });
 
