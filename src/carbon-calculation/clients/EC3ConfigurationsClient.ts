@@ -15,7 +15,7 @@ export class EC3ConfigurationsClient extends OperationsBase implements IEC3Confi
     super(basePath ?? CARBON_CALCULATION_BASE_PATH);
   }
 
-  public async getConfigurations(accessToken: string, projectId: string, top?: number | undefined): Promise<EC3ConfigurationMinimal[]> {
+  public async getConfigurations(accessToken: string, projectId: string, top?: number): Promise<EC3ConfigurationMinimal[]> {
     const configurations: Array<EC3ConfigurationMinimal> = [];
     const configIterator = this.getConfigurationsIterator(accessToken, projectId, top);
     for await (const config of configIterator) {
@@ -24,7 +24,7 @@ export class EC3ConfigurationsClient extends OperationsBase implements IEC3Confi
     return configurations;
   }
 
-  public getConfigurationsIterator(accessToken: string, projectId: string, top?: number | undefined): EntityListIterator<EC3ConfigurationMinimal> {
+  public getConfigurationsIterator(accessToken: string, projectId: string, top?: number): EntityListIterator<EC3ConfigurationMinimal> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
