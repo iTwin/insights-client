@@ -38,7 +38,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
     return response;
   }
 
-  public getIModelExtractionsIterator(accessToken: AccessToken, iModelId: string, top?: number | undefined): EntityListIterator<ExtractionStatus> {
+  public getIModelExtractionsIterator(accessToken: AccessToken, iModelId: string, top?: number): EntityListIterator<ExtractionStatus> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -58,7 +58,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
     }));
   }
 
-  public async getExtractionLogs(accessToken: AccessToken, extractionId: string, top?: number | undefined): Promise<ExtractionLogsResponse> {
+  public async getExtractionLogs(accessToken: AccessToken, extractionId: string, top?: number): Promise<ExtractionLogsResponse> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -71,7 +71,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
     return response;
   }
 
-  public getExtractionLogsIterator(accessToken: AccessToken, extractionId: string, top?: number | undefined): EntityListIterator<ExtractionLogEntry> {
+  public getExtractionLogsIterator(accessToken: AccessToken, extractionId: string, top?: number): EntityListIterator<ExtractionLogEntry> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
