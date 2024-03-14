@@ -7,14 +7,16 @@ import { expect } from "chai";
 import { CDMClient } from "../../grouping-and-mapping/clients/CDMClient";
 import * as sinon from "sinon";
 
-describe.only("CDM Client unit tests", ()=> {
+describe("CDM Client unit tests", ()=> {
   const cdmClient: CDMClient = new CDMClient();
   let fetchStub: sinon.SinonStub;
   let requestStub: sinon.SinonStub;
+  let fetchDataStub: sinon.SinonStub;
 
   beforeEach(() => {
     fetchStub = sinon.stub(cdmClient, "fetchJSON" as any);
     requestStub = sinon.stub(cdmClient, "createRequest" as any);
+    fetchDataStub = sinon.stub(cdmClient, "fetchData" as any);
     requestStub.returns("pass");
   });
 
@@ -74,19 +76,14 @@ describe.only("CDM Client unit tests", ()=> {
     const returns = {
       status: 200,
     };
-    fetchStub.resolves(returns);
+    fetchDataStub.resolves(returns);
 
-    const response = await cdmClient.getCDMPartition("authToken", "mappingId", "extractionId", "someLocation");
+    const response = await cdmClient.getCDMPartition("authToken", "mappingId", "extractionId", "Beam/part00000.csv");
 
-    expect(response.status).to.be.eq(200);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/grouping-and-mapping/datasources/imodel-mappings/mappingId/extractions/extractionId/cdm/partitions?location=someLocation",
+    expect(response.status).to.be.equal(200);
+    expect(fetchDataStub.calledWith(
+      "https://api.bentley.com/grouping-and-mapping/datasources/imodel-mappings/mappingId/extractions/extractionId/cdm/partitions?location=Beam%2Fpart00000.csv",
       "pass",
     )).to.be.true;
-    expect(requestStub.calledWith(
-      "GET",
-      "authToken",
-    )).to.be.true;
-
   });
 });

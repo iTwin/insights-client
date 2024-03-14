@@ -3,11 +3,12 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
-import { ExtractionStatus, Mapping } from "../../../grouping-and-mapping";
-import { accessToken, cdmClient, extractionClient, mappingsClient, testIModel } from "../../utils";
+import { ExtractionState, ExtractionStatus, Group, Mapping } from "../../../grouping-and-mapping";
+import { accessToken, cdmClient, extractionClient, groupsClient, mappingsClient, sleep, testIModel } from "../../utils";
 
-describe.only("CDM Client Integration Tests", ()=> {
+describe("CDM Client Integration Tests", ()=> {
   let mappingOne: Mapping;
+  let groupOne: Group;
   let extraction: ExtractionStatus;
 
   before(async () => {
@@ -16,19 +17,36 @@ describe.only("CDM Client Integration Tests", ()=> {
       mappingName: "mappingOne",
     });
 
+    groupOne = await groupsClient.createGroup(accessToken, mappingOne.id, {
+      groupName: "GroupOne",
+      description: "Group number one",
+      query: "SELECT * FROM bis.Element limit 10",
+    });
+  });
+
+  after(async () => {
+    await groupsClient.deleteGroup(accessToken, mappingOne.id, groupOne.id);
+    await mappingsClient.deleteMapping(accessToken, mappingOne.id);
+  });
+
+  it("CDM Client - Get CDM and Get CDM partition", async ()=> {
     extraction = await extractionClient.runExtraction(accessToken, {
       iModelId: testIModel.id,
       mappings: [
         { id: mappingOne.id },
       ],
     });
-  });
 
-  after(async () => {
-    await mappingsClient.deleteMapping(accessToken, mappingOne.id);
-  });
+    let state = ExtractionState.Queued;
+    let status: ExtractionStatus;
+    for (const start = performance.now(); performance.now() - start < 6 * 60 * 1000; await sleep(3000)) {
+      status = await extractionClient.getExtractionStatus(accessToken, extraction.id);
+      state = status.state;
+      if(state !== ExtractionState.Queued && state.valueOf() !== ExtractionState.Running)
+        break;
+    }
+    expect(state).to.be.eq(ExtractionState.Succeeded);
 
-  it("CDM Client - Get CDM and Get CDM partition", async ()=> {
     const cdm = await cdmClient.getCDM(accessToken, mappingOne.id, extraction.id);
     expect(cdm).not.be.undefined;
 

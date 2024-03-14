@@ -18,8 +18,9 @@ export class CDMClient extends OperationsBase implements ICDMClient {
   }
 
   public async getCDMPartition(accessToken: string, mappingId: string, extractionId: string, location: string): Promise<Response> {
-    const url = `${this._baseUrl}/${mappingId}/extractions/${extractionId}/cdm/partitions?location=${location}`;
+    const url = `${this._baseUrl}/${encodeURIComponent(mappingId)}/extractions/${encodeURIComponent(extractionId)}/cdm/partitions?location=${encodeURIComponent(location)}`;
     const request = this.createRequest("GET", accessToken);
-    return this.fetchJSON<Response>(url, request);
+    const response = await this.fetchData(url, request);
+    return response;
   }
 }
