@@ -28,7 +28,7 @@ export interface IExtractionClient {
   /**
    * Gets all of the extractions that were run on a given iModel.
    * @param {AccessToken} accessToken OAuth access token with imodels:read or itwin-platform scope.
-   * @param {string} iModelId The extraction Id.
+   * @param {string} iModelId The iModel Id.
    * @param {number} top Optional max items to be sent in response.
    * @memberof ExtractionClient
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-imodel-extractions/
