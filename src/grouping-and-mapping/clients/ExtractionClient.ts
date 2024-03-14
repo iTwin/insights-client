@@ -32,6 +32,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
+
     const url = `${this._baseUrl}?iModelId=${iModelId}${top ? `&$top=${top}` : `` }`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     const response = await this.fetchJSON<ExtractionsResponse>(url, requestOptions);
@@ -65,6 +66,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
+
     const url = `${this._baseUrl}/${encodeURIComponent(extractionId)}/logs${top ? `?$top=${top}` : `` }`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     const response = await this.fetchJSON<ExtractionLogsResponse>(url, requestOptions);
@@ -78,6 +80,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
+
     const url = `${this._baseUrl}/${encodeURIComponent(extractionId)}/logs${top ? `?$top=${top}` : `` }`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ExtractionLogEntry>( url, async (nextUrl: string): Promise<Collection<ExtractionLogEntry>> => {
@@ -89,5 +92,4 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
       };
     }));
   }
-
 }

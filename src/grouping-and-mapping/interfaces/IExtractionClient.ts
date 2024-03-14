@@ -64,5 +64,4 @@ export interface IExtractionClient {
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-extraction-logs/
    */
   getExtractionLogsIterator(accessToken: AccessToken, extractionId: string, top?: number): EntityListIterator<ExtractionLogEntry>;
-
 }
