@@ -32,13 +32,14 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
+
     const url = `${this._baseUrl}?iModelId=${iModelId}${top ? `&$top=${top}` : `` }`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     const response = await this.fetchJSON<ExtractionsResponse>(url, requestOptions);
     return response;
   }
 
-  public getIModelExtractionsIterator(accessToken: AccessToken, iModelId: string, top?: number | undefined): EntityListIterator<ExtractionStatus> {
+  public getIModelExtractionsIterator(accessToken: AccessToken, iModelId: string, top?: number): EntityListIterator<ExtractionStatus> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -58,26 +59,28 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
     }));
   }
 
-  public async getExtractionLogs(accessToken: AccessToken, extractionId: string, top?: number | undefined): Promise<ExtractionLogsResponse> {
+  public async getExtractionLogs(accessToken: AccessToken, extractionId: string, top?: number): Promise<ExtractionLogsResponse> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
+
     const url = `${this._baseUrl}/${encodeURIComponent(extractionId)}/logs${top ? `?$top=${top}` : `` }`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     const response = await this.fetchJSON<ExtractionLogsResponse>(url, requestOptions);
     return response;
   }
 
-  public getExtractionLogsIterator(accessToken: AccessToken, extractionId: string, top?: number | undefined): EntityListIterator<ExtractionLogEntry> {
+  public getExtractionLogsIterator(accessToken: AccessToken, extractionId: string, top?: number): EntityListIterator<ExtractionLogEntry> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000]."
       );
     }
+
     const url = `${this._baseUrl}/${encodeURIComponent(extractionId)}/logs${top ? `?$top=${top}` : `` }`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     return new EntityListIteratorImpl(async () => getEntityCollectionPage<ExtractionLogEntry>( url, async (nextUrl: string): Promise<Collection<ExtractionLogEntry>> => {
@@ -89,5 +92,4 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
       };
     }));
   }
-
 }
