@@ -6,7 +6,7 @@ import { OperationsBase } from "../../common/OperationsBase";
 import { AuditTrailCollection } from "../interfaces/AuditTrail";
 import { IAuditTrailClient } from "../interfaces/IAuditTrailClient";
 
-export class AuditTrailClients extends OperationsBase implements IAuditTrailClient {
+export class AuditTrailClient extends OperationsBase implements IAuditTrailClient {
   public async getAuditTrail(accessToken: string, iModelId: string, path?: string, after?: string, before?: string, top?: number): Promise<AuditTrailCollection> {
     let url = `${this.groupingAndMappingBasePath}/audit?iModelId=${iModelId}`;
 

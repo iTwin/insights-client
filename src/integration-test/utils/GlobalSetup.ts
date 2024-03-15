@@ -21,6 +21,7 @@ import { GroupsClient } from "../../grouping-and-mapping/clients/GroupsClient";
 import { PropertiesClient } from "../../grouping-and-mapping/clients/PropertiesClient";
 import { CDMClient } from "../../grouping-and-mapping/clients/CDMClient";
 import { ExtractionClient } from "../../grouping-and-mapping/clients/ExtractionClient";
+import { AuditTrailClient } from "../../grouping-and-mapping/clients/AuditTrailClient";
 
 let testRunId: string;
 export function getTestRunId(): string {
@@ -43,6 +44,7 @@ export let propertiesClient: PropertiesClient;
 export let oDataClient: ODataClient;
 export let aggregationsClient: AggregationsClient;
 export let cdmClient: CDMClient;
+export let auditTrailClient: AuditTrailClient;
 
 export async function mochaGlobalSetup() {
   createDirectory(TestConstants.testDownloadDirectoryPath);
@@ -69,6 +71,7 @@ export async function mochaGlobalSetup() {
   groupsClient = new GroupsClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
   propertiesClient = new PropertiesClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
   cdmClient = new CDMClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
+  auditTrailClient = new AuditTrailClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
   oDataClient = new ODataClient(config.apis.reporting.baseUrl);
   aggregationsClient = new AggregationsClient(config.apis.reporting.baseUrl);
 }
