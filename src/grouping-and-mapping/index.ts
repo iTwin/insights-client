@@ -28,3 +28,10 @@ export * from "./interfaces/Extraction";
 export * from "./interfaces/IExtractionClient";
 export * from "./clients/ExtractionClient";
 
+export * from "./interfaces/CDM";
+export * from "./interfaces/ICDMClient";
+export * from "./clients/CDMClient";
+
+export * from "./interfaces/AuditTrail";
+export * from "./interfaces/IAuditTrailClient";
+export * from "./clients/AuditTrailClient";
