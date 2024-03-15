@@ -62,7 +62,7 @@ export class PropertiesClient extends OperationsBase implements IPropertiesClien
     return response;
   }
 
-  public getPropertiesIterator(accessToken: AccessToken, mappingId: string, groupId: string, top?: number ){
+  public getPropertiesIterator(accessToken: AccessToken, mappingId: string, groupId: string, top?: number ): EntityListIteratorImpl<Property> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",

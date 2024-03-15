@@ -4,10 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { ExtractionStatus, ExtractorState, ODataItem, ReportCreate, ReportMappingCreate } from "../../reporting";
+import { ODataItem, ReportCreate, ReportMappingCreate } from "../../reporting";
 import "reflect-metadata";
 import { accessToken, extractionClient, groupsClient, iTwinId, mappingsClient, oDataClient, reportsClient, sleep, testIModel } from "../utils";
 import { GroupCreate, MappingCreate } from "../../grouping-and-mapping";
+import { ExtractionRequestDetails, ExtractionState, ExtractionStatus } from "../../grouping-and-mapping/interfaces/Extraction";
 use(chaiAsPromised);
 
 describe("OData Client", () => {
@@ -43,16 +44,23 @@ describe("OData Client", () => {
     };
     await reportsClient.createReportMapping(accessToken, report.id, newReportMapping);
 
-    const extraction = await extractionClient.runExtraction(accessToken, testIModel.id);
-    let state = ExtractorState.Queued;
+    const extractionRequestDetails: ExtractionRequestDetails = {
+      iModelId: testIModel.id,
+      mappings: [
+        { id : mappingId },
+      ],
+    };
+
+    const extraction = await extractionClient.runExtraction(accessToken, extractionRequestDetails);
+    let state = ExtractionState.Queued;
     let status: ExtractionStatus;
     for (const start = performance.now(); performance.now() - start < 6 * 60 * 1000; await sleep(3000)) {
       status = await extractionClient.getExtractionStatus(accessToken, extraction.id);
       state = status.state;
-      if(state !== ExtractorState.Queued && state.valueOf() !== ExtractorState.Running)
+      if(state !== ExtractionState.Queued && state.valueOf() !== ExtractionState.Running)
         break;
     }
-    expect(state).to.be.eq(ExtractorState.Succeeded);
+    expect(state).to.be.eq(ExtractionState.Succeeded);
 
     const oDataResponse = await oDataClient.getODataReport(accessToken, reportId);
     oDataItem = oDataResponse.value[0];

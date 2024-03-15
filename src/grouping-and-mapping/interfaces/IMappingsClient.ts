@@ -9,7 +9,7 @@ import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 export interface IMappingsClient {
   /**
     * Creates a Mapping for an iModel.
-    * @param {string} accessToken OAuth access token with imodels:modify or itwin-platform scope.
+    * @param {AccessToken} accessToken OAuth access token with imodels:modify or itwin-platform scope.
     * @param {MappingCreate} mapping Request body.
     * @memberof MappingsClient
     * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/create-mapping/
@@ -18,7 +18,7 @@ export interface IMappingsClient {
 
   /**
    * Deletes a Mapping for an iModel.
-   * @param {string} accessToken OAuth access token with imodels:modify or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with imodels:modify or itwin-platform scope.
    * @param {string} mappingId The Mapping Id.
    * @memberof MappingsClient
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/delete-mapping/
@@ -27,7 +27,7 @@ export interface IMappingsClient {
 
   /**
    * Gets a Mapping for an iModel.
-   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param {string} mappingId The Mapping Id.
    * @memberof MappingsClient
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-mapping/
@@ -37,7 +37,7 @@ export interface IMappingsClient {
   /**
    * Gets an async paged iterator of Mappings for an iModel.
    * This method returns an iterator which loads pages of mappings as it is being iterated over.
-   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param {string} iModelId The iModel Id.
    * @param {number} top Optional max items to be sent in response.
    * @memberof MappingsClient
@@ -47,7 +47,7 @@ export interface IMappingsClient {
 
   /**
    * Gets all Mappings for an iModel. This method returns the full list of mappings.
-   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param {string} iModelId The iModel Id.
    * @param {number} top Optional max items to be sent in response.
    * @memberof MappingsClient
@@ -57,7 +57,7 @@ export interface IMappingsClient {
 
   /**
    * Updates a Mapping for an iModel.
-   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param {string} mappingId The Mapping Id.
    * @param {MappingUpdate} mappingUpdate Request body.
    * @memberof MappingsClient
@@ -67,7 +67,7 @@ export interface IMappingsClient {
 
   /**
    * Gets a list of extractions executed on a mapping.
-   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param {string} mappingId The Mapping id
    * @param {number} top Optional max items to be sent in response
    * @memberof MappingsClient

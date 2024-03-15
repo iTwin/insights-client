@@ -10,7 +10,6 @@ import { ReusableTestIModelProvider } from "./imodels-client-test-utils/test-con
 import { TestITwinProvider } from "./imodels-client-test-utils/test-context-providers/itwin/TestITwinProvider";
 import { TestConstants } from "./Constants";
 import { getTestDIContainer } from "./TestDiContainerProvider";
-import { ExtractionClient } from "../../reporting/clients/ExtractionClient";
 import { ODataClient } from "../../reporting/clients/ODataClient";
 import { ReportsClient } from "../../reporting/clients/ReportsClient";
 import { BaseIntegrationTestsConfig } from "../utils/imodels-client-test-utils/BaseIntegrationTestsConfig";
@@ -20,6 +19,7 @@ import { AggregationsClient } from "../../reporting/clients/AggregationsClient";
 import { MappingsClient } from "../../grouping-and-mapping/clients/MappingsClient";
 import { GroupsClient } from "../../grouping-and-mapping/clients/GroupsClient";
 import { PropertiesClient } from "../../grouping-and-mapping/clients/PropertiesClient";
+import { ExtractionClient } from "../../grouping-and-mapping/clients/ExtractionClient";
 
 let testRunId: string;
 export function getTestRunId(): string {
@@ -62,7 +62,7 @@ export async function mochaGlobalSetup() {
   reportsClient = new ReportsClient(config.apis.reporting.baseUrl);
   configurationsClient = new EC3ConfigurationsClient(config.apis.carbonCalculation.baseUrl);
   jobsClient = new EC3JobsClient(config.apis.carbonCalculation.baseUrl);
-  extractionClient = new ExtractionClient(config.apis.reporting.baseUrl);
+  extractionClient = new ExtractionClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
   mappingsClient = new MappingsClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
   groupsClient = new GroupsClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
   propertiesClient = new PropertiesClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);

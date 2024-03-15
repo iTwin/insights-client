@@ -14,4 +14,5 @@ export * from "./reporting/index";
 export * from "./common/Links";
 export * from "./common/CarbonCalculation";
 export * from "./common/OperationsBase";
-export * from "./grouping-and-mapping";
+export * from "./grouping-and-mapping/index";
+export * from "./common/Errors";
