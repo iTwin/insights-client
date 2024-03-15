@@ -2,9 +2,9 @@
 ## 0.7.0
 Fri, 15, 2024
 ### Minor
-- Removed old versions of `Mappings client` from reporting.
+- Removed old versions of `Mappings Client` from reporting.
 - Removed old version of `Extraction Client` from reporting.
-- Removed old imports from reporting/index.ts
+- Removed old exports from reporting/index.ts
 - Added `grouping-and-mapping` folder for new version clients.
 - Added new `Mappings, Groups, Properties, Extraction, CDM, AuditTrail` clients to grouping-and-mapping.
 - Added new interfaces for grouping-and-mapping clients.
