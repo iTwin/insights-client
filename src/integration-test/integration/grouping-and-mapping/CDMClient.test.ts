@@ -55,5 +55,4 @@ describe("CDM Client Integration Tests", ()=> {
     const cdmPartition = await cdmClient.getCDMPartition(accessToken, mappingOne.id, extraction.id, cdmPartitionLocation);
     expect(cdmPartition.status).to.be.equal(200);
   });
-
 });
