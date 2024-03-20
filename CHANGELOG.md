@@ -1,4 +1,18 @@
 # Change Log - @itwin/insights-client
+## 0.7.0
+Fri, 15, 2024
+### Minor
+- Removed old versions of `Mappings Client` from reporting.
+- Removed old version of `Extraction Client` from reporting.
+- Removed old exports from reporting/index.ts
+- Added `grouping-and-mapping` folder for new version clients.
+- Added new `Mappings, Groups, Properties, Extraction, CDM, AuditTrail` clients to grouping-and-mapping.
+- Added new interfaces for grouping-and-mapping clients.
+- Added grouping-and-mapping integration tests and unit tests.
+- Updated `GlobalSetup.ts` with new grouping-and-mapping clients.
+- Updated integration tests to use the new grouping-and-mapping clients.
+- Updated exports in `insights-client.ts` to export new clients from grouping-and-mapping.
+- Moved `Errors.ts` to `common` folder.
 
 ## 0.6.0
 Tuesday, 12 December, 2023
