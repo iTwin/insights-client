@@ -28,7 +28,7 @@ export interface GroupMinimal {
     * @type {string}
     * @memberof GroupMinimal
     */
-  description?: string;
+  description: string;
 
   /**
     * An ECSQL query that represents a collection of iModel elements
