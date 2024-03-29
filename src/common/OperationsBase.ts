@@ -126,7 +126,7 @@ export class OperationsBase {
   }
 
   /**
-   * Checks for duplicate keys in metadata
+   * Validates metadata entries.
    * @param entries
    */
   protected validateMetadata(entries: GroupMetadata[]): void {
