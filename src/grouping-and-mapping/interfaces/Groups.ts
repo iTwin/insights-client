@@ -12,35 +12,35 @@ export interface GroupMinimal {
   /**
     * The group id.
     * @type {string}
-    * @memberof Group
+    * @memberof GroupMinimal
     */
   id: string;
 
   /**
     * Name of the group (OData v4 SimpleIdentifier).
     * @type {string}
-    * @memberof Group
+    * @memberof GroupMinimal
     */
   groupName: string;
 
   /**
     * Description of the group. The default value is empty string.
     * @type {string}
-    * @memberof Group
+    * @memberof GroupMinimal
     */
-  description: string;
+  description?: string;
 
   /**
     * An ECSQL query that represents a collection of iModel elements
     * @type {string}
-    * @memberof Group
+    * @memberof GroupMinimal
     */
   query: string;
 
   /**
     * Contains contextual hyperlinks to related data.
     * @type {string}
-    * @memberof Group
+    * @memberof GroupMinimal
     */
   _links: GroupLinks;
 }
@@ -94,7 +94,7 @@ export interface GroupCreate {
   /**
   * An array of unique key value pairs.
   * @type {Array<GroupMetadata>}
-  * @memberof Group
+  * @memberof GroupCreate
   */
   metadata?: Array<GroupMetadata>;
 
@@ -175,28 +175,29 @@ export interface GroupUpdate {
   /**
   * An array of unique key value pairs.
   * @type {Array<GroupMetadata>}
-  * @memberof Group
+  * @memberof GroupCreate
   */
   metadata?: Array<GroupMetadata>;
 
 }
 
 /**
- * List of Groups.
+ * List of minimal Groups.
  * @export
- * @interface GroupList
+ * @interface GroupMinimalList
  */
 export interface GroupMinimalList {
   /**
    * List of minimal Groups.
-   * @type {Array<Group>}
-   * @memberof GroupList
+   * @type {Array<GroupMinimal>}
+   * @memberof GroupMinimalList
    */
+
   groups: Array<GroupMinimal>;
   /**
    *
    * @type {PagedResponseLinks}
-   * @memberof GroupList
+   * @memberof GroupMinimalList
    */
   // eslint-disable-next-line @typescript-eslint/naming-convention
   _links: PagedResponseLinks;
