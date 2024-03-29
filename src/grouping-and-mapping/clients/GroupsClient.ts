@@ -7,7 +7,7 @@ import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 import { EntityCollectionPage, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
 import { RequiredError } from "../../common/Errors";
-import { Group, GroupContainer, GroupCreate, GroupList, GroupMinimal, GroupMinimalList, GroupUpdate } from "../interfaces/Groups";
+import { Group, GroupContainer, GroupCreate, GroupList, GroupMetadata, GroupMinimal, GroupMinimalList, GroupUpdate } from "../interfaces/Groups";
 import { IGroupsClient } from "../interfaces/IGroupsClient";
 import { AccessToken } from "@itwin/core-bentley";
 import { PreferReturn } from "../../common/CommonInterfaces";
@@ -115,7 +115,7 @@ export class GroupsClient extends OperationsBase implements IGroupsClient {
     }
   }
 
-  protected async fetchCollection<T extends GroupMinimal | Group>(url: string, request: RequestInit): Promise<EntityCollectionPage<T>> {
+  private async fetchCollection<T extends GroupMinimal | Group>(url: string, request: RequestInit): Promise<EntityCollectionPage<T>> {
     return getEntityCollectionPage<T>(url, async (nextUrl: string) => {
       const response = await this.fetchJSON<GroupList | GroupMinimalList>(nextUrl, request);
       return {
@@ -123,6 +123,23 @@ export class GroupsClient extends OperationsBase implements IGroupsClient {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         _links: response._links,
       };
+    });
+  }
+
+  /**
+   * Validates metadata entries.
+   * @param entries
+   */
+  private validateMetadata(entries: GroupMetadata[]): void {
+    const seenKeys = new Set<string>();
+    entries.forEach((entry, index) => {
+      if (this.isNullOrWhitespace(entry.key)) {
+        throw new RequiredError(`metadata.key[${index}]`, "Key cannot be empty or consist only of whitespace characters.");
+      }
+      if (seenKeys.has(entry.key)) {
+        throw new RequiredError(`metadata.key[${index}]`, `Duplicate key found: ${entry.key}`);
+      }
+      seenKeys.add(entry.key);
     });
   }
 

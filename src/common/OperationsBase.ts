@@ -3,9 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import isomorphicFetch from "cross-fetch";
-import { GroupMetadata } from "../grouping-and-mapping/interfaces/Groups";
 import { PreferReturn } from "./CommonInterfaces";
-import { RequiredError } from "./Errors";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 export const REPORTING_BASE_PATH = "https://api.bentley.com/insights/reporting";
@@ -123,22 +121,5 @@ export class OperationsBase {
    */
   protected topIsValid(top: number | undefined): boolean {
     return top !== undefined ? (top > 0 && top <= 1000) : true;
-  }
-
-  /**
-   * Validates metadata entries.
-   * @param entries
-   */
-  protected validateMetadata(entries: GroupMetadata[]): void {
-    const seenKeys = new Set<string>();
-    entries.forEach((entry, index) => {
-      if (this.isNullOrWhitespace(entry.key)) {
-        throw new RequiredError(`metadata.key[${index}]`, "Key cannot be empty or consist only of whitespace characters.");
-      }
-      if (seenKeys.has(entry.key)) {
-        throw new RequiredError(`metadata.key[${index}]`, `Duplicate key found: ${entry.key}`);
-      }
-      seenKeys.add(entry.key);
-    });
   }
 }
