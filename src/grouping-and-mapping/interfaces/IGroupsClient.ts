@@ -50,7 +50,7 @@ export interface IGroupsClient {
   getGroup(accessToken: AccessToken, mappingId: string, groupId: string): Promise<Group>;
 
   /**
-   * Gets all Groups for a Mapping. This method returns the full list of groups.
+   * Gets all Groups for a Mapping. This method returns the full list of minimal groups.
    * @param accessToken accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param mappingId mappingId The Mapping Id.
    * @param preferReturn Specifies the level of detail of the returned group information. Defaults to minimal information if not provided.
@@ -61,7 +61,7 @@ export interface IGroupsClient {
   getGroups(accessToken: AccessToken, mappingId: string, preferReturn?: PreferReturn.Minimal, top?: number): Promise<GroupMinimalList>;
 
   /**
-     * Gets all Groups for a Mapping. This method returns the full list of groups.
+     * Gets all Groups for a Mapping. This method returns the full list of Groups representations.
      * @param accessToken accessToken OAuth access token with imodels:read or itwin-platform scope.
      * @param mappingId mappingId The Mapping Id.
      * @param preferReturn Specifies the level of detail of the returned group information. Defaults to minimal information if not provided.
