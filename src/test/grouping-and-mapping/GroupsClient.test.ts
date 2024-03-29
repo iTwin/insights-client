@@ -132,6 +132,16 @@ describe("Groups Client Unit tests", () => {
 
     fetchStub.resolves(minimalReturns);
     const groupsList = await groupsClient.getGroups("authToken", "mappingId", PreferReturn.Minimal);
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/grouping-and-mapping/datasources/imodel-mappings/mappingId/groups",
+      "pass",
+    )).to.be.true;
+    expect(requestStub.calledWith(
+      "GET",
+      "authToken",
+      undefined,
+      "minimal"
+    )).to.be.true;
     expect(groupsList.groups.length).to.equal(2);
   });
 
@@ -177,6 +187,16 @@ describe("Groups Client Unit tests", () => {
 
     fetchStub.resolves(fullReturns);
     const groupsList = await groupsClient.getGroups("authToken", "mappingId", PreferReturn.Representation);
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/grouping-and-mapping/datasources/imodel-mappings/mappingId/groups",
+      "pass",
+    )).to.be.true;
+    expect(requestStub.calledWith(
+      "GET",
+      "authToken",
+      undefined,
+      "representation"
+    )).to.be.true;
     expect(groupsList.groups.length).to.equal(2);
     expect(groupsList.groups.every((group) => Array.isArray(group.metadata))).to.be.true;
   });
