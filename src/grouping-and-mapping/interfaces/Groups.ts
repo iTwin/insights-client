@@ -8,41 +8,50 @@ import type { Link, PagedResponseLinks } from "../../common/Links";
 /**
  * Defines a single Group (collection of iModel elements) in an iModel Mapping.
  */
-export interface Group {
+export interface GroupMinimal {
   /**
     * The group id.
     * @type {string}
-    * @memberof Group
+    * @memberof GroupMinimal
     */
   id: string;
 
   /**
-   * Name of the group (OData v4 SimpleIdentifier).
+    * Name of the group (OData v4 SimpleIdentifier).
     * @type {string}
-    * @memberof Group
+    * @memberof GroupMinimal
     */
   groupName: string;
 
   /**
-   * Description of the group. The default value is empty string.
+    * Description of the group. The default value is empty string.
     * @type {string}
-    * @memberof Group
+    * @memberof GroupMinimal
     */
   description: string;
 
   /**
-   * An ECSQL query that represents a collection of iModel elements
+    * An ECSQL query that represents a collection of iModel elements
     * @type {string}
-    * @memberof Group
+    * @memberof GroupMinimal
     */
   query: string;
 
   /**
-   * Contains contextual hyperlinks to related data.
+    * Contains contextual hyperlinks to related data.
     * @type {string}
-    * @memberof Group
+    * @memberof GroupMinimal
     */
   _links: GroupLinks;
+}
+
+export interface Group extends GroupMinimal {
+  /**
+  * An array of unique key value pairs.
+  * @type {Array<GroupMetadata>}
+  * @memberof Group
+  */
+  metadata: Array<GroupMetadata>;
 }
 
 /**
@@ -81,6 +90,13 @@ export interface GroupCreate {
     * @memberof GroupCreate
     */
   query: string;
+
+  /**
+  * An array of unique key value pairs.
+  * @type {Array<GroupMetadata>}
+  * @memberof GroupCreate
+  */
+  metadata?: Array<GroupMetadata>;
 
   /**
    * Ids used for copying a group.
@@ -156,6 +172,35 @@ export interface GroupUpdate {
     */
   query?: string;
 
+  /**
+  * An array of unique key value pairs.
+  * @type {Array<GroupMetadata>}
+  * @memberof GroupCreate
+  */
+  metadata?: Array<GroupMetadata>;
+
+}
+
+/**
+ * List of minimal Groups.
+ * @export
+ * @interface GroupMinimalList
+ */
+export interface GroupMinimalList {
+  /**
+   * List of minimal Groups.
+   * @type {Array<GroupMinimal>}
+   * @memberof GroupMinimalList
+   */
+
+  groups: Array<GroupMinimal>;
+  /**
+   *
+   * @type {PagedResponseLinks}
+   * @memberof GroupMinimalList
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  _links: PagedResponseLinks;
 }
 
 /**
@@ -179,3 +224,20 @@ export interface GroupList {
   _links: PagedResponseLinks;
 }
 
+/**
+ * @export
+ * @interface GroupMetadata
+ */
+export interface GroupMetadata {
+  /**
+   * Keys must be unique within the Metadata array.
+   * @type {string}
+   * @memberof GroupMetadata
+   */
+  key: string;
+  /**
+   * @type {string}
+   * @memberof GroupMetadata
+   */
+  value?: string | null;
+}

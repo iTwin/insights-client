@@ -6,6 +6,7 @@ import { expect } from "chai";
 import { Mapping } from "../../../grouping-and-mapping/interfaces/Mappings";
 import { accessToken, groupsClient, mappingsClient, testIModel } from "../../utils";
 import { Group, GroupUpdate } from "../../../grouping-and-mapping/interfaces/Groups";
+import { PreferReturn } from "../../../common/CommonInterfaces";
 
 describe("Groups Client", ()=> {
   let mappingForGroups: Mapping;
@@ -26,18 +27,21 @@ describe("Groups Client", ()=> {
       groupName: "GroupOne",
       description: "Group number one",
       query: "SELECT * FROM bis.Element limit 1",
+      metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
     });
 
     groupTwo = await groupsClient.createGroup(accessToken, mappingForGroups.id, {
       groupName: "GroupTwo",
       description: "Group number two",
       query: "SELECT * FROM bis.Element limit 2",
+      metadata: [{ key: "key1", value: "value1" }, { key: "noValue" }],
     });
 
     groupThree = await groupsClient.createGroup(accessToken, mappingForGroups.id, {
       groupName: "GroupThree",
       description: "Group number three",
       query: "SELECT * FROM bis.Element limit 3",
+      metadata: [{ key: "key1", value: "value1" }, { key: "nullValue", value: null }],
     });
   });
 
@@ -60,18 +64,43 @@ describe("Groups Client", ()=> {
     }
   });
 
-  it("Groups - Get top groups", async ()=> {
-    const topGroups = await groupsClient.getGroups(accessToken, mappingForGroups.id, 2);
+  it("Groups - Get top minimal groups", async () => {
+    const topGroups = await groupsClient.getGroups(accessToken, mappingForGroups.id, PreferReturn.Minimal, 2);
     expect(topGroups.groups.length).to.equal(2);
+    topGroups.groups.forEach((group) => {
+      expect("metadata" in group).to.be.false;
+    });
   });
 
-  it("Groups - Get pages of groups", async ()=> {
-    const groupsIterator = groupsClient.getGroupsIterator(accessToken, mappingForGroups.id, 2);
+  it("Groups - Get top representation groups", async () => {
+    const topGroups = await groupsClient.getGroups(accessToken, mappingForGroups.id, PreferReturn.Representation, 2);
+    expect(topGroups.groups.length).to.equal(2);
+    topGroups.groups.forEach((group) => {
+      expect(group).to.have.property("metadata");
+    });
+  });
+
+  it("Groups - Get pages of minimal groups", async () => {
+    const groupsIterator = groupsClient.getGroupsIterator(accessToken, mappingForGroups.id, PreferReturn.Minimal, 2);
     let flag = false;
     for await (const groupsPage of groupsIterator.byPage()) {
       flag = true;
-      for(const group of groupsPage){
+      for (const group of groupsPage) {
         expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.groupName);
+        expect("metadata" in group).to.be.false;
+      }
+    }
+    expect(flag).to.be.true;
+  });
+
+  it("Groups - Get pages of representation groups", async () => {
+    const groupsIterator = groupsClient.getGroupsIterator(accessToken, mappingForGroups.id, PreferReturn.Representation, 2);
+    let flag = false;
+    for await (const groupsPage of groupsIterator.byPage()) {
+      flag = true;
+      for (const group of groupsPage) {
+        expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.groupName);
+        expect(group).to.have.property("metadata");
       }
     }
     expect(flag).to.be.true;

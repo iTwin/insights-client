@@ -1,6 +1,11 @@
 # Change Log - @itwin/insights-client
+## 0.8.0
+Thu, 28 March, 2024
+### Minor
+- New `Metadata` property for all Group CRUD operations.
+
 ## 0.7.0
-Fri, 15, 2024
+Fri, 15 March, 2024
 ### Minor
 - Removed old versions of `Mappings Client` from reporting.
 - Removed old version of `Extraction Client` from reporting.

@@ -3,8 +3,9 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { AccessToken } from "@itwin/core-bentley";
-import { Group, GroupCreate, GroupList, GroupUpdate  } from "./Groups";
+import { Group, GroupCreate, GroupList, GroupMinimal, GroupMinimalList, GroupUpdate  } from "./Groups";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
+import { PreferReturn } from "../../common/CommonInterfaces";
 
 export interface IGroupsClient {
   /**
@@ -49,17 +50,29 @@ export interface IGroupsClient {
   getGroup(accessToken: AccessToken, mappingId: string, groupId: string): Promise<Group>;
 
   /**
-   * Gets all Groups for a Mapping. This method returns the full list of groups.
-   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
-   * @param {string} mappingId The Mapping Id.
-   * @param {number} top Optional max items to be sent in response.
+   * Gets all Groups for a Mapping. This method returns the full list of minimal groups.
+   * @param accessToken accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param mappingId mappingId The Mapping Id.
+   * @param preferReturn Specifies the level of detail of the returned group information. Defaults to minimal information if not provided.
+   * @param top Optional max items to be sent in response.
    * @memberof GroupsClient
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-groups/
    */
-  getGroups(accessToken: AccessToken,  mappingId: string, top?: number): Promise<GroupList>;
+  getGroups(accessToken: AccessToken, mappingId: string, preferReturn?: PreferReturn.Minimal, top?: number): Promise<GroupMinimalList>;
 
   /**
-   * Gets an async paged iterator of Groups for a Mapping.
+     * Gets all Groups for a Mapping. This method returns the full list of Groups representations.
+     * @param accessToken accessToken OAuth access token with imodels:read or itwin-platform scope.
+     * @param mappingId mappingId The Mapping Id.
+     * @param preferReturn Specifies the level of detail of the returned group information. Defaults to minimal information if not provided.
+     * @param top Optional max items to be sent in response.
+     * @memberof GroupsClient
+     * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-groups/
+     */
+  getGroups(accessToken: AccessToken, mappingId: string, preferReturn: PreferReturn.Representation, top?: number): Promise<GroupList>;
+
+  /**
+   * Gets an async paged iterator of minimal Groups for a Mapping.
    * This method returns an iterator which loads pages of groups as it is being iterated over.
    * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
    * @param {string} mappingId The Mapping Id.
@@ -67,5 +80,17 @@ export interface IGroupsClient {
    * @memberof GroupsClient
    * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-groups/
    */
-  getGroupsIterator(accessToken: AccessToken, mappingId: string, top?: number): EntityListIterator<Group>;
+  getGroupsIterator(accessToken: AccessToken, mappingId: string, preferReturn?: PreferReturn.Minimal, top?: number): EntityListIterator<GroupMinimal>;
+
+  /**
+   * Gets an async paged iterator of Groups representations for a Mapping.
+   * This method returns an iterator which loads pages of groups as it is being iterated over.
+   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {string} mappingId The Mapping Id.
+   * @param {number} top Optional max items to be sent in response.
+   * @memberof GroupsClient
+   * @link https://developer.bentley.com/apis/grouping-and-mapping/operations/get-groups/
+   */
+  getGroupsIterator(accessToken: AccessToken, mappingId: string, preferReturn: PreferReturn.Representation, top?: number): EntityListIterator<Group>;
+
 }

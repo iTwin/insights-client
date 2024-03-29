@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import isomorphicFetch from "cross-fetch";
+import { PreferReturn } from "./CommonInterfaces";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 export const REPORTING_BASE_PATH = "https://api.bentley.com/insights/reporting";
@@ -27,7 +28,7 @@ export class OperationsBase {
    * @param {string} content request body
    * @memberof OperationsBase
    */
-  protected createRequest(operation: string, accessToken: string, content?: string): RequestInit {
+  protected createRequest(operation: string, accessToken: string, content?: string, preferReturn?: PreferReturn): RequestInit {
     const request: RequestInit = {
       method: operation,
     };
@@ -41,6 +42,9 @@ export class OperationsBase {
       header["Content-Type"] = "application/json",
       request.body = content;
     }
+    if (preferReturn)
+      // eslint-disable-next-line @typescript-eslint/dot-notation
+      header["Prefer"] = `return=${preferReturn}`;
     request.headers = header;
     return request;
   }
