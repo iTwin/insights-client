@@ -5,8 +5,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { expect } from "chai";
 import { GroupsClient } from "../../grouping-and-mapping/clients/GroupsClient";
-import { GroupContainer, GroupCreate, GroupList, GroupUpdate } from "../../grouping-and-mapping/interfaces/Groups";
+import { GroupContainer, GroupCreate, GroupUpdate } from "../../grouping-and-mapping/interfaces/Groups";
 import * as sinon from "sinon";
+import { PreferReturn } from "@itwin/imodels-client-authoring";
 
 describe("Groups Client Unit tests", () => {
   const groupsClient: GroupsClient = new GroupsClient();
@@ -28,6 +29,7 @@ describe("Groups Client Unit tests", () => {
       groupName: "AllElements",
       description: "Group description",
       query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
+      metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
     };
 
     const returns: GroupContainer = {
@@ -36,6 +38,7 @@ describe("Groups Client Unit tests", () => {
         groupName: "AllElements",
         description: "Group description",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
+        metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
         _links: {
           iModel: {
             href: "https://api.bentley.com/imodels/iModelId",
@@ -84,6 +87,7 @@ describe("Groups Client Unit tests", () => {
         groupName: "AllElements",
         description: "Group description",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
+        metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
         _links: {
           iModel: {
             href: "https://api.bentley.com/imodels/iModelId",
@@ -108,13 +112,37 @@ describe("Groups Client Unit tests", () => {
     )).to.be.true;
   });
 
-  it("Groups client - Get groups", async () => {
-    const returns: GroupList = {
+  it("Groups client - Get groups minimal", async () => {
+    const minimalReturns = {
+      groups: [
+        {
+          id: "1",
+          groupName: "PhysicalElements",
+          description: "A group of physical elements",
+          query: "SELECT ECInstanceId, ECClassId FROM BisCore.PhysicalElement",
+        },
+        {
+          id: "2",
+          groupName: "AllElements",
+          description: "A group of all elements",
+          query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
+        },
+      ],
+    };
+
+    fetchStub.resolves(minimalReturns);
+    const groupsList = await groupsClient.getGroups("authToken", "mappingId", PreferReturn.Minimal);
+    expect(groupsList.groups.length).to.equal(2);
+  });
+
+  it("Groups client - Get groups representation", async () => {
+    const fullReturns = {
       groups: [{
         id: "1",
         groupName: "PhysicalElements",
         description: "A group of physical elements",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.PhysicalElement",
+        metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
         _links: {
           iModel: {
             href: "https://api.bentley.com/imodels/iModelId",
@@ -125,10 +153,11 @@ describe("Groups Client Unit tests", () => {
         },
       },
       {
-        id: "1",
+        id: "2",
         groupName: "AllElements",
         description: "A group of all elements",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
+        metadata: [{ key: "key1", value: "value1" }],
         _links: {
           iModel: {
             href: "https://api.bentley.com/imodels/iModelId",
@@ -145,19 +174,11 @@ describe("Groups Client Unit tests", () => {
         },
       },
     };
-    fetchStub.resolves(returns);
 
-    const groupsList = await groupsClient.getGroups("authToken", "mappingId");
-
-    expect(groupsList.groups.length).to.be.equal(2);
-    expect(fetchStub.calledWith(
-      "https://api.bentley.com/grouping-and-mapping/datasources/imodel-mappings/mappingId/groups",
-      "pass",
-    )).to.be.true;
-    expect(requestStub.calledWith(
-      "GET",
-      "authToken"
-    )).to.be.true;
+    fetchStub.resolves(fullReturns);
+    const groupsList = await groupsClient.getGroups("authToken", "mappingId", PreferReturn.Representation);
+    expect(groupsList.groups.length).to.equal(2);
+    expect(groupsList.groups.every((group) => Array.isArray(group.metadata))).to.be.true;
   });
 
   it("Groups client - Update a group", async () => {
@@ -165,6 +186,7 @@ describe("Groups Client Unit tests", () => {
       groupName: "AllElements",
       description: "Updated description",
       query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
+      metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
     };
 
     const returns: GroupContainer = {
@@ -173,6 +195,7 @@ describe("Groups Client Unit tests", () => {
         groupName: "AllElements",
         description: "Updated description",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
+        metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
         _links: {
           iModel: {
             href: "https://api.bentley.com/imodels/iModelId",

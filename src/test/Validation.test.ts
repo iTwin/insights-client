@@ -12,6 +12,7 @@ import {
 import { EC3ConfigurationsClient } from "../carbon-calculation/clients/EC3ConfigurationsClient";
 import { EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
 import { DataType, ECPropertyReference, ExtractionClient, GroupCreate, GroupsClient, GroupUpdate, MappingCreate, MappingsClient, MappingUpdate, PropertiesClient, PropertyModify, QuantityType } from "../grouping-and-mapping";
+import { PreferReturn } from "../common/CommonInterfaces";
 use(chaiAsPromised);
 
 describe("Validation", () => {
@@ -130,6 +131,17 @@ describe("Validation", () => {
     await expect(groupsClient.createGroup("-", "-", newGroup)).to.be.rejectedWith(
       "Field groupName was invalid.",
     );
+
+    newGroup.groupName = "MetadataTest";
+    newGroup.metadata = [{ key: "", value: "value" }];
+    await expect(groupsClient.createGroup("-", "-", newGroup)).to.be.rejectedWith(
+      "Key cannot be empty or consist only of whitespace characters.",
+    );
+
+    newGroup.metadata = [{ key: "k1", value: "value" }, { key: "k1", value: "value" }];
+    await expect(groupsClient.createGroup("-", "-", newGroup)).to.be.rejectedWith(
+      "Duplicate key found: k1",
+    );
   });
 
   it("Groups - Update unsuccessfully", async () => {
@@ -151,10 +163,10 @@ describe("Validation", () => {
   });
 
   it("Groups - Faulty top value", async () => {
-    await expect(groupsClient.getGroups("-", "-", 0)).to.be.rejectedWith(
+    await expect(groupsClient.getGroups("-", "-", PreferReturn.Minimal, 0)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000]."
     );
-    await expect(groupsClient.getGroups("-", "-", 1001)).to.be.rejectedWith(
+    await expect(groupsClient.getGroups("-", "-", PreferReturn.Minimal, 1001)).to.be.rejectedWith(
       "Parameter top was outside of the valid range [1-1000]."
     );
   });

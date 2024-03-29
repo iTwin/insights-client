@@ -5,13 +5,14 @@
 import { OperationsBase } from "../../common/OperationsBase";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
-import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
+import { EntityCollectionPage, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
 import { RequiredError } from "../../common/Errors";
-import { Group, GroupContainer, GroupCreate, GroupList, GroupUpdate } from "../interfaces/Groups";
+import { Group, GroupContainer, GroupCreate, GroupList, GroupMinimal, GroupMinimalList, GroupUpdate } from "../interfaces/Groups";
 import { IGroupsClient } from "../interfaces/IGroupsClient";
 import { AccessToken } from "@itwin/core-bentley";
+import { PreferReturn } from "../../common/CommonInterfaces";
 
-export class GroupsClient extends OperationsBase  implements IGroupsClient {
+export class GroupsClient extends OperationsBase implements IGroupsClient {
   private _baseUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings`;
 
   public async createGroup(accessToken: AccessToken, mappingId: string, group: GroupCreate): Promise<Group> {
@@ -22,12 +23,14 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
       );
     }
 
-    if(this.isNullOrWhitespace(group.query)) {
+    if (this.isNullOrWhitespace(group.query)) {
       throw new RequiredError(
         "query",
         "Required field query was null or undefined.",
       );
     }
+
+    group.metadata && this.validateMetadata(group.metadata);
 
     const url = this.constructUrl(mappingId);
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(group));
@@ -41,7 +44,7 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
   }
 
   public async updateGroup(accessToken: AccessToken, mappingId: string, groupId: string, group: GroupUpdate): Promise<Group> {
-    if(null == group.groupName && null == group.description && null == group.query) {
+    if (null == group.groupName && null == group.description && null == group.query) {
       throw new RequiredError(
         "group",
         "All properties of group were missing.",
@@ -62,6 +65,8 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
       );
     }
 
+    group.metadata && this.validateMetadata(group.metadata);
+
     const url = this.constructUrl(mappingId, groupId);
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(group));
     return (await this.fetchJSON<GroupContainer>(url, requestOptions)).group;
@@ -73,22 +78,27 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
     return (await this.fetchJSON<GroupContainer>(url, requestOptions)).group;
   }
 
-  public async getGroups(accessToken: AccessToken,  mappingId: string, top?: number ): Promise<GroupList> {
-    if(!this.topIsValid(top)) {
-      throw new RequiredError(
-        "top",
-        "Parameter top was outside of the valid range [1-1000]."
-      );
+  public async getGroups(accessToken: AccessToken, mappingId: string, preferReturn?: PreferReturn.Minimal, top?: number): Promise<GroupMinimalList>;
+  public async getGroups(accessToken: AccessToken, mappingId: string, preferReturn: PreferReturn.Representation, top?: number): Promise<GroupList>;
+  public async getGroups(accessToken: AccessToken, mappingId: string, preferReturn?: PreferReturn, top?: number): Promise<GroupMinimalList | GroupList> {
+    if (top !== undefined && !this.topIsValid(top)) {
+      throw new RequiredError("top", "Parameter top was outside of the valid range [1-1000].");
     }
 
     const url = this.constructUrl(mappingId, undefined, top);
-    const request = this.createRequest("GET", accessToken);
-    const response =  await this.fetchJSON<GroupList>(url, request);
-    return response;
+    const request = this.createRequest("GET", accessToken, undefined, preferReturn);
+
+    if (preferReturn === PreferReturn.Representation) {
+      return this.fetchJSON<GroupList>(url, request);
+    } else {
+      return this.fetchJSON<GroupMinimalList>(url, request);
+    }
   }
 
-  public getGroupsIterator(accessToken: AccessToken,  mappingId: string, top?: number ): EntityListIterator<Group> {
-    if(!this.topIsValid(top)) {
+  public getGroupsIterator(accessToken: AccessToken, mappingId: string, preferReturn?: PreferReturn.Minimal, top?: number): EntityListIterator<GroupMinimal>;
+  public getGroupsIterator(accessToken: AccessToken, mappingId: string, preferReturn: PreferReturn.Representation, top?: number): EntityListIterator<Group>;
+  public getGroupsIterator(accessToken: AccessToken, mappingId: string, preferReturn?: PreferReturn, top?: number): EntityListIterator<Group> | EntityListIterator<GroupMinimal> {
+    if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000]."
@@ -96,15 +106,24 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
     }
 
     const url = this.constructUrl(mappingId, undefined, top);
-    const request = this.createRequest("GET", accessToken);
-    return new EntityListIteratorImpl(async () => getEntityCollectionPage<Group>( url, async (nextUrl: string): Promise<Collection<Group>> => {
-      const response = await this.fetchJSON<GroupList>(nextUrl, request);
+    const request = this.createRequest("GET", accessToken, undefined, preferReturn);
+
+    if (preferReturn === PreferReturn.Representation) {
+      return new EntityListIteratorImpl(async () => this.fetchCollection<Group>(url, request));
+    } else {
+      return new EntityListIteratorImpl(async () => this.fetchCollection<GroupMinimal>(url, request));
+    }
+  }
+
+  protected async fetchCollection<T extends GroupMinimal | Group>(url: string, request: RequestInit): Promise<EntityCollectionPage<T>> {
+    return getEntityCollectionPage<T>(url, async (nextUrl: string) => {
+      const response = await this.fetchJSON<GroupList | GroupMinimalList>(nextUrl, request);
       return {
-        values: response.groups,
+        values: response.groups as T[],
         // eslint-disable-next-line @typescript-eslint/naming-convention
         _links: response._links,
       };
-    }));
+    });
   }
 
   /**
@@ -117,9 +136,9 @@ export class GroupsClient extends OperationsBase  implements IGroupsClient {
   protected constructUrl(mappingId: string, groupId?: string, top?: number): string {
     let url = `${this._baseUrl}/${encodeURIComponent(mappingId)}/groups`;
 
-    if(groupId){
+    if (groupId) {
       url += `/${encodeURIComponent(groupId)}`;
-    }else if(top){
+    } else if (top) {
       url += `?$top=${top}`;
     }
     return url;
