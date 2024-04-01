@@ -1,7 +1,7 @@
 # Change Log - @itwin/insights-client
-## 0.8.1
+## 0.9.0
 Monday, 1 April, 2024
-### Patches
+### Minor
 - Re-Added `Undefined` field to `DataType`, `QuantityType` and `CalculatedPropertyType`.
 
 ## 0.8.0
