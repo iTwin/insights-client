@@ -219,6 +219,8 @@ export interface PropertyList {
 * @enum DataType
 */
 export enum DataType {
+  // eslint-disable-next-line id-blacklist
+  Undefined = "Undefined",
   Boolean = "Boolean",
   Integer = "Integer",
   Double = "Double",
@@ -231,6 +233,8 @@ export enum DataType {
 * @enum QuantityType
 */
 export enum QuantityType {
+  // eslint-disable-next-line id-blacklist
+  Undefined = "Undefined",
   Area = "Area",
   Distance = "Distance",
   Force = "Force",
@@ -241,6 +245,8 @@ export enum QuantityType {
 }
 
 export enum CalculatedPropertyType {
+  // eslint-disable-next-line id-blacklist
+  Undefined = "Undefined",
   Volume = "Volume",
   Length = "Length",
   Area = "Area",
