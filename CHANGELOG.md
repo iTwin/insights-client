@@ -1,10 +1,4 @@
 # Change Log - @itwin/insights-client
-
-## 0.10.0
-Monday, 2 April, 2024
-### Minor
-- Reverted minor version due to incorrect property fields.
-
 ## 0.9.0
 Monday, 1 April, 2024
 ### Minor
