@@ -1,7 +1,13 @@
 # Change Log - @itwin/insights-client
 
+## 0.10.1
+Wednesday, 3 April, 2024
+### Patch
+- Exposed common interfaces
+  - `PreferReturn`
+
 ## 0.10.0
-Monday, 2 April, 2024
+Tuesday, 2 April, 2024
 ### Minor
 - Reverted minor version due to incorrect property fields.
 
