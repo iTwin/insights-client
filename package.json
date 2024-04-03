@@ -1,6 +1,6 @@
 {
   "name": "@itwin/insights-client",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "description": "Insights client for the iTwin platform",
   "main": "lib/cjs/insights-client.js",
   "module": "lib/esm/insights-client.js",
