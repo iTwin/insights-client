@@ -12,7 +12,7 @@ import {
 import { EC3ConfigurationsClient } from "../carbon-calculation/clients/EC3ConfigurationsClient";
 import { EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
 import { DataType, ECPropertyReference, ExtractionClient, GroupCreate, GroupsClient, GroupUpdate, MappingCreate, MappingsClient, MappingUpdate, PropertiesClient, PropertyModify, QuantityType } from "../grouping-and-mapping";
-import { PreferReturn } from "../common/CommonInterfaces";
+import { PreferReturn } from "../common/Common";
 use(chaiAsPromised);
 
 describe("Validation", () => {

@@ -5,7 +5,7 @@
 import { AccessToken } from "@itwin/core-bentley";
 import { Group, GroupCreate, GroupList, GroupMinimal, GroupMinimalList, GroupUpdate  } from "./Groups";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
-import { PreferReturn } from "../../common/CommonInterfaces";
+import { PreferReturn } from "../../common/Common";
 
 export interface IGroupsClient {
   /**
