@@ -6,7 +6,7 @@ import { expect } from "chai";
 import { Mapping } from "../../../grouping-and-mapping/interfaces/Mappings";
 import { accessToken, groupsClient, mappingsClient, testIModel } from "../../utils";
 import { Group, GroupUpdate } from "../../../grouping-and-mapping/interfaces/Groups";
-import { PreferReturn } from "../../../common/CommonInterfaces";
+import { PreferReturn } from "../../../common/Common";
 
 describe("Groups Client", ()=> {
   let mappingForGroups: Mapping;

@@ -10,7 +10,7 @@ import { RequiredError } from "../../common/Errors";
 import { Group, GroupContainer, GroupCreate, GroupList, GroupMetadata, GroupMinimal, GroupMinimalList, GroupUpdate } from "../interfaces/Groups";
 import { IGroupsClient } from "../interfaces/IGroupsClient";
 import { AccessToken } from "@itwin/core-bentley";
-import { PreferReturn } from "../../common/CommonInterfaces";
+import { PreferReturn } from "../../common/Common";
 
 export class GroupsClient extends OperationsBase implements IGroupsClient {
   private _baseUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings`;

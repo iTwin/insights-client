@@ -3,7 +3,7 @@
 ## 0.10.1
 Wednesday, 3 April, 2024
 ### Patch
-- Exposed common interfaces
+- Exposed common types
   - `PreferReturn`
 
 ## 0.10.0
