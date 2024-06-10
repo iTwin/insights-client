@@ -1,9 +1,14 @@
 /*---------------------------------------------------------------------------------------------
-* Copyright (c) Bentley Systems, Incorporated. All rights reserved.
-* See LICENSE.md in the project root for license terms and full copyright notice.
-*--------------------------------------------------------------------------------------------*/
+ * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
+ * See LICENSE.md in the project root for license terms and full copyright notice.
+ *--------------------------------------------------------------------------------------------*/
 import { AccessToken } from "@itwin/core-bentley";
-import { OCLCAJob, OCLCAJobCreate, OCLCAJobStatus } from "../interfaces/OCLCAJobs";
+import {
+  OCLCAJob,
+  OCLCAJobCreate,
+  OCLCAJobStatus,
+  OCLCALoginResponse,
+} from "../interfaces/OCLCAJobs";
 
 export interface IOCLCAJobsClient {
   /**
@@ -13,10 +18,7 @@ export interface IOCLCAJobsClient {
    * @memberof IOCLCAJobsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/create-oneclicklca-job/
    */
-  createJob(
-    accessToken: AccessToken,
-    job: OCLCAJobCreate
-  ): Promise<OCLCAJob>;
+  createJob(accessToken: AccessToken, job: OCLCAJobCreate): Promise<OCLCAJob>;
 
   /**
    * Queries One Click LCA job status.
@@ -29,4 +31,15 @@ export interface IOCLCAJobsClient {
     accessToken: AccessToken,
     jobId: string
   ): Promise<OCLCAJobStatus>;
+
+  /**
+   * Generates an OAuth access token for One Click LCA.
+   * @param {string} username The  One Click LCA username.
+   * @param {apiPassword} password The API password.
+   * @memberof IOCLCAJobsClient
+   */
+  getOCLCAAccessToken(
+    username: string,
+    apiPassword: string
+  ): Promise<OCLCALoginResponse | undefined>;
 }

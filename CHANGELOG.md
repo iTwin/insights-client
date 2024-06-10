@@ -1,5 +1,10 @@
 # Change Log - @itwin/insights-client
 
+## 0.11.0
+Monday, 10 June, 2024
+### Minor
+- Added a method in IOCLCAJobsClient interface to get access token
+
 ## 0.10.2
 Monday, 10 June, 2024
 ### Patch

@@ -10,8 +10,8 @@ export class OCLCAJobsClient extends OperationsBase implements IOCLCAJobsClient 
   constructor(basePath?: string) {
     super(basePath ?? CARBON_CALCULATION_BASE_PATH);
   }
-  public async getOCLCAAccessToken(username: string, password: string) {
-    if (username === undefined || password === undefined) {
+  public async getOCLCAAccessToken(username: string, apiPassword: string) {
+    if (username === undefined || apiPassword === undefined) {
       return undefined;
     }
     const requestOptions: RequestInit = {
@@ -19,7 +19,7 @@ export class OCLCAJobsClient extends OperationsBase implements IOCLCAJobsClient 
     };
     requestOptions.body = JSON.stringify({
       username,
-      password,
+      password: apiPassword,
     });
     const url = `https://oneclicklcaapp.com/app/api/login`;
     return this.fetchJSON<OCLCALoginResponse>(url, requestOptions);
