@@ -1,5 +1,10 @@
 # Change Log - @itwin/insights-client
 
+## 0.10.2
+Monday, 10 June, 2024
+### Patch
+- Exposed IOCLCAJobsClient interface
+  
 ## 0.10.1
 Wednesday, 3 April, 2024
 ### Patch
