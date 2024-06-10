@@ -9,6 +9,7 @@
  *   such as Life Cycle Assessments (LCA) or Embodied Carbon estimations (EPD).
  */
 export * from "./clients/OCLCAJobsClient";
+export * from "./clients/IOCLCAJobsClient";
 export * from "./interfaces/OCLCAJobs";
 export * from "./clients/EC3ConfigurationsClient";
 export * from "./clients/EC3JobsClient";
