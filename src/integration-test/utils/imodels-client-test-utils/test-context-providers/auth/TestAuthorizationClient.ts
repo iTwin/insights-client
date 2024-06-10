@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 import type { ParsedUrlQuery } from "querystring";
 import { parse, URLSearchParams } from "url";
-import axios, { AxiosResponse } from "axios";
 import { inject, injectable } from "inversify";
 import * as puppeteer from "puppeteer";
 import { TestSetupError } from "../../CommonTestUtils";
@@ -14,11 +13,6 @@ export interface TestUserCredentials {
   email: string;
   password: string;
   scopes: string;
-}
-
-interface AccessTokenResponse {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  access_token: string;
 }
 
 @injectable()
@@ -115,15 +109,19 @@ export class TestAuthorizationClient {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const encodedClientCredentials = Buffer.from(`${encodeURIComponent(this._authConfig.clientId)}:${encodeURIComponent(this._authConfig.clientSecret)}`).toString("base64");
     const requestConfig = {
+      method: "POST",
       headers: {
-        "content-type": "application/x-www-form-urlencoded",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "Content-Type": "application/x-www-form-urlencoded",
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "Authorization": `Basic ${encodedClientCredentials}`,
       },
+      body: requestBody,
     };
 
-    const response: AxiosResponse<AccessTokenResponse> = await axios.post(requestUrl, requestBody, requestConfig);
-    return response.data.access_token;
+    const response = await fetch(requestUrl, requestConfig);
+    const data = await response.json();
+    return data.access_token;
   }
 
   private async interceptRedirectAndGetAuthorizationCode(browserPage: puppeteer.Page): Promise<string> {
