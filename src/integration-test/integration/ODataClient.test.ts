@@ -4,10 +4,13 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { ODataItem, ReportCreate, ReportMappingCreate } from "../../reporting";
+import { ODataItem } from "../../reporting/interfaces/OData";
+import { ReportCreate, ReportMappingCreate } from "../../reporting/interfaces/Reports";
 import "reflect-metadata";
-import { accessToken, extractionClient, groupsClient, iTwinId, mappingsClient, oDataClient, reportsClient, sleep, testIModel } from "../utils";
-import { GroupCreate, MappingCreate } from "../../grouping-and-mapping";
+import { accessToken, extractionClient, groupsClient, iTwinId, mappingsClient, oDataClient, reportsClient, testIModel } from "../utils/GlobalSetup";
+import { sleep } from "../utils/imodels-client-test-utils/CommonTestUtils";
+import { GroupCreate } from "../../grouping-and-mapping/interfaces/Groups";
+import { MappingCreate } from "../../grouping-and-mapping/interfaces/Mappings";
 import { ExtractionRequestDetails, ExtractionState, ExtractionStatus } from "../../grouping-and-mapping/interfaces/Extraction";
 use(chaiAsPromised);
 
@@ -57,6 +60,7 @@ describe("OData Client", () => {
     for (const start = performance.now(); performance.now() - start < 6 * 60 * 1000; await sleep(3000)) {
       status = await extractionClient.getExtractionStatus(accessToken, extraction.id);
       state = status.state;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
       if(state !== ExtractionState.Queued && state.valueOf() !== ExtractionState.Running)
         break;
     }

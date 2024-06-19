@@ -29,7 +29,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
 
@@ -43,7 +43,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
 
@@ -63,7 +63,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
 
@@ -77,7 +77,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
 

@@ -13,7 +13,7 @@ export class ReusableTestIModelProviderConfig {
 
   constructor(
   @inject(testUtilTypes.baseIntegrationTestsConfig)
-    config: BaseIntegrationTestsConfig
+    config: BaseIntegrationTestsConfig,
   ) {
     this.testIModelName = config.testIModelName;
     this.behaviorOptions = config.behaviorOptions;

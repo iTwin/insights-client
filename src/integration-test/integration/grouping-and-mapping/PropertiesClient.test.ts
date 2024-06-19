@@ -5,7 +5,7 @@
 import { expect } from "chai";
 import { Group } from "../../../grouping-and-mapping/interfaces/Groups";
 import { Mapping } from "../../../grouping-and-mapping/interfaces/Mappings";
-import { accessToken, groupsClient, mappingsClient, propertiesClient, testIModel } from "../../utils";
+import { accessToken, groupsClient, mappingsClient, propertiesClient, testIModel } from "../../utils/GlobalSetup";
 import { CalculatedPropertyType, DataType, ECPropertyReference, Property, QuantityType } from "../../../grouping-and-mapping/interfaces/Properties";
 
 describe("Properties Client", ()=> {

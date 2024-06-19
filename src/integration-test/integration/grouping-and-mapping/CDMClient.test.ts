@@ -3,8 +3,11 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
-import { ExtractionState, ExtractionStatus, Group, Mapping } from "../../../grouping-and-mapping";
-import { accessToken, cdmClient, extractionClient, groupsClient, mappingsClient, sleep, testIModel } from "../../utils";
+import { ExtractionState, ExtractionStatus } from "../../../grouping-and-mapping/interfaces/Extraction";
+import { Group } from "../../../grouping-and-mapping/interfaces/Groups";
+import { Mapping } from "../../../grouping-and-mapping/interfaces/Mappings";
+import { accessToken, cdmClient, extractionClient, groupsClient, mappingsClient, testIModel } from "../../utils/GlobalSetup";
+import { sleep } from "../../utils/imodels-client-test-utils/CommonTestUtils";
 
 describe("CDM Client Integration Tests", ()=> {
   let mappingOne: Mapping;
@@ -42,6 +45,7 @@ describe("CDM Client Integration Tests", ()=> {
     for (const start = performance.now(); performance.now() - start < 6 * 60 * 1000; await sleep(3000)) {
       status = await extractionClient.getExtractionStatus(accessToken, extraction.id);
       state = status.state;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
       if(state !== ExtractionState.Queued && state.valueOf() !== ExtractionState.Running)
         break;
     }

@@ -22,7 +22,7 @@ export class TestIModelRetriever {
     @inject(TestITwinProvider)
     private readonly _testProjectProvider: TestITwinProvider,
     @inject(TestIModelFileProvider)
-    private readonly _testIModelFileProvider: TestIModelFileProvider
+    private readonly _testIModelFileProvider: TestIModelFileProvider,
   ) { }
 
   public async findIModelByName(iModelName: string): Promise<IModel | undefined> {

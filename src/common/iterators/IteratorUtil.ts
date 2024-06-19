@@ -29,7 +29,7 @@ export async function* flatten<TEntity>(pagedIterator: AsyncIterableIterator<TEn
 
 export async function getEntityCollectionPage<TEntity>(
   nextUrl: string,
-  getNextBatch: (url: string) => Promise<Collection<TEntity>>
+  getNextBatch: (url: string) => Promise<Collection<TEntity>>,
 ): Promise<EntityCollectionPage<TEntity>> {
   const response: Collection<TEntity> = await getNextBatch(nextUrl);
   // eslint-disable-next-line @typescript-eslint/naming-convention

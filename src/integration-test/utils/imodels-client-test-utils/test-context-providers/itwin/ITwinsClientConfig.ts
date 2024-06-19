@@ -12,7 +12,7 @@ export class ITwinsClientConfig {
 
   constructor(
   @inject(testUtilTypes.baseIntegrationTestsConfig)
-    config: BaseIntegrationTestsConfig
+    config: BaseIntegrationTestsConfig,
   ) {
     this.baseUrl = config.apis.iTwins.baseUrl;
   }

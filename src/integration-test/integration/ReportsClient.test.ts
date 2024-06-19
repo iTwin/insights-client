@@ -5,9 +5,10 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
-import { accessToken, aggregationsClient, iTwinId, mappingsClient, reportsClient, testIModel } from "../utils";
-import { AggregationTableSetCreate, ReportAggregation, ReportAggregationCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../../reporting";
-import { MappingCreate } from "../../grouping-and-mapping";
+import { accessToken, aggregationsClient, iTwinId, mappingsClient, reportsClient, testIModel } from "../utils/GlobalSetup";
+import { AggregationTableSetCreate } from "../../reporting/interfaces/AggregationProperties";
+import { ReportAggregation, ReportAggregationCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../../reporting/interfaces/Reports";
+import { MappingCreate } from "../../grouping-and-mapping/interfaces/Mappings";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {

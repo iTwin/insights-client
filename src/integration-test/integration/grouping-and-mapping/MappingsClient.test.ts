@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
 import { MappingCreate, MappingUpdate } from "../../../grouping-and-mapping/interfaces/Mappings";
-import { accessToken, mappingsClient, testIModel } from "../../utils";
+import { accessToken, mappingsClient, testIModel } from "../../utils/GlobalSetup";
 
 describe("Mappings Client", ()=> {
   let mappingIds: Array<string> = [];

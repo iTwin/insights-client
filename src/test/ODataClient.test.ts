@@ -5,7 +5,8 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { ODataClient, ODataEntityResponse, ODataEntityValue, ODataItem, ODataTable } from "../reporting";
+import { ODataClient } from "../reporting/clients/ODataClient";
+import { ODataEntityResponse, ODataEntityValue, ODataItem, ODataTable } from "../reporting/interfaces/OData";
 import * as fs from "fs";
 import * as path from "path";
 use(chaiAsPromised);

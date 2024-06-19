@@ -33,7 +33,7 @@ describe("OperationsBase", () => {
     expect(operationsBase.isSimpleIdentifier("!Test")).to.be.false;
     expect(operationsBase.isSimpleIdentifier("0Test")).to.be.false;
     expect(operationsBase.isSimpleIdentifier(
-      "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest"
+      "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest",
     )).to.be.false;
     expect(operationsBase.isSimpleIdentifier("Test")).to.be.true;
     expect(operationsBase.isSimpleIdentifier("_Test")).to.be.true;

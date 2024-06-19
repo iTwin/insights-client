@@ -5,7 +5,8 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { Report, ReportAggregation, ReportAggregationCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportsClient, ReportUpdate } from "../reporting";
+import { ReportsClient } from "../reporting/clients/ReportsClient";
+import { Report, ReportAggregation, ReportAggregationCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../reporting/interfaces/Reports";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {
@@ -53,7 +54,7 @@ describe("Reports Client", () => {
     expect(report.id).to.be.eq(1);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports/reportId",
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -83,7 +84,7 @@ describe("Reports Client", () => {
     expect(reports[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports?projectId=projectId&deleted=false",
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -101,7 +102,7 @@ describe("Reports Client", () => {
     await it.next();
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports?projectId=projectId&deleted=false",
-      "pass"
+      "pass",
     )).to.be.true;
 
     it = reportsClient.getReportsIterator("auth", "projectId", 2);
@@ -109,7 +110,7 @@ describe("Reports Client", () => {
     await it.next();
     expect(fetchStub.calledWith(
       `https://api.bentley.com/insights/reporting/reports?projectId=projectId&deleted=false&$top=2`,
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -139,7 +140,7 @@ describe("Reports Client", () => {
     expect(reports[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports?projectId=projectId&deleted=true",
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -169,7 +170,7 @@ describe("Reports Client", () => {
     expect(reports[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/reports?projectId=projectId&deleted=false&$top=2",
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -193,7 +194,7 @@ describe("Reports Client", () => {
     expect(requestStub.calledWith(
       "POST",
       "auth",
-      JSON.stringify(newReport)
+      JSON.stringify(newReport),
     )).to.be.true;
   });
 
@@ -216,7 +217,7 @@ describe("Reports Client", () => {
     expect(requestStub.calledWith(
       "PATCH",
       "auth",
-      JSON.stringify(newReport)
+      JSON.stringify(newReport),
     )).to.be.true;
   });
 
@@ -313,7 +314,7 @@ describe("Reports Client", () => {
     expect(requestStub.calledWith(
       "POST",
       "auth",
-      JSON.stringify(newMapping)
+      JSON.stringify(newMapping),
     )).to.be.true;
   });
 
@@ -409,7 +410,7 @@ describe("Reports Client", () => {
     expect(requestStub.calledWith(
       "POST",
       "auth",
-      JSON.stringify(newAggregation)
+      JSON.stringify(newAggregation),
     )).to.be.true;
   });
 

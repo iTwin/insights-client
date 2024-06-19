@@ -3,9 +3,9 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
-import { Mapping } from "../../../grouping-and-mapping";
+import { Mapping } from "../../../grouping-and-mapping/interfaces/Mappings";
 import { ExtractionRequestDetails, ExtractionState, ExtractionStatus } from "../../../grouping-and-mapping/interfaces/Extraction";
-import { accessToken, extractionClient, mappingsClient, testIModel } from "../../utils";
+import { accessToken, extractionClient, mappingsClient, testIModel } from "../../utils/GlobalSetup";
 
 describe("Extraction Client", ()=> {
   let mappingIds: Array<string> = [];

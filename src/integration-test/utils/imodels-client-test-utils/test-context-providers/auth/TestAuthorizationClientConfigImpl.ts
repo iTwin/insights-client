@@ -12,7 +12,7 @@ export class TestAuthorizationClientConfig {
 
   constructor(
   @inject(testUtilTypes.baseIntegrationTestsConfig)
-    config: BaseIntegrationTestsConfig
+    config: BaseIntegrationTestsConfig,
   ) {
     this.authority = config.auth.authority;
     this.clientId = config.auth.clientId;

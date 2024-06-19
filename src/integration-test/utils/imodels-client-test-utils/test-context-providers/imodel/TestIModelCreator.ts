@@ -23,7 +23,7 @@ export class TestIModelCreator {
     @inject(TestITwinProvider)
     private readonly _testProjectProvider: TestITwinProvider,
     @inject(TestIModelFileProvider)
-    private readonly _testIModelFileProvider: TestIModelFileProvider
+    private readonly _testIModelFileProvider: TestIModelFileProvider,
   ) { }
 
   public async createEmpty(iModelName: string): Promise<IModelMetadata> {

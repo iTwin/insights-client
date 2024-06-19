@@ -11,8 +11,8 @@
     "build:esm": "tsc 1>&2 --module es6 --outDir lib/esm",
     "copy": "copyfiles -u 4 src/integration-test/utils/imodels-client-test-utils/assets/* src/integration-test/utils/imodels-client-test-utils/assets/changesets/* lib/cjs/integration-test/utils/imodels-client-test-utils",
     "copy:test": "copyfiles -u 2 src/test/test-data/* lib/cjs/test",
-    "lint": "eslint \"*/**/*.{js,ts}\"",
-    "lint:fix": "npm run lint -- --fix",
+    "lint": "eslint -f visualstudio \"./src/**/*.ts\" 1>&2",
+    "lint:fix": "eslint -f visualstudio \"./src/**/*.ts\" 1>&2 --fix",
     "lint:copyright": "node scripts/copyright-linter.js",
     "pack": "npm pack",
     "cover": "nyc mocha lib/cjs/test/**/*.test.js",
@@ -71,16 +71,6 @@
     "source-map-support": "^0.5.21",
     "ts-node": "^10.8.2",
     "typescript": "^5.0.0"
-  },
-  "eslintConfig": {
-    "plugins": [
-      "@itwin"
-    ],
-    "extends": "plugin:@itwin/itwinjs-recommended",
-    "rules": {
-      "no-duplicate-imports": "off",
-      "@typescript-eslint/consistent-type-imports": "error"
-    }
   },
   "nyc": {
     "nycrc-path": "./node_modules/@itwin/build-tools/.nycrc",

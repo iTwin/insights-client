@@ -59,7 +59,7 @@ describe("Extraction Client unit tests", ()=> {
     expect(requestStub.calledWith(
       "POST",
       "authToken",
-      JSON.stringify(extractionRequestDetails)
+      JSON.stringify(extractionRequestDetails),
     )).to.be.true;
   });
 

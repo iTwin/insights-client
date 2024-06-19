@@ -61,7 +61,7 @@ describe("Groups Client Unit tests", () => {
     expect(requestStub.calledWith(
       "POST",
       "authToken",
-      JSON.stringify(newGroup)
+      JSON.stringify(newGroup),
     )).to.be.true;
   });
 
@@ -108,7 +108,7 @@ describe("Groups Client Unit tests", () => {
     )).to.be.true;
     expect(requestStub.calledWith(
       "GET",
-      "authToken"
+      "authToken",
     )).to.be.true;
   });
 
@@ -140,7 +140,7 @@ describe("Groups Client Unit tests", () => {
       "GET",
       "authToken",
       undefined,
-      "minimal"
+      "minimal",
     )).to.be.true;
     expect(groupsList.groups.length).to.equal(2);
   });
@@ -195,7 +195,7 @@ describe("Groups Client Unit tests", () => {
       "GET",
       "authToken",
       undefined,
-      "representation"
+      "representation",
     )).to.be.true;
     expect(groupsList.groups.length).to.equal(2);
     expect(groupsList.groups.every((group) => Array.isArray(group.metadata))).to.be.true;
@@ -238,7 +238,7 @@ describe("Groups Client Unit tests", () => {
     expect(requestStub.calledWith(
       "PATCH",
       "authToken",
-      JSON.stringify(updateGroup)
+      JSON.stringify(updateGroup),
     )).to.be.true;
   });
 });
