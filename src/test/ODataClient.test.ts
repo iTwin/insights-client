@@ -5,7 +5,7 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { ODataClient, ODataEntityResponse, ODataEntityValue, ODataItem } from "../reporting";
+import { ODataClient, ODataEntityResponse, ODataEntityValue, ODataItem, ODataTable } from "../reporting";
 import * as fs from "fs";
 import * as path from "path";
 use(chaiAsPromised);
@@ -81,6 +81,18 @@ describe("ODataClient", () => {
     expect(report[0].columns[2].type).to.be.eq("Edm.String");
     expect(report[0].columns[3].type).to.be.eq("Edm.String");
     expect(report[0].columns[4].type).to.be.eq("Edm.String");
+
+    body = fs.readFileSync(path.join(__dirname, "test-data/metaDataWithEntitySetAnnotation.xml"), "utf-8");
+    response = new Response(body, myOptions);
+    fetchStub.resolves(response);
+
+    report = await oDataClient.getODataReportMetadata("auth", "reportId");
+    expect(report).to.not.be.undefined;
+    const annotatedTable = report.find((r: ODataTable) => r.name === "EntityName");
+    expect(annotatedTable).to.not.be.undefined;
+    expect(annotatedTable?.annotations.length).to.be.eq(1);
+    expect(annotatedTable?.annotations[0].term).to.be.eq("Bentley.iTwin.Reporting.DisplayName");
+    expect(annotatedTable?.annotations[0].stringValue).to.be.eq("EntName");
 
     body = fs.readFileSync(path.join(__dirname, "test-data/largeMetaData.xml"), "utf-8");
     response = new Response(body, myOptions);

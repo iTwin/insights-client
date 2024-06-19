@@ -1,5 +1,10 @@
 # Change Log - @itwin/insights-client
 
+## 0.10.3
+Wednesday, 19 June, 2024
+### Patch
+- Added ODataTable annotations to the OData metadata response.
+
 ## 0.10.2
 Monday, 10 June, 2024
 ### Patch

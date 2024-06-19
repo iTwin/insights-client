@@ -66,23 +66,49 @@ export interface ODataEntityResponse {
 export interface ODataEntityValue { [key: string]: string | number | boolean | null}
 
 /**
+ * OData annotation.
+ * @export
+ * @interface ODataAnnotation
+ */
+export interface ODataAnnotation {
+  /**
+   * Name of a term.
+   * @type {string}
+   * @memberof ODataAnnotation
+   */
+  term: string;
+  /**
+   * String value of the annotation.
+   * @type {string}
+   * @memberof ODataAnnotation
+   */
+  stringValue?: string;
+}
+
+/**
  * OData MetaData table.
  * @export
  * @interface ODataTable
  */
 export interface ODataTable {
   /**
-   * Table name
+   * Table name.
    * @type {string}
    * @memberof ODataTable
    */
   name: string;
   /**
-   * Table columns
-   * @type {string}
+   * Table columns.
+   * @type {ODataColumn[]}
    * @memberof ODataTable
    */
   columns: ODataColumn[];
+  /**
+   * Table annotations.
+   * @type {ODataAnnotation[]}
+   * @memberof ODataTable
+   */
+  annotations: ODataAnnotation[];
 }
 
 /**
