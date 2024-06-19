@@ -4,9 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { ReportCreate } from "../../reporting";
+import { ReportCreate } from "../../reporting/interfaces/Reports";
 import "reflect-metadata";
-import { accessToken, configurationsClient, iTwinId, jobsClient, reportsClient } from "../utils";
+import { accessToken, configurationsClient, iTwinId, jobsClient, reportsClient } from "../utils/GlobalSetup";
 import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationMaterial } from "../../carbon-calculation/interfaces/EC3Configurations";
 import { EC3Job, EC3JobCreate, EC3JobStatus } from "../../carbon-calculation/interfaces/EC3Jobs";
 use(chaiAsPromised);

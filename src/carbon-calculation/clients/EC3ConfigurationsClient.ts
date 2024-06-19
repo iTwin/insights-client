@@ -28,7 +28,7 @@ export class EC3ConfigurationsClient extends OperationsBase implements IEC3Confi
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
     let url = `${this.basePath}/ec3/configurations?iTwinId=${projectId}`;
@@ -56,13 +56,13 @@ export class EC3ConfigurationsClient extends OperationsBase implements IEC3Confi
     if (configuration.labels.length === 0) {
       throw new RequiredError(
         "configuration",
-        "Required field labels was empty."
+        "Required field labels was empty.",
       );
     }
     if (configuration.labels.some((x) => x.materials.length === 0)) {
       throw new RequiredError(
         "configuration",
-        "Required field materials was empty."
+        "Required field materials was empty.",
       );
     }
 
@@ -75,13 +75,13 @@ export class EC3ConfigurationsClient extends OperationsBase implements IEC3Confi
     if (configuration.labels.length === 0) {
       throw new RequiredError(
         "configuration",
-        "Required field labels was empty."
+        "Required field labels was empty.",
       );
     }
     if (configuration.labels.some((x) => x.materials.length === 0)) {
       throw new RequiredError(
         "configuration",
-        "Required field materials was empty."
+        "Required field materials was empty.",
       );
     }
 

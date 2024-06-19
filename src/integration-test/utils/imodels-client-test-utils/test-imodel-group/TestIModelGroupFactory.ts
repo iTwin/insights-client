@@ -16,7 +16,7 @@ export class TestIModelGroupFactory {
     @inject(TestAuthorizationProvider)
     private readonly _testAuthorizationProvider: TestAuthorizationProvider,
     @inject(TestITwinProvider)
-    private readonly _testProjectProvider: TestITwinProvider
+    private readonly _testProjectProvider: TestITwinProvider,
   ) { }
 
   public create(testRunContext: {

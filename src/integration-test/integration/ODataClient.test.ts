@@ -4,10 +4,13 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import { ODataItem, ReportCreate, ReportMappingCreate } from "../../reporting";
+import { ODataItem } from "../../reporting/interfaces/OData";
+import { ReportCreate, ReportMappingCreate } from "../../reporting/interfaces/Reports";
 import "reflect-metadata";
-import { accessToken, extractionClient, groupsClient, iTwinId, mappingsClient, oDataClient, reportsClient, sleep, testIModel } from "../utils";
-import { GroupCreate, MappingCreate } from "../../grouping-and-mapping";
+import { accessToken, extractionClient, groupsClient, iTwinId, mappingsClient, oDataClient, reportsClient, testIModel } from "../utils/GlobalSetup";
+import { sleep } from "../utils/imodels-client-test-utils/CommonTestUtils";
+import { GroupCreate } from "../../grouping-and-mapping/interfaces/Groups";
+import { MappingCreate } from "../../grouping-and-mapping/interfaces/Mappings";
 import { ExtractionRequestDetails, ExtractionState, ExtractionStatus } from "../../grouping-and-mapping/interfaces/Extraction";
 use(chaiAsPromised);
 
@@ -18,7 +21,7 @@ describe("OData Client", () => {
 
   before(async () => {
     const newMapping: MappingCreate = {
-      mappingName: "Test",
+      mappingName: "TestM",
       iModelId: testIModel.id,
       extractionEnabled: true,
     };
@@ -26,13 +29,13 @@ describe("OData Client", () => {
     mappingId = mapping.id;
 
     const newGroup: GroupCreate = {
-      groupName: "Test",
+      groupName: "TestG",
       query: "select * from biscore.element limit 10",
     };
     await groupsClient.createGroup(accessToken, mapping.id, newGroup);
 
     const newReport: ReportCreate = {
-      displayName: "Test",
+      displayName: "TestR",
       projectId: iTwinId,
     };
     const report = await reportsClient.createReport(accessToken, newReport);
@@ -57,6 +60,7 @@ describe("OData Client", () => {
     for (const start = performance.now(); performance.now() - start < 6 * 60 * 1000; await sleep(3000)) {
       status = await extractionClient.getExtractionStatus(accessToken, extraction.id);
       state = status.state;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
       if(state !== ExtractionState.Queued && state.valueOf() !== ExtractionState.Running)
         break;
     }
@@ -81,7 +85,7 @@ describe("OData Client", () => {
     const oDataResponse = await oDataClient.getODataReportMetadata(accessToken, reportId);
     expect(oDataResponse).to.not.be.undefined;
     expect(oDataResponse).to.not.be.empty;
-    expect(oDataResponse[0].name).to.be.a("string").and.satisfy((msg: string) => msg.startsWith("Test_Test"));
+    expect(oDataResponse[0].name).to.be.a("string").and.satisfy((msg: string) => msg.startsWith("TestM_TestG"));
     expect(["ECInstanceId", "ECClassId", "UserLabel", "BBoxLow", "BBoxHigh"]).to.include(oDataResponse[0].columns[0].name);
     expect(["ECInstanceId", "ECClassId", "UserLabel", "BBoxLow", "BBoxHigh"]).to.include(oDataResponse[0].columns[1].name);
     expect(["ECInstanceId", "ECClassId", "UserLabel", "BBoxLow", "BBoxHigh"]).to.include(oDataResponse[0].columns[2].name);
@@ -92,6 +96,8 @@ describe("OData Client", () => {
     expect(oDataResponse[0].columns[2].type).to.be.eq("Edm.String");
     expect(oDataResponse[0].columns[3].type).to.be.eq("Edm.String");
     expect(oDataResponse[0].columns[4].type).to.be.eq("Edm.String");
+    expect(oDataResponse[0].annotations[0].term).to.be.eq("Bentley.iTwin.Reporting.DisplayName");
+    expect(oDataResponse[0].annotations[0].stringValue).to.be.eq("TestG");
   });
 
   it("throw OData report metadata", async () => {

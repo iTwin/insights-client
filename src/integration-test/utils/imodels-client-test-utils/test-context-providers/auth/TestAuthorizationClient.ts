@@ -34,7 +34,7 @@ export class TestAuthorizationClient {
 
   constructor(
     @inject(TestAuthorizationClientConfig)
-    private readonly _authConfig: TestAuthorizationClientConfig
+    private readonly _authConfig: TestAuthorizationClientConfig,
   ) { }
 
   public async getAccessToken(testUserCredentials: TestUserCredentials): Promise<string> {

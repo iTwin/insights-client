@@ -20,7 +20,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
     accessToken: AccessToken,
     aggregationTableSetId: string,
     aggregationTableId: string,
-    top?: number
+    top?: number,
   ): Promise<AggregationProperty[]> {
     const properties: Array<AggregationProperty> = [];
     const aggregationPropertyIterator = this.getAggregationPropertiesIterator(accessToken, aggregationTableSetId, aggregationTableId, top);
@@ -34,12 +34,12 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
     accessToken: AccessToken,
     aggregationTableSetId: string,
     aggregationTableId: string,
-    top?: number
+    top?: number,
   ): EntityListIterator<AggregationProperty> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
     let url = `${this.basePath}/datasources/aggregations/${encodeURIComponent(aggregationTableSetId)}/tables/${encodeURIComponent(aggregationTableId)}/properties`;
@@ -73,7 +73,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
     aggregationTableSetId: string,
     aggregationTableId: string,
     aggregationPropertyId: string,
-    property: AggregationPropertyUpdate
+    property: AggregationPropertyUpdate,
   ): Promise<AggregationProperty> {
     if (null == property.propertyName && null == property.sourcePropertyName && null == property.type) {
       throw new RequiredError(
@@ -109,7 +109,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
     accessToken: AccessToken,
     aggregationTableSetId: string,
     aggregationTableId: string,
-    property: AggregationPropertyCreate
+    property: AggregationPropertyCreate,
   ): Promise<AggregationProperty> {
     if (!this.isSimpleIdentifier(property.propertyName)) {
       throw new RequiredError(
@@ -149,7 +149,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
     accessToken: AccessToken,
     datasourceId: string,
     datasourceType: string,
-    top?: number
+    top?: number,
   ): Promise<AggregationTableSet[]> {
     const tablesets: Array<AggregationTableSet> = [];
     const aggregationTableSetsIterator = this.getAggregationTableSetsIterator(accessToken, datasourceId, datasourceType, top);
@@ -163,12 +163,12 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
     accessToken: AccessToken,
     datasourceId: string,
     datasourceType: string,
-    top?: number
+    top?: number,
   ): EntityListIterator<AggregationTableSet> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
     let url = `${this.basePath}/datasources/aggregations?datasourceId=${encodeURIComponent(datasourceId)}&datasourceType=${encodeURIComponent(datasourceType)}`;
@@ -198,7 +198,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
   public async updateAggregationTableSet(
     accessToken: AccessToken,
     aggregationTableSetId: string,
-    tableset: AggregationTableSetUpdate
+    tableset: AggregationTableSetUpdate,
   ): Promise<AggregationTableSet> {
     if (null == tableset.tableSetName && null == tableset.description) {
       throw new RequiredError(
@@ -220,7 +220,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
 
   public async createAggregationTableSet(
     accessToken: AccessToken,
-    tableset: AggregationTableSetCreate
+    tableset: AggregationTableSetCreate,
   ): Promise<AggregationTableSet> {
     if (!this.isSimpleIdentifier(tableset.tableSetName)) {
       throw new RequiredError(
@@ -257,7 +257,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
   public async getAggregationTables(
     accessToken: AccessToken,
     aggregationTableSetId: string,
-    top?: number
+    top?: number,
   ): Promise<AggregationTable[]> {
     const tables: Array<AggregationTable> = [];
     const aggregationTablesIterator = this.getAggregationTablesIterator(accessToken, aggregationTableSetId, top);
@@ -270,12 +270,12 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
   public getAggregationTablesIterator(
     accessToken: AccessToken,
     aggregationTableSetId: string,
-    top?: number
+    top?: number,
   ): EntityListIterator<AggregationTable> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
     let url = `${this.basePath}/datasources/aggregations/${encodeURIComponent(aggregationTableSetId)}/tables`;
@@ -296,7 +296,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
   public async getAggregationTable(
     accessToken: AccessToken,
     aggregationTableSetId: string,
-    aggregationTableId: string
+    aggregationTableId: string,
   ): Promise<AggregationTable> {
     const url = `${this.basePath}/datasources/aggregations/${encodeURIComponent(aggregationTableSetId)}/tables/${encodeURIComponent(aggregationTableId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
@@ -307,7 +307,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
     accessToken: AccessToken,
     aggregationTableSetId: string,
     aggregationTableId: string,
-    table: AggregationTableUpdate
+    table: AggregationTableUpdate,
   ): Promise<AggregationTable> {
     if (null == table.tableName && null == table.description && null == table.sourceTableName) {
       throw new RequiredError(
@@ -336,7 +336,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
   public async createAggregationTable(
     accessToken: AccessToken,
     aggregationTableSetId: string,
-    table: AggregationTableCreate
+    table: AggregationTableCreate,
   ): Promise<AggregationTable> {
     if (!this.isSimpleIdentifier(table.tableName)) {
       throw new RequiredError(
@@ -358,7 +358,7 @@ export class AggregationsClient extends OperationsBase implements IAggregationsC
   public async deleteAggregationTable(
     accessToken: AccessToken,
     aggregationTableSetId: string,
-    aggregationTableId: string
+    aggregationTableId: string,
   ): Promise<Response> {
     const url = `${this.basePath}/datasources/aggregations/${encodeURIComponent(aggregationTableSetId)}/tables/${encodeURIComponent(aggregationTableId)}`;
     const requestOptions: RequestInit = this.createRequest("DELETE", accessToken);

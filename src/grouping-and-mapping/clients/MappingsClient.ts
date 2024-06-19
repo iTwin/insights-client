@@ -62,7 +62,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
 
@@ -83,7 +83,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
 
@@ -99,7 +99,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
 
@@ -120,7 +120,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
 

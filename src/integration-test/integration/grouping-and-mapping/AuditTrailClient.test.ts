@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
-import { accessToken, auditTrailClient, testIModel } from "../../utils";
+import { accessToken, auditTrailClient, testIModel } from "../../utils/GlobalSetup";
 
 describe("Audit trail client integration tests", ()=>{
   it("Audit Trail Client - Get Audit Trail", async ()=>{

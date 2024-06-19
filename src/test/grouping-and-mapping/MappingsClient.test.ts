@@ -62,7 +62,7 @@ describe("Mappings Client Unit tests", ()=> {
     expect(requestStub.calledWith(
       "POST",
       "authToken",
-      JSON.stringify(newMapping)
+      JSON.stringify(newMapping),
     )).to.be.true;
 
   });
@@ -202,7 +202,7 @@ describe("Mappings Client Unit tests", ()=> {
       expect(requestStub.calledWith(
         "PATCH",
         "authToken",
-        JSON.stringify(newMapping)
+        JSON.stringify(newMapping),
       )).to.be.true;
 
       expect(mapping.id).to.be.eq("1");

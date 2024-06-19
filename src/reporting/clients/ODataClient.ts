@@ -119,6 +119,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     const table: ODataTable = {
       name: entity.Name,
       columns: [],
+      annotations: [],
     };
     const identifiers = entity.EntityType.split(".");
 
@@ -133,10 +134,29 @@ export class ODataClient extends OperationsBase implements IOdataClient{
         type: property.Type,
       });
     });
+
+    const annotationNodes = (entity as any).annotation;
+    if (annotationNodes) {
+      const annotations: Array<ODataMetaDataAnnotation> = this.makeArray(annotationNodes);
+      annotations.forEach((annotation: ODataMetaDataAnnotation) => {
+        table.annotations.push({
+          term: annotation.Term,
+          stringValue: annotation.String,
+        });
+      });
+    }
+
     return table;
   }
 
   private makeArray<T>(entity: T | Array<T>): Array<T> {
     return entity instanceof Array ? entity : [entity];
   }
+}
+
+interface ODataMetaDataAnnotation {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  Term: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  String?: string;
 }

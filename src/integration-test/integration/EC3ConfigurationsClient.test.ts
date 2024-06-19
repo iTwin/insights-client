@@ -5,8 +5,8 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
-import { accessToken, configurationsClient, iTwinId, reportsClient } from "../utils";
-import { ReportCreate } from "../../reporting";
+import { accessToken, configurationsClient, iTwinId, reportsClient } from "../utils/GlobalSetup";
+import { ReportCreate } from "../../reporting/interfaces/Reports";
 import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationLabel, EC3ConfigurationMaterial, EC3ConfigurationUpdate } from "../../carbon-calculation/interfaces/EC3Configurations";
 use(chaiAsPromised);
 

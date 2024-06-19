@@ -13,7 +13,7 @@ decorate(injectable(), ITwinsAccessClient);
 export class TestITwinsClient extends ITwinsAccessClient {
   constructor(
   @inject(ITwinsClientConfig)
-    config: ITwinsClientConfig
+    config: ITwinsClientConfig,
   ) {
     super(config.baseUrl);
   }

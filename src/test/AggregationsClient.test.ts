@@ -5,7 +5,8 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import { AggregationProperty, AggregationPropertyCreate, AggregationPropertyType, AggregationPropertyUpdate, AggregationsClient, AggregationTable, AggregationTableCreate, AggregationTableSet, AggregationTableSetCreate, AggregationTableSetUpdate, AggregationTableUpdate } from "../reporting";
+import { AggregationsClient } from "../reporting/clients/AggregationsClient";
+import { AggregationProperty, AggregationPropertyCreate, AggregationPropertyType, AggregationPropertyUpdate, AggregationTable, AggregationTableCreate, AggregationTableSet, AggregationTableSetCreate, AggregationTableSetUpdate, AggregationTableUpdate } from "../reporting/interfaces/AggregationProperties";
 use(chaiAsPromised);
 
 describe("Aggregations Client", () => {
@@ -53,7 +54,7 @@ describe("Aggregations Client", () => {
     expect(aggregationTableSet.id).to.be.eq(1);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/aggregations/aggregationTableSetId",
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -83,7 +84,7 @@ describe("Aggregations Client", () => {
     expect(aggregationTableSets[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/aggregations?datasourceId=datasourceId&datasourceType=datasourceType",
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -113,7 +114,7 @@ describe("Aggregations Client", () => {
     expect(aggregationTableSets[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/aggregations?datasourceId=datasourceId&datasourceType=datasourceType&$top=2",
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -139,7 +140,7 @@ describe("Aggregations Client", () => {
     expect(requestStub.calledWith(
       "POST",
       "auth",
-      JSON.stringify(newAggregationTableSet)
+      JSON.stringify(newAggregationTableSet),
     )).to.be.true;
   });
 
@@ -162,7 +163,7 @@ describe("Aggregations Client", () => {
     expect(requestStub.calledWith(
       "PATCH",
       "auth",
-      JSON.stringify(newAggregationTableSet)
+      JSON.stringify(newAggregationTableSet),
     )).to.be.true;
   });
 
@@ -190,7 +191,7 @@ describe("Aggregations Client", () => {
     expect(aggregationTable.id).to.be.eq(1);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/aggregations/aggregationTableSetId/tables/aggregationTableId",
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -220,7 +221,7 @@ describe("Aggregations Client", () => {
     expect(aggregationTables[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/aggregations/aggregationTableSetId/tables",
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -250,7 +251,7 @@ describe("Aggregations Client", () => {
     expect(aggregationTables[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/aggregations/aggregationTableSetId/tables?$top=2",
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -275,7 +276,7 @@ describe("Aggregations Client", () => {
     expect(requestStub.calledWith(
       "POST",
       "auth",
-      JSON.stringify(newAggregationTable)
+      JSON.stringify(newAggregationTable),
     )).to.be.true;
   });
 
@@ -300,7 +301,7 @@ describe("Aggregations Client", () => {
     expect(requestStub.calledWith(
       "PATCH",
       "auth",
-      JSON.stringify(newAggregationTable)
+      JSON.stringify(newAggregationTable),
     )).to.be.true;
   });
 
@@ -328,7 +329,7 @@ describe("Aggregations Client", () => {
     expect(aggregationProperty.id).to.be.eq(1);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/aggregations/aggregationTableSetId/tables/aggregationTableId/properties/aggregationPropertyId",
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -358,7 +359,7 @@ describe("Aggregations Client", () => {
     expect(aggregationProperties[3]).to.be.eq(4);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/insights/reporting/datasources/aggregations/aggregationTableSetId/tables/aggregationTableId/properties",
-      "pass"
+      "pass",
     )).to.be.true;
   });
 
@@ -413,7 +414,7 @@ describe("Aggregations Client", () => {
     expect(requestStub.calledWith(
       "POST",
       "auth",
-      JSON.stringify(newAggregationProperty)
+      JSON.stringify(newAggregationProperty),
     )).to.be.true;
   });
 
@@ -438,7 +439,7 @@ describe("Aggregations Client", () => {
     expect(requestStub.calledWith(
       "PATCH",
       "auth",
-      JSON.stringify(newAggregationProperty)
+      JSON.stringify(newAggregationProperty),
     )).to.be.true;
   });
 

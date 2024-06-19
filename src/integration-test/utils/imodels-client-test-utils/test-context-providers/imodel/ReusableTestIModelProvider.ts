@@ -25,7 +25,7 @@ export class ReusableTestIModelProvider {
     @inject(TestIModelRetriever)
     private readonly _testIModelRetriever: TestIModelRetriever,
     @inject(TestIModelCreator)
-    private readonly _testIModelCreator: TestIModelCreator
+    private readonly _testIModelCreator: TestIModelCreator,
   ) { }
 
   public async getOrCreate(): Promise<ReusableIModelMetadata> {

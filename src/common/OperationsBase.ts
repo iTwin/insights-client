@@ -61,7 +61,7 @@ export class OperationsBase {
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       response = await this.fetch(
         nextUrl,
-        requestOptions
+        requestOptions,
       );
 
       if (response.status >= 200 && response.status < 300) {

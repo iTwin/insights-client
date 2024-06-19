@@ -4,14 +4,21 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
-import {
-  AggregationPropertyCreate, AggregationPropertyType, AggregationPropertyUpdate, AggregationsClient,
-  AggregationTableCreate, AggregationTableSetCreate, AggregationTableSetUpdate, AggregationTableUpdate,
-  ODataClient, ODataItem, ReportAggregationCreate, ReportCreate, ReportMappingCreate,
-  ReportsClient, ReportUpdate } from "../reporting";
+import { AggregationsClient } from "../reporting/clients/AggregationsClient";
+import { ODataClient } from "../reporting/clients/ODataClient";
+import { ReportsClient } from "../reporting/clients/ReportsClient";
+import { AggregationPropertyCreate, AggregationPropertyType, AggregationPropertyUpdate, AggregationTableCreate, AggregationTableSetCreate, AggregationTableSetUpdate, AggregationTableUpdate } from "../reporting/interfaces/AggregationProperties";
+import { ODataItem } from "../reporting/interfaces/OData";
+import { ReportAggregationCreate, ReportCreate, ReportMappingCreate, ReportUpdate } from "../reporting/interfaces/Reports";
 import { EC3ConfigurationsClient } from "../carbon-calculation/clients/EC3ConfigurationsClient";
 import { EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
-import { DataType, ECPropertyReference, ExtractionClient, GroupCreate, GroupsClient, GroupUpdate, MappingCreate, MappingsClient, MappingUpdate, PropertiesClient, PropertyModify, QuantityType } from "../grouping-and-mapping";
+import { ExtractionClient } from "../grouping-and-mapping/clients/ExtractionClient";
+import { GroupsClient } from "../grouping-and-mapping/clients/GroupsClient";
+import { MappingsClient } from "../grouping-and-mapping/clients/MappingsClient";
+import { PropertiesClient } from "../grouping-and-mapping/clients/PropertiesClient";
+import { GroupCreate, GroupUpdate } from "../grouping-and-mapping/interfaces/Groups";
+import { MappingCreate, MappingUpdate } from "../grouping-and-mapping/interfaces/Mappings";
+import { DataType, ECPropertyReference, PropertyModify, QuantityType } from "../grouping-and-mapping/interfaces/Properties";
 import { PreferReturn } from "../common/Common";
 use(chaiAsPromised);
 
@@ -31,34 +38,34 @@ describe("Validation", () => {
       projectId: "-",
     };
     await expect(reportsClient.createReport("-", newReport)).to.be.rejectedWith(
-      "Required field displayName was null or undefined."
+      "Required field displayName was null or undefined.",
     );
 
     newReport.displayName = "Test";
     newReport.projectId = "";
     await expect(reportsClient.createReport("-", newReport)).to.be.rejectedWith(
-      "Required field projectId was null or undefined."
+      "Required field projectId was null or undefined.",
     );
   });
 
   it("Reports - Update unsuccessfully", async () => {
     const reportUpdate: ReportUpdate = {};
     await expect(reportsClient.updateReport("-", "-", reportUpdate)).to.be.rejectedWith(
-      "All fields of report were null or undefined."
+      "All fields of report were null or undefined.",
     );
 
     reportUpdate.displayName = "";
     await expect(reportsClient.updateReport("-", "-", reportUpdate)).to.be.rejectedWith(
-      "Field displayName was empty."
+      "Field displayName was empty.",
     );
   });
 
   it("Reports - Faulty top value", async () => {
     await expect(reportsClient.getReports("-", "-", 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
     await expect(reportsClient.getReports("-", "-", 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
   });
 
@@ -68,22 +75,22 @@ describe("Validation", () => {
       imodelId: "Not empty",
     };
     await expect(reportsClient.createReportMapping("-", "-", newReportMapping)).to.be.rejectedWith(
-      "Required field mappingId was null or undefined."
+      "Required field mappingId was null or undefined.",
     );
 
     newReportMapping.mappingId = "Not empty";
     newReportMapping.imodelId = "";
     await expect(reportsClient.createReportMapping("-", "-", newReportMapping)).to.be.rejectedWith(
-      "Required field imodelId was null or undefined."
+      "Required field imodelId was null or undefined.",
     );
   });
 
   it("Report mappings - Faulty top value", async () => {
     await expect(reportsClient.getReportMappings("-", "-", 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
     await expect(reportsClient.getReportMappings("-", "-", 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
   });
 
@@ -111,10 +118,10 @@ describe("Validation", () => {
 
   it("Mappings - Faulty top value", async () => {
     await expect(mappingsClient.getMappings("-", "-", 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
     await expect(mappingsClient.getMappings("-", "-", 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
   });
 
@@ -164,10 +171,10 @@ describe("Validation", () => {
 
   it("Groups - Faulty top value", async () => {
     await expect(groupsClient.getGroups("-", "-", PreferReturn.Minimal, 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
     await expect(groupsClient.getGroups("-", "-", PreferReturn.Minimal, 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
   });
 
@@ -249,10 +256,10 @@ describe("Validation", () => {
 
   it("Properties - Faulty top value", async () => {
     await expect(propertiesClient.getProperties("-", "-", "-", 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
     await expect(propertiesClient.getProperties("-", "-", "-", 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
   });
 
@@ -267,10 +274,10 @@ describe("Validation", () => {
 
   it("Report Aggregations - Faulty top value", async () => {
     await expect(reportsClient.getReportAggregations("-", "-", 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
     await expect(reportsClient.getReportAggregations("-", "-", 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
   });
 
@@ -301,21 +308,21 @@ describe("Validation", () => {
   it("Aggregation Table Set - Update unsuccessfully", async () => {
     const tablesetUpdate: AggregationTableSetUpdate = {};
     await expect(aggregationsClient.updateAggregationTableSet("-", "-", tablesetUpdate)).to.be.rejectedWith(
-      "All properties of tableset were missing."
+      "All properties of tableset were missing.",
     );
 
     tablesetUpdate.tableSetName = "";
     await expect(aggregationsClient.updateAggregationTableSet("-", "-", tablesetUpdate)).to.be.rejectedWith(
-      "Field tableSetName was invalid."
+      "Field tableSetName was invalid.",
     );
   });
 
   it("Aggregation Table Set - Faulty top value", async () => {
     await expect(aggregationsClient.getAggregationTableSets("-", "-", "-", 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
     await expect(aggregationsClient.getAggregationTableSets("-", "-", "-", 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
   });
 
@@ -339,27 +346,27 @@ describe("Validation", () => {
   it("Aggregation Table - Update unsuccessfully", async () => {
     const tableUpdate: AggregationTableUpdate = {};
     await expect(aggregationsClient.updateAggregationTable("-", "-", "-", tableUpdate)).to.be.rejectedWith(
-      "All properties of table were missing."
+      "All properties of table were missing.",
     );
 
     tableUpdate.tableName = "";
     tableUpdate.sourceTableName = "validname";
     await expect(aggregationsClient.updateAggregationTable("-", "-", "-", tableUpdate)).to.be.rejectedWith(
-      "Field tableName was invalid."
+      "Field tableName was invalid.",
     );
     tableUpdate.tableName = "validname";
     tableUpdate.sourceTableName = "";
     await expect(aggregationsClient.updateAggregationTable("-", "-", "-", tableUpdate)).to.be.rejectedWith(
-      "Field sourceTableName was invalid."
+      "Field sourceTableName was invalid.",
     );
   });
 
   it("Aggregation Table - Faulty top value", async () => {
     await expect(aggregationsClient.getAggregationTables("-", "-", 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
     await expect(aggregationsClient.getAggregationTables("-", "-", 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
   });
 
@@ -389,35 +396,35 @@ describe("Validation", () => {
   it("Aggregation Property - Update unsuccessfully", async () => {
     const propertyUpdate: AggregationPropertyUpdate = {};
     await expect(aggregationsClient.updateAggregationProperty("-", "-", "-", "-", propertyUpdate)).to.be.rejectedWith(
-      "All properties of property were missing."
+      "All properties of property were missing.",
     );
 
     propertyUpdate.propertyName = "";
     propertyUpdate.sourcePropertyName = "validname";
     propertyUpdate.type = "Count" as AggregationPropertyType;
     await expect(aggregationsClient.updateAggregationProperty("-", "-", "-", "-", propertyUpdate)).to.be.rejectedWith(
-      "Field propertyName was invalid."
+      "Field propertyName was invalid.",
     );
     propertyUpdate.propertyName = "validname";
     propertyUpdate.sourcePropertyName = "";
     propertyUpdate.type = "Count" as AggregationPropertyType;
     await expect(aggregationsClient.updateAggregationProperty("-", "-", "-", "-", propertyUpdate)).to.be.rejectedWith(
-      "Field sourcePropertyName was invalid."
+      "Field sourcePropertyName was invalid.",
     );
     propertyUpdate.propertyName = "validname";
     propertyUpdate.sourcePropertyName = "validname";
     propertyUpdate.type = AggregationPropertyType.Undefined;
     await expect(aggregationsClient.updateAggregationProperty("-", "-", "-", "-", propertyUpdate)).to.be.rejectedWith(
-      "Required field type was null or undefined."
+      "Required field type was null or undefined.",
     );
   });
 
   it("Extraction logs - Faulty top value", async () => {
     await expect(extractionClient.getExtractionLogs("-", "-", 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
     await expect(extractionClient.getExtractionLogs("-", "-", 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
   });
 
@@ -427,22 +434,22 @@ describe("Validation", () => {
       url: "1/2",
     };
     await expect(oDataClient.getODataReportEntities("-", "-", item)).to.be.rejectedWith(
-      "Parameter odataItem item was invalid."
+      "Parameter odataItem item was invalid.",
     );
     await expect(oDataClient.getODataReportEntityPage("-", "-", item, 0)).to.be.rejectedWith(
-      "Parameter odataItem item was invalid."
+      "Parameter odataItem item was invalid.",
     );
     expect(() => oDataClient.getODataReportEntitiesIterator("-", "-", item)).to.throw(
-      "Parameter odataItem item was invalid."
+      "Parameter odataItem item was invalid.",
     );
   });
 
   it("EC3 Configurations - Faulty top value", async () => {
     await expect(configurationsClient.getConfigurations("-", "-", 0)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
     await expect(configurationsClient.getConfigurations("-", "-", 1001)).to.be.rejectedWith(
-      "Parameter top was outside of the valid range [1-1000]."
+      "Parameter top was outside of the valid range [1-1000].",
     );
   });
 
@@ -453,7 +460,7 @@ describe("Validation", () => {
       labels: [],
     };
     await expect(configurationsClient.createConfiguration("-", newConfig)).to.be.rejectedWith(
-      "Required field labels was empty."
+      "Required field labels was empty.",
     );
 
     newConfig.labels.push({
@@ -464,7 +471,7 @@ describe("Validation", () => {
       elementNameColumn: "name",
     });
     await expect(configurationsClient.createConfiguration("-", newConfig)).to.be.rejectedWith(
-      "Required field materials was empty."
+      "Required field materials was empty.",
     );
   });
 
@@ -475,7 +482,7 @@ describe("Validation", () => {
       labels: [],
     };
     await expect(configurationsClient.updateConfiguration("-", "-", newConfig)).to.be.rejectedWith(
-      "Required field labels was empty."
+      "Required field labels was empty.",
     );
 
     newConfig.labels.push({
@@ -486,7 +493,7 @@ describe("Validation", () => {
       elementNameColumn: "name",
     });
     await expect(configurationsClient.updateConfiguration("-", "-", newConfig)).to.be.rejectedWith(
-      "Required field materials was empty."
+      "Required field materials was empty.",
     );
   });
 });

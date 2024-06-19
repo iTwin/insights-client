@@ -25,7 +25,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
     let url = `${this.basePath}/reports?projectId=${encodeURIComponent(projectId)}&deleted=${encodeURIComponent(deleted)}`;
@@ -106,7 +106,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
     let url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/imodelMappings`;
@@ -127,7 +127,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
   public async createReportMapping(
     accessToken: AccessToken,
     reportId: string,
-    reportMapping: ReportMappingCreate
+    reportMapping: ReportMappingCreate,
   ): Promise<ReportMapping> {
     if (!reportMapping.imodelId) {
       throw new RequiredError(
@@ -156,7 +156,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
   public async getReportAggregations(
     accessToken: AccessToken,
     reportId: string,
-    top?: number
+    top?: number,
   ): Promise<ReportAggregation[]> {
     const aggregations: Array<ReportAggregation> = [];
     const reportAggregationIterator = this.getReportAggregationsIterator(accessToken, reportId, top);
@@ -169,12 +169,12 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
   public getReportAggregationsIterator(
     accessToken: AccessToken,
     reportId: string,
-    top?: number
+    top?: number,
   ): EntityListIterator<ReportAggregation> {
     if(!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
-        "Parameter top was outside of the valid range [1-1000]."
+        "Parameter top was outside of the valid range [1-1000].",
       );
     }
     let url = `${this.basePath}/reports/${encodeURIComponent(reportId)}/datasources/aggregations`;
@@ -195,7 +195,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
   public async createReportAggregation(
     accessToken: AccessToken,
     reportId: string,
-    aggregation: ReportAggregationCreate
+    aggregation: ReportAggregationCreate,
   ): Promise<ReportAggregation> {
     if (!aggregation.aggregationTableSetId) {
       throw new RequiredError(

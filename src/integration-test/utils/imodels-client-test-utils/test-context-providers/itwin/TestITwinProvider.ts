@@ -17,7 +17,7 @@ export class TestITwinProvider {
     @inject(TestITwinsClient)
     private readonly _iTwinsClient: TestITwinsClient,
     @inject(TestAuthorizationProvider)
-    private readonly _testAuthorizationProvider: TestAuthorizationProvider
+    private readonly _testAuthorizationProvider: TestAuthorizationProvider,
   ) { }
 
   public async getOrCreate(): Promise<string> {

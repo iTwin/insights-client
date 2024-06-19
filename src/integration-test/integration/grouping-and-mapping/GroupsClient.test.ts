@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
 import { Mapping } from "../../../grouping-and-mapping/interfaces/Mappings";
-import { accessToken, groupsClient, mappingsClient, testIModel } from "../../utils";
+import { accessToken, groupsClient, mappingsClient, testIModel } from "../../utils/GlobalSetup";
 import { Group, GroupUpdate } from "../../../grouping-and-mapping/interfaces/Groups";
 import { PreferReturn } from "../../../common/Common";
 

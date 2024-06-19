@@ -64,7 +64,7 @@ describe("Properties Client Unit tests", ()=> {
     expect(requestStub.calledWith(
       "POST",
       "authToken",
-      JSON.stringify(newProperty)
+      JSON.stringify(newProperty),
     )).to.be.true;
   });
 
@@ -119,7 +119,7 @@ describe("Properties Client Unit tests", ()=> {
     )).to.be.true;
     expect(requestStub.calledWith(
       "GET",
-      "authToken"
+      "authToken",
     )).to.be.true;
   });
 
@@ -166,7 +166,7 @@ describe("Properties Client Unit tests", ()=> {
     )).to.be.true;
     expect(requestStub.calledWith(
       "GET",
-      "authToken"
+      "authToken",
     )).to.be.true;
   });
 
@@ -223,7 +223,7 @@ describe("Properties Client Unit tests", ()=> {
     )).to.be.true;
     expect(requestStub.calledWith(
       "PUT",
-      "authToken"
+      "authToken",
     )).to.be.true;
   });
 });

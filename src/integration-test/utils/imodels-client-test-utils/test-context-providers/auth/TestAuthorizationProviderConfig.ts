@@ -18,7 +18,7 @@ export class TestAuthorizationProviderConfig {
 
   constructor(
   @inject(testUtilTypes.baseIntegrationTestsConfig)
-    config: BaseIntegrationTestsConfig
+    config: BaseIntegrationTestsConfig,
   ) {
     this.testUsers = config.testUsers;
     this.apiScopes = {

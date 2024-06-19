@@ -177,7 +177,7 @@ describe("EC3ConfigurationsClient", () => {
     expect(requestStub.calledWith(
       "POST",
       "auth",
-      JSON.stringify(newConfiguration)
+      JSON.stringify(newConfiguration),
     )).to.be.true;
   });
 
@@ -210,7 +210,7 @@ describe("EC3ConfigurationsClient", () => {
     expect(requestStub.calledWith(
       "PUT",
       "auth",
-      JSON.stringify(newConfiguration)
+      JSON.stringify(newConfiguration),
     )).to.be.true;
   });
 
