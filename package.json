@@ -43,12 +43,12 @@
   },
   "devDependencies": {
     "@azure/storage-blob": "^12.11.0",
-    "@itwin/build-tools": "^3.0.0",
-    "@itwin/core-bentley": "^3.0.0",
-    "@itwin/eslint-plugin": "^3.2.6",
-    "@itwin/imodels-client-authoring": "^5.6.0",
+    "@itwin/build-tools": "^4.7.1",
+    "@itwin/core-bentley": "^4.7.1",
+    "@itwin/eslint-plugin": "^4.1.0",
+    "@itwin/imodels-client-authoring": "^5.7.0",
     "@itwin/itwins-client": "^1.4.0",
-    "@itwin/oidc-signin-tool": "^3.4.1",
+    "@itwin/oidc-signin-tool": "^4.3.6",
     "@types/chai": "^4.1.4",
     "@types/chai-as-promised": "^7.1.5",
     "@types/mocha": "^8.2.3",
@@ -60,17 +60,17 @@
     "copyfiles": "^2.4.1",
     "dotenv": "^10.0.0",
     "dotenv-expand": "^5.1.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.57.0",
     "inversify": "^6.0.1",
     "isomorphic-fetch": "^3.0.0",
     "mocha": "^10.0.0",
     "nyc": "^15.1.0",
-    "puppeteer": "^15.5.0",
+    "puppeteer": "^22.11.2",
     "reflect-metadata": "^0.1.13",
     "sinon": "^14.0.0",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.8.2",
-    "typescript": "~4.4.0"
+    "typescript": "^5.0.0"
   },
   "eslintConfig": {
     "plugins": [
