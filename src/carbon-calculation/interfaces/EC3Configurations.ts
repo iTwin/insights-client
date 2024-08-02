@@ -101,13 +101,31 @@ export interface EC3ConfigurationCollection {
  * @export
  * @interface EC3ConfigurationCreate
  */
-export interface EC3ConfigurationCreate {
+export interface EC3ReportConfigurationCreate extends EC3ConfigurationCreate {
   /**
    * Id of the Report.
    * @type {string}
    * @memberof EC3ConfigurationCreate
    */
-  reportId: string;
+  reportId?: string;
+}
+
+export interface EC3ExtractionConfigurationCreate extends EC3ConfigurationCreate {
+  /**
+   * Id of the iTwin.
+   * @type {string}
+   * @memberof EC3ConfigurationCreate
+   */
+  iTwinId?: string;
+  /**
+   * Id of the iModel.
+   * @type {string}
+   * @memberof EC3ConfigurationCreate
+   */
+  iModelId?: string;
+}
+
+interface EC3ConfigurationCreate {
   /**
    * Name of the EC3 Configuration.
    * @type {string}
@@ -133,13 +151,30 @@ export interface EC3ConfigurationCreate {
  * @export
  * @interface EC3ConfigurationLinks
  */
-export interface EC3ConfigurationLinks {
+export interface EC3ConfigurationLinks extends EC3ReportConfigurationLinks, EC3ExtractionConfigurationLinks { }
+
+export interface EC3ReportConfigurationLinks {
   /**
    *
    * @type {Link}
    * @memberof EC3ConfigurationLinks
    */
-  report: Link;
+  report?: Link;
+}
+
+export interface EC3ExtractionConfigurationLinks {
+  /**
+   *
+   * @type {Link}
+   * @memberof EC3ConfigurationLinks
+   */
+  iTwin?: Link;
+  /**
+   *
+   * @type {Link}
+   * @memberof EC3ConfigurationLinks
+   */
+  iModel?: Link;
 }
 
 /**
@@ -161,7 +196,25 @@ export interface EC3ConfigurationSingle {
  * @export
  * @interface EC3ConfigurationUpdate
  */
-export interface EC3ConfigurationUpdate {
+export interface EC3ReportConfigurationUpdate extends EC3ConfigurationUpdate {
+  /**
+   * List of EC3 Configuration Labels.
+   * @type {Array<EC3ConfigurationLabel>}
+   * @memberof EC3ConfigurationUpdate
+   */
+  labels: EC3ReportConfigurationLabel[];
+}
+
+export interface EC3ExtractionConfigurationUpdate extends EC3ConfigurationUpdate {
+  /**
+   * List of EC3 Configuration Labels.
+   * @type {Array<EC3ConfigurationLabel>}
+   * @memberof EC3ConfigurationUpdate
+   */
+  labels: EC3ExtractionConfigurationLabel[];
+}
+
+interface EC3ConfigurationUpdate {
   /**
    * Name of the EC3 Configuration.
    * @type {string}
@@ -174,12 +227,6 @@ export interface EC3ConfigurationUpdate {
    * @memberof EC3ConfigurationUpdate
    */
   description: string;
-  /**
-   * List of EC3 Configuration Labels.
-   * @type {Array<EC3ConfigurationLabel>}
-   * @memberof EC3ConfigurationUpdate
-   */
-  labels: EC3ConfigurationLabel[];
 }
 
 /**
@@ -187,19 +234,15 @@ export interface EC3ConfigurationUpdate {
  * @export
  * @interface EC3ConfigurationLabel
  */
-export interface EC3ConfigurationLabel {
+export interface EC3ConfigurationLabel extends EC3ReportConfigurationLabel, EC3ExtractionConfigurationLabel { }
+
+export interface EC3ReportConfigurationLabel {
   /**
    * Name of the Label.
    * @type {string}
    * @memberof EC3ConfigurationLabel
    */
   name: string;
-  /**
-   * Name of the Report Table that contains Label data.
-   * @type {string}
-   * @memberof EC3ConfigurationLabel
-   */
-  reportTable: string;
   /**
    * Column containing the element name.
    * @type {string}
@@ -218,6 +261,51 @@ export interface EC3ConfigurationLabel {
    * @memberof EC3ConfigurationLabel
    */
   materials: EC3ConfigurationMaterial[];
+  /**
+   * Name of the Report Table that contains Label data.
+   * @type {string}
+   * @memberof EC3ConfigurationLabel
+   */
+  reportTable?: string;
+}
+
+export interface EC3ExtractionConfigurationLabel {
+  /**
+   * Name of the Label.
+   * @type {string}
+   * @memberof EC3ConfigurationLabel
+   */
+  name: string;
+  /**
+   * Column containing the element name.
+   * @type {string}
+   * @memberof EC3ConfigurationLabel
+   */
+  elementNameColumn: string;
+  /**
+   * Column containing the element quantity type.
+   * @type {string}
+   * @memberof EC3ConfigurationLabel
+   */
+  elementQuantityColumn: string;
+  /**
+   * List of materials.
+   * @type {Array<EC3ConfigurationMaterial>}
+   * @memberof EC3ConfigurationLabel
+   */
+  materials: EC3ConfigurationMaterial[];
+  /**
+   * Id of the mapping, that contains Label data.
+    * @type {string}
+    * @memberof EC3ConfigurationLabel
+    */
+  mappingId?: string;
+  /**
+   * Name of the group, that contains Label data.
+   * @type {string}
+   * @memberof EC3ConfigurationLabel
+   */
+  groupName?: string;
 }
 
 /**

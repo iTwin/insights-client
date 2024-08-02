@@ -11,7 +11,7 @@ import { AggregationPropertyCreate, AggregationPropertyType, AggregationProperty
 import { ODataItem } from "../reporting/interfaces/OData";
 import { ReportAggregationCreate, ReportCreate, ReportMappingCreate, ReportUpdate } from "../reporting/interfaces/Reports";
 import { EC3ConfigurationsClient } from "../carbon-calculation/clients/EC3ConfigurationsClient";
-import { EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
+import { EC3ReportConfigurationCreate, EC3ReportConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
 import { ExtractionClient } from "../grouping-and-mapping/clients/ExtractionClient";
 import { GroupsClient } from "../grouping-and-mapping/clients/GroupsClient";
 import { MappingsClient } from "../grouping-and-mapping/clients/MappingsClient";
@@ -454,7 +454,7 @@ describe("Validation", () => {
   });
 
   it("EC3 Configurations - Create unsuccessfully", async () => {
-    const newConfig: EC3ConfigurationCreate = {
+    const newConfig: EC3ReportConfigurationCreate = {
       displayName: "Test",
       reportId: "id",
       labels: [],
@@ -464,7 +464,7 @@ describe("Validation", () => {
     );
 
     newConfig.labels.push({
-      materials : [],
+      materials: [],
       name: "name",
       reportTable: "table",
       elementQuantityColumn: "quantity",
@@ -476,7 +476,7 @@ describe("Validation", () => {
   });
 
   it("EC3 Configurations - Update unsuccessfully", async () => {
-    const newConfig: EC3ConfigurationUpdate = {
+    const newConfig: EC3ReportConfigurationUpdate = {
       displayName: "Test",
       description: "",
       labels: [],
@@ -486,7 +486,7 @@ describe("Validation", () => {
     );
 
     newConfig.labels.push({
-      materials : [],
+      materials: [],
       name: "name",
       reportTable: "table",
       elementQuantityColumn: "quantity",

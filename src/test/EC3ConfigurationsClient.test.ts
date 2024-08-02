@@ -6,7 +6,7 @@ import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
 import { EC3ConfigurationsClient } from "../carbon-calculation/clients/EC3ConfigurationsClient";
-import { EC3ConfigurationCreate, EC3ConfigurationMinimal, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
+import { EC3ConfigurationMinimal, EC3ExtractionConfigurationCreate, EC3ExtractionConfigurationUpdate, EC3ReportConfigurationCreate, EC3ReportConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
 use(chaiAsPromised);
 
 describe("EC3ConfigurationsClient", () => {
@@ -148,8 +148,8 @@ describe("EC3ConfigurationsClient", () => {
     )).to.be.true;
   });
 
-  it("Configurations - Create", async () => {
-    const newConfiguration: EC3ConfigurationCreate = {
+  it("Configurations - Create (report schema)", async () => {
+    const newConfiguration: EC3ReportConfigurationCreate = {
       displayName: "Test",
       reportId: "id",
       labels: [{
@@ -181,8 +181,42 @@ describe("EC3ConfigurationsClient", () => {
     )).to.be.true;
   });
 
-  it("Configurations - Update", async () => {
-    const newConfiguration: EC3ConfigurationUpdate = {
+  it("Configurations - Create (extraction schema)", async () => {
+    const newConfiguration: EC3ExtractionConfigurationCreate = {
+      displayName: "Test",
+      iTwinId: "iTwinId",
+      iModelId: "iModelId",
+      labels: [{
+        materials: [{
+          nameColumn: "col",
+        }],
+        name: "name",
+        reportTable: "table",
+        elementQuantityColumn: "quantity",
+        elementNameColumn: "name",
+      }],
+    };
+    const returns = {
+      configuration: {
+        id: "1",
+      },
+    };
+    fetchStub.resolves(returns);
+    const configuration = await configurationsClient.createConfiguration("auth", newConfiguration);
+    expect(configuration.id).to.be.eq("1");
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/insights/carbon-calculation/ec3/configurations",
+      "pass",
+    )).to.be.true;
+    expect(requestStub.calledWith(
+      "POST",
+      "auth",
+      JSON.stringify(newConfiguration),
+    )).to.be.true;
+  });
+
+  it("Configurations - Update (report schema)", async () => {
+    const newConfiguration: EC3ReportConfigurationUpdate = {
       displayName: "Test",
       description: "",
       labels: [{
@@ -191,6 +225,40 @@ describe("EC3ConfigurationsClient", () => {
         }],
         name: "name",
         reportTable: "table",
+        elementQuantityColumn: "quantity",
+        elementNameColumn: "name",
+      }],
+    };
+    const returns = {
+      configuration: {
+        id: "1",
+      },
+    };
+    fetchStub.resolves(returns);
+    const configuration = await configurationsClient.updateConfiguration("auth", "configurationId", newConfiguration);
+    expect(configuration.id).to.be.eq("1");
+    expect(fetchStub.calledWith(
+      "https://api.bentley.com/insights/carbon-calculation/ec3/configurations/configurationId",
+      "pass",
+    )).to.be.true;
+    expect(requestStub.calledWith(
+      "PUT",
+      "auth",
+      JSON.stringify(newConfiguration),
+    )).to.be.true;
+  });
+
+  it("Configurations - Update (extraction schema)", async () => {
+    const newConfiguration: EC3ExtractionConfigurationUpdate = {
+      displayName: "Test",
+      description: "",
+      labels: [{
+        materials: [{
+          nameColumn: "col",
+        }],
+        name: "name",
+        mappingId: "mappingId",
+        groupName: "groupName",
         elementQuantityColumn: "quantity",
         elementNameColumn: "name",
       }],

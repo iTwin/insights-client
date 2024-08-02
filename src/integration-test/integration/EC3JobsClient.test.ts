@@ -7,8 +7,8 @@ import { expect, use } from "chai";
 import { ReportCreate } from "../../reporting/interfaces/Reports";
 import "reflect-metadata";
 import { accessToken, configurationsClient, iTwinId, jobsClient, reportsClient } from "../utils/GlobalSetup";
-import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationMaterial } from "../../carbon-calculation/interfaces/EC3Configurations";
-import { EC3Job, EC3JobCreate, EC3JobStatus } from "../../carbon-calculation/interfaces/EC3Jobs";
+import { EC3Configuration, EC3ConfigurationMaterial, EC3ReportConfigurationCreate } from "../../carbon-calculation/interfaces/EC3Configurations";
+import { EC3Job, EC3JobStatus, EC3ReportJobCreate } from "../../carbon-calculation/interfaces/EC3Jobs";
 use(chaiAsPromised);
 
 describe("EC3JobsClient", () => {
@@ -35,7 +35,7 @@ describe("EC3JobsClient", () => {
       materials: [material],
     };
 
-    const newConfig: EC3ConfigurationCreate = {
+    const newConfig: EC3ReportConfigurationCreate = {
       reportId: report.id,
       displayName: "Test",
       labels: [label],
@@ -50,7 +50,7 @@ describe("EC3JobsClient", () => {
   });
 
   it("jobs - run extraction and get status", async () => {
-    const newJob: EC3JobCreate = {
+    const newJob: EC3ReportJobCreate = {
       projectName: "test",
       ec3BearerToken: "no token :(",
       configurationId,

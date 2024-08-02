@@ -60,7 +60,7 @@ export interface EC3JobLinks {
  * @export
  * @interface EC3JobCreate
  */
-export interface EC3JobCreate {
+export interface EC3ReportJobCreate {
   /**
    * EC3 Bearer token with `read write` scope. Acquiring a token is possible using EC3 APIs.
    * @type {string}
@@ -79,6 +79,15 @@ export interface EC3JobCreate {
    * @memberof EC3JobCreate
    */
   projectName: string;
+}
+
+export interface EC3ExtractionJobCreate extends EC3ReportJobCreate {
+  /**
+   * Unique Identifier of the extraction to export data from.
+   * @type {string}
+   * @memberof EC3JobCreate
+   */
+  extractionId?: string;
 }
 
 /**

@@ -7,7 +7,7 @@ import { expect, use } from "chai";
 import "reflect-metadata";
 import { accessToken, configurationsClient, iTwinId, reportsClient } from "../utils/GlobalSetup";
 import { ReportCreate } from "../../reporting/interfaces/Reports";
-import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationLabel, EC3ConfigurationMaterial, EC3ConfigurationUpdate } from "../../carbon-calculation/interfaces/EC3Configurations";
+import { EC3Configuration, EC3ConfigurationLabel, EC3ConfigurationMaterial, EC3ReportConfigurationCreate, EC3ReportConfigurationUpdate } from "../../carbon-calculation/interfaces/EC3Configurations";
 use(chaiAsPromised);
 
 describe("EC3ConfigurationsClient", () => {
@@ -36,7 +36,7 @@ describe("EC3ConfigurationsClient", () => {
       materials: [material],
     };
 
-    const newConfig: EC3ConfigurationCreate = {
+    const newConfig: EC3ReportConfigurationCreate = {
       reportId: report.id,
       displayName: "Test1",
       labels: [label],
@@ -54,14 +54,14 @@ describe("EC3ConfigurationsClient", () => {
   });
 
   after(async () => {
-    while(configurationIds.length > 0) {
+    while (configurationIds.length > 0) {
       await configurationsClient.deleteConfiguration(accessToken, configurationIds.pop()!);
     }
     await reportsClient.deleteReport(accessToken, reportId);
   });
 
   it("Configurations - create and delete", async () => {
-    const newConfig: EC3ConfigurationCreate = {
+    const newConfig: EC3ReportConfigurationCreate = {
       reportId,
       displayName: "TestConfig",
       labels: [label],
@@ -75,7 +75,7 @@ describe("EC3ConfigurationsClient", () => {
   });
 
   it("Configurations - Update", async () => {
-    const configUpdate: EC3ConfigurationUpdate = {
+    const configUpdate: EC3ReportConfigurationUpdate = {
       displayName: "Test1",
       description: "Updated description",
       labels: [label],
@@ -96,7 +96,7 @@ describe("EC3ConfigurationsClient", () => {
     const configs = await configurationsClient.getConfigurations(accessToken, iTwinId);
     expect(configs).to.not.be.undefined;
     expect(configs.length).to.be.above(2);
-    for(const config of configs) {
+    for (const config of configs) {
       expect(["Test1", "Test2", "Test3"]).to.include(config.displayName);
     }
   });
@@ -105,7 +105,7 @@ describe("EC3ConfigurationsClient", () => {
     const configs = await configurationsClient.getConfigurations(accessToken, iTwinId, 2);
     expect(configs).to.not.be.undefined;
     expect(configs.length).to.be.above(2);
-    for(const config of configs) {
+    for (const config of configs) {
       expect(["Test1", "Test2", "Test3"]).to.include(config.displayName);
     }
   });
@@ -113,7 +113,7 @@ describe("EC3ConfigurationsClient", () => {
   it("Configurations - Get with iterator", async () => {
     const confingsIt = configurationsClient.getConfigurationsIterator(accessToken, iTwinId, 2);
     let flag = false;
-    for await(const config of confingsIt) {
+    for await (const config of confingsIt) {
       flag = true;
       expect(config).to.not.be.undefined;
       expect(["Test1", "Test2", "Test3"]).to.include(config.displayName);
@@ -125,11 +125,11 @@ describe("EC3ConfigurationsClient", () => {
     const configsIt = configurationsClient.getConfigurationsIterator(accessToken, iTwinId, 2);
     let elementCount = 0;
     let flag = false;
-    for await(const configs of configsIt.byPage()) {
+    for await (const configs of configsIt.byPage()) {
       flag = true;
       expect(configs).to.not.be.undefined;
-      if(configs.length) {
-        for(const config of configs) {
+      if (configs.length) {
+        for (const config of configs) {
           expect(["Test1", "Test2", "Test3"]).to.include(config.displayName);
         }
         elementCount += configs.length;

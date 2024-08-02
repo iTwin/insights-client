@@ -6,7 +6,7 @@ import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
 import { EC3JobsClient } from "../carbon-calculation/clients/EC3JobsClient";
-import { EC3JobCreate } from "../carbon-calculation/interfaces/EC3Jobs";
+import { EC3ReportJobCreate } from "../carbon-calculation/interfaces/EC3Jobs";
 import { CarbonUploadState } from "../common/CarbonCalculation";
 use(chaiAsPromised);
 
@@ -50,7 +50,7 @@ describe("EC3JobsClient", () => {
         id: 1,
       },
     };
-    const newJob: EC3JobCreate = {
+    const newJob: EC3ReportJobCreate = {
       ec3BearerToken: "token",
       projectName: "project",
       configurationId: "123",

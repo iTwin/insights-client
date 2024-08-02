@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { EC3Configuration, EC3ConfigurationCollection, EC3ConfigurationCreate, EC3ConfigurationMinimal, EC3ConfigurationSingle, EC3ConfigurationUpdate } from "../interfaces/EC3Configurations";
+import { EC3Configuration, EC3ConfigurationCollection, EC3ConfigurationMinimal, EC3ConfigurationSingle, EC3ExtractionConfigurationCreate, EC3ExtractionConfigurationUpdate, EC3ReportConfigurationCreate, EC3ReportConfigurationUpdate } from "../interfaces/EC3Configurations";
 import { RequiredError } from "../../common/Errors";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
@@ -52,7 +52,7 @@ export class EC3ConfigurationsClient extends OperationsBase implements IEC3Confi
     return (await this.fetchJSON<EC3ConfigurationSingle>(url, requestOptions)).configuration;
   }
 
-  public async createConfiguration(accessToken: string, configuration: EC3ConfigurationCreate): Promise<EC3Configuration> {
+  public async createConfiguration(accessToken: string, configuration: EC3ReportConfigurationCreate | EC3ExtractionConfigurationCreate): Promise<EC3Configuration> {
     if (configuration.labels.length === 0) {
       throw new RequiredError(
         "configuration",
@@ -71,7 +71,7 @@ export class EC3ConfigurationsClient extends OperationsBase implements IEC3Confi
     return (await this.fetchJSON<EC3ConfigurationSingle>(url, requestOptions)).configuration;
   }
 
-  public async updateConfiguration(accessToken: string, configurationId: string, configuration: EC3ConfigurationUpdate): Promise<EC3Configuration> {
+  public async updateConfiguration(accessToken: string, configurationId: string, configuration: EC3ReportConfigurationUpdate | EC3ExtractionConfigurationUpdate): Promise<EC3Configuration> {
     if (configuration.labels.length === 0) {
       throw new RequiredError(
         "configuration",
