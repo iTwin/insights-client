@@ -97,9 +97,9 @@ export interface EC3ConfigurationCollection {
 }
 
 /**
- * Properties of the EC3 Configuration to be created.
+ * Properties of the EC3 Configuration to be created. Part of Carbon Calculation EC3 API report schema.
  * @export
- * @interface EC3ConfigurationCreate
+ * @interface EC3ReportConfigurationCreate
  */
 export interface EC3ReportConfigurationCreate extends EC3ConfigurationCreate {
   /**
@@ -110,6 +110,11 @@ export interface EC3ReportConfigurationCreate extends EC3ConfigurationCreate {
   reportId: string;
 }
 
+/**
+ * Properties of the EC3 Configuration to be created. Part of Carbon Calculation EC3 API extraction schema.
+ * @export
+ * @interface EC3ReportConfigurationCreate
+ */
 export interface EC3ExtractionConfigurationCreate extends EC3ConfigurationCreate {
   /**
    * Id of the iTwin.
@@ -125,6 +130,11 @@ export interface EC3ExtractionConfigurationCreate extends EC3ConfigurationCreate
   iModelId: string;
 }
 
+/**
+ * Properties of the EC3 Configuration to be created. Contains properties shared by all schemas.
+ * @export
+ * @interface EC3ConfigurationCreate
+ */
 interface EC3ConfigurationCreate {
   /**
    * Name of the EC3 Configuration.
@@ -151,18 +161,13 @@ interface EC3ConfigurationCreate {
  * @export
  * @interface EC3ConfigurationLinks
  */
-export interface EC3ConfigurationLinks extends EC3ReportConfigurationLinks, EC3ExtractionConfigurationLinks { }
-
-export interface EC3ReportConfigurationLinks {
+export interface EC3ConfigurationLinks {
   /**
-   *
-   * @type {Link}
-   * @memberof EC3ConfigurationLinks
-   */
+     *
+     * @type {Link}
+     * @memberof EC3ConfigurationLinks
+     */
   report?: Link;
-}
-
-export interface EC3ExtractionConfigurationLinks {
   /**
    *
    * @type {Link}
@@ -192,9 +197,9 @@ export interface EC3ConfigurationSingle {
 }
 
 /**
- * Properties of the EC3 Configuration to be updated.
+ * Properties of the EC3 Configuration to be updated. Part of Carbon Calculation EC3 API report schema.
  * @export
- * @interface EC3ConfigurationUpdate
+ * @interface EC3ReportConfigurationUpdate
  */
 export interface EC3ReportConfigurationUpdate extends EC3ConfigurationUpdate {
   /**
@@ -205,6 +210,11 @@ export interface EC3ReportConfigurationUpdate extends EC3ConfigurationUpdate {
   labels: EC3ReportConfigurationLabel[];
 }
 
+/**
+ * Properties of the EC3 Configuration to be updated. Part of Carbon Calculation EC3 API extraction schema.
+ * @export
+ * @interface EC3ReportConfigurationUpdate
+ */
 export interface EC3ExtractionConfigurationUpdate extends EC3ConfigurationUpdate {
   /**
    * List of EC3 Configuration Labels.
@@ -214,6 +224,11 @@ export interface EC3ExtractionConfigurationUpdate extends EC3ConfigurationUpdate
   labels: EC3ExtractionConfigurationLabel[];
 }
 
+/**
+ * Properties of the EC3 Configuration to be updated. Contains properties shared by both schemas.
+ * @export
+ * @interface EC3ReportConfigurationUpdate
+ */
 interface EC3ConfigurationUpdate {
   /**
    * Name of the EC3 Configuration.
@@ -230,70 +245,17 @@ interface EC3ConfigurationUpdate {
 }
 
 /**
- * EC3 Configuration Label that contains information about specified elements.
+ * EC3 Configuration Label that contains information about specified elements. Includes properties from both Carbon Calculation EC3 API schemas. Should only be used when receiving responses from API.
  * @export
  * @interface EC3ConfigurationLabel
  */
-export interface EC3ConfigurationLabel extends EC3ReportConfigurationLabel, EC3ExtractionConfigurationLabel { }
-
-export interface EC3ReportConfigurationLabel {
-  /**
-   * Name of the Label.
-   * @type {string}
-   * @memberof EC3ConfigurationLabel
-   */
-  name: string;
-  /**
-   * Column containing the element name.
-   * @type {string}
-   * @memberof EC3ConfigurationLabel
-   */
-  elementNameColumn: string;
-  /**
-   * Column containing the element quantity type.
-   * @type {string}
-   * @memberof EC3ConfigurationLabel
-   */
-  elementQuantityColumn: string;
-  /**
-   * List of materials.
-   * @type {Array<EC3ConfigurationMaterial>}
-   * @memberof EC3ConfigurationLabel
-   */
-  materials: EC3ConfigurationMaterial[];
+export interface EC3ConfigurationLabel extends EC3MinimalConfigurationLabel {
   /**
    * Name of the Report Table that contains Label data.
    * @type {string}
    * @memberof EC3ConfigurationLabel
    */
   reportTable?: string;
-}
-
-export interface EC3ExtractionConfigurationLabel {
-  /**
-   * Name of the Label.
-   * @type {string}
-   * @memberof EC3ConfigurationLabel
-   */
-  name: string;
-  /**
-   * Column containing the element name.
-   * @type {string}
-   * @memberof EC3ConfigurationLabel
-   */
-  elementNameColumn: string;
-  /**
-   * Column containing the element quantity type.
-   * @type {string}
-   * @memberof EC3ConfigurationLabel
-   */
-  elementQuantityColumn: string;
-  /**
-   * List of materials.
-   * @type {Array<EC3ConfigurationMaterial>}
-   * @memberof EC3ConfigurationLabel
-   */
-  materials: EC3ConfigurationMaterial[];
   /**
    * Id of the mapping, that contains Label data.
     * @type {string}
@@ -306,6 +268,72 @@ export interface EC3ExtractionConfigurationLabel {
    * @memberof EC3ConfigurationLabel
    */
   groupName?: string;
+}
+
+/**
+ * EC3 Configuration Label that contains information about specified elements. Part of Carbon Calculation EC3 API report schema.
+ * @export
+ * @interface EC3ReportConfigurationLabel
+ */
+export interface EC3ReportConfigurationLabel extends EC3MinimalConfigurationLabel {
+  /**
+   * Name of the Report Table that contains Label data.
+   * @type {string}
+   * @memberof EC3ConfigurationLabel
+   */
+  reportTable: string;
+}
+
+/**
+ * EC3 Configuration Label that contains information about specified elements. Part of Carbon Calculation EC3 API extraction schema.
+ * @export
+ * @interface EC3ExtractionConfigurationLabel
+ */
+export interface EC3ExtractionConfigurationLabel extends EC3MinimalConfigurationLabel {
+  /**
+   * Id of the mapping, that contains Label data.
+    * @type {string}
+    * @memberof EC3ConfigurationLabel
+    */
+  mappingId: string;
+  /**
+   * Name of the group, that contains Label data.
+   * @type {string}
+   * @memberof EC3ConfigurationLabel
+   */
+  groupName: string;
+}
+
+/**
+ * EC3 Configuration Label that contains information about specified elements. Contains properties shared by both schemas.
+ * @export
+ * @interface EC3ExtractionConfigurationLabel
+ */
+interface EC3MinimalConfigurationLabel {
+  /**
+   * Name of the Label.
+   * @type {string}
+   * @memberof EC3ConfigurationLabel
+   */
+  name: string;
+  /**
+   * Column containing the element name.
+   * @type {string}
+   * @memberof EC3ConfigurationLabel
+   */
+  elementNameColumn: string;
+  /**
+   * Column containing the element quantity type.
+   * @type {string}
+   * @memberof EC3ConfigurationLabel
+   */
+  elementQuantityColumn: string;
+  /**
+   * List of materials.
+   * @type {Array<EC3ConfigurationMaterial>}
+   * @memberof EC3ConfigurationLabel
+   */
+  materials: EC3ConfigurationMaterial[];
 }
 
 /**
