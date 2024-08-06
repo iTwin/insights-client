@@ -11,7 +11,7 @@ import { EC3Configuration, EC3ConfigurationMaterial, EC3ReportConfigurationCreat
 import { EC3Job, EC3JobStatus, EC3ReportJobCreate } from "../../carbon-calculation/interfaces/EC3Jobs";
 use(chaiAsPromised);
 
-describe("EC3JobsClient", () => {
+describe("EC3JobsClient (report schema)", () => {
   let configurationId: string;
   let reportId: string;
 

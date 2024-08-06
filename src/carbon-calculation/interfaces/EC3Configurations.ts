@@ -107,7 +107,7 @@ export interface EC3ReportConfigurationCreate extends EC3ConfigurationCreate {
    * @type {string}
    * @memberof EC3ConfigurationCreate
    */
-  reportId?: string;
+  reportId: string;
 }
 
 export interface EC3ExtractionConfigurationCreate extends EC3ConfigurationCreate {
@@ -116,13 +116,13 @@ export interface EC3ExtractionConfigurationCreate extends EC3ConfigurationCreate
    * @type {string}
    * @memberof EC3ConfigurationCreate
    */
-  iTwinId?: string;
+  iTwinId: string;
   /**
    * Id of the iModel.
    * @type {string}
    * @memberof EC3ConfigurationCreate
    */
-  iModelId?: string;
+  iModelId: string;
 }
 
 interface EC3ConfigurationCreate {

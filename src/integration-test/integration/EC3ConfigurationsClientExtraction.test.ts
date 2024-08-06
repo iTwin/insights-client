@@ -5,24 +5,24 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
-import { accessToken, configurationsClient, iTwinId, reportsClient } from "../utils/GlobalSetup";
-import { ReportCreate } from "../../reporting/interfaces/Reports";
-import { EC3Configuration, EC3ConfigurationLabel, EC3ConfigurationMaterial, EC3ReportConfigurationCreate, EC3ReportConfigurationUpdate } from "../../carbon-calculation/interfaces/EC3Configurations";
+import { accessToken, configurationsClient, iTwinId, mappingsClient, testIModel } from "../utils/GlobalSetup";
+import { EC3ConfigurationMaterial, EC3ExtractionConfigurationCreate, EC3ExtractionConfigurationLabel, EC3ExtractionConfigurationUpdate } from "../../carbon-calculation/interfaces/EC3Configurations";
+import { MappingCreate } from "../../grouping-and-mapping/interfaces/Mappings";
 use(chaiAsPromised);
 
-describe("EC3ConfigurationsClient", () => {
+describe("EC3ConfigurationsClient (extraction schema)", () => {
   const configurationIds: Array<string> = [];
-  let reportId: string;
+  let mappingId: string;
 
-  let label: EC3ConfigurationLabel;
+  let label: EC3ExtractionConfigurationLabel;
 
   before(async () => {
-    const newReport: ReportCreate = {
-      displayName: "testReport",
-      projectId: iTwinId,
+    const mappingCreate: MappingCreate = {
+      iModelId: testIModel.id,
+      mappingName: "foo",
     };
-    const report = await reportsClient.createReport(accessToken, newReport);
-    reportId = report.id;
+    const mapping = await mappingsClient.createMapping(accessToken, mappingCreate);
+    mappingId = mapping.id;
 
     const material: EC3ConfigurationMaterial = {
       nameColumn: "materialName",
@@ -30,18 +30,20 @@ describe("EC3ConfigurationsClient", () => {
 
     label = {
       name: "name",
-      reportTable: "table",
+      mappingId: mapping.id,
+      groupName: "bar",
       elementNameColumn: "elementName",
       elementQuantityColumn: "elementQuantity",
       materials: [material],
     };
 
-    const newConfig: EC3ReportConfigurationCreate = {
-      reportId: report.id,
+    const newConfig: EC3ExtractionConfigurationCreate = {
+      iTwinId,
+      iModelId: testIModel.id,
       displayName: "Test1",
       labels: [label],
     };
-    let config: EC3Configuration = await configurationsClient.createConfiguration(accessToken, newConfig);
+    let config = await configurationsClient.createConfiguration(accessToken, newConfig);
     configurationIds.push(config.id);
 
     newConfig.displayName = "Test2";
@@ -57,12 +59,13 @@ describe("EC3ConfigurationsClient", () => {
     while (configurationIds.length > 0) {
       await configurationsClient.deleteConfiguration(accessToken, configurationIds.pop()!);
     }
-    await reportsClient.deleteReport(accessToken, reportId);
+    await mappingsClient.deleteMapping(accessToken, mappingId);
   });
 
   it("Configurations - create and delete", async () => {
-    const newConfig: EC3ReportConfigurationCreate = {
-      reportId,
+    const newConfig: EC3ExtractionConfigurationCreate = {
+      iTwinId,
+      iModelId: testIModel.id,
       displayName: "TestConfig",
       labels: [label],
     };
@@ -75,7 +78,7 @@ describe("EC3ConfigurationsClient", () => {
   });
 
   it("Configurations - Update", async () => {
-    const configUpdate: EC3ReportConfigurationUpdate = {
+    const configUpdate: EC3ExtractionConfigurationUpdate = {
       displayName: "Test1",
       description: "Updated description",
       labels: [label],
