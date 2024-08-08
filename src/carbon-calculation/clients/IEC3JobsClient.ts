@@ -9,7 +9,7 @@ export interface IEC3JobsClient {
   /**
    * Uploads report data to EC3.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
-   * @param {EC3JobCreate} job Request body.
+   * @param {EC3ReportJobCreate | EC3ExtractionJobCreate} job Request body.
    * @memberof IEC3JobsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/create-ec3-job/
    */

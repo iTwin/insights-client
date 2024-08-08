@@ -68,10 +68,10 @@ export interface EC3ConfigurationMinimal {
  */
 export interface EC3Configuration extends EC3ConfigurationMinimal {
   /**
- * List of EC3 Configuration Labels.
- * @type {Array<EC3ConfigurationLabel>}
- * @memberof EC3Configuration
- */
+   * List of EC3 Configuration Labels.
+   * @type {Array<EC3ConfigurationLabel>}
+   * @memberof EC3Configuration
+   */
   labels: EC3ConfigurationLabel[];
 }
 
@@ -103,10 +103,10 @@ export interface EC3ConfigurationCollection {
  */
 export interface EC3ReportConfigurationCreate {
   /**
- * Name of the EC3 Configuration.
- * @type {string}
- * @memberof EC3ReportConfigurationCreate
- */
+   * Name of the EC3 Configuration.
+   * @type {string}
+   * @memberof EC3ReportConfigurationCreate
+   */
   displayName: string;
   /**
    * Description of the EC3 Configuration.
@@ -115,10 +115,10 @@ export interface EC3ReportConfigurationCreate {
    */
   description?: string;
   /**
-* List of EC3 Configuration Labels.
-* @type {Array<EC3ReportConfigurationLabel>}
-* @memberof EC3ReportConfigurationCreate
-*/
+   * List of EC3 Configuration Labels.
+   * @type {Array<EC3ReportConfigurationLabel>}
+   * @memberof EC3ReportConfigurationCreate
+   */
   labels: EC3ReportConfigurationLabel[];
   /**
    * Id of the Report.
@@ -135,10 +135,10 @@ export interface EC3ReportConfigurationCreate {
  */
 export interface EC3ExtractionConfigurationCreate {
   /**
- * Name of the EC3 Configuration.
- * @type {string}
- * @memberof EC3ExtractionConfigurationCreate
- */
+   * Name of the EC3 Configuration.
+   * @type {string}
+   * @memberof EC3ExtractionConfigurationCreate
+   */
   displayName: string;
   /**
    * Description of the EC3 Configuration.
@@ -147,10 +147,10 @@ export interface EC3ExtractionConfigurationCreate {
    */
   description?: string;
   /**
- * List of EC3 Configuration Labels.
- * @type {Array<EC3ExtractionConfigurationLabel>}
- * @memberof EC3ExtractionConfigurationCreate
- */
+   * List of EC3 Configuration Labels.
+   * @type {Array<EC3ExtractionConfigurationLabel>}
+   * @memberof EC3ExtractionConfigurationCreate
+   */
   labels: EC3ExtractionConfigurationLabel[];
   /**
    * Id of the iTwin.
@@ -173,10 +173,10 @@ export interface EC3ExtractionConfigurationCreate {
  */
 export interface EC3ConfigurationLinks {
   /**
-     *
-     * @type {Link}
-     * @memberof EC3ConfigurationLinks
-     */
+   *
+   * @type {Link}
+   * @memberof EC3ConfigurationLinks
+   */
   report?: Link;
   /**
    *
@@ -213,10 +213,10 @@ export interface EC3ConfigurationSingle {
  */
 export interface EC3ReportConfigurationUpdate {
   /**
-* Name of the EC3 Configuration.
-* @type {string}
-* @memberof EC3ReportConfigurationUpdate
-*/
+   * Name of the EC3 Configuration.
+   * @type {string}
+   * @memberof EC3ReportConfigurationUpdate
+   */
   displayName: string;
   /**
    * Description of the EC3 Configuration.
@@ -239,10 +239,10 @@ export interface EC3ReportConfigurationUpdate {
  */
 export interface EC3ExtractionConfigurationUpdate {
   /**
- * Name of the EC3 Configuration.
- * @type {string}
- * @memberof EC3ExtractionConfigurationUpdate
- */
+   * Name of the EC3 Configuration.
+   * @type {string}
+   * @memberof EC3ExtractionConfigurationUpdate
+   */
   displayName: string;
   /**
    * Description of the EC3 Configuration.
@@ -296,9 +296,9 @@ export interface EC3ConfigurationLabel {
   reportTable?: string;
   /**
    * Id of the mapping, that contains Label data.
-    * @type {string}
-    * @memberof EC3ConfigurationLabel
-    */
+   * @type {string}
+   * @memberof EC3ConfigurationLabel
+   */
   mappingId?: string;
   /**
    * Name of the group, that contains Label data.
@@ -378,9 +378,9 @@ export interface EC3ExtractionConfigurationLabel {
   materials: EC3ConfigurationMaterial[];
   /**
    * Id of the mapping, that contains Label data.
-    * @type {string}
-    * @memberof EC3ExtractionConfigurationLabel
-    */
+   * @type {string}
+   * @memberof EC3ExtractionConfigurationLabel
+   */
   mappingId: string;
   /**
    * Name of the group, that contains Label data.

@@ -51,7 +51,7 @@ export interface IEC3ConfigurationsClient {
   /**
    * Creates an EC3 Configuration within the context of a Project.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
-   * @param {EC3ReportConfigurationCreate} configuration Request body.
+   * @param {EC3ReportConfigurationCreate | EC3ExtractionConfigurationCreate} configuration Request body.
    * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/create-ec3-configuration/
    */
@@ -64,7 +64,7 @@ export interface IEC3ConfigurationsClient {
    * Updates an EC3 Configuration.
    * @param {string} configurationId The EC3 configuration Id.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
-   * @param {EC3ReportConfigurationUpdate} configuration Request body.
+   * @param {EC3ReportConfigurationUpdate | EC3ExtractionConfigurationUpdate} configuration Request body.
    * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/update-ec3-configuration/
    */
