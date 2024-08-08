@@ -78,8 +78,8 @@ describe("EC3JobsClient (extraction schema)", () => {
   });
 
   after(async () => {
-    await configurationsClient.deleteConfiguration(accessToken, configurationId);
     await mappingsClient.deleteMapping(accessToken, mappingId);
+    await configurationsClient.deleteConfiguration(accessToken, configurationId);
   });
 
   it("jobs - run extraction and get status", async () => {
