@@ -144,7 +144,6 @@ export interface EC3ExtractionConfigurationCreate extends EC3ConfigurationCreate
 
 /**
  * Properties of the EC3 Configuration to be created. Contains properties shared by both schemas.
- * @export
  * @interface EC3ConfigurationCreateCommon
  */
 interface EC3ConfigurationCreateCommon {
@@ -232,7 +231,6 @@ export interface EC3ExtractionConfigurationUpdate extends EC3ConfigurationUpdate
 
 /**
  * Properties of the EC3 Configuration to be updated. Contains properties shared by both schemas.
- * @export
  * @interface EC3ConfigurationUpdateCommon
  */
 interface EC3ConfigurationUpdateCommon {
@@ -312,7 +310,6 @@ export interface EC3ExtractionConfigurationLabel extends EC3ConfigurationLabelCo
 
 /**
  * EC3 Configuration Label that contains information about specified elements. Contains properties shared by both schemas.
- * @export
  * @interface EC3ConfigurationLabelCommon
  */
 interface EC3ConfigurationLabelCommon {
