@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import type { AccessToken } from "@itwin/core-bentley";
-import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationMinimal, EC3ConfigurationUpdate } from "../interfaces/EC3Configurations";
+import { EC3Configuration, EC3ConfigurationMinimal, EC3ExtractionConfigurationCreate, EC3ExtractionConfigurationUpdate, EC3ReportConfigurationCreate, EC3ReportConfigurationUpdate } from "../interfaces/EC3Configurations";
 import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 
 export interface IEC3ConfigurationsClient {
@@ -51,27 +51,27 @@ export interface IEC3ConfigurationsClient {
   /**
    * Creates an EC3 Configuration within the context of a Project.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
-   * @param {EC3ConfigurationCreate} configuration Request body.
+   * @param {EC3ReportConfigurationCreate | EC3ExtractionConfigurationCreate} configuration Request body.
    * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/create-ec3-configuration/
    */
   createConfiguration(
     accessToken: AccessToken,
-    configuration: EC3ConfigurationCreate
+    configuration: EC3ReportConfigurationCreate | EC3ExtractionConfigurationCreate
   ): Promise<EC3Configuration>;
 
   /**
    * Updates an EC3 Configuration.
    * @param {string} configurationId The EC3 configuration Id.
    * @param {string} accessToken OAuth access token with scope `insights:modify`.
-   * @param {EC3ConfigurationUpdate} configuration Request body.
+   * @param {EC3ReportConfigurationUpdate | EC3ExtractionConfigurationUpdate} configuration Request body.
    * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/update-ec3-configuration/
    */
   updateConfiguration(
     accessToken: AccessToken,
     configurationId: string,
-    configuration: EC3ConfigurationUpdate
+    configuration: EC3ReportConfigurationUpdate | EC3ExtractionConfigurationUpdate
   ): Promise<EC3Configuration>;
 
   /**

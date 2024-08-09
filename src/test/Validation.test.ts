@@ -11,7 +11,7 @@ import { AggregationPropertyCreate, AggregationPropertyType, AggregationProperty
 import { ODataItem } from "../reporting/interfaces/OData";
 import { ReportAggregationCreate, ReportCreate, ReportMappingCreate, ReportUpdate } from "../reporting/interfaces/Reports";
 import { EC3ConfigurationsClient } from "../carbon-calculation/clients/EC3ConfigurationsClient";
-import { EC3ConfigurationCreate, EC3ConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
+import { EC3ExtractionConfigurationCreate, EC3ExtractionConfigurationUpdate, EC3ReportConfigurationCreate, EC3ReportConfigurationUpdate } from "../carbon-calculation/interfaces/EC3Configurations";
 import { ExtractionClient } from "../grouping-and-mapping/clients/ExtractionClient";
 import { GroupsClient } from "../grouping-and-mapping/clients/GroupsClient";
 import { MappingsClient } from "../grouping-and-mapping/clients/MappingsClient";
@@ -453,8 +453,8 @@ describe("Validation", () => {
     );
   });
 
-  it("EC3 Configurations - Create unsuccessfully", async () => {
-    const newConfig: EC3ConfigurationCreate = {
+  it("EC3 Configurations - Create unsuccessfully (report schema)", async () => {
+    const newConfig: EC3ReportConfigurationCreate = {
       displayName: "Test",
       reportId: "id",
       labels: [],
@@ -464,7 +464,7 @@ describe("Validation", () => {
     );
 
     newConfig.labels.push({
-      materials : [],
+      materials: [],
       name: "name",
       reportTable: "table",
       elementQuantityColumn: "quantity",
@@ -475,8 +475,8 @@ describe("Validation", () => {
     );
   });
 
-  it("EC3 Configurations - Update unsuccessfully", async () => {
-    const newConfig: EC3ConfigurationUpdate = {
+  it("EC3 Configurations - Update unsuccessfully (report schema)", async () => {
+    const newConfig: EC3ReportConfigurationUpdate = {
       displayName: "Test",
       description: "",
       labels: [],
@@ -486,7 +486,7 @@ describe("Validation", () => {
     );
 
     newConfig.labels.push({
-      materials : [],
+      materials: [],
       name: "name",
       reportTable: "table",
       elementQuantityColumn: "quantity",
@@ -496,4 +496,52 @@ describe("Validation", () => {
       "Required field materials was empty.",
     );
   });
+
+  it("EC3 Configurations - Create unsuccessfully (extraction schema)", async () => {
+    const newConfig: EC3ExtractionConfigurationCreate = {
+      displayName: "Test",
+      iTwinId: "iTwinId",
+      iModelId: "iModelId",
+      labels: [],
+    };
+    await expect(configurationsClient.createConfiguration("-", newConfig)).to.be.rejectedWith(
+      "Required field labels was empty.",
+    );
+
+    newConfig.labels.push({
+      materials: [],
+      name: "name",
+      mappingId: "mappingId",
+      groupName: "groupName",
+      elementQuantityColumn: "quantity",
+      elementNameColumn: "name",
+    });
+    await expect(configurationsClient.createConfiguration("-", newConfig)).to.be.rejectedWith(
+      "Required field materials was empty.",
+    );
+  });
+
+  it("EC3 Configurations - Update unsuccessfully (extraction schema)", async () => {
+    const newConfig: EC3ExtractionConfigurationUpdate = {
+      displayName: "Test",
+      description: "",
+      labels: [],
+    };
+    await expect(configurationsClient.updateConfiguration("-", "-", newConfig)).to.be.rejectedWith(
+      "Required field labels was empty.",
+    );
+
+    newConfig.labels.push({
+      materials: [],
+      name: "name",
+      mappingId: "mappingId",
+      groupName: "groupName",
+      elementQuantityColumn: "quantity",
+      elementNameColumn: "name",
+    });
+    await expect(configurationsClient.updateConfiguration("-", "-", newConfig)).to.be.rejectedWith(
+      "Required field materials was empty.",
+    );
+  });
+
 });

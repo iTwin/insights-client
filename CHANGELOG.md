@@ -1,5 +1,13 @@
 # Change Log - @itwin/insights-client
 
+## 0.11.0
+Thursday, 8 August, 2024
+### Minor
+- Updated `carbon-calculation` interfaces and clients to support the new EC3 workflow. 
+  - Interfaces matching `EC3(Configuration|Job).*` are used in both workflows.
+  - Interfaces matching `EC3Report(Configuration|Job).*` refer to the old workflow (coupled with reports)
+  - Interfaces matching `EC3Extraction(Configuration|Job).*` refer to the new workflow (coupled with extractions)
+
 ## 0.10.3
 Wednesday, 19 June, 2024
 ### Patch

@@ -5,24 +5,24 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import "reflect-metadata";
-import { accessToken, configurationsClient, iTwinId, reportsClient } from "../utils/GlobalSetup";
-import { ReportCreate } from "../../reporting/interfaces/Reports";
-import { EC3Configuration, EC3ConfigurationCreate, EC3ConfigurationLabel, EC3ConfigurationMaterial, EC3ConfigurationUpdate } from "../../carbon-calculation/interfaces/EC3Configurations";
+import { accessToken, configurationsClient, iTwinId, mappingsClient, testIModel } from "../utils/GlobalSetup";
+import { EC3ConfigurationMaterial, EC3ExtractionConfigurationCreate, EC3ExtractionConfigurationLabel, EC3ExtractionConfigurationUpdate } from "../../carbon-calculation/interfaces/EC3Configurations";
+import { MappingCreate } from "../../grouping-and-mapping/interfaces/Mappings";
 use(chaiAsPromised);
 
-describe("EC3ConfigurationsClient", () => {
+describe("EC3ConfigurationsClient (extraction schema)", () => {
   const configurationIds: Array<string> = [];
-  let reportId: string;
+  let mappingId: string;
 
-  let label: EC3ConfigurationLabel;
+  let label: EC3ExtractionConfigurationLabel;
 
   before(async () => {
-    const newReport: ReportCreate = {
-      displayName: "testReport",
-      projectId: iTwinId,
+    const mappingCreate: MappingCreate = {
+      iModelId: testIModel.id,
+      mappingName: "foo",
     };
-    const report = await reportsClient.createReport(accessToken, newReport);
-    reportId = report.id;
+    const mapping = await mappingsClient.createMapping(accessToken, mappingCreate);
+    mappingId = mapping.id;
 
     const material: EC3ConfigurationMaterial = {
       nameColumn: "materialName",
@@ -30,18 +30,20 @@ describe("EC3ConfigurationsClient", () => {
 
     label = {
       name: "name",
-      reportTable: "table",
+      mappingId: mapping.id,
+      groupName: "bar",
       elementNameColumn: "elementName",
       elementQuantityColumn: "elementQuantity",
       materials: [material],
     };
 
-    const newConfig: EC3ConfigurationCreate = {
-      reportId: report.id,
+    const newConfig: EC3ExtractionConfigurationCreate = {
+      iTwinId,
+      iModelId: testIModel.id,
       displayName: "Test1",
       labels: [label],
     };
-    let config: EC3Configuration = await configurationsClient.createConfiguration(accessToken, newConfig);
+    let config = await configurationsClient.createConfiguration(accessToken, newConfig);
     configurationIds.push(config.id);
 
     newConfig.displayName = "Test2";
@@ -54,15 +56,16 @@ describe("EC3ConfigurationsClient", () => {
   });
 
   after(async () => {
-    while(configurationIds.length > 0) {
+    while (configurationIds.length > 0) {
       await configurationsClient.deleteConfiguration(accessToken, configurationIds.pop()!);
     }
-    await reportsClient.deleteReport(accessToken, reportId);
+    await mappingsClient.deleteMapping(accessToken, mappingId);
   });
 
   it("Configurations - create and delete", async () => {
-    const newConfig: EC3ConfigurationCreate = {
-      reportId,
+    const newConfig: EC3ExtractionConfigurationCreate = {
+      iTwinId,
+      iModelId: testIModel.id,
       displayName: "TestConfig",
       labels: [label],
     };
@@ -75,7 +78,7 @@ describe("EC3ConfigurationsClient", () => {
   });
 
   it("Configurations - Update", async () => {
-    const configUpdate: EC3ConfigurationUpdate = {
+    const configUpdate: EC3ExtractionConfigurationUpdate = {
       displayName: "Test1",
       description: "Updated description",
       labels: [label],
@@ -96,7 +99,7 @@ describe("EC3ConfigurationsClient", () => {
     const configs = await configurationsClient.getConfigurations(accessToken, iTwinId);
     expect(configs).to.not.be.undefined;
     expect(configs.length).to.be.above(2);
-    for(const config of configs) {
+    for (const config of configs) {
       expect(["Test1", "Test2", "Test3"]).to.include(config.displayName);
     }
   });
@@ -105,7 +108,7 @@ describe("EC3ConfigurationsClient", () => {
     const configs = await configurationsClient.getConfigurations(accessToken, iTwinId, 2);
     expect(configs).to.not.be.undefined;
     expect(configs.length).to.be.above(2);
-    for(const config of configs) {
+    for (const config of configs) {
       expect(["Test1", "Test2", "Test3"]).to.include(config.displayName);
     }
   });
@@ -113,7 +116,7 @@ describe("EC3ConfigurationsClient", () => {
   it("Configurations - Get with iterator", async () => {
     const confingsIt = configurationsClient.getConfigurationsIterator(accessToken, iTwinId, 2);
     let flag = false;
-    for await(const config of confingsIt) {
+    for await (const config of confingsIt) {
       flag = true;
       expect(config).to.not.be.undefined;
       expect(["Test1", "Test2", "Test3"]).to.include(config.displayName);
@@ -125,11 +128,11 @@ describe("EC3ConfigurationsClient", () => {
     const configsIt = configurationsClient.getConfigurationsIterator(accessToken, iTwinId, 2);
     let elementCount = 0;
     let flag = false;
-    for await(const configs of configsIt.byPage()) {
+    for await (const configs of configsIt.byPage()) {
       flag = true;
       expect(configs).to.not.be.undefined;
-      if(configs.length) {
-        for(const config of configs) {
+      if (configs.length) {
+        for (const config of configs) {
           expect(["Test1", "Test2", "Test3"]).to.include(config.displayName);
         }
         elementCount += configs.length;
