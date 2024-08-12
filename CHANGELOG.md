@@ -1,6 +1,11 @@
 # Change Log - @itwin/insights-client
 
-## 0.11.0
+## 0.13.0
+Thursday, 12 August, 2024
+### Minor
+- Removed `groupingAndMappingBasePath` parameter from `OperationsBase` constructor. The `Grouping and Mapping` related clients now read from `basePath`. 
+
+## 0.12.0
 Thursday, 8 August, 2024
 ### Minor
 - Updated `carbon-calculation` interfaces and clients to support the new EC3 workflow. 
