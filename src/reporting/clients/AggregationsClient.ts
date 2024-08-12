@@ -7,7 +7,7 @@ import { RequiredError } from "../../common/Errors";
 import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
-import { OperationsBase } from "../../common/OperationsBase";
+import { OperationsBase, REPORTING_BASE_PATH } from "../../common/OperationsBase";
 import {
   AggregationProperty, AggregationPropertyCollection, AggregationPropertyCreate, AggregationPropertySingle, AggregationPropertyType, AggregationPropertyUpdate,
   AggregationTable, AggregationTableCollection, AggregationTableCreate, AggregationTableSet, AggregationTableSetCollection, AggregationTableSetCreate, AggregationTableSetSingle,
@@ -16,6 +16,10 @@ import {
 import type { IAggregationsClient } from "./IAggregationsClient";
 
 export class AggregationsClient extends OperationsBase implements IAggregationsClient {
+  constructor(basePath?: string) {
+    super(basePath ?? REPORTING_BASE_PATH);
+  }
+
   public async getAggregationProperties(
     accessToken: AccessToken,
     aggregationTableSetId: string,
