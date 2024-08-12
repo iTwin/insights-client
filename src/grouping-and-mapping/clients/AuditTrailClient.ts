@@ -7,14 +7,12 @@ import { AuditTrailCollection } from "../interfaces/AuditTrail";
 import { IAuditTrailClient } from "../interfaces/IAuditTrailClient";
 
 export class AuditTrailClient extends OperationsBase implements IAuditTrailClient {
-  private _baseUrl = `${this.basePath}/audit?iModelId=`;
-
   constructor(basePath?: string) {
     super(basePath ?? GROUPING_AND_MAPPING_BASE_PATH);
   }
 
   public async getAuditTrail(accessToken: string, iModelId: string, path?: string, after?: string, before?: string, top?: number): Promise<AuditTrailCollection> {
-    let url = `${this._baseUrl}${iModelId}`;
+    let url = `${this.basePath}/audit?iModelId=${iModelId}`;
 
     if (path) {
       url += `&path=${path}`;
