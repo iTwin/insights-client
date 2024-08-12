@@ -14,11 +14,9 @@ const MAX_ATTEMPTS = 3;
 export class OperationsBase {
   protected readonly fetch = isomorphicFetch;
   protected readonly basePath;
-  protected readonly groupingAndMappingBasePath;
 
-  constructor(basePath?: string, groupingAndMappingBasePath?: string) {
-    this.basePath = basePath ?? REPORTING_BASE_PATH;
-    this.groupingAndMappingBasePath = groupingAndMappingBasePath ?? GROUPING_AND_MAPPING_BASE_PATH;
+  constructor(basePath?: string) {
+    this.basePath = basePath;
   }
 
   /**
