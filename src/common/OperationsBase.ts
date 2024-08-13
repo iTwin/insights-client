@@ -14,7 +14,7 @@ const MAX_ATTEMPTS = 3;
 export class OperationsBase {
   protected readonly fetch = isomorphicFetch;
 
-  constructor(public readonly basePath?: string) { }
+  constructor(protected readonly basePath?: string) { }
 
   /**
    * Creates a request body and headers
