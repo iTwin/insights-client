@@ -1,5 +1,10 @@
 # Change Log - @itwin/insights-client
 
+## 0.11.1
+Thursday, 8 August, 2024
+### Patch
+- `CVE-2024-39338` patch.
+
 ## 0.11.0
 Thursday, 8 August, 2024
 ### Minor
