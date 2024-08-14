@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { OperationsBase } from "../../common/OperationsBase";
+import { GROUPING_AND_MAPPING_BASE_PATH, OperationsBase } from "../../common/OperationsBase";
 import { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 import { EntityCollectionPage, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
@@ -13,7 +13,11 @@ import { AccessToken } from "@itwin/core-bentley";
 import { PreferReturn } from "../../common/Common";
 
 export class GroupsClient extends OperationsBase implements IGroupsClient {
-  private _baseUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings`;
+  private _baseUrl = `${this.basePath}/datasources/imodel-mappings`;
+
+  constructor(basePath?: string) {
+    super(basePath ?? GROUPING_AND_MAPPING_BASE_PATH);
+  }
 
   public async createGroup(accessToken: AccessToken, mappingId: string, group: GroupCreate): Promise<Group> {
     if (!this.isSimpleIdentifier(group.groupName)) {

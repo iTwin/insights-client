@@ -7,22 +7,26 @@ import { RequiredError } from "../../common/Errors";
 import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
-import { OperationsBase } from "../../common/OperationsBase";
+import { OperationsBase, REPORTING_BASE_PATH } from "../../common/OperationsBase";
 import type { Report, ReportAggregation, ReportAggregationCollection, ReportAggregationCreate, ReportAggregationSingle, ReportCollection, ReportCreate, ReportMapping, ReportMappingCollection, ReportMappingCreate, ReportMappingSingle, ReportSingle, ReportUpdate } from "../interfaces/Reports";
 import type { IReportsClient } from "./IReportsClient";
 
-export class ReportsClient extends OperationsBase implements IReportsClient{
+export class ReportsClient extends OperationsBase implements IReportsClient {
+  constructor(basePath?: string) {
+    super(basePath ?? REPORTING_BASE_PATH);
+  }
+
   public async getReports(accessToken: AccessToken, projectId: string, top?: number, deleted = false): Promise<Report[]> {
     const reports: Array<Report> = [];
     const reportIterator = this.getReportsIterator(accessToken, projectId, top, deleted);
-    for await(const report of reportIterator) {
+    for await (const report of reportIterator) {
       reports.push(report);
     }
     return reports;
   }
 
   public getReportsIterator(accessToken: AccessToken, projectId: string, top?: number, deleted = false): EntityListIterator<Report> {
-    if(!this.topIsValid(top)) {
+    if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000].",
@@ -49,7 +53,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     return (await this.fetchJSON<ReportSingle>(url, requestOptions)).report;
   }
 
-  public async createReport(accessToken: AccessToken, report: ReportCreate): Promise<Report>{
+  public async createReport(accessToken: AccessToken, report: ReportCreate): Promise<Report> {
     if (!report.displayName) {
       throw new RequiredError(
         "displayName",
@@ -96,14 +100,14 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
   public async getReportMappings(accessToken: AccessToken, reportId: string, top?: number): Promise<ReportMapping[]> {
     const reportMappings: Array<ReportMapping> = [];
     const reportMappingIterator = this.getReportMappingsIterator(accessToken, reportId, top);
-    for await(const reportMapping of reportMappingIterator) {
+    for await (const reportMapping of reportMappingIterator) {
       reportMappings.push(reportMapping);
     }
     return reportMappings;
   }
 
   public getReportMappingsIterator(accessToken: AccessToken, reportId: string, top?: number): EntityListIterator<ReportMapping> {
-    if(!this.topIsValid(top)) {
+    if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000].",
@@ -160,7 +164,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
   ): Promise<ReportAggregation[]> {
     const aggregations: Array<ReportAggregation> = [];
     const reportAggregationIterator = this.getReportAggregationsIterator(accessToken, reportId, top);
-    for await(const reportAggregation of reportAggregationIterator) {
+    for await (const reportAggregation of reportAggregationIterator) {
       aggregations.push(reportAggregation);
     }
     return aggregations;
@@ -171,7 +175,7 @@ export class ReportsClient extends OperationsBase implements IReportsClient{
     reportId: string,
     top?: number,
   ): EntityListIterator<ReportAggregation> {
-    if(!this.topIsValid(top)) {
+    if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000].",

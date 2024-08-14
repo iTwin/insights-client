@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AccessToken } from "@itwin/core-bentley";
-import { OperationsBase } from "../../common/OperationsBase";
+import { GROUPING_AND_MAPPING_BASE_PATH, OperationsBase } from "../../common/OperationsBase";
 import { RequiredError } from "../../common/Errors";
 import { IMappingsClient } from "../interfaces/IMappingsClient";
 import { Mapping, MappingContainer, MappingCreate, MappingExtraction, MappingExtractionCollection, MappingList, MappingUpdate } from "../interfaces/Mappings";
@@ -13,7 +13,11 @@ import { EntityListIteratorImpl } from "../../common/iterators/EntityListIterato
 import { getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
 
 export class MappingsClient extends OperationsBase implements IMappingsClient {
-  private _baseUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings`;
+  private _baseUrl = `${this.basePath}/datasources/imodel-mappings`;
+
+  constructor(basePath?: string) {
+    super(basePath ?? GROUPING_AND_MAPPING_BASE_PATH);
+  }
 
   public async createMapping(accessToken: AccessToken, mappingCreate: MappingCreate): Promise<Mapping> {
     if (!this.isSimpleIdentifier(mappingCreate.mappingName)) {
@@ -52,14 +56,14 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
     return this.fetchJSON<Response>(mappingUrl, requestOptions);
   }
 
-  public async getMapping(accessToken: AccessToken, mappingId: string ): Promise<Mapping> {
+  public async getMapping(accessToken: AccessToken, mappingId: string): Promise<Mapping> {
     const mappingUrl = `${this._baseUrl}/${encodeURIComponent(mappingId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     return (await this.fetchJSON<MappingContainer>(mappingUrl, requestOptions)).mapping;
   }
 
   public getMappingsIterator(accessToken: AccessToken, iModelId: string, top?: number): EntityListIterator<Mapping> {
-    if(!this.topIsValid(top)) {
+    if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000].",
@@ -70,7 +74,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
     const url = `${baseUrl}${top ? `&$top=${top}` : ""}`;
 
     const request = this.createRequest("GET", accessToken);
-    return new EntityListIteratorImpl( async ()=> getEntityCollectionPage(url, async (nextUrl: string)=> {
+    return new EntityListIteratorImpl(async () => getEntityCollectionPage(url, async (nextUrl: string) => {
       const response = await this.fetchJSON<MappingList>(nextUrl, request);
       return {
         values: response.mappings,
@@ -80,7 +84,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
   }
 
   public async getMappings(accessToken: AccessToken, iModelId: string, top?: number): Promise<MappingList> {
-    if(!this.topIsValid(top)) {
+    if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000].",
@@ -96,7 +100,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
   }
 
   public getMappingExtractionsIterator(accessToken: AccessToken, mappingId: string, top?: number): EntityListIterator<MappingExtraction> {
-    if(!this.topIsValid(top)) {
+    if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000].",
@@ -107,7 +111,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
     const url = `${baseUrl}${top ? `?$top=${top}` : ""}`;
 
     const request = this.createRequest("GET", accessToken);
-    return new EntityListIteratorImpl( async ()=> getEntityCollectionPage(url, async (nextUrl: string)=> {
+    return new EntityListIteratorImpl(async () => getEntityCollectionPage(url, async (nextUrl: string) => {
       const response = await this.fetchJSON<MappingExtractionCollection>(nextUrl, request);
       return {
         values: response.extractions,
@@ -117,7 +121,7 @@ export class MappingsClient extends OperationsBase implements IMappingsClient {
   }
 
   public async getMappingExtractions(accessToken: AccessToken, mappingId: string, top?: number): Promise<MappingExtractionCollection> {
-    if(!this.topIsValid(top)) {
+    if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
         "Parameter top was outside of the valid range [1-1000].",

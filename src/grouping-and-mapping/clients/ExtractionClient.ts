@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { AccessToken } from "@itwin/core-bentley";
-import { OperationsBase } from "../../common/OperationsBase";
+import { GROUPING_AND_MAPPING_BASE_PATH, OperationsBase } from "../../common/OperationsBase";
 import { ExtractionContainer, ExtractionLogEntry, ExtractionLogsResponse, ExtractionRequestDetails, ExtractionsResponse, ExtractionStatus } from "../interfaces/Extraction";
 import { IExtractionClient } from "../interfaces/IExtractionClient";
 import { RequiredError } from "../../common/Errors";
@@ -12,7 +12,11 @@ import { EntityListIteratorImpl } from "../../common/iterators/EntityListIterato
 import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
 
 export class ExtractionClient extends OperationsBase implements IExtractionClient {
-  private _baseUrl = `${this.groupingAndMappingBasePath}/datasources/imodel-mappings/extractions`;
+  private _baseUrl = `${this.basePath}/datasources/imodel-mappings/extractions`;
+
+  constructor(basePath?: string) {
+    super(basePath ?? GROUPING_AND_MAPPING_BASE_PATH);
+  }
 
   public async runExtraction(accessToken: AccessToken, extractionRequestDetails: ExtractionRequestDetails): Promise<ExtractionStatus> {
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(extractionRequestDetails));
@@ -33,7 +37,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
       );
     }
 
-    const url = `${this._baseUrl}?iModelId=${iModelId}${top ? `&$top=${top}` : `` }`;
+    const url = `${this._baseUrl}?iModelId=${iModelId}${top ? `&$top=${top}` : ``}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     const response = await this.fetchJSON<ExtractionsResponse>(url, requestOptions);
     return response;
@@ -47,9 +51,9 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
       );
     }
 
-    const url = `${this._baseUrl}?iModelId=${iModelId}${top ? `&$top=${top}` : `` }`;
+    const url = `${this._baseUrl}?iModelId=${iModelId}${top ? `&$top=${top}` : ``}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return new EntityListIteratorImpl(async () => getEntityCollectionPage<ExtractionStatus>( url, async (nextUrl: string): Promise<Collection<ExtractionStatus>> => {
+    return new EntityListIteratorImpl(async () => getEntityCollectionPage<ExtractionStatus>(url, async (nextUrl: string): Promise<Collection<ExtractionStatus>> => {
       const response = await this.fetchJSON<ExtractionsResponse>(nextUrl, requestOptions);
       return {
         values: response.extractions,
@@ -67,7 +71,7 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
       );
     }
 
-    const url = `${this._baseUrl}/${encodeURIComponent(extractionId)}/logs${top ? `?$top=${top}` : `` }`;
+    const url = `${this._baseUrl}/${encodeURIComponent(extractionId)}/logs${top ? `?$top=${top}` : ``}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
     const response = await this.fetchJSON<ExtractionLogsResponse>(url, requestOptions);
     return response;
@@ -81,9 +85,9 @@ export class ExtractionClient extends OperationsBase implements IExtractionClien
       );
     }
 
-    const url = `${this._baseUrl}/${encodeURIComponent(extractionId)}/logs${top ? `?$top=${top}` : `` }`;
+    const url = `${this._baseUrl}/${encodeURIComponent(extractionId)}/logs${top ? `?$top=${top}` : ``}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
-    return new EntityListIteratorImpl(async () => getEntityCollectionPage<ExtractionLogEntry>( url, async (nextUrl: string): Promise<Collection<ExtractionLogEntry>> => {
+    return new EntityListIteratorImpl(async () => getEntityCollectionPage<ExtractionLogEntry>(url, async (nextUrl: string): Promise<Collection<ExtractionLogEntry>> => {
       const response = await this.fetchJSON<ExtractionLogsResponse>(nextUrl, requestOptions);
       return {
         values: response.logs,
