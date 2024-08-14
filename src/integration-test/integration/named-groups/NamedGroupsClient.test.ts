@@ -45,7 +45,7 @@ describe("NamedGroups Client", () => {
     }
   });
 
-  it.only("Groups - Get group", async () => {
+  it("NamedGroups - Get group", async () => {
     const getGroupTwo = await namedGroupsClient.getNamedGroup(accessToken, groupTwo.id);
     const getGroupThree = await namedGroupsClient.getNamedGroup(accessToken, groupThree.id);
 
@@ -53,14 +53,14 @@ describe("NamedGroups Client", () => {
     expect(getGroupThree.groupName).to.deep.equal(groupThree.groupName);
   });
 
-  it.only("Groups - Get all groups", async () => {
+  it("NamedGroups - Get all groups", async () => {
     const groups = await namedGroupsClient.getNamedGroups(accessToken, iTwinId);
     for (const group of groups.groups) {
       expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.groupName);
     }
   });
 
-  it.only("Groups - Get top minimal groups", async () => {
+  it("NamedGroups - Get top minimal groups", async () => {
     const topGroups = await namedGroupsClient.getNamedGroups(accessToken, iTwinId, PreferReturn.Minimal, 2);
     expect(topGroups.groups.length).to.equal(2);
     topGroups.groups.forEach((group) => {
@@ -68,7 +68,7 @@ describe("NamedGroups Client", () => {
     });
   });
 
-  it.only("Groups - Get top representation groups", async () => {
+  it("NamedGroups - Get top representation groups", async () => {
     const topGroups = await namedGroupsClient.getNamedGroups(accessToken, iTwinId, PreferReturn.Representation, 2);
     expect(topGroups.groups.length).to.equal(2);
     topGroups.groups.forEach((group) => {
@@ -76,7 +76,7 @@ describe("NamedGroups Client", () => {
     });
   });
 
-  it.only("Groups - Get pages of minimal groups", async () => {
+  it("NamedGroups - Get pages of minimal groups", async () => {
     const groupsIterator = namedGroupsClient.getNamedGroupsIterator(accessToken, iTwinId, PreferReturn.Minimal, 2);
     let flag = false;
     for await (const groupsPage of groupsIterator.byPage()) {
@@ -89,7 +89,7 @@ describe("NamedGroups Client", () => {
     expect(flag).to.be.true;
   });
 
-  it.only("Groups - Get pages of representation groups", async () => {
+  it("NamedGroups - Get pages of representation groups", async () => {
     const groupsIterator = namedGroupsClient.getNamedGroupsIterator(accessToken, iTwinId, PreferReturn.Representation, 2);
     let flag = false;
     for await (const groupsPage of groupsIterator.byPage()) {
@@ -102,7 +102,7 @@ describe("NamedGroups Client", () => {
     expect(flag).to.be.true;
   });
 
-  it.only("Groups - Create and Delete", async () => {
+  it("NamedGroups - Create and Delete", async () => {
     const group = await namedGroupsClient.createNamedGroup(accessToken, {
       iTwinId,
       groupName: "GroupToDelete",
@@ -117,7 +117,7 @@ describe("NamedGroups Client", () => {
     expect(response.status).to.be.equal(204);
   });
 
-  it.only("Groups - Update", async () => {
+  it("NamedGroups - Update", async () => {
     const updatedGroupOne: NamedGroupUpdate = {
       groupName: "UpdatedGroupOne",
       description: "Updated description for group one",
