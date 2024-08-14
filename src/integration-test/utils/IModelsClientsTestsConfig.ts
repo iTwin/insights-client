@@ -53,6 +53,10 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
         baseUrl: process.env.APIS_GROUPING_AND_MAPPING_BASE_URL ?? GROUPING_AND_MAPPING_BASE_PATH,
         scopes: process.env.APIS_GROUPING_AND_MAPPING_SCOPES ?? "",
       },
+      namedGroups: {
+        baseUrl: process.env.APIS_NAMED_GROUPS_BASE_URL ?? GROUPING_AND_MAPPING_BASE_PATH,
+        scopes: process.env.APIS_NAMED_GROUPS_SCOPES ?? "",
+      },
     };
 
     this.testUsers = {
