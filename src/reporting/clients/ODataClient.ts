@@ -9,11 +9,15 @@ import { ODataEntityResponse, ODataEntityValue, ODataItem, ODataMetaDataEntitySe
 import type { EntityListIterator } from "../../common/iterators/EntityListIterator";
 import { EntityListIteratorImpl } from "../../common/iterators/EntityListIteratorImpl";
 import { Collection, getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
-import { OperationsBase } from "../../common/OperationsBase";
+import { OperationsBase, REPORTING_BASE_PATH } from "../../common/OperationsBase";
 import type { IOdataClient } from "./IODataClient";
 import { XMLParser } from "fast-xml-parser";
 
-export class ODataClient extends OperationsBase implements IOdataClient{
+export class ODataClient extends OperationsBase implements IOdataClient {
+  constructor(basePath?: string) {
+    super(basePath ?? REPORTING_BASE_PATH);
+  }
+
   public async getODataReport(accessToken: AccessToken, reportId: string): Promise<ODataResponse> {
     const url = `${this.basePath}/odata/${encodeURIComponent(reportId)}`;
     const requestOptions: RequestInit = this.createRequest("GET", accessToken);
@@ -43,7 +47,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
     }
     const reportData: Array<ODataEntityValue> = [];
     const oDataReportEntitiesIt = this.getODataReportEntitiesIterator(accessToken, reportId, odataItem);
-    for await(const oDataReportEntity of oDataReportEntitiesIt) {
+    for await (const oDataReportEntity of oDataReportEntitiesIt) {
       reportData.push(oDataReportEntity);
     }
     return reportData;
@@ -68,7 +72,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
             href: nextUrl,
           },
         };
-        if(response["@odata.nextLink"]) {
+        if (response["@odata.nextLink"]) {
           link.next = {
             href: response["@odata.nextLink"],
           };
@@ -91,7 +95,7 @@ export class ODataClient extends OperationsBase implements IOdataClient{
   private async parseXML(response: Response): Promise<ODataTable[]> {
     const options = {
       ignoreAttributes: false,
-      attributeNamePrefix : "",
+      attributeNamePrefix: "",
       transformTagName: (tagName: string) => tagName.charAt(0).toLowerCase() + tagName.slice(1),
     };
     const parser = new XMLParser(options);

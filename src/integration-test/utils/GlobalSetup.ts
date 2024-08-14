@@ -68,13 +68,13 @@ export async function mochaGlobalSetup() {
   reportsClient = new ReportsClient(config.apis.reporting.baseUrl);
   configurationsClient = new EC3ConfigurationsClient(config.apis.carbonCalculation.baseUrl);
   jobsClient = new EC3JobsClient(config.apis.carbonCalculation.baseUrl);
-  extractionClient = new ExtractionClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
-  mappingsClient = new MappingsClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
-  groupsClient = new GroupsClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
+  extractionClient = new ExtractionClient(config.apis.groupingAndMapping.baseUrl);
+  mappingsClient = new MappingsClient(config.apis.groupingAndMapping.baseUrl);
+  groupsClient = new GroupsClient(config.apis.groupingAndMapping.baseUrl);
   namedGroupsClient = new NamedGroupsClient(config.apis.namedGroups.baseUrl);
-  propertiesClient = new PropertiesClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
-  cdmClient = new CDMClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
-  auditTrailClient = new AuditTrailClient(config.apis.reporting.baseUrl, config.apis.groupingAndMapping.baseUrl);
+  propertiesClient = new PropertiesClient(config.apis.groupingAndMapping.baseUrl);
+  cdmClient = new CDMClient(config.apis.groupingAndMapping.baseUrl);
+  auditTrailClient = new AuditTrailClient(config.apis.groupingAndMapping.baseUrl);
   oDataClient = new ODataClient(config.apis.reporting.baseUrl);
   aggregationsClient = new AggregationsClient(config.apis.reporting.baseUrl);
 }
