@@ -1,9 +1,14 @@
 # Change Log - @itwin/insights-client
 
 ## 0.12.0
-Thursday, 12 August, 2024
+Wednesday, 14 August, 2024
 ### Minor
 - Removed `groupingAndMappingBasePath` parameter from `OperationsBase` constructor. The `Grouping and Mapping` related clients now read from `basePath`. 
+
+## 0.11.1
+Wednesday, 14 August, 2024
+### Patch
+- `CVE-2024-39338` patch.
 
 ## 0.11.0
 Thursday, 8 August, 2024
