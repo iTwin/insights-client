@@ -11,7 +11,6 @@ export interface INamedGroupsClient {
   /**
     * Creates a NamedGroup for an iTwin.
     * @param {string} accessToken OAuth access token with imodels:modify or itwin-platform scope.
-    * @param {string} iTwinId The iTwin Id.
     * @param {NamedGroupCreate} group Request body.
     * @memberof NamedGroupsClient
     * @link https://developer.bentley.com/apis/named-groups/operations/create-group/
@@ -21,7 +20,6 @@ export interface INamedGroupsClient {
   /**
    * Deletes a NamedGroup for an iTwin.
    * @param {string} accessToken OAuth access token with imodels:modify or itwin-platform scope.
-   * @param {string} iTwinId The iTwin Id.
    * @param {string} groupId The NamedGroup Id.
    * @memberof NamedGroupsClient
    * @link https://developer.bentley.com/apis/named-groups/operations/delete-group/
@@ -31,7 +29,6 @@ export interface INamedGroupsClient {
   /**
    * Updates a NamedGroup for an iTwin.
    * @param {string} accessToken OAuth access token with imodels:modify or itwin-platform scope.
-   * @param {string} iTwinId The iTwin Id.
    * @param {string} groupId The NamedGroup Id.
    * @param {NamedGroupUpdate} group Request body.
    * @memberof NamedGroupsClient
@@ -42,7 +39,6 @@ export interface INamedGroupsClient {
   /**
    * Gets a NamedGroup for an iTwin.
    * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
-   * @param {string} iTwinId The iTwin Id.
    * @param {string} groupId The NamedGroup Id.
    * @memberof NamedGroupsClient
    * @link https://developer.bentley.com/apis/named-groups/operations/get-group/

@@ -13,6 +13,8 @@ import { NamedGroup, NamedGroupContainer, NamedGroupCreate, NamedGroupList, Name
 import { INamedGroupsClient } from "../interfaces/INamedGroupsClient";
 
 export class NamedGroupsClient extends OperationsBase implements INamedGroupsClient {
+  private _baseUrl = `${this.basePath}`;
+
   constructor(basePath?: string) {
     super(basePath ?? NAMED_GROUPS_BASE_PATH);
   }
@@ -34,10 +36,8 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
 
     group.metadata && this.validateMetadata(group.metadata);
 
-    const url = this.basePath;
-    console.log(url);
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(group));
-    return (await this.fetchJSON<NamedGroupContainer>(url, requestOptions)).group;
+    return (await this.fetchJSON<NamedGroupContainer>(this._baseUrl, requestOptions)).group;
   }
 
   public async deleteNamedGroup(accessToken: AccessToken, groupId: string): Promise<Response> {
@@ -147,7 +147,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
   }
 
   protected constructUrl = (groupId?: string, iTwinId?: string, top?: number): string => {
-    const base = iTwinId ? `${this.basePath}/?iTwinId=${iTwinId}` : `${this.basePath}/${groupId ? encodeURIComponent(groupId) : ""}`;
+    const base = iTwinId ? `${this._baseUrl}/?iTwinId=${iTwinId}` : `${this._baseUrl}/${groupId ? encodeURIComponent(groupId) : ""}`;
     const query = top && !groupId ? `?$top=${top}` : "";
 
     return `${base}${query}`;
