@@ -148,7 +148,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
 
   protected constructUrl = (groupId?: string, iTwinId?: string, top?: number): string => {
     const base = iTwinId ? `${this._baseUrl}/?iTwinId=${iTwinId}` : `${this._baseUrl}/${groupId ? encodeURIComponent(groupId) : ""}`;
-    const query = top && !groupId ? `?$top=${top}` : "";
+    const query = top && !groupId ? `&$top=${top}` : "";
 
     return `${base}${query}`;
   };
