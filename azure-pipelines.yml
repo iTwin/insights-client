@@ -42,7 +42,7 @@ stages:
       - script: npm run test:unit
         displayName: Run unit tests
 
-      - script: npm audit --registry=https://registry.npmjs.org --audit-level=high
+      - script: npm audit --registry=https://registry.npmjs.org --audit-level=high --omit=dev
         displayName: 'Audit'
 
       - script: npm pack
