@@ -9,7 +9,7 @@ import type { EntityListIterator } from "../../common/iterators/EntityListIterat
 export interface IAggregationsClient {
   /**
    * Gets all AggregationProperties in a given aggregation table. This method returns the full list of Aggregation Properties.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {number} top The number of entities to load per page.
@@ -26,7 +26,7 @@ export interface IAggregationsClient {
   /**
    * Gets an async paged iterator of AggregationProperties in a given aggregation table.
    * This method returns an iterator which loads pages of Aggregation Properties as it is being iterated over.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {number} top The number of entities to load per page.
@@ -42,7 +42,7 @@ export interface IAggregationsClient {
 
   /**
    * Retrieves an aggregation property.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {string} aggregationPropertyId Id of the aggregation property.
@@ -58,7 +58,7 @@ export interface IAggregationsClient {
 
   /**
    * Updates an aggregation property.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {string} aggregationPropertyId Id of the aggregation property.
@@ -76,7 +76,7 @@ export interface IAggregationsClient {
 
   /**
    * Creates an aggregation property.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {AggregationPropertyCreate} property Request body.
@@ -92,7 +92,7 @@ export interface IAggregationsClient {
 
   /**
    * Deletes an aggregation property.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {string} aggregationPropertyId Id of the aggregation property.
@@ -108,7 +108,7 @@ export interface IAggregationsClient {
 
   /**
    * Gets all aggregation table sets for a given data source id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} datasourceId Id of the data source to query for all its aggregation table sets.
    * @param {string} datasourceType Type of the data source that this aggregation table set works with.
    * @param {number} top Optional max items to be sent in response.
@@ -125,7 +125,7 @@ export interface IAggregationsClient {
   /**
    * Gets an async paged iterator of AggregationTableSets in a given aggregation table.
    * This method returns an iterator which loads pages of AggregationTableSets as it is being iterated over.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} datasourceId Id of the data source to query for all its aggregation table sets.
    * @param {string} datasourceType Type of the data source that this aggregation table set works with.
    * @param {number} top Optional max items to be sent in response.
@@ -141,7 +141,7 @@ export interface IAggregationsClient {
 
   /**
    * Retrieves an aggregation table set.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-aggregationtableset/
@@ -153,7 +153,7 @@ export interface IAggregationsClient {
 
   /**
    * Update an aggregation table set.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {AggregationTableSetUpdate} tableset Request body.
    * @memberof AggregationsClient
@@ -167,7 +167,7 @@ export interface IAggregationsClient {
 
   /**
    * Creates an aggregation table set for a data source.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {AggregationTableSetCreate} tableset Request body.
    * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/create-aggregationproperty/
@@ -179,7 +179,7 @@ export interface IAggregationsClient {
 
   /**
    * Deletes an aggregation table set.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @memberof AggregationsClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-aggregationtableset/
@@ -191,7 +191,7 @@ export interface IAggregationsClient {
 
   /**
    * Get all aggregation tables for a given aggregation table set id.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {number} top Optional max items to be sent in response.
    * @memberof AggregationsClient
@@ -206,7 +206,7 @@ export interface IAggregationsClient {
   /**
    * Gets an async paged iterator of AggregationTables in a given aggregation table.
    * This method returns an iterator which loads pages of AggregationTables as it is being iterated over.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {number} top Optional max items to be sent in response.
    * @memberof AggregationsClient
@@ -220,7 +220,7 @@ export interface IAggregationsClient {
 
   /**
    * Retrieves an aggregation table.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @memberof AggregationsClient
@@ -234,7 +234,7 @@ export interface IAggregationsClient {
 
   /**
    * Update an aggregation table.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @param {AggregationTableUpdate} table Request body.
@@ -250,7 +250,7 @@ export interface IAggregationsClient {
 
   /**
    * Creates an aggregation table.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {AggregationTableCreate} table Request body.
    * @memberof AggregationsClient
@@ -264,7 +264,7 @@ export interface IAggregationsClient {
 
   /**
    * Deletes an aggregation table.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} aggregationTableSetId Id of the aggregation table set.
    * @param {string} aggregationTableId Id of the aggregation table.
    * @memberof AggregationsClient

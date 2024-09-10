@@ -102,6 +102,13 @@ export interface ReportLinks {
    * @memberof ReportLinks
    */
   project: Link;
+
+  /**
+   * Link to the OData feed.
+   * @type {Link}
+   * @memberof ReportLinks
+   */
+  odata: Link;
 }
 
 /**

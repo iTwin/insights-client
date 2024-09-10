@@ -25,7 +25,7 @@ export class TestITwinProvider {
   }
 
   private async initialize(): Promise<string> {
-    const authorization = this._testAuthorizationProvider.getAdmin1AuthorizationForProjects();
+    const authorization = this._testAuthorizationProvider.getAdmin1Authorization();
     this._iTwinId = await this._iTwinsClient.getOrCreateITwin({
       authorization,
       iTwinName: this._testProjectProviderConfig.testITwinName,

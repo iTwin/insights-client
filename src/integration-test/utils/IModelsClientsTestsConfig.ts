@@ -29,29 +29,25 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
       clientId: process.env.AUTH_CLIENT_ID ?? "",
       clientSecret: process.env.AUTH_CLIENT_SECRET ?? "",
       redirectUrl: process.env.AUTH_REDIRECT_URL ?? "",
+      scopes: process.env.AUTH_SCOPES ?? "",
     };
 
     this.apis = {
       iModels: {
         baseUrl: process.env.APIS_IMODELS_BASE_URL ?? "",
         version: process.env.APIS_IMODELS_VERSION ?? "",
-        scopes: process.env.APIS_IMODELS_SCOPES ?? "",
       },
       iTwins: {
         baseUrl: process.env.APIS_ITWINS_BASE_URL ?? "",
-        scopes: process.env.APIS_ITWINS_SCOPES ?? "",
       },
       reporting: {
         baseUrl: process.env.APIS_REPORTING_BASE_URL ?? REPORTING_BASE_PATH,
-        scopes: process.env.APIS_REPORTING_SCOPES ?? "",
       },
       carbonCalculation: {
         baseUrl: process.env.APIS_CARBONCALCULATION_BASE_URL ?? CARBON_CALCULATION_BASE_PATH,
-        scopes: process.env.APIS_CARBONCALCULATION_BASE_SCOPES ?? "",
       },
       groupingAndMapping: {
         baseUrl: process.env.APIS_GROUPING_AND_MAPPING_BASE_URL ?? GROUPING_AND_MAPPING_BASE_PATH,
-        scopes: process.env.APIS_GROUPING_AND_MAPPING_SCOPES ?? "",
       },
     };
 
@@ -75,13 +71,12 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
     this.validateConfigValue("AUTH_CLIENT_ID");
     this.validateConfigValue("AUTH_CLIENT_SECRET");
     this.validateConfigValue("AUTH_REDIRECT_URL");
+    this.validateConfigValue("AUTH_SCOPES");
 
     this.validateConfigValue("APIS_IMODELS_BASE_URL");
     this.validateConfigValue("APIS_IMODELS_VERSION");
-    this.validateConfigValue("APIS_IMODELS_SCOPES");
 
     this.validateConfigValue("APIS_ITWINS_BASE_URL");
-    this.validateConfigValue("APIS_ITWINS_SCOPES");
 
     this.validateConfigValue("APIS_REPORTING_BASE_URL");
     this.validateConfigValue("APIS_CARBONCALCULATION_BASE_URL");

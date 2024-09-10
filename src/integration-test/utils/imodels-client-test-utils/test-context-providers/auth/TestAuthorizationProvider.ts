@@ -19,11 +19,7 @@ export class TestAuthorizationProvider {
   ) { }
 
   public getAdmin1Authorization(): AuthorizationCallback {
-    return this.getAuthorization({ ...this._config.testUsers.admin1, scopes: this._config.apiScopes.iModels });
-  }
-
-  public getAdmin1AuthorizationForProjects(): AuthorizationCallback {
-    return this.getAuthorization({ ...this._config.testUsers.admin1, scopes: this._config.apiScopes.iTwins });
+    return this.getAuthorization({ ...this._config.testUsers.admin1, scopes: this._config.apiScopes });
   }
 
   private getAuthorization(testUser: { email: string, password: string, scopes: string }): AuthorizationCallback {

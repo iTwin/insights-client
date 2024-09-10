@@ -8,7 +8,7 @@ import { AuditTrailCollection } from "./AuditTrail";
 export interface IAuditTrailClient {
   /**
    * Gets Audit Trail Entries.
-   * @param {AccessToken} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} iModelId The IModel Id.
    * @param {string} path Query entries in path (recursive).
    * @param {string} after DateTimeOffset value to return the entries from (inclusive).

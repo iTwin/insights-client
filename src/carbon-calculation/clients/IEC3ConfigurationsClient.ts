@@ -9,7 +9,7 @@ import type { EntityListIterator } from "../../common/iterators/EntityListIterat
 export interface IEC3ConfigurationsClient {
   /**
    * Gets all EC3 Configurations within the context of a Project. This method returns the full list of EC3 Configurations.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} projectId The project Id.
    * @param {number} top The number of entities to load per page.
    * @memberof IEC3ConfigurationsClient
@@ -24,7 +24,7 @@ export interface IEC3ConfigurationsClient {
   /**
    * Gets an async paged iterator for EC3 Configurations within the context of a Project.
    * This method returns an iterator which loads pages of EC3 Configurations as it is being iterated over.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} projectId The projectId Id.
    * @param {number} top The number of entities to load per page.
    * @memberof IEC3ConfigurationsClient
@@ -38,7 +38,7 @@ export interface IEC3ConfigurationsClient {
 
   /**
    * Gets a single EC3 Configuration.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} configurationId The EC3 configuration Id.
    * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/get-ec3-configuration/
@@ -50,7 +50,7 @@ export interface IEC3ConfigurationsClient {
 
   /**
    * Creates an EC3 Configuration within the context of a Project.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {EC3ReportConfigurationCreate | EC3ExtractionConfigurationCreate} configuration Request body.
    * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/create-ec3-configuration/
@@ -62,8 +62,8 @@ export interface IEC3ConfigurationsClient {
 
   /**
    * Updates an EC3 Configuration.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} configurationId The EC3 configuration Id.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
    * @param {EC3ReportConfigurationUpdate | EC3ExtractionConfigurationUpdate} configuration Request body.
    * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/update-ec3-configuration/
@@ -76,7 +76,7 @@ export interface IEC3ConfigurationsClient {
 
   /**
    * Deletes an EC3 Configuration.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} configurationId The EC3 configuration Id.
    * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/delete-ec3-configuration/
