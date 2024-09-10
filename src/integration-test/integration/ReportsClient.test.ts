@@ -134,7 +134,7 @@ describe("Reports Client", () => {
     const report = await reportsClient.getReport(accessToken, reportIds[0]);
     expect(report).to.not.be.undefined;
     expect(report.displayName).to.be.eq("Test1");
-    
+
     const headers: HeadersInit = {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       Authorization: accessToken,
