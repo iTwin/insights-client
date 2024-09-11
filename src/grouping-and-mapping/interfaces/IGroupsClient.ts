@@ -52,7 +52,7 @@ export interface IGroupsClient {
   /**
    * Gets all Groups for a Mapping. This method returns the full list of minimal groups.
    * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
-   * @param mappingId mappingId The Mapping Id.
+   * @param {string} mappingId The Mapping Id.
    * @param preferReturn Specifies the level of detail of the returned group information. Defaults to minimal information if not provided.
    * @param top Optional max items to be sent in response.
    * @memberof GroupsClient
