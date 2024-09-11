@@ -170,7 +170,7 @@ export interface IAggregationsClient {
    * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {AggregationTableSetCreate} tableset Request body.
    * @memberof AggregationsClient
-   * @link https://developer.bentley.com/apis/insights/operations/create-aggregationproperty/
+   * @link https://developer.bentley.com/apis/insights/operations/create-aggregationtableset/
    */
   createAggregationTableSet(
     accessToken: AccessToken,
