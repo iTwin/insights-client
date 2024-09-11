@@ -8,7 +8,7 @@ import { EC3ExtractionJobCreate, EC3Job, EC3JobStatus, EC3ReportJobCreate } from
 export interface IEC3JobsClient {
   /**
    * Uploads report data to EC3.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {EC3ReportJobCreate | EC3ExtractionJobCreate} job Request body.
    * @memberof IEC3JobsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/create-ec3-job/
@@ -20,7 +20,7 @@ export interface IEC3JobsClient {
 
   /**
    * Gets EC3 upload job status.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} jobId Unique Identifier of the EC3 Job.
    * @memberof IEC3JobsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/get-ec3-job-status/

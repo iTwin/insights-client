@@ -1,5 +1,10 @@
 # Change Log - @itwin/insights-client
 
+## 0.13.0
+Tuesday, 10 September, 2024
+### Minor
+- Added `odata` link to the `ReportLinks` response object interface.
+
 ## 0.12.0
 Wednesday, 14 August, 2024
 ### Minor

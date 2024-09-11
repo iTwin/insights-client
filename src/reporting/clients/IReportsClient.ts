@@ -9,7 +9,7 @@ import type { EntityListIterator } from "../../common/iterators/EntityListIterat
 export interface IReportsClient {
   /**
    * Gets all Reports within the context of a Project. This method returns the full list of reports.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} projectId The project Id.
    * @param {number} top The number of entities to load per page.
    * @param {boolean} deleted Parameter to specify whether to include deleted reports.
@@ -26,7 +26,7 @@ export interface IReportsClient {
   /**
    * Gets an async paged iterator for Reports within the context of a Project.
    * This method returns an iterator which loads pages of reports as it is being iterated over.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} projectId The project Id.
    * @param {number} top The number of entities to load per page.
    * @param {boolean} deleted Parameter to specify whether to include deleted reports.
@@ -42,9 +42,9 @@ export interface IReportsClient {
 
   /**
    * Gets a single Report.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
-   * @memberof ReportingClient
+   * @memberof ReportsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report/
    */
   getReport(
@@ -54,7 +54,7 @@ export interface IReportsClient {
 
   /**
    * Creates a Report within the context of a Project.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {ReportCreate} report Request body.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/create-report/
@@ -66,7 +66,7 @@ export interface IReportsClient {
 
   /**
    * Updates a Report.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @param {ReportUpdate} report Request body.
    * @memberof ReportingClient
@@ -80,7 +80,7 @@ export interface IReportsClient {
 
   /**
    * Marks a Report for deletion.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/delete-report/
@@ -92,7 +92,7 @@ export interface IReportsClient {
 
   /**
    * Gets all Report Mappings for a Report. This method returns the full list of report mappings.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @param {number} top The number of entities to load per page.
    * @memberof ReportingClient
@@ -107,7 +107,7 @@ export interface IReportsClient {
   /**
    * Gets an async paged iterator of Report Mappings for a Report.
    * This method returns an iterator which loads pages of report mappings as it is being iterated over.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @param {number} top The number of entities to load per page.
    * @memberof ReportingClient
@@ -121,7 +121,7 @@ export interface IReportsClient {
 
   /**
    * Creates a Report Mapping.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @param {ReportMappingCreate} reportMapping Request body.
    * @memberof ReportingClient
@@ -135,7 +135,7 @@ export interface IReportsClient {
 
   /**
    * Deletes a Report Mapping from a Report.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @param {string} reportMappingId The Report Mapping Id
    * @memberof ReportingClient
@@ -149,7 +149,7 @@ export interface IReportsClient {
 
   /**
    * Gets all Report Aggregations for a Report. This method returns the full list of aggregations.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @param {number} top Optional max items to be sent in response.
    * @memberof ReportingClient
@@ -164,7 +164,7 @@ export interface IReportsClient {
   /**
    * Gets an async paged iterator of Report Aggregations for a Report.
    * This method returns an iterator which loads pages of report aggregations as it is being iterated over.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @param {number} top Optional max items to be sent in response.
    * @memberof ReportingClient
@@ -178,7 +178,7 @@ export interface IReportsClient {
 
   /**
    * Creates a Report Aggregation.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @param {ReportAggregationCreate} aggregation Request body.
    * @memberof ReportingClient
@@ -192,7 +192,7 @@ export interface IReportsClient {
 
   /**
    * Deletes a Report Aggregation from a Report.
-   * @param {string} accessToken OAuth access token with scope `insights:modify`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @param {string} aggregationTableSetId The Aggregation Table Set Id.
    * @memberof ReportingClient

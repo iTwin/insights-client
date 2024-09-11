@@ -9,6 +9,7 @@ import { accessToken, aggregationsClient, iTwinId, mappingsClient, reportsClient
 import { AggregationTableSetCreate } from "../../reporting/interfaces/AggregationProperties";
 import { ReportAggregation, ReportAggregationCreate, ReportCreate, ReportMapping, ReportMappingCreate, ReportUpdate } from "../../reporting/interfaces/Reports";
 import { MappingCreate } from "../../grouping-and-mapping/interfaces/Mappings";
+import isomorphicFetch from "cross-fetch";
 use(chaiAsPromised);
 
 describe("Reports Client", () => {
@@ -133,6 +134,13 @@ describe("Reports Client", () => {
     const report = await reportsClient.getReport(accessToken, reportIds[0]);
     expect(report).to.not.be.undefined;
     expect(report.displayName).to.be.eq("Test1");
+
+    const headers: HeadersInit = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      Authorization: accessToken,
+    };
+    const odataResult = await isomorphicFetch(report._links.odata.href, { headers });
+    expect(odataResult.status).to.be.eq(200);
   });
 
   it("Reports - Update", async () => {

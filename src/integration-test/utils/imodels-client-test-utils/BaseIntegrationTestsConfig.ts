@@ -7,12 +7,12 @@ export interface AuthConfigValues {
   clientId: string;
   clientSecret: string;
   redirectUrl: string;
+  scopes: string;
 }
 
 export interface ApiConfigValues {
   baseUrl: string;
   version?: string;
-  scopes: string;
 }
 
 export interface ApisConfigValues {
