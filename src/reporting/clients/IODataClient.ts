@@ -11,7 +11,7 @@ export interface IOdataClient {
    * Lists all OData Entities for a Report.
    * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
-   * @memberof ReportingClient
+   * @memberof OdataClient
    * @link https://developer.bentley.com/apis/insights/operations/odata/
    */
   getODataReport(

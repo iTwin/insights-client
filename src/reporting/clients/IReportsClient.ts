@@ -44,7 +44,7 @@ export interface IReportsClient {
    * Gets a single Report.
    * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
-   * @memberof ReportingClient
+   * @memberof ReportsClient
    * @link https://developer.bentley.com/apis/insights/operations/get-report/
    */
   getReport(
