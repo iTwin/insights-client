@@ -25,7 +25,7 @@ export interface IEC3ConfigurationsClient {
    * Gets an async paged iterator for EC3 Configurations within the context of a Project.
    * This method returns an iterator which loads pages of EC3 Configurations as it is being iterated over.
    * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
-   * @param {string} projectId The projectId Id.
+   * @param {string} projectId The project Id.
    * @param {number} top The number of entities to load per page.
    * @memberof IEC3ConfigurationsClient
    * @link https://developer.bentley.com/apis/carbon-calculation/operations/get-ec3-configurations/
