@@ -13,10 +13,11 @@ import { EntityListIteratorImpl } from "../../common/iterators/EntityListIterato
 import { getEntityCollectionPage } from "../../common/iterators/IteratorUtil";
 
 export class MappingsClient extends OperationsBase implements IMappingsClient {
-  private _baseUrl = `${this.basePath}/datasources/imodel-mappings`;
+  private readonly _baseUrl;
 
   constructor(basePath?: string) {
     super(basePath ?? GROUPING_AND_MAPPING_BASE_PATH);
+    this._baseUrl = `${basePath ?? GROUPING_AND_MAPPING_BASE_PATH}/datasources/imodel-mappings`;
   }
 
   public async createMapping(accessToken: AccessToken, mappingCreate: MappingCreate): Promise<Mapping> {

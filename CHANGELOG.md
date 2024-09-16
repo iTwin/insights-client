@@ -1,5 +1,10 @@
 # Change Log - @itwin/insights-client
 
+## 0.13.1
+Monday, 16 September, 2024
+### Patch
+- Changes in the `MappingsClient` to refer `basePath` passed as constructor parameter.
+
 ## 0.13.0
 Tuesday, 10 September, 2024
 ### Minor
