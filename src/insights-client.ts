@@ -17,3 +17,4 @@ export * from "./common/OperationsBase";
 export * from "./common/Common";
 export * from "./grouping-and-mapping/index";
 export * from "./common/Errors";
+export * from "./named-groups/index";

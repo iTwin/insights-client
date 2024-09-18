@@ -21,7 +21,7 @@ export interface NamedGroupMinimal {
     * @type {string}
     * @memberof NamedGroupMinimal
     */
-  groupName: string;
+  displayName: string;
 
   /**
     * Description of the group. The default value is empty string.
@@ -82,7 +82,7 @@ export interface NamedGroupCreate {
     * @type {string}
     * @memberof NamedGroupCreate
     */
-  groupName: string;
+  displayName: string;
 
   /**
     * Description of the group. The default value is empty string.
@@ -128,7 +128,7 @@ export interface NamedGroupUpdate {
     * @type {string}
     * @memberof NamedGroupCreate
     */
-  groupName?: string;
+  displayName?: string;
 
   /**
     * Description of the group. The default value is empty string.
