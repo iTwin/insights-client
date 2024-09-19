@@ -20,10 +20,10 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
   }
 
   public async createNamedGroup(accessToken: AccessToken, group: NamedGroupCreate): Promise<NamedGroup> {
-    if (!this.isSimpleIdentifier(group.groupName)) {
+    if (!this.isSimpleIdentifier(group.displayName)) {
       throw new RequiredError(
-        "groupName",
-        "Field groupName was invalid.",
+        "displayName",
+        "Field displayName was invalid.",
       );
     }
 
@@ -47,17 +47,17 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
   }
 
   public async updateNamedGroup(accessToken: AccessToken, groupId: string, group: NamedGroupUpdate): Promise<NamedGroup> {
-    if (null == group.groupName && null == group.description && null == group.query) {
+    if (null == group.displayName && null == group.description && null == group.query) {
       throw new RequiredError(
         "group",
         "All properties of group were missing.",
       );
     }
 
-    if (null != group.groupName && !this.isSimpleIdentifier(group.groupName)) {
+    if (null != group.displayName && !this.isSimpleIdentifier(group.displayName)) {
       throw new RequiredError(
-        "groupName",
-        "Field groupName was invalid.",
+        "displayName",
+        "Field displayName was invalid.",
       );
     }
 

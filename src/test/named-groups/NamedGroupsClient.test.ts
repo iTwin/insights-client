@@ -27,7 +27,7 @@ describe("NamedGroups Client Unit tests", () => {
   it("Groups client - Create group", async () => {
     const newGroup: NamedGroupCreate = {
       iTwinId: "iTwinId",
-      groupName: "AllElements",
+      displayName: "AllElements",
       description: "Group description",
       query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
       metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
@@ -36,7 +36,7 @@ describe("NamedGroups Client Unit tests", () => {
     const returns: NamedGroupContainer = {
       group: {
         id: "1",
-        groupName: "AllElements",
+        displayName: "AllElements",
         description: "Group description",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
         metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
@@ -51,7 +51,7 @@ describe("NamedGroups Client Unit tests", () => {
 
     const group = await groupsClient.createNamedGroup("authToken", newGroup);
     expect(group.id).to.be.eq("1");
-    expect(group.groupName).to.deep.equal(returns.group.groupName);
+    expect(group.displayName).to.deep.equal(returns.group.displayName);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/named-groups",
       "pass",
@@ -82,7 +82,7 @@ describe("NamedGroups Client Unit tests", () => {
     const returns: NamedGroupContainer = {
       group: {
         id: "1",
-        groupName: "AllElements",
+        displayName: "AllElements",
         description: "Group description",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
         metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
@@ -112,13 +112,13 @@ describe("NamedGroups Client Unit tests", () => {
       groups: [
         {
           id: "1",
-          groupName: "PhysicalElements",
+          displayName: "PhysicalElements",
           description: "A group of physical elements",
           query: "SELECT ECInstanceId, ECClassId FROM BisCore.PhysicalElement",
         },
         {
           id: "2",
-          groupName: "AllElements",
+          displayName: "AllElements",
           description: "A group of all elements",
           query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
         },
@@ -144,7 +144,7 @@ describe("NamedGroups Client Unit tests", () => {
     const fullReturns = {
       groups: [{
         id: "1",
-        groupName: "PhysicalElements",
+        displayName: "PhysicalElements",
         description: "A group of physical elements",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.PhysicalElement",
         metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
@@ -156,7 +156,7 @@ describe("NamedGroups Client Unit tests", () => {
       },
       {
         id: "2",
-        groupName: "AllElements",
+        displayName: "AllElements",
         description: "A group of all elements",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
         metadata: [{ key: "key1", value: "value1" }],
@@ -192,7 +192,7 @@ describe("NamedGroups Client Unit tests", () => {
 
   it("Groups client - Update a group", async () => {
     const updateGroup: NamedGroupUpdate = {
-      groupName: "AllElements",
+      displayName: "AllElements",
       description: "Updated description",
       query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
       metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
@@ -201,7 +201,7 @@ describe("NamedGroups Client Unit tests", () => {
     const returns: NamedGroupContainer = {
       group: {
         id: "1",
-        groupName: "AllElements",
+        displayName: "AllElements",
         description: "Updated description",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
         metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
