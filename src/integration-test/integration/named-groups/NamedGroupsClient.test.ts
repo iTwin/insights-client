@@ -56,7 +56,7 @@ describe("NamedGroups Client", () => {
   it("NamedGroups - Get all groups", async () => {
     const groups = await namedGroupsClient.getNamedGroups(accessToken, iTwinId);
     for (const group of groups.groups) {
-      expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.displayName);
+      expect(["GroupOne 🚀", "GroupTwo 👻", "GroupThree"]).to.include(group.displayName);
     }
   });
 
@@ -82,7 +82,7 @@ describe("NamedGroups Client", () => {
     for await (const groupsPage of groupsIterator.byPage()) {
       flag = true;
       for (const group of groupsPage) {
-        expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.displayName);
+        expect(["GroupOne 🚀", "GroupTwo 👻", "GroupThree"]).to.include(group.displayName);
         expect("metadata" in group).to.be.false;
       }
     }
@@ -95,7 +95,7 @@ describe("NamedGroups Client", () => {
     for await (const groupsPage of groupsIterator.byPage()) {
       flag = true;
       for (const group of groupsPage) {
-        expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.displayName);
+        expect(["GroupOne 🚀", "GroupTwo 👻", "GroupThree"]).to.include(group.displayName);
         expect(group).to.have.property("metadata");
       }
     }
