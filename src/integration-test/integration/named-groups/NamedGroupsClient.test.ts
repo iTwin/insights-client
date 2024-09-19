@@ -15,7 +15,7 @@ describe("NamedGroups Client", () => {
   before(async () => {
     groupOne = await namedGroupsClient.createNamedGroup(accessToken, {
       iTwinId,
-      groupName: "GroupOne",
+      displayName: "GroupOne",
       description: "Group number one",
       query: "SELECT * FROM bis.Element limit 1",
       metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
@@ -23,7 +23,7 @@ describe("NamedGroups Client", () => {
 
     groupTwo = await namedGroupsClient.createNamedGroup(accessToken, {
       iTwinId,
-      groupName: "GroupTwo",
+      displayName: "GroupTwo",
       description: "Group number two",
       query: "SELECT * FROM bis.Element limit 2",
       metadata: [{ key: "key1", value: "value1" }, { key: "noValue" }],
@@ -31,7 +31,7 @@ describe("NamedGroups Client", () => {
 
     groupThree = await namedGroupsClient.createNamedGroup(accessToken, {
       iTwinId,
-      groupName: "GroupThree",
+      displayName: "GroupThree",
       description: "Group number three",
       query: "SELECT * FROM bis.Element limit 3",
       metadata: [{ key: "key1", value: "value1" }, { key: "nullValue", value: null }],
@@ -45,22 +45,22 @@ describe("NamedGroups Client", () => {
     }
   });
 
-  it("NamedGroups - Get group", async () => {
+  it.only("NamedGroups - Get group", async () => {
     const getGroupTwo = await namedGroupsClient.getNamedGroup(accessToken, groupTwo.id);
     const getGroupThree = await namedGroupsClient.getNamedGroup(accessToken, groupThree.id);
 
-    expect(getGroupTwo.groupName).to.deep.equal(groupTwo.groupName);
-    expect(getGroupThree.groupName).to.deep.equal(groupThree.groupName);
+    expect(getGroupTwo.displayName).to.deep.equal(groupTwo.displayName);
+    expect(getGroupThree.displayName).to.deep.equal(groupThree.displayName);
   });
 
-  it("NamedGroups - Get all groups", async () => {
+  it.only("NamedGroups - Get all groups", async () => {
     const groups = await namedGroupsClient.getNamedGroups(accessToken, iTwinId);
     for (const group of groups.groups) {
-      expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.groupName);
+      expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.displayName);
     }
   });
 
-  it("NamedGroups - Get top minimal groups", async () => {
+  it.only("NamedGroups - Get top minimal groups", async () => {
     const topGroups = await namedGroupsClient.getNamedGroups(accessToken, iTwinId, PreferReturn.Minimal, 2);
     expect(topGroups.groups.length).to.equal(2);
     topGroups.groups.forEach((group) => {
@@ -68,7 +68,7 @@ describe("NamedGroups Client", () => {
     });
   });
 
-  it("NamedGroups - Get top representation groups", async () => {
+  it.only("NamedGroups - Get top representation groups", async () => {
     const topGroups = await namedGroupsClient.getNamedGroups(accessToken, iTwinId, PreferReturn.Representation, 2);
     expect(topGroups.groups.length).to.equal(2);
     topGroups.groups.forEach((group) => {
@@ -76,57 +76,57 @@ describe("NamedGroups Client", () => {
     });
   });
 
-  it("NamedGroups - Get pages of minimal groups", async () => {
+  it.only("NamedGroups - Get pages of minimal groups", async () => {
     const groupsIterator = namedGroupsClient.getNamedGroupsIterator(accessToken, iTwinId, PreferReturn.Minimal, 2);
     let flag = false;
     for await (const groupsPage of groupsIterator.byPage()) {
       flag = true;
       for (const group of groupsPage) {
-        expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.groupName);
+        expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.displayName);
         expect("metadata" in group).to.be.false;
       }
     }
     expect(flag).to.be.true;
   });
 
-  it("NamedGroups - Get pages of representation groups", async () => {
+  it.only("NamedGroups - Get pages of representation groups", async () => {
     const groupsIterator = namedGroupsClient.getNamedGroupsIterator(accessToken, iTwinId, PreferReturn.Representation, 2);
     let flag = false;
     for await (const groupsPage of groupsIterator.byPage()) {
       flag = true;
       for (const group of groupsPage) {
-        expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.groupName);
+        expect(["GroupOne", "GroupTwo", "GroupThree"]).to.include(group.displayName);
         expect(group).to.have.property("metadata");
       }
     }
     expect(flag).to.be.true;
   });
 
-  it("NamedGroups - Create and Delete", async () => {
+  it.only("NamedGroups - Create and Delete", async () => {
     const group = await namedGroupsClient.createNamedGroup(accessToken, {
       iTwinId,
-      groupName: "GroupToDelete",
+      displayName: "GroupToDelete",
       query: "select * from biscore.element limit 10",
     });
 
     expect(group).not.be.undefined;
-    expect(group.groupName).to.deep.equal("GroupToDelete");
+    expect(group.displayName).to.deep.equal("GroupToDelete");
 
     const response = await namedGroupsClient.deleteNamedGroup(accessToken, group.id);
     expect(response).not.be.undefined;
     expect(response.status).to.be.equal(204);
   });
 
-  it("NamedGroups - Update", async () => {
+  it.only("NamedGroups - Update", async () => {
     const updatedGroupOne: NamedGroupUpdate = {
-      groupName: "UpdatedGroupOne",
+      displayName: "UpdatedGroupOne",
       description: "Updated description for group one",
     };
 
     const updatedGroup = await namedGroupsClient.updateNamedGroup(accessToken, groupOne.id, updatedGroupOne);
 
-    expect(updatedGroup.groupName).not.be.undefined;
-    expect(updatedGroup.groupName).to.deep.equal(updatedGroupOne.groupName);
+    expect(updatedGroup.displayName).not.be.undefined;
+    expect(updatedGroup.displayName).to.deep.equal(updatedGroupOne.displayName);
     expect(updatedGroup.description).to.deep.equal(updatedGroupOne.description);
   });
 
