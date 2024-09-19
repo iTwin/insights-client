@@ -9,9 +9,9 @@ import type { EntityListIterator } from "../../common/iterators/EntityListIterat
 export interface IOdataClient {
   /**
    * Lists all OData Entities for a Report.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
-   * @memberof ReportingClient
+   * @memberof OdataClient
    * @link https://developer.bentley.com/apis/insights/operations/odata/
    */
   getODataReport(
@@ -21,7 +21,7 @@ export interface IOdataClient {
 
   /**
    * Lists the specified page of raw table data for a Report Entity.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @param {ODataItem} odataItem Reference to a table exported to your Report. Use {@link getODataReport()} to fetch a list of ODataItems in the report.
    * @param {number} sequence The number of the page to load.
@@ -37,7 +37,7 @@ export interface IOdataClient {
 
   /**
    * Lists the raw table data for a Report Entity. This method returns the full list of OData report entities.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @param {ODataItem} odataItem Reference to a table exported to your Report. Use {@link getODataReport()} to fetch a list of ODataItems in the report.
    * @memberof ReportingClient
@@ -52,7 +52,7 @@ export interface IOdataClient {
   /**
    * Gets an async iterator for the raw table data for a Report Entity.
    * This method returns an iterator which loads pages of OData report entities as it is being iterated over.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @param {ODataItem} odataItem Reference to a table exported to your Report. Use {@link getODataReport()} to fetch a list of ODataItems in the report.
    * @memberof ReportingClient
@@ -66,7 +66,7 @@ export interface IOdataClient {
 
   /**
    * Lists schemas for all Entities tied to a Report.
-   * @param {string} accessToken OAuth access token with scope `insights:read`.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} reportId The Report Id.
    * @memberof ReportingClient
    * @link https://developer.bentley.com/apis/insights/operations/odata-metadata/
