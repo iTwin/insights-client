@@ -51,7 +51,6 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
       },
       namedGroups: {
         baseUrl: process.env.APIS_NAMED_GROUPS_BASE_URL ?? NAMED_GROUPS_BASE_PATH,
-        scopes: process.env.APIS_NAMED_GROUPS_SCOPES ?? "",
       },
     };
 
