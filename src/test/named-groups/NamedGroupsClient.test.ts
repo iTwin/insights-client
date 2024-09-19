@@ -27,7 +27,7 @@ describe("NamedGroups Client Unit tests", () => {
   it("Groups client - Create group", async () => {
     const newGroup: NamedGroupCreate = {
       iTwinId: "iTwinId",
-      displayName: "AllElements",
+      displayName: "AllElements 🚀",
       description: "Group description",
       query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
       metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],

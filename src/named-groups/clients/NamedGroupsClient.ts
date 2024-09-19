@@ -14,23 +14,24 @@ import { INamedGroupsClient } from "../interfaces/INamedGroupsClient";
 
 export class NamedGroupsClient extends OperationsBase implements INamedGroupsClient {
   private _baseUrl = `${this.basePath}`;
+  private static readonly MAX_DISPLAY_NAME_LENGTH = 512;
 
   constructor(basePath?: string) {
     super(basePath ?? NAMED_GROUPS_BASE_PATH);
   }
 
   public async createNamedGroup(accessToken: AccessToken, group: NamedGroupCreate): Promise<NamedGroup> {
-    if (!this.isSimpleIdentifier(group.displayName)) {
-      throw new RequiredError(
-        "displayName",
-        "Field displayName was invalid.",
-      );
-    }
-
     if (this.isNullOrWhitespace(group.query)) {
       throw new RequiredError(
         "query",
         "Required field query was null or undefined.",
+      );
+    }
+
+    if (!this.isWithinMaxAllowedCharacters(group.displayName, NamedGroupsClient.MAX_DISPLAY_NAME_LENGTH)) {
+      throw new RequiredError(
+        "displayName",
+        "Field displayName was invalid. It must be a string with a maximum length of 512 characters.",
       );
     }
 
@@ -54,17 +55,17 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
       );
     }
 
-    if (null != group.displayName && !this.isSimpleIdentifier(group.displayName)) {
-      throw new RequiredError(
-        "displayName",
-        "Field displayName was invalid.",
-      );
-    }
-
     if (null != group.query && this.isNullOrWhitespace(group.query)) {
       throw new RequiredError(
         "query",
         "Required field query was null or undefined.",
+      );
+    }
+
+    if (null != group.displayName && !this.isWithinMaxAllowedCharacters(group.displayName, NamedGroupsClient.MAX_DISPLAY_NAME_LENGTH)) {
+      throw new RequiredError(
+        "displayName",
+        "Field displayName was invalid. It must be a string with a maximum length of 512 characters.",
       );
     }
 

@@ -92,13 +92,23 @@ export class OperationsBase {
   }
 
   /**
+  * Checks if a given string is within the maximum allowed characters
+  * @param {string} input The string to check
+  * @param {number} maxLength The maximum allowed length
+  * @memberof OperationsBase
+  */
+  protected isWithinMaxAllowedCharacters(input: string, maxLength: number): boolean {
+    return input.length <= maxLength;
+  }
+
+  /**
    * checks if given string is a simpleIdentifier
    * @param {string} name
    * @memberof OperationsBase
    */
   protected isSimpleIdentifier(name: string | null | undefined): boolean {
     const reg = /^[\p{L}\p{Nl}_][\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,}$/u;
-    return name ? (name.length <= 128 && reg.test(name)) : false;
+    return name ? (this.isWithinMaxAllowedCharacters(name, 128) && reg.test(name)) : false;
   }
 
   /**

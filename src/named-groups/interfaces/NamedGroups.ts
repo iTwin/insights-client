@@ -17,7 +17,7 @@ export interface NamedGroupMinimal {
   id: string;
 
   /**
-    * Name of the group (OData v4 SimpleIdentifier).
+    * Name of the group.
     * @type {string}
     * @memberof NamedGroupMinimal
     */
@@ -78,7 +78,7 @@ export interface NamedGroupCreate {
   iTwinId: string;
 
   /**
-    * Name of the group (OData v4 SimpleIdentifier).
+    * Name of the group.
     * @type {string}
     * @memberof NamedGroupCreate
     */
@@ -124,7 +124,7 @@ export interface NamedGroupLinks {
  */
 export interface NamedGroupUpdate {
   /**
-    * Name of the group (OData v4 SimpleIdentifier).
+    * Name of the group.
     * @type {string}
     * @memberof NamedGroupCreate
     */
