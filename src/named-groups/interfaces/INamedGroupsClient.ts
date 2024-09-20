@@ -10,7 +10,7 @@ import { PreferReturn } from "../../common/Common";
 export interface INamedGroupsClient {
   /**
     * Creates a NamedGroup for an iTwin.
-    * @param {string} accessToken OAuth access token with imodels:modify or itwin-platform scope.
+    * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
     * @param {NamedGroupCreate} group Request body.
     * @memberof NamedGroupsClient
     * @link https://developer.bentley.com/apis/named-groups/operations/create-group/
@@ -19,7 +19,7 @@ export interface INamedGroupsClient {
 
   /**
    * Deletes a NamedGroup for an iTwin.
-   * @param {string} accessToken OAuth access token with imodels:modify or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} groupId The NamedGroup Id.
    * @memberof NamedGroupsClient
    * @link https://developer.bentley.com/apis/named-groups/operations/delete-group/
@@ -28,7 +28,7 @@ export interface INamedGroupsClient {
 
   /**
    * Updates a NamedGroup for an iTwin.
-   * @param {string} accessToken OAuth access token with imodels:modify or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} groupId The NamedGroup Id.
    * @param {NamedGroupUpdate} group Request body.
    * @memberof NamedGroupsClient
@@ -38,7 +38,7 @@ export interface INamedGroupsClient {
 
   /**
    * Gets a NamedGroup for an iTwin.
-   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} groupId The NamedGroup Id.
    * @memberof NamedGroupsClient
    * @link https://developer.bentley.com/apis/named-groups/operations/get-group/
@@ -47,7 +47,7 @@ export interface INamedGroupsClient {
 
   /**
    * Gets all NamedGroups for an iTwin. This method returns the full list of minimal groups.
-   * @param accessToken accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param accessToken accessToken OAuth access token with scope `itwin-platform`.
    * @param iTwinId iTwinId The iTwin Id.
    * @param preferReturn Specifies the level of detail of the returned group information. Defaults to minimal information if not provided.
    * @param top Optional max items to be sent in response.
@@ -58,7 +58,7 @@ export interface INamedGroupsClient {
 
   /**
      * Gets all NamedGroups for an iTwin. This method returns the full list of NamedGroups representations.
-     * @param accessToken accessToken OAuth access token with imodels:read or itwin-platform scope.
+     * @param accessToken accessToken OAuth access token with scope `itwin-platform`.
      * @param iTwinId iTwinId The iTwin Id.
      * @param preferReturn Specifies the level of detail of the returned group information. Defaults to minimal information if not provided.
      * @param top Optional max items to be sent in response.
@@ -70,7 +70,7 @@ export interface INamedGroupsClient {
   /**
    * Gets an async paged iterator of minimal NamedGroups for an iTwin.
    * This method returns an iterator which loads pages of groups as it is being iterated over.
-   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} iTwinId The iTwin Id.
    * @param {number} top Optional max items to be sent in response.
    * @memberof NamedGroupsClient
@@ -81,7 +81,7 @@ export interface INamedGroupsClient {
   /**
    * Gets an async paged iterator of NamedGroups representations for an iTwin.
    * This method returns an iterator which loads pages of groups as it is being iterated over.
-   * @param {string} accessToken OAuth access token with imodels:read or itwin-platform scope.
+   * @param {AccessToken} accessToken OAuth access token with scope `itwin-platform`.
    * @param {string} iTwinId The iTwin Id.
    * @param {number} top Optional max items to be sent in response.
    * @memberof NamedGroupsClient

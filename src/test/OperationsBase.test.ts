@@ -19,7 +19,7 @@ interface IOperationsBase {
 }
 
 describe("OperationsBase", () => {
-  const operationsBase = new OperationsBase() as unknown as IOperationsBase;
+  const operationsBase = new OperationsBase("mock") as unknown as IOperationsBase;
 
   afterEach(() => {
     sinon.restore();

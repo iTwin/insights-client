@@ -51,7 +51,7 @@ describe("NamedGroups Client Unit tests", () => {
 
     const group = await groupsClient.createNamedGroup("authToken", newGroup);
     expect(group.id).to.be.eq("1");
-    expect(group.displayName).to.deep.equal(returns.group.displayName);
+    expect(group.displayName).to.equal(returns.group.displayName);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/named-groups",
       "pass",
@@ -216,7 +216,7 @@ describe("NamedGroups Client Unit tests", () => {
 
     const group = await groupsClient.updateNamedGroup("authToken", "1", updateGroup);
     expect(group.id).to.be.eq("1");
-    expect(group.description).to.deep.equal(updateGroup.description);
+    expect(group.description).to.equal(updateGroup.description);
     expect(fetchStub.calledWith(
       "https://api.bentley.com/named-groups/1",
       "pass",

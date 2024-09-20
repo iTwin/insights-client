@@ -13,7 +13,6 @@ import { NamedGroup, NamedGroupContainer, NamedGroupCreate, NamedGroupList, Name
 import { INamedGroupsClient } from "../interfaces/INamedGroupsClient";
 
 export class NamedGroupsClient extends OperationsBase implements INamedGroupsClient {
-  private _baseUrl = `${this.basePath}`;
   private static readonly MAX_DISPLAY_NAME_LENGTH = 512;
 
   constructor(basePath?: string) {
@@ -28,6 +27,20 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
       );
     }
 
+    if (this.isNullOrWhitespace(group.displayName)) {
+      throw new RequiredError(
+        "displayName",
+        "Required field displayName cannot be empty or consist only of whitespace characters.",
+      );
+    }
+
+    if (this.isNullOrWhitespace(group.iTwinId)) {
+      throw new RequiredError(
+        "iTwinId",
+        "Required field iTwinId was null or undefined.",
+      );
+    }
+
     if (!this.isWithinMaxAllowedCharacters(group.displayName, NamedGroupsClient.MAX_DISPLAY_NAME_LENGTH)) {
       throw new RequiredError(
         "displayName",
@@ -38,7 +51,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
     group.metadata && this.validateMetadata(group.metadata);
 
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(group));
-    return (await this.fetchJSON<NamedGroupContainer>(this._baseUrl, requestOptions)).group;
+    return (await this.fetchJSON<NamedGroupContainer>(this.basePath, requestOptions)).group;
   }
 
   public async deleteNamedGroup(accessToken: AccessToken, groupId: string): Promise<Response> {
@@ -48,17 +61,24 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
   }
 
   public async updateNamedGroup(accessToken: AccessToken, groupId: string, group: NamedGroupUpdate): Promise<NamedGroup> {
-    if (null == group.displayName && null == group.description && null == group.query) {
+    if (!group.displayName && !group.description && !group.query && !group.metadata) {
       throw new RequiredError(
         "group",
-        "All properties of group were missing.",
+        "At least one property must be provided for update.",
+      );
+    }
+
+    if (null != group.displayName && this.isNullOrWhitespace(group.displayName)) {
+      throw new RequiredError(
+        "displayName",
+        "Field displayName cannot consist only of whitespace characters.",
       );
     }
 
     if (null != group.query && this.isNullOrWhitespace(group.query)) {
       throw new RequiredError(
         "query",
-        "Required field query was null or undefined.",
+        "Field query cannot consist only of whitespace characters.",
       );
     }
 
@@ -85,8 +105,11 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
   public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn.Minimal, top?: number): Promise<NamedGroupMinimalList>;
   public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, top?: number): Promise<NamedGroupList>;
   public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn, top?: number): Promise<NamedGroupMinimalList | NamedGroupList> {
-    if (top !== undefined && !this.topIsValid(top)) {
-      throw new RequiredError("top", "Parameter top was outside of the valid range [1-1000].");
+    if (!this.topIsValid(top)) {
+      throw new RequiredError(
+        "top",
+        "Parameter top was outside of the valid range [1-1000].",
+      );
     }
 
     const url = this.constructUrl(undefined, iTwinId, top);
@@ -148,7 +171,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
   }
 
   protected constructUrl(groupId?: string, iTwinId?: string, top?: number): string {
-    const url = new URL(this._baseUrl);
+    const url = new URL(this.basePath);
 
     if (groupId) {
       url.pathname += `/${encodeURIComponent(groupId)}`;

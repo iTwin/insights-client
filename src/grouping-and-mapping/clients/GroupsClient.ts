@@ -48,7 +48,7 @@ export class GroupsClient extends OperationsBase implements IGroupsClient {
   }
 
   public async updateGroup(accessToken: AccessToken, mappingId: string, groupId: string, group: GroupUpdate): Promise<Group> {
-    if (null == group.groupName && null == group.description && null == group.query) {
+    if (!group.groupName && !group.description && !group.query && !group.metadata) {
       throw new RequiredError(
         "group",
         "All properties of group were missing.",
@@ -65,7 +65,7 @@ export class GroupsClient extends OperationsBase implements IGroupsClient {
     if (null != group.query && this.isNullOrWhitespace(group.query)) {
       throw new RequiredError(
         "query",
-        "Required field query was null or undefined.",
+        "Field query cannot consist only of whitespace characters.",
       );
     }
 
