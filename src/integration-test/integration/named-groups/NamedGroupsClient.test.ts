@@ -49,8 +49,8 @@ describe("NamedGroups Client", () => {
     const getGroupTwo = await namedGroupsClient.getNamedGroup(accessToken, groupTwo.id);
     const getGroupThree = await namedGroupsClient.getNamedGroup(accessToken, groupThree.id);
 
-    expect(getGroupTwo.displayName).to.deep.equal(groupTwo.displayName);
-    expect(getGroupThree.displayName).to.deep.equal(groupThree.displayName);
+    expect(getGroupTwo.displayName).to.equal(groupTwo.displayName);
+    expect(getGroupThree.displayName).to.equal(groupThree.displayName);
   });
 
   it("NamedGroups - Get all groups", async () => {
@@ -110,7 +110,7 @@ describe("NamedGroups Client", () => {
     });
 
     expect(group).not.be.undefined;
-    expect(group.displayName).to.deep.equal("GroupToDelete");
+    expect(group.displayName).to.equal("GroupToDelete");
 
     const response = await namedGroupsClient.deleteNamedGroup(accessToken, group.id);
     expect(response).not.be.undefined;
@@ -126,8 +126,8 @@ describe("NamedGroups Client", () => {
     const updatedGroup = await namedGroupsClient.updateNamedGroup(accessToken, groupOne.id, updatedGroupOne);
 
     expect(updatedGroup.displayName).not.be.undefined;
-    expect(updatedGroup.displayName).to.deep.equal(updatedGroupOne.displayName);
-    expect(updatedGroup.description).to.deep.equal(updatedGroupOne.description);
+    expect(updatedGroup.displayName).to.equal(updatedGroupOne.displayName);
+    expect(updatedGroup.description).to.equal(updatedGroupOne.description);
   });
 
 });
