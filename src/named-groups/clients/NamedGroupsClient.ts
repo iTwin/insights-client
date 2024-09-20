@@ -68,7 +68,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
       );
     }
 
-    if (group.displayName !== undefined) {
+    if (group.displayName) {
       if (this.isNullOrWhitespace(group.displayName)) {
         throw new RequiredError(
           "displayName",
@@ -84,7 +84,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
       }
     }
 
-    if (group.query !== undefined && this.isNullOrWhitespace(group.query)) {
+    if (group.query && this.isNullOrWhitespace(group.query)) {
       throw new RequiredError(
         "query",
         "Field query cannot consist only of whitespace characters.",
