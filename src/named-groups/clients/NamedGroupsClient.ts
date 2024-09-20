@@ -61,31 +61,33 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
   }
 
   public async updateNamedGroup(accessToken: AccessToken, groupId: string, group: NamedGroupUpdate): Promise<NamedGroup> {
-    if (!group.displayName && !group.description && !group.query && !group.metadata) {
+    if (group.description === undefined && !group.displayName && !group.query && !group.metadata) {
       throw new RequiredError(
         "group",
         "At least one property must be provided for update.",
       );
     }
 
-    if (null != group.displayName && this.isNullOrWhitespace(group.displayName)) {
-      throw new RequiredError(
-        "displayName",
-        "Field displayName cannot consist only of whitespace characters.",
-      );
+    if (group.displayName !== undefined) {
+      if (this.isNullOrWhitespace(group.displayName)) {
+        throw new RequiredError(
+          "displayName",
+          "Field displayName cannot consist only of whitespace characters.",
+        );
+      }
+
+      if (!this.isWithinMaxAllowedCharacters(group.displayName, NamedGroupsClient.MAX_DISPLAY_NAME_LENGTH)) {
+        throw new RequiredError(
+          "displayName",
+          "Field displayName was invalid. It must be a string with a maximum length of 512 characters.",
+        );
+      }
     }
 
-    if (null != group.query && this.isNullOrWhitespace(group.query)) {
+    if (group.query !== undefined && this.isNullOrWhitespace(group.query)) {
       throw new RequiredError(
         "query",
         "Field query cannot consist only of whitespace characters.",
-      );
-    }
-
-    if (null != group.displayName && !this.isWithinMaxAllowedCharacters(group.displayName, NamedGroupsClient.MAX_DISPLAY_NAME_LENGTH)) {
-      throw new RequiredError(
-        "displayName",
-        "Field displayName was invalid. It must be a string with a maximum length of 512 characters.",
       );
     }
 

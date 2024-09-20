@@ -165,7 +165,7 @@ describe("Validation", () => {
     );
     groupUpdate = {
       description: "Valid description",
-      query: "",
+      query: " ",
     };
     await expect(groupsClient.updateGroup("-", "-", "-", groupUpdate)).to.be.rejectedWith(
       "Field query cannot consist only of whitespace characters.",

@@ -129,5 +129,4 @@ describe("NamedGroups Client", () => {
     expect(updatedGroup.displayName).to.equal(updatedGroupOne.displayName);
     expect(updatedGroup.description).to.equal(updatedGroupOne.description);
   });
-
 });
