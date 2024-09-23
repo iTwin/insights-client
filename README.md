@@ -25,6 +25,7 @@ AUTH_SCOPES=itwin-platform
 APIS_REPORTING_BASE_URL=https://api.bentley.com/insights/reporting
 APIS_CARBONCALCULATION_BASE_URL=https://api.bentley.com/insights/carbon-calculation
 APIS_GROUPING_AND_MAPPING_BASE_URL=https://api.bentley.com/grouping-and-mapping
+APIS_NAMED_GROUPS_BASE_URL=https://api.bentley.com/named-groups
 APIS_IMODELS_BASE_URL=https://api.bentley.com/imodels
 APIS_IMODELS_VERSION=itwin-platform.v2
 APIS_ITWINS_BASE_URL=https://api.bentley.com/itwins

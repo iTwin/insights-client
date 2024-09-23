@@ -20,6 +20,8 @@ import { GroupCreate, GroupUpdate } from "../grouping-and-mapping/interfaces/Gro
 import { MappingCreate, MappingUpdate } from "../grouping-and-mapping/interfaces/Mappings";
 import { DataType, ECPropertyReference, PropertyModify, QuantityType } from "../grouping-and-mapping/interfaces/Properties";
 import { PreferReturn } from "../common/Common";
+import { NamedGroupsClient } from "../named-groups/clients/NamedGroupsClient";
+import { NamedGroupCreate, NamedGroupUpdate } from "../named-groups/interfaces/NamedGroups";
 use(chaiAsPromised);
 
 describe("Validation", () => {
@@ -31,6 +33,7 @@ describe("Validation", () => {
   const oDataClient = new ODataClient();
   const extractionClient = new ExtractionClient();
   const configurationsClient = new EC3ConfigurationsClient();
+  const namedGroupsClient = new NamedGroupsClient();
 
   it("Reports - Create unsuccessfully", async () => {
     const newReport: ReportCreate = {
@@ -109,7 +112,7 @@ describe("Validation", () => {
     await expect(mappingsClient.updateMapping("-", "-", mappingUpdate)).to.be.rejectedWith(
       "All properties of mapping were missing.",
     );
-    mappingUpdate.description = "Valid description",
+    mappingUpdate.description = "Valid description";
     mappingUpdate.mappingName = "";
     await expect(mappingsClient.updateMapping("-", "-", mappingUpdate)).to.be.rejectedWith(
       "Required field mappingName was invalid.",
@@ -156,16 +159,16 @@ describe("Validation", () => {
     await expect(groupsClient.updateGroup("-", "-", "-", groupUpdate)).to.be.rejectedWith(
       "All properties of group were missing.",
     );
-    groupUpdate.groupName = "";
+    groupUpdate.groupName = " ";
     await expect(groupsClient.updateGroup("-", "-", "-", groupUpdate)).to.be.rejectedWith(
       "Field groupName was invalid.",
     );
     groupUpdate = {
       description: "Valid description",
-      query: "",
+      query: " ",
     };
     await expect(groupsClient.updateGroup("-", "-", "-", groupUpdate)).to.be.rejectedWith(
-      "Required field query was null or undefined.",
+      "Field query cannot consist only of whitespace characters.",
     );
   });
 
@@ -544,4 +547,113 @@ describe("Validation", () => {
     );
   });
 
+  it("NamedGroups - Create unsuccessfully", async () => {
+    const accessToken = "-";
+    const groupCreate: NamedGroupCreate = {
+      displayName: "",
+      query: "",
+      iTwinId: "",
+    };
+
+    await expect(namedGroupsClient.createNamedGroup(accessToken, groupCreate)).to.be.rejectedWith(
+      "Required field query was null or undefined.",
+    );
+
+    groupCreate.query = "Valid query";
+    await expect(namedGroupsClient.createNamedGroup(accessToken, groupCreate)).to.be.rejectedWith(
+      "Required field displayName cannot be empty or consist only of whitespace characters.",
+    );
+
+    groupCreate.displayName = "mock displayname";
+    await expect(namedGroupsClient.createNamedGroup(accessToken, groupCreate)).to.be.rejectedWith(
+      "Required field iTwinId was null or undefined.",
+    );
+
+    groupCreate.iTwinId = "mockiTwinId";
+    groupCreate.displayName = "a".repeat(513);
+    await expect(namedGroupsClient.createNamedGroup(accessToken, groupCreate)).to.be.rejectedWith(
+      "Field displayName was invalid. It must be a string with a maximum length of 512 characters.",
+    );
+
+    groupCreate.displayName = "mock displayname";
+    groupCreate.metadata = [{ key: "", value: "value" }];
+    await expect(namedGroupsClient.createNamedGroup(accessToken, groupCreate)).to.be.rejectedWith(
+      "Key cannot be empty or consist only of whitespace characters.",
+    );
+
+    groupCreate.metadata = [
+      { key: "k1", value: "value1" },
+      { key: "k1", value: "value2" },
+    ];
+    await expect(namedGroupsClient.createNamedGroup(accessToken, groupCreate)).to.be.rejectedWith(
+      "Duplicate key found: k1",
+    );
+  });
+
+  it("NamedGroups - Update unsuccessfully", async () => {
+    const accessToken = "-";
+    const groupId = "-";
+    const groupUpdate: NamedGroupUpdate = {};
+
+    await expect(namedGroupsClient.updateNamedGroup(accessToken, groupId, groupUpdate)).to.be.rejectedWith(
+      "At least one property must be provided for update.",
+    );
+
+    groupUpdate.displayName = " ";
+    await expect(namedGroupsClient.updateNamedGroup(accessToken, groupId, groupUpdate)).to.be.rejectedWith(
+      "Field displayName cannot consist only of whitespace characters.",
+    );
+
+    groupUpdate.displayName = "a".repeat(513);
+    await expect(namedGroupsClient.updateNamedGroup(accessToken, groupId, groupUpdate)).to.be.rejectedWith(
+      "Field displayName was invalid. It must be a string with a maximum length of 512 characters.",
+    );
+
+    groupUpdate.displayName = "mock";
+
+    groupUpdate.query = " ";
+    await expect(namedGroupsClient.updateNamedGroup(accessToken, groupId, groupUpdate)).to.be.rejectedWith(
+      "Field query cannot consist only of whitespace characters.",
+    );
+
+    groupUpdate.query = "mock";
+    groupUpdate.metadata = [{ key: "", value: "value" }];
+    await expect(namedGroupsClient.updateNamedGroup(accessToken, groupId, groupUpdate)).to.be.rejectedWith(
+      "Key cannot be empty or consist only of whitespace characters.",
+    );
+
+    groupUpdate.metadata = [
+      { key: "k1", value: "value1" },
+      { key: "k1", value: "value2" },
+    ];
+    await expect(namedGroupsClient.updateNamedGroup(accessToken, groupId, groupUpdate)).to.be.rejectedWith(
+      "Duplicate key found: k1",
+    );
+  });
+
+  it("NamedGroups - Faulty top value", async () => {
+    const accessToken = "-";
+    const iTwinId = "-";
+
+    await expect(namedGroupsClient.getNamedGroups(accessToken, iTwinId, undefined, 0)).to.be.rejectedWith(
+      "Parameter top was outside of the valid range [1-1000].",
+    );
+
+    await expect(namedGroupsClient.getNamedGroups(accessToken, iTwinId, undefined, 1001)).to.be.rejectedWith(
+      "Parameter top was outside of the valid range [1-1000].",
+    );
+  });
+
+  it("NamedGroups - Iterator with faulty top value", async () => {
+    const accessToken = "-";
+    const iTwinId = "-";
+
+    expect(() => namedGroupsClient.getNamedGroupsIterator(accessToken, iTwinId, undefined, 0)).to.throw(
+      "Parameter top was outside of the valid range [1-1000].",
+    );
+
+    expect(() => namedGroupsClient.getNamedGroupsIterator(accessToken, iTwinId, undefined, 1001)).to.throw(
+      "Parameter top was outside of the valid range [1-1000].",
+    );
+  });
 });

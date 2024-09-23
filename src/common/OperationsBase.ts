@@ -9,12 +9,13 @@ const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 export const REPORTING_BASE_PATH = "https://api.bentley.com/insights/reporting";
 export const GROUPING_AND_MAPPING_BASE_PATH = "https://api.bentley.com/grouping-and-mapping";
 export const CARBON_CALCULATION_BASE_PATH = "https://api.bentley.com/insights/carbon-calculation";
+export const NAMED_GROUPS_BASE_PATH = "https://api.bentley.com/named-groups";
 const MAX_ATTEMPTS = 3;
 
 export class OperationsBase {
   protected readonly fetch = isomorphicFetch;
 
-  constructor(protected readonly basePath?: string) { }
+  constructor(protected readonly basePath: string) { }
 
   /**
    * Creates a request body and headers
@@ -91,13 +92,23 @@ export class OperationsBase {
   }
 
   /**
+  * Checks if a given string is within the maximum allowed characters
+  * @param {string} input The string to check
+  * @param {number} maxLength The maximum allowed length
+  * @memberof OperationsBase
+  */
+  protected isWithinMaxAllowedCharacters(input: string, maxLength: number): boolean {
+    return input.length <= maxLength;
+  }
+
+  /**
    * checks if given string is a simpleIdentifier
    * @param {string} name
    * @memberof OperationsBase
    */
   protected isSimpleIdentifier(name: string | null | undefined): boolean {
     const reg = /^[\p{L}\p{Nl}_][\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,}$/u;
-    return name ? (name.length <= 128 && reg.test(name)) : false;
+    return name ? (this.isWithinMaxAllowedCharacters(name, 128) && reg.test(name)) : false;
   }
 
   /**

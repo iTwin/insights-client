@@ -22,6 +22,7 @@ import { PropertiesClient } from "../../grouping-and-mapping/clients/PropertiesC
 import { CDMClient } from "../../grouping-and-mapping/clients/CDMClient";
 import { ExtractionClient } from "../../grouping-and-mapping/clients/ExtractionClient";
 import { AuditTrailClient } from "../../grouping-and-mapping/clients/AuditTrailClient";
+import { NamedGroupsClient } from "../../named-groups/clients/NamedGroupsClient";
 
 let testRunId: string;
 export function getTestRunId(): string {
@@ -40,6 +41,7 @@ export let jobsClient: EC3JobsClient;
 export let extractionClient: ExtractionClient;
 export let mappingsClient: MappingsClient;
 export let groupsClient: GroupsClient;
+export let namedGroupsClient: NamedGroupsClient;
 export let propertiesClient: PropertiesClient;
 export let oDataClient: ODataClient;
 export let aggregationsClient: AggregationsClient;
@@ -69,6 +71,7 @@ export async function mochaGlobalSetup() {
   extractionClient = new ExtractionClient(config.apis.groupingAndMapping.baseUrl);
   mappingsClient = new MappingsClient(config.apis.groupingAndMapping.baseUrl);
   groupsClient = new GroupsClient(config.apis.groupingAndMapping.baseUrl);
+  namedGroupsClient = new NamedGroupsClient(config.apis.namedGroups.baseUrl);
   propertiesClient = new PropertiesClient(config.apis.groupingAndMapping.baseUrl);
   cdmClient = new CDMClient(config.apis.groupingAndMapping.baseUrl);
   auditTrailClient = new AuditTrailClient(config.apis.groupingAndMapping.baseUrl);

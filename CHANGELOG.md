@@ -1,5 +1,11 @@
 # Change Log - @itwin/insights-client
 
+## 0.14.0
+Thursday, 19 September, 2024
+### Minor
+- Added `NamedGroupsClient`.
+- `OperationsBase` now requires a base path.
+
 ## 0.13.0
 Tuesday, 10 September, 2024
 ### Minor

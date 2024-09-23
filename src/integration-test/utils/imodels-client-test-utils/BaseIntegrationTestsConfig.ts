@@ -21,6 +21,7 @@ export interface ApisConfigValues {
   reporting: ApiConfigValues;
   carbonCalculation: ApiConfigValues;
   groupingAndMapping: ApiConfigValues;
+  namedGroups: ApiConfigValues;
 }
 
 export interface TestUserConfigValues {

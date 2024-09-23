@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import { injectable } from "inversify";
 import type { ApisConfigValues, AuthConfigValues, BaseIntegrationTestsConfig, BehaviorOptions, TestUsersConfigValues } from "../utils/imodels-client-test-utils/BaseIntegrationTestsConfig";
 import { TestSetupError } from "../utils/imodels-client-test-utils/CommonTestUtils";
-import { CARBON_CALCULATION_BASE_PATH, GROUPING_AND_MAPPING_BASE_PATH, REPORTING_BASE_PATH } from "../../common/OperationsBase";
+import { CARBON_CALCULATION_BASE_PATH, GROUPING_AND_MAPPING_BASE_PATH, NAMED_GROUPS_BASE_PATH, REPORTING_BASE_PATH } from "../../common/OperationsBase";
 
 @injectable()
 export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
@@ -49,6 +49,9 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
       groupingAndMapping: {
         baseUrl: process.env.APIS_GROUPING_AND_MAPPING_BASE_URL ?? GROUPING_AND_MAPPING_BASE_PATH,
       },
+      namedGroups: {
+        baseUrl: process.env.APIS_NAMED_GROUPS_BASE_URL ?? NAMED_GROUPS_BASE_PATH,
+      },
     };
 
     this.testUsers = {
@@ -81,6 +84,7 @@ export class IModelsClientsTestsConfig implements BaseIntegrationTestsConfig {
     this.validateConfigValue("APIS_REPORTING_BASE_URL");
     this.validateConfigValue("APIS_CARBONCALCULATION_BASE_URL");
     this.validateConfigValue("APIS_GROUPING_AND_MAPPING_BASE_URL");
+    this.validateConfigValue("APIS_NAMED_GROUPS_BASE_URL");
 
     this.validateConfigValue("TEST_USERS_ADMIN1_EMAIL");
     this.validateConfigValue("TEST_USERS_ADMIN1_PASSWORD");

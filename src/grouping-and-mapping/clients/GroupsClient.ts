@@ -48,24 +48,24 @@ export class GroupsClient extends OperationsBase implements IGroupsClient {
   }
 
   public async updateGroup(accessToken: AccessToken, mappingId: string, groupId: string, group: GroupUpdate): Promise<Group> {
-    if (null == group.groupName && null == group.description && null == group.query) {
+    if (!group.groupName && group.description === undefined && !group.query && !group.metadata) {
       throw new RequiredError(
         "group",
         "All properties of group were missing.",
       );
     }
 
-    if (null != group.groupName && !this.isSimpleIdentifier(group.groupName)) {
+    if (group.groupName && !this.isSimpleIdentifier(group.groupName)) {
       throw new RequiredError(
         "groupName",
         "Field groupName was invalid.",
       );
     }
 
-    if (null != group.query && this.isNullOrWhitespace(group.query)) {
+    if (group.query && this.isNullOrWhitespace(group.query)) {
       throw new RequiredError(
         "query",
-        "Required field query was null or undefined.",
+        "Field query cannot consist only of whitespace characters.",
       );
     }
 
