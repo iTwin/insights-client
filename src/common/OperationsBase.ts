@@ -35,7 +35,7 @@ export class OperationsBase {
       Accept: ACCEPT,
     };
     if (content) {
-      header["Content-Type"] = "application/json",
+      header["Content-Type"] = "application/json";
       request.body = content;
     }
     if (preferReturn)
@@ -55,22 +55,61 @@ export class OperationsBase {
     let response: Response | undefined;
 
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-      response = await this.fetch(
-        nextUrl,
-        requestOptions,
-      );
+      try {
+        response = await this.fetch(
+          nextUrl,
+          requestOptions,
+        );
+      } catch (error) {
+        if ("code" in (error as any)) {
+          switch ((error as any).code) {
+            case "ETIMEDOUT":
+            case "ECONNRESET":
+            case "EADDRINUSE":
+            case "ECONNREFUSED":
+            case "EPIPE":
+            case "ENOTFOUND":
+            case "ENETUNREACH":
+            case "EAI_AGAIN":
+            case "ECONNABORTED":
+              await new Promise((resolve) => setTimeout(resolve, (2 ** attempt) * 1000));
+              continue;
+            default: throw error;
+          }
+        }
+
+        throw error;
+      }
+
+      if (undefined === response)
+        throw new Error("Unknown error has occurred while executed the request.");
 
       if (response.status >= 200 && response.status < 300) {
         return response;
-      } else if (attempt < MAX_ATTEMPTS && 429 === response.status) {
-        const retryAfter = response.headers.get("Retry-After");
-        if (null === retryAfter) {
-          throw response;
+      } else if (attempt < MAX_ATTEMPTS) {
+        switch (response.status) {
+          case 429:
+            const retryAfter = response.headers.get("Retry-After");
+            if (null === retryAfter) {
+              await new Promise((resolve) => setTimeout(resolve, (2 ** attempt) * 1000));
+            } else {
+              const retryAfterSeconds = parseInt(retryAfter, 10);
+              await new Promise((resolve) => setTimeout(resolve, retryAfterSeconds * 1000));
+            }
+            break;
+          case 408:
+          case 500:
+          case 502:
+          case 503:
+          case 504:
+          case 521:
+          case 522:
+          case 524:
+            await new Promise((resolve) => setTimeout(resolve, (2 ** attempt) * 1000));
+            break;
+          default:
+            throw response;
         }
-
-        const retryAfterSeconds = parseInt(retryAfter, 10);
-
-        await new Promise((resolve) => setTimeout(resolve, retryAfterSeconds * 1000));
       } else {
         throw response;
       }

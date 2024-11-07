@@ -1,5 +1,12 @@
 # Change Log - @itwin/insights-client
 
+## 0.15.0
+Thursday, 7 November, 2024
+### Minor
+- Upgraded `cross-fetch` to version `4.0.0`.
+- Added retries on responses with status codes `408`, `500`, `502`, `503`, `504`, `521`, `522`, `524`, in addition to handling just `429`.
+- Added retries on request errors with codes `ETIMEDOUT`, `ECONNRESET`, `EADDRINUSE`, `ECONNREFUSED`, `EPIPE`, `ENOTFOUND`, `ENETUNREACH`, `EAI_AGAIN`, and `ECONNABORTED`.
+
 ## 0.14.0
 Thursday, 19 September, 2024
 ### Minor

@@ -119,6 +119,51 @@ describe("OperationsBase", () => {
     expect(headerStub.callCount).to.be.eq(0);
   });
 
+  it("fetch retries on ECONNRESET", async () => {
+    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
+    fetchStub.onFirstCall().rejects({ code: "ECONNRESET" });
+    fetchStub.onSecondCall().resolves(new Response(null, { status: 204 }));
+
+    const response = await operationsBase.fetchJSON("url", {});
+    expect(response).to.not.be.undefined;
+    expect(fetchStub.callCount).to.be.eq(2);
+  });
+
+  it("fetch retries on InternalServerError", async () => {
+    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
+    fetchStub.onFirstCall().resolves(new Response(null, { status: 500 }));
+    fetchStub.onSecondCall().resolves(new Response(null, { status: 204 }));
+
+    const response = await operationsBase.fetchJSON("url", {});
+    expect(response).to.not.be.undefined;
+    expect(fetchStub.callCount).to.be.eq(2);
+  });
+
+  it("fetch throws on unknown error", async () => {
+    const err = new Error();
+    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
+    fetchStub.onFirstCall().rejects(err);
+
+    await expect(operationsBase.fetchJSON("url", {})).to.be.rejectedWith(err);
+    expect(fetchStub.callCount).to.be.eq(1);
+  });
+
+  it("fetch throws on error with unknown code", async () => {
+    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
+    fetchStub.onFirstCall().rejects({ code: "not handled" });
+
+    await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
+    expect(fetchStub.callCount).to.be.eq(1);
+  });
+
+  it("fetch throws on errow without code", async () => {
+    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
+    fetchStub.onFirstCall().rejects({});
+
+    await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
+    expect(fetchStub.callCount).to.be.eq(1);
+  });
+
   it("createRequest", () => {
     let response: RequestInit;
     response = operationsBase.createRequest("GET", "5");

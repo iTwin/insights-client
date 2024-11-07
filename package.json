@@ -1,6 +1,6 @@
 {
   "name": "@itwin/insights-client",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Insights client for the iTwin platform",
   "main": "lib/cjs/insights-client.js",
   "module": "lib/esm/insights-client.js",
@@ -38,7 +38,7 @@
     "url": "https://github.com/iTwin/insights-client"
   },
   "dependencies": {
-    "cross-fetch": "^3.1.4",
+    "cross-fetch": "^4.0.0",
     "fast-xml-parser": "^4.0.9"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "@itwin/eslint-plugin": "^4.1.1",
     "@itwin/imodels-client-authoring": "^5.8.2",
     "@itwin/itwins-client": "^1.5.0",
-    "@itwin/oidc-signin-tool": "^4.3.6",
+    "@itwin/oidc-signin-tool": "^4.3.7",
     "@types/chai": "^4.1.4",
     "@types/chai-as-promised": "^7.1.5",
     "@types/mocha": "^8.2.3",
