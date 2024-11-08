@@ -4,6 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import isomorphicFetch from "cross-fetch";
 import { PreferReturn } from "./Common";
+import { delay } from "./Utils";
 
 const ACCEPT = "application/vnd.bentley.itwin-platform.v1+json";
 export const REPORTING_BASE_PATH = "https://api.bentley.com/insights/reporting";
@@ -72,7 +73,7 @@ export class OperationsBase {
             case "ENETUNREACH":
             case "EAI_AGAIN":
             case "ECONNABORTED":
-              await new Promise((resolve) => setTimeout(resolve, (2 ** attempt) * 1000));
+              await delay((2 ** attempt) * 1000);
               continue;
             default: throw error;
           }
@@ -89,12 +90,16 @@ export class OperationsBase {
       } else if (attempt < MAX_ATTEMPTS) {
         switch (response.status) {
           case 429:
-            const retryAfter = response.headers.get("Retry-After");
+            const retryAfterStandard = response.headers.get("Retry-After");
+            const itpRetryAfter = response.headers.get("ITwinPlatform-RateLimit-Retry-After-Seconds");
+            const retryAfter = itpRetryAfter ?? retryAfterStandard;
+
             if (null === retryAfter) {
-              await new Promise((resolve) => setTimeout(resolve, (2 ** attempt) * 1000));
+              await delay((2 ** attempt) * 1000);
             } else {
-              const retryAfterSeconds = parseInt(retryAfter, 10);
-              await new Promise((resolve) => setTimeout(resolve, retryAfterSeconds * 1000));
+              const parsedRetryAfter = parseInt(retryAfter, 10);
+              const retryAfterSeconds = !Number.isNaN(parsedRetryAfter) ? parsedRetryAfter : (2 ** attempt);
+              await delay(retryAfterSeconds * 1000);
             }
             break;
           case 408:
@@ -105,7 +110,7 @@ export class OperationsBase {
           case 521:
           case 522:
           case 524:
-            await new Promise((resolve) => setTimeout(resolve, (2 ** attempt) * 1000));
+            await delay((2 ** attempt) * 1000);
             break;
           default:
             throw response;

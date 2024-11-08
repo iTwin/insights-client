@@ -7,6 +7,7 @@ import { expect, use } from "chai";
 import * as sinon from "sinon";
 import "isomorphic-fetch";
 import { OperationsBase } from "../common/OperationsBase";
+import * as UtilsModule from "../common/Utils";
 use(chaiAsPromised);
 
 interface IOperationsBase {
@@ -20,6 +21,11 @@ interface IOperationsBase {
 
 describe("OperationsBase", () => {
   const operationsBase = new OperationsBase("mock") as unknown as IOperationsBase;
+  let delayStub: sinon.SinonStub<[number], Promise<void>>;
+
+  beforeEach(() => {
+    delayStub = sinon.stub(UtilsModule, "delay");
+  });
 
   afterEach(() => {
     sinon.restore();
@@ -93,16 +99,34 @@ describe("OperationsBase", () => {
 
     const response = await operationsBase.fetchJSON("url", {});
     expect(response).to.not.be.undefined;
+    expect(delayStub.callCount).to.be.eq(1);
+    expect(delayStub.calledWith(1000)).to.be.true;
+  });
+
+  it("fetch retries on 429 with iTwinPlatform specific retry-after header", async () => {
+    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
+    const headers = new Headers();
+    headers.set("ITwinPlatform-RateLimit-Retry-After-Seconds", "123");
+    fetchStub.onFirstCall().resolves(new Response(null, { status: 429, headers }));
+    fetchStub.onSecondCall().resolves(new Response(null, { status: 204 }));
+
+    const response = await operationsBase.fetchJSON("url", {});
+    expect(response).to.not.be.undefined;
+    expect(delayStub.callCount).to.be.eq(1);
+    expect(delayStub.calledWith(123000)).to.be.true;
   });
 
   it("fetch has a maximum of 3 attempts for 429 responses", async () => {
     const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     const headers = new Headers();
-    headers.set("Retry-After", "0");
+    headers.set("Retry-After", "5");
     fetchStub.resolves(new Response(null, { status: 429, headers }));
 
     await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
     expect(fetchStub.callCount).to.be.eq(3);
+    expect(delayStub.callCount).to.be.eq(2);
+    expect(delayStub.firstCall.args[0]).to.be.eq(5000);
+    expect(delayStub.secondCall.args[0]).to.be.eq(5000);
   });
 
   it("fetch has no Retry-After header handling after last attempt", async () => {
@@ -117,6 +141,19 @@ describe("OperationsBase", () => {
 
     await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
     expect(headerStub.callCount).to.be.eq(0);
+    expect(delayStub.callCount).to.be.eq(2);
+  });
+
+  it("fetch retry delay falls back to default predefined duration when response has non-integer Retry-After header", async () => {
+    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
+    const zeroHeaders = new Headers();
+    zeroHeaders.set("Retry-After", "Fri, 31 Dec 1999 23:59:59 GMT");
+    fetchStub.onFirstCall().resolves(new Response(null, { status: 429, headers: zeroHeaders }));
+    fetchStub.onSecondCall().resolves(new Response(null, { status: 204 }));
+
+    await operationsBase.fetchJSON("url", {});
+    expect(delayStub.callCount).to.be.eq(1);
+    expect(delayStub.calledWith(2000)).to.be.true;
   });
 
   it("fetch retries on ECONNRESET", async () => {
@@ -127,6 +164,8 @@ describe("OperationsBase", () => {
     const response = await operationsBase.fetchJSON("url", {});
     expect(response).to.not.be.undefined;
     expect(fetchStub.callCount).to.be.eq(2);
+    expect(delayStub.callCount).to.be.eq(1);
+    expect(delayStub.calledWith(2000)).to.be.true;
   });
 
   it("fetch retries on InternalServerError", async () => {
@@ -137,6 +176,19 @@ describe("OperationsBase", () => {
     const response = await operationsBase.fetchJSON("url", {});
     expect(response).to.not.be.undefined;
     expect(fetchStub.callCount).to.be.eq(2);
+    expect(delayStub.callCount).to.be.eq(1);
+    expect(delayStub.calledWith(2000)).to.be.true;
+  });
+
+  it("delays between retries increase", async () => {
+    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
+    fetchStub.resolves(new Response(null, { status: 500 }));
+
+    await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
+    expect(fetchStub.callCount).to.be.eq(3);
+    expect(delayStub.callCount).to.be.eq(2);
+    expect(delayStub.firstCall.calledWith(2000)).to.be.true;
+    expect(delayStub.secondCall.calledWith(4000)).to.be.true;
   });
 
   it("fetch throws on unknown error", async () => {
@@ -146,6 +198,7 @@ describe("OperationsBase", () => {
 
     await expect(operationsBase.fetchJSON("url", {})).to.be.rejectedWith(err);
     expect(fetchStub.callCount).to.be.eq(1);
+    expect(delayStub.callCount).to.be.eq(0);
   });
 
   it("fetch throws on error with unknown code", async () => {
@@ -154,6 +207,7 @@ describe("OperationsBase", () => {
 
     await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
     expect(fetchStub.callCount).to.be.eq(1);
+    expect(delayStub.callCount).to.be.eq(0);
   });
 
   it("fetch throws on errow without code", async () => {
@@ -162,6 +216,7 @@ describe("OperationsBase", () => {
 
     await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
     expect(fetchStub.callCount).to.be.eq(1);
+    expect(delayStub.callCount).to.be.eq(0);
   });
 
   it("createRequest", () => {
