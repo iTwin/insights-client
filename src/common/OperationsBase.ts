@@ -90,11 +90,9 @@ export class OperationsBase {
       } else if (attempt < MAX_ATTEMPTS) {
         switch (response.status) {
           case 429:
-            const retryAfterStandard = response.headers.get("Retry-After");
-            const itpRetryAfter = response.headers.get("ITwinPlatform-RateLimit-Retry-After-Seconds");
-            const retryAfter = itpRetryAfter ?? retryAfterStandard;
+            const retryAfter = response.headers.get("Retry-After");
 
-            if (null === retryAfter) {
+            if (!retryAfter) {
               await delay((2 ** attempt) * 1000);
             } else {
               const parsedRetryAfter = parseInt(retryAfter, 10);

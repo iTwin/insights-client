@@ -103,19 +103,6 @@ describe("OperationsBase", () => {
     expect(delayStub.calledWith(1000)).to.be.true;
   });
 
-  it("fetch retries on 429 with iTwinPlatform specific retry-after header", async () => {
-    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
-    const headers = new Headers();
-    headers.set("ITwinPlatform-RateLimit-Retry-After-Seconds", "123");
-    fetchStub.onFirstCall().resolves(new Response(null, { status: 429, headers }));
-    fetchStub.onSecondCall().resolves(new Response(null, { status: 204 }));
-
-    const response = await operationsBase.fetchJSON("url", {});
-    expect(response).to.not.be.undefined;
-    expect(delayStub.callCount).to.be.eq(1);
-    expect(delayStub.calledWith(123000)).to.be.true;
-  });
-
   it("fetch has a maximum of 3 attempts for 429 responses", async () => {
     const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     const headers = new Headers();
