@@ -5,9 +5,9 @@
 import * as chaiAsPromised from "chai-as-promised";
 import { expect, use } from "chai";
 import * as sinon from "sinon";
-import "isomorphic-fetch";
 import { OperationsBase } from "../common/OperationsBase";
 import * as UtilsModule from "../common/Utils";
+import * as CrossFetchModule from "cross-fetch";
 use(chaiAsPromised);
 
 interface IOperationsBase {
@@ -22,9 +22,11 @@ interface IOperationsBase {
 describe("OperationsBase", () => {
   const operationsBase = new OperationsBase("mock") as unknown as IOperationsBase;
   let delayStub: sinon.SinonStub<[number], Promise<void>>;
+  let fetchStub: sinon.SinonStub;
 
   beforeEach(() => {
     delayStub = sinon.stub(UtilsModule, "delay");
+    fetchStub = sinon.stub(CrossFetchModule, "fetch");
   });
 
   afterEach(() => {
@@ -57,7 +59,6 @@ describe("OperationsBase", () => {
 
   it("fetch", async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     let myOptions = { status: 200, statusText: "Test" };
     const body = {
       test: "test",
@@ -91,7 +92,6 @@ describe("OperationsBase", () => {
   });
 
   it("fetch retries on 429", async () => {
-    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     const headers = new Headers();
     headers.set("Retry-After", "1");
     fetchStub.onFirstCall().resolves(new Response(null, { status: 429, headers }));
@@ -104,7 +104,6 @@ describe("OperationsBase", () => {
   });
 
   it("fetch has a maximum of 3 attempts for 429 responses", async () => {
-    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     const headers = new Headers();
     headers.set("Retry-After", "5");
     fetchStub.resolves(new Response(null, { status: 429, headers }));
@@ -117,7 +116,6 @@ describe("OperationsBase", () => {
   });
 
   it("fetch has no Retry-After header handling after last attempt", async () => {
-    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     const zeroHeaders = new Headers();
     zeroHeaders.set("Retry-After", "0");
     fetchStub.onFirstCall().resolves(new Response(null, { status: 429, headers: zeroHeaders }));
@@ -132,7 +130,6 @@ describe("OperationsBase", () => {
   });
 
   it("fetch retry delay falls back to default predefined duration when response has non-integer Retry-After header", async () => {
-    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     const zeroHeaders = new Headers();
     zeroHeaders.set("Retry-After", "Fri, 31 Dec 1999 23:59:59 GMT");
     fetchStub.onFirstCall().resolves(new Response(null, { status: 429, headers: zeroHeaders }));
@@ -144,7 +141,6 @@ describe("OperationsBase", () => {
   });
 
   it("fetch retries on ECONNRESET", async () => {
-    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     fetchStub.onFirstCall().rejects({ code: "ECONNRESET" });
     fetchStub.onSecondCall().resolves(new Response(null, { status: 204 }));
 
@@ -156,7 +152,6 @@ describe("OperationsBase", () => {
   });
 
   it("fetch retries on InternalServerError", async () => {
-    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     fetchStub.onFirstCall().resolves(new Response(null, { status: 500 }));
     fetchStub.onSecondCall().resolves(new Response(null, { status: 204 }));
 
@@ -168,7 +163,6 @@ describe("OperationsBase", () => {
   });
 
   it("delays between retries increase", async () => {
-    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     fetchStub.resolves(new Response(null, { status: 500 }));
 
     await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
@@ -180,7 +174,6 @@ describe("OperationsBase", () => {
 
   it("fetch throws on unknown error", async () => {
     const err = new Error();
-    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     fetchStub.onFirstCall().rejects(err);
 
     await expect(operationsBase.fetchJSON("url", {})).to.be.rejectedWith(err);
@@ -189,7 +182,6 @@ describe("OperationsBase", () => {
   });
 
   it("fetch throws on error with unknown code", async () => {
-    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     fetchStub.onFirstCall().rejects({ code: "not handled" });
 
     await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
@@ -198,7 +190,6 @@ describe("OperationsBase", () => {
   });
 
   it("fetch throws on errow without code", async () => {
-    const fetchStub = sinon.stub(operationsBase, "fetch" as any);
     fetchStub.onFirstCall().rejects({});
 
     await expect(operationsBase.fetchJSON("url", {})).to.be.rejected;
