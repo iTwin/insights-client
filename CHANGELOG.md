@@ -1,5 +1,10 @@
 # Change Log - @itwin/insights-client
 
+## 0.15.1
+Tuesday, 17 December, 2024
+### Patch
+- Fixed a 'fetch' illegal invocation error for browsers.
+
 ## 0.15.0
 Tuesday, 12 November, 2024
 ### Minor

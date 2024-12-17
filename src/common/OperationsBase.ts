@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import isomorphicFetch from "cross-fetch";
+import { fetch } from "cross-fetch";
 import { PreferReturn } from "./Common";
 import { delay } from "./Utils";
 
@@ -14,8 +14,6 @@ export const NAMED_GROUPS_BASE_PATH = "https://api.bentley.com/named-groups";
 const MAX_ATTEMPTS = 3;
 
 export class OperationsBase {
-  protected readonly fetch = isomorphicFetch;
-
   constructor(protected readonly basePath: string) { }
 
   /**
@@ -57,7 +55,7 @@ export class OperationsBase {
 
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       try {
-        response = await this.fetch(
+        response = await fetch(
           nextUrl,
           requestOptions,
         );

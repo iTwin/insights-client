@@ -13,6 +13,9 @@ describe("NamedGroups Client", () => {
   let groupThree: NamedGroup;
 
   before(async () => {
+    // Cleanup all of the groups, so we have a clean iTwin.
+    await cleanup();
+
     groupOne = await namedGroupsClient.createNamedGroup(accessToken, {
       iTwinId,
       displayName: "GroupOne 🚀",
@@ -39,11 +42,15 @@ describe("NamedGroups Client", () => {
   });
 
   after(async () => {
+    await cleanup();
+  });
+
+  const cleanup = async () => {
     const groups = await namedGroupsClient.getNamedGroups(accessToken, iTwinId, PreferReturn.Minimal);
     for (const group of groups.groups) {
       await namedGroupsClient.deleteNamedGroup(accessToken, group.id);
     }
-  });
+  };
 
   it("NamedGroups - Get group", async () => {
     const getGroupTwo = await namedGroupsClient.getNamedGroup(accessToken, groupTwo.id);
