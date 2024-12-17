@@ -50,7 +50,7 @@ describe("NamedGroups Client", () => {
     for (const group of groups.groups) {
       await namedGroupsClient.deleteNamedGroup(accessToken, group.id);
     }
-  }
+  };
 
   it("NamedGroups - Get group", async () => {
     const getGroupTwo = await namedGroupsClient.getNamedGroup(accessToken, groupTwo.id);
