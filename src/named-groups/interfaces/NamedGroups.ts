@@ -38,6 +38,20 @@ export interface NamedGroupMinimal {
   query: string;
 
   /**
+   * Date when the named group was modified.
+   * @type {string}
+   * @memberof NamedGroupMinimal
+   */
+  createdDateTime: string;
+
+  /**
+   * Date and time when the group was last modified..
+   * @type {string}
+   * @memberof NamedGroupMinimal
+   */
+  modifiedDateTime: string;
+
+  /**
     * Contains contextual hyperlinks to related data.
     * @type {string}
     * @memberof NamedGroupMinimal

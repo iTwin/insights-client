@@ -1,5 +1,10 @@
 # Change Log - @itwin/insights-client
 
+## 0.16.0
+Tuesday, 21 January, 2025
+### Minor
+- Added `createdDateTime` and `modifiedDateTime` in `NamedGroupMinimal`
+
 ## 0.15.1
 Tuesday, 17 December, 2024
 ### Patch
