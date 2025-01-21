@@ -40,6 +40,8 @@ describe("NamedGroups Client Unit tests", () => {
         description: "Group description",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
         metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
+        createdDateTime: "2021-09-03T10:48:45+00:00",
+        modifiedDateTime: "2022-01-10T13:44:56+00:00",
         _links: {
           iTwin: {
             href: "https://api.bentley.com/itwins/iTwinId",
@@ -86,6 +88,8 @@ describe("NamedGroups Client Unit tests", () => {
         description: "Group description",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
         metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
+        createdDateTime: "2021-09-03T10:48:45+00:00",
+        modifiedDateTime: "2022-01-10T13:44:56+00:00",
         _links: {
           iTwin: {
             href: "https://api.bentley.com/itwins/iTwinId",
@@ -205,6 +209,8 @@ describe("NamedGroups Client Unit tests", () => {
         description: "Updated description",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
         metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
+        createdDateTime: "2021-09-03T10:48:45+00:00",
+        modifiedDateTime: "2022-01-10T13:44:56+00:00",
         _links: {
           iTwin: {
             href: "https://api.bentley.com/itwins/iTwinId",
