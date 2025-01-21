@@ -51,6 +51,11 @@ export interface NamedGroupMinimal {
    */
   modifiedDateTime: string;
 
+  /**
+  * Contains contextual hyperlinks to related data.
+  * @type {string}
+  * @memberof NamedGroupMinimal
+  */
   _links: NamedGroupLinks;
 }
 
