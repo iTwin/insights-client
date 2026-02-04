@@ -128,7 +128,7 @@ export class OperationsBase {
    */
   protected async fetchJSON<T>(nextUrl: string, requestOptions: RequestInit): Promise<T> {
     const response = await this.fetchData(nextUrl, requestOptions);
-    return response.status === 204 ? response : response.json();
+    return response.status === 204 ? response as T : response.json();
   }
 
   /**

@@ -1,5 +1,15 @@
 # Change Log - @itwin/insights-client
 
+## 0.17.0
+Tuesday, 3 February, 2026
+### Minor
+- Fixed security vulnerabilities in dependencies.
+- Updated `fast-xml-parser` from `^4.0.9` to `^5.3.4`.
+- Updated `@itwin/build-tools` and `@itwin/core-bentley` from `^4.8.6` to `^5.5.2`.
+- Updated `@itwin/oidc-signin-tool` from `^4.3.7` to `^5.1.0`.
+- Updated `typescript` from `^5.0.0` to `^5.9.3`.
+- Removed unused `chromium` dev dependency.
+
 ## 0.16.0
 Tuesday, 21 January, 2025
 ### Minor

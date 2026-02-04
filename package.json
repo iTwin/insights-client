@@ -1,6 +1,6 @@
 {
   "name": "@itwin/insights-client",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "description": "Insights client for the iTwin platform",
   "main": "lib/cjs/insights-client.js",
   "module": "lib/esm/insights-client.js",
@@ -39,16 +39,16 @@
   },
   "dependencies": {
     "cross-fetch": "^4.0.0",
-    "fast-xml-parser": "^4.0.9"
+    "fast-xml-parser": "^5.3.4"
   },
   "devDependencies": {
     "@azure/storage-blob": "^12.11.0",
-    "@itwin/build-tools": "^4.8.6",
-    "@itwin/core-bentley": "^4.8.6",
+    "@itwin/build-tools": "^5.5.2",
+    "@itwin/core-bentley": "^5.5.2",
     "@itwin/eslint-plugin": "^4.1.1",
     "@itwin/imodels-client-authoring": "^5.8.2",
     "@itwin/itwins-client": "^1.5.0",
-    "@itwin/oidc-signin-tool": "^4.3.7",
+    "@itwin/oidc-signin-tool": "^5.1.0",
     "@types/chai": "^4.1.4",
     "@types/chai-as-promised": "^7.1.5",
     "@types/mocha": "^8.2.3",
@@ -56,7 +56,6 @@
     "@types/sinon": "^17.0.3",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
-    "chromium": "^3.0.3",
     "copyfiles": "^2.4.1",
     "dotenv": "^10.0.0",
     "dotenv-expand": "^5.1.0",
@@ -70,7 +69,7 @@
     "sinon": "^18.0.0",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.8.2",
-    "typescript": "^5.0.0"
+    "typescript": "^5.9.3"
   },
   "nyc": {
     "nycrc-path": "./node_modules/@itwin/build-tools/.nycrc",
@@ -88,5 +87,9 @@
   },
   "mocha": {
     "timeout": 420000
+  },
+  "overrides": {
+    "diff": "8.0.3",
+    "fast-xml-parser": "^5.3.4"
   }
 }
