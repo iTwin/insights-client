@@ -116,7 +116,7 @@ export class TestAuthorizationClient {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "Authorization": `Basic ${encodedClientCredentials}`,
       },
-      body: requestBody,
+      body: requestBody.toString(),
     };
 
     const response = await fetch(requestUrl, requestConfig);

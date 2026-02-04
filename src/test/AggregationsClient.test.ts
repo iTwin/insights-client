@@ -397,7 +397,7 @@ describe("Aggregations Client", () => {
     const newAggregationProperty: AggregationPropertyCreate = {
       propertyName: "RowCount",
       sourcePropertyName: "ECClassId",
-      type: "Count" as AggregationPropertyType ?? AggregationPropertyType.Undefined,
+      type: AggregationPropertyType.Count,
     };
     const returns = {
       aggregationProperty: {
@@ -422,7 +422,7 @@ describe("Aggregations Client", () => {
     const newAggregationProperty: AggregationPropertyUpdate = {
       propertyName: "RowCount",
       sourcePropertyName: "ECClassId",
-      type: "Count" as AggregationPropertyType ?? AggregationPropertyType.Undefined,
+      type: AggregationPropertyType.Count,
     };
     const returns = {
       aggregationProperty: {
