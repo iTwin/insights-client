@@ -1,7 +1,7 @@
 # Change Log - @itwin/insights-client
 
 ## 0.17.0
-Tuesday, 3 February, 2025
+Tuesday, 3 February, 2026
 ### Minor
 - Fixed security vulnerabilities in dependencies.
 - Updated `fast-xml-parser` from `^4.0.9` to `^5.3.4`.
