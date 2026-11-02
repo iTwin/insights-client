@@ -61,7 +61,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
   }
 
   public async updateNamedGroup(accessToken: AccessToken, groupId: string, group: NamedGroupUpdate): Promise<NamedGroup> {
-    if (group.description === undefined && !group.displayName && !group.query && !group.metadata) {
+    if (group.description === undefined && !group.displayName && !group.query && !group.metadata && group.tags === undefined) {
       throw new RequiredError(
         "group",
         "At least one property must be provided for update.",
@@ -104,9 +104,9 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
     return (await this.fetchJSON<NamedGroupContainer>(url, requestOptions)).group;
   }
 
-  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn.Minimal, top?: number): Promise<NamedGroupMinimalList>;
-  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, top?: number): Promise<NamedGroupList>;
-  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn, top?: number): Promise<NamedGroupMinimalList | NamedGroupList> {
+  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn.Minimal, top?: number, tag?: string): Promise<NamedGroupMinimalList>;
+  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, top?: number, tag?: string): Promise<NamedGroupList>;
+  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn, top?: number, tag?: string): Promise<NamedGroupMinimalList | NamedGroupList> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -114,7 +114,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
       );
     }
 
-    const url = this.constructUrl(undefined, iTwinId, top);
+    const url = this.constructUrl(undefined, iTwinId, top, tag);
     const request = this.createRequest("GET", accessToken, undefined, preferReturn);
 
     if (preferReturn === PreferReturn.Representation) {
@@ -124,9 +124,9 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
     }
   }
 
-  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn.Minimal, top?: number): EntityListIterator<NamedGroupMinimal>;
-  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, top?: number): EntityListIterator<NamedGroup>;
-  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn, top?: number): EntityListIterator<NamedGroup> | EntityListIterator<NamedGroupMinimal> {
+  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn.Minimal, top?: number, tag?: string): EntityListIterator<NamedGroupMinimal>;
+  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, top?: number, tag?: string): EntityListIterator<NamedGroup>;
+  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn, top?: number, tag?: string): EntityListIterator<NamedGroup> | EntityListIterator<NamedGroupMinimal> {
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -134,7 +134,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
       );
     }
 
-    const url = this.constructUrl(undefined, iTwinId, top);
+    const url = this.constructUrl(undefined, iTwinId, top, tag);
     const request = this.createRequest("GET", accessToken, undefined, preferReturn);
 
     if (preferReturn === PreferReturn.Representation) {
@@ -172,7 +172,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
     });
   }
 
-  protected constructUrl(groupId?: string, iTwinId?: string, top?: number): string {
+  protected constructUrl(groupId?: string, iTwinId?: string, top?: number, tag?: string): string {
     const url = new URL(this.basePath);
 
     if (groupId) {
@@ -187,6 +187,9 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
     }
     if (top && !groupId) {
       url.searchParams.append("$top", top.toString());
+    }
+    if (tag !== undefined && !groupId) {
+      url.searchParams.append("tag", tag);
     }
 
     return url.toString();

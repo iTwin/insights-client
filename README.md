@@ -10,6 +10,32 @@ If you have questions, or wish to contribute to iTwin.js, see our [Contributing 
 
 Contains the **@itwin/insights-client** package that wraps sending requests to the reporting service. Visit the [Insights API](https://developer.bentley.com/apis/insights/) and [Carbon calculation API](https://developer.bentley.com/apis/carbon-calculation/) for more documentation on the insights service.
 
+### Named Groups tags
+
+The [Named Groups API](https://developer.bentley.com/apis/named-groups/) is a **Technical Preview**, available for testing only. **Do not use it in production.**
+
+Named Groups support optional `tags: string[]` for categorization. Create requests can include tags, and minimal/full group responses expose them when returned by the service. Update requests can replace tags without changing other fields; send `tags: []` to clear them, or omit `tags` to leave them unchanged.
+
+```ts
+import { NamedGroupsClient, PreferReturn } from "@itwin/insights-client";
+
+const client = new NamedGroupsClient();
+const group = await client.createNamedGroup(accessToken, {
+  iTwinId,
+  displayName: "Structural elements",
+  query: "SELECT ECInstanceId, ECClassId FROM BisCore.PhysicalElement",
+  tags: ["Structural", "Phase-1"],
+});
+await client.updateNamedGroup(accessToken, group.id, { tags: ["Structural", "Phase-2"] });
+
+const groups = await client.getNamedGroups(accessToken, iTwinId, PreferReturn.Minimal, undefined, "Structural");
+for await (const taggedGroup of client.getNamedGroupsIterator(accessToken, iTwinId, PreferReturn.Representation, 100, "Structural")) {
+  console.log(taggedGroup.tags);
+}
+```
+
+The optional final `tag` argument filters by one tag and is URL-encoded by the client. Existing calls without a filter are unchanged. Iterators follow the service-provided next-page links.
+
 ### Authorization for running tests
 
 - Create .env file and configure the following variables:

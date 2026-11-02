@@ -30,6 +30,9 @@ export interface NamedGroupMinimal {
     */
   description: string;
 
+  /** Tags used to categorize and filter the group. */
+  tags?: string[];
+
   /**
     * An ECSQL query that represents a collection of iModel elements
     * @type {string}
@@ -105,6 +108,9 @@ export interface NamedGroupCreate {
     */
   description?: string;
 
+  /** Tags used to categorize and filter the group. */
+  tags?: string[];
+
   /**
     * An ECSQL query that represents a collection of iModel elements.
     * @type {string}
@@ -137,6 +143,9 @@ export interface NamedGroupLinks {
  * Updates a group.
  */
 export interface NamedGroupUpdate {
+  /** Tags used to categorize and filter the group. An empty array removes all tags. */
+  tags?: string[];
+
   /**
     * Name of the group.
     * @type {string}

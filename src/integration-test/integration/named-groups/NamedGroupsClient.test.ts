@@ -22,6 +22,7 @@ describe("NamedGroups Client", () => {
       description: "Group number one",
       query: "SELECT * FROM bis.Element limit 1",
       metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
+      tags: ["Structural", "Phase-1"],
     });
 
     groupTwo = await namedGroupsClient.createNamedGroup(accessToken, {
@@ -30,6 +31,7 @@ describe("NamedGroups Client", () => {
       description: "Group number two",
       query: "SELECT * FROM bis.Element limit 2",
       metadata: [{ key: "key1", value: "value1" }, { key: "noValue" }],
+      tags: ["Structural", "Phase-2"],
     });
 
     groupThree = await namedGroupsClient.createNamedGroup(accessToken, {
@@ -64,6 +66,62 @@ describe("NamedGroups Client", () => {
     const groups = await namedGroupsClient.getNamedGroups(accessToken, iTwinId);
     for (const group of groups.groups) {
       expect(["GroupOne 🚀", "GroupTwo 👻", "GroupThree"]).to.include(group.displayName);
+    }
+  });
+
+  it("NamedGroups - Create and read tags", async () => {
+    expect(groupOne.tags).to.deep.equal(["Structural", "Phase-1"]);
+    expect((await namedGroupsClient.getNamedGroup(accessToken, groupTwo.id)).tags)
+      .to.deep.equal(["Structural", "Phase-2"]);
+  });
+
+  for (const preferReturn of [PreferReturn.Minimal, PreferReturn.Representation]) {
+    it(`NamedGroups - Filter ${preferReturn} groups by tag across pages`, async () => {
+      const groups = preferReturn === PreferReturn.Representation
+        ? await namedGroupsClient.getNamedGroups(accessToken, iTwinId, preferReturn, 1, "Phase-1")
+        : await namedGroupsClient.getNamedGroups(accessToken, iTwinId, preferReturn, 1, "Phase-1");
+      expect(groups.groups.map((group) => group.id)).to.deep.equal([groupOne.id]);
+      expect(groups.groups[0].tags).to.deep.equal(["Structural", "Phase-1"]);
+
+      const iterator = preferReturn === PreferReturn.Representation
+        ? namedGroupsClient.getNamedGroupsIterator(accessToken, iTwinId, preferReturn, 1, "Structural")
+        : namedGroupsClient.getNamedGroupsIterator(accessToken, iTwinId, preferReturn, 1, "Structural");
+      const ids: string[] = [];
+      let pages = 0;
+      for await (const page of iterator.byPage()) {
+        pages++;
+        expect(page).to.have.lengthOf(1);
+        for (const group of page) {
+          expect(group.tags).to.include("Structural");
+          ids.push(group.id);
+        }
+      }
+      expect(pages).to.equal(2);
+      expect(ids).to.have.members([groupOne.id, groupTwo.id]);
+    });
+  }
+
+  it("NamedGroups - Replace and clear tags without changing other fields", async () => {
+    const group = await namedGroupsClient.createNamedGroup(accessToken, {
+      iTwinId,
+      displayName: "GroupTagUpdates",
+      query: "SELECT * FROM bis.Element limit 1",
+      tags: ["Initial"],
+    });
+    try {
+      const updated = await namedGroupsClient.updateNamedGroup(accessToken, group.id, { tags: ["Replacement"] });
+      expect(updated.tags).to.deep.equal(["Replacement"]);
+      expect(updated.displayName).to.equal(group.displayName);
+      expect(updated.query).to.equal(group.query);
+
+      const unchanged = await namedGroupsClient.updateNamedGroup(accessToken, group.id, { description: "Keep tags" });
+      expect(unchanged.tags).to.deep.equal(["Replacement"]);
+
+      const cleared = await namedGroupsClient.updateNamedGroup(accessToken, group.id, { tags: [] });
+      expect(cleared.tags).to.deep.equal([]);
+      expect((await namedGroupsClient.getNamedGroup(accessToken, group.id)).tags).to.deep.equal([]);
+    } finally {
+      await namedGroupsClient.deleteNamedGroup(accessToken, group.id);
     }
   });
 

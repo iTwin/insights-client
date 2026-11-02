@@ -1,5 +1,10 @@
 # Change Log - @itwin/insights-client
 
+## Unreleased
+### Minor
+- Added optional `tags` to Named Groups response, create and update types, including tags-only updates and clearing tags with an empty array.
+- Added an optional trailing `tag` filter to `getNamedGroups` and `getNamedGroupsIterator`.
+
 ## 0.17.0
 Tuesday, 3 February, 2026
 ### Minor
