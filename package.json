@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "cross-fetch": "^4.0.0",
-    "fast-xml-parser": "^5.3.4"
+    "fast-xml-parser": "^5.11.2"
   },
   "devDependencies": {
     "@azure/storage-blob": "^12.11.0",
@@ -90,6 +90,6 @@
   },
   "overrides": {
     "diff": "8.0.3",
-    "fast-xml-parser": "^5.3.4"
+    "fast-xml-parser": "^5.11.2"
   }
 }
