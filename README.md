@@ -14,7 +14,7 @@ Contains the **@itwin/insights-client** package that wraps sending requests to t
 
 The [Named Groups API](https://developer.bentley.com/apis/named-groups/) is a **Technical Preview**, available for testing only. **Do not use it in production.**
 
-Named Groups support optional `tags: string[]` for categorization. Create requests can include tags, and minimal/full group responses expose them when returned by the service. Update requests can replace tags without changing other fields; send `tags: []` to clear them, or omit `tags` to leave them unchanged.
+Named Groups support optional `tags: string[]` on create and update requests. Every minimal/full group response includes a tags array, empty when the group has no tags. Update requests can replace tags without changing other fields; send `tags: []` to clear them, or omit `tags` to leave them unchanged. The client validates the service limits of 20 tags, 128 characters per tag, allowed characters, and case-insensitive uniqueness.
 
 ```ts
 import { NamedGroupsClient, PreferReturn } from "@itwin/insights-client";
@@ -28,13 +28,13 @@ const group = await client.createNamedGroup(accessToken, {
 });
 await client.updateNamedGroup(accessToken, group.id, { tags: ["Structural", "Phase-2"] });
 
-const groups = await client.getNamedGroups(accessToken, iTwinId, PreferReturn.Minimal, undefined, "Structural");
-for await (const taggedGroup of client.getNamedGroupsIterator(accessToken, iTwinId, PreferReturn.Representation, 100, "Structural")) {
+const groups = await client.getNamedGroups(accessToken, iTwinId, PreferReturn.Minimal, { tag: "Structural" });
+for await (const taggedGroup of client.getNamedGroupsIterator(accessToken, iTwinId, PreferReturn.Representation, { top: 100, tag: "Structural" })) {
   console.log(taggedGroup.tags);
 }
 ```
 
-The optional final `tag` argument filters by one tag and is URL-encoded by the client. Existing calls without a filter are unchanged. Iterators follow the service-provided next-page links.
+The optional query options object accepts `top` and `tag`; the tag filter is URL-encoded by the client. Existing positional overloads remain supported. Iterators follow the service-provided next-page links.
 
 ### Authorization for running tests
 

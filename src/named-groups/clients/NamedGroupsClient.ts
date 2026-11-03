@@ -9,11 +9,14 @@ import { EntityCollectionPage, getEntityCollectionPage } from "../../common/iter
 import { RequiredError } from "../../common/Errors";
 import { AccessToken } from "@itwin/core-bentley";
 import { PreferReturn } from "../../common/Common";
-import { NamedGroup, NamedGroupContainer, NamedGroupCreate, NamedGroupList, NamedGroupMetadata, NamedGroupMinimal, NamedGroupMinimalList, NamedGroupUpdate } from "../interfaces/NamedGroups";
+import { NamedGroup, NamedGroupContainer, NamedGroupCreate, NamedGroupList, NamedGroupMetadata, NamedGroupMinimal, NamedGroupMinimalList, NamedGroupsQueryOptions, NamedGroupUpdate } from "../interfaces/NamedGroups";
 import { INamedGroupsClient } from "../interfaces/INamedGroupsClient";
 
 export class NamedGroupsClient extends OperationsBase implements INamedGroupsClient {
   private static readonly MAX_DISPLAY_NAME_LENGTH = 512;
+  private static readonly MAX_TAGS = 20;
+  private static readonly MAX_TAG_LENGTH = 128;
+  private static readonly TAG_PATTERN = /^[\p{L}\p{N} _-]+$/u;
 
   constructor(basePath?: string) {
     super(basePath ?? NAMED_GROUPS_BASE_PATH);
@@ -49,6 +52,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
     }
 
     group.metadata && this.validateMetadata(group.metadata);
+    group.tags && this.validateTags(group.tags);
 
     const requestOptions: RequestInit = this.createRequest("POST", accessToken, JSON.stringify(group));
     return (await this.fetchJSON<NamedGroupContainer>(this.basePath, requestOptions)).group;
@@ -92,6 +96,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
     }
 
     group.metadata && this.validateMetadata(group.metadata);
+    group.tags && this.validateTags(group.tags);
 
     const url = this.constructUrl(groupId);
     const requestOptions: RequestInit = this.createRequest("PATCH", accessToken, JSON.stringify(group));
@@ -104,9 +109,19 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
     return (await this.fetchJSON<NamedGroupContainer>(url, requestOptions)).group;
   }
 
-  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn.Minimal, top?: number, tag?: string): Promise<NamedGroupMinimalList>;
-  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, top?: number, tag?: string): Promise<NamedGroupList>;
-  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn, top?: number, tag?: string): Promise<NamedGroupMinimalList | NamedGroupList> {
+  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, options?: NamedGroupsQueryOptions): Promise<NamedGroupMinimalList>;
+  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Minimal, options?: NamedGroupsQueryOptions): Promise<NamedGroupMinimalList>;
+  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, options?: NamedGroupsQueryOptions): Promise<NamedGroupList>;
+  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn, options?: NamedGroupsQueryOptions): Promise<NamedGroupMinimalList | NamedGroupList>;
+  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn.Minimal, top?: number, tag?: string | null): Promise<NamedGroupMinimalList>;
+  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, top?: number, tag?: string | null): Promise<NamedGroupList>;
+  public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturnOrOptions?: PreferReturn | NamedGroupsQueryOptions, optionsOrTop?: NamedGroupsQueryOptions | number, legacyTag?: string | null): Promise<NamedGroupMinimalList | NamedGroupList> {
+    const preferReturn = typeof preferReturnOrOptions === "string" ? preferReturnOrOptions : undefined;
+    const options = typeof preferReturnOrOptions === "object"
+      ? preferReturnOrOptions
+      : typeof optionsOrTop === "object" ? optionsOrTop : { top: optionsOrTop, tag: legacyTag };
+    const { top, tag } = options;
+
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -124,9 +139,19 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
     }
   }
 
-  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn.Minimal, top?: number, tag?: string): EntityListIterator<NamedGroupMinimal>;
-  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, top?: number, tag?: string): EntityListIterator<NamedGroup>;
-  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn, top?: number, tag?: string): EntityListIterator<NamedGroup> | EntityListIterator<NamedGroupMinimal> {
+  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, options?: NamedGroupsQueryOptions): EntityListIterator<NamedGroupMinimal>;
+  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Minimal, options?: NamedGroupsQueryOptions): EntityListIterator<NamedGroupMinimal>;
+  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, options?: NamedGroupsQueryOptions): EntityListIterator<NamedGroup>;
+  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn, options?: NamedGroupsQueryOptions): EntityListIterator<NamedGroup> | EntityListIterator<NamedGroupMinimal>;
+  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn.Minimal, top?: number, tag?: string | null): EntityListIterator<NamedGroupMinimal>;
+  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, top?: number, tag?: string | null): EntityListIterator<NamedGroup>;
+  public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturnOrOptions?: PreferReturn | NamedGroupsQueryOptions, optionsOrTop?: NamedGroupsQueryOptions | number, legacyTag?: string | null): EntityListIterator<NamedGroup> | EntityListIterator<NamedGroupMinimal> {
+    const preferReturn = typeof preferReturnOrOptions === "string" ? preferReturnOrOptions : undefined;
+    const options = typeof preferReturnOrOptions === "object"
+      ? preferReturnOrOptions
+      : typeof optionsOrTop === "object" ? optionsOrTop : { top: optionsOrTop, tag: legacyTag };
+    const { top, tag } = options;
+
     if (!this.topIsValid(top)) {
       throw new RequiredError(
         "top",
@@ -172,7 +197,26 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
     });
   }
 
-  protected constructUrl(groupId?: string, iTwinId?: string, top?: number, tag?: string): string {
+  private validateTags(tags: string[]): void {
+    if (tags.length > NamedGroupsClient.MAX_TAGS) {
+      throw new RequiredError("tags", `A maximum of ${NamedGroupsClient.MAX_TAGS} tags is allowed.`);
+    }
+
+    const seenTags = new Set<string>();
+    tags.forEach((tag, index) => {
+      if (this.isNullOrWhitespace(tag) || tag.length > NamedGroupsClient.MAX_TAG_LENGTH || !NamedGroupsClient.TAG_PATTERN.test(tag)) {
+        throw new RequiredError(`tags[${index}]`, `Tags must be 1-${NamedGroupsClient.MAX_TAG_LENGTH} characters of letters, digits, spaces, hyphens or underscores.`);
+      }
+
+      const normalizedTag = tag.toLowerCase();
+      if (seenTags.has(normalizedTag)) {
+        throw new RequiredError(`tags[${index}]`, `Duplicate tag found: ${tag}`);
+      }
+      seenTags.add(normalizedTag);
+    });
+  }
+
+  protected constructUrl(groupId?: string, iTwinId?: string, top?: number, tag?: string | null): string {
     const url = new URL(this.basePath);
 
     if (groupId) {
@@ -188,7 +232,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
     if (top && !groupId) {
       url.searchParams.append("$top", top.toString());
     }
-    if (tag !== undefined && !groupId) {
+    if (tag?.trim() && !groupId) {
       url.searchParams.append("tag", tag);
     }
 

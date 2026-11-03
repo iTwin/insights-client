@@ -46,6 +46,7 @@ describe("NamedGroups Client Unit tests", () => {
         description: "Group description",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
         metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
+        tags: [],
         createdDateTime: "2021-09-03T10:48:45+00:00",
         modifiedDateTime: "2022-01-10T13:44:56+00:00",
         _links: {
@@ -94,6 +95,7 @@ describe("NamedGroups Client Unit tests", () => {
         description: "Group description",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
         metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
+        tags: [],
         createdDateTime: "2021-09-03T10:48:45+00:00",
         modifiedDateTime: "2022-01-10T13:44:56+00:00",
         _links: {
@@ -215,6 +217,7 @@ describe("NamedGroups Client Unit tests", () => {
         description: "Updated description",
         query: "SELECT ECInstanceId, ECClassId FROM BisCore.Element",
         metadata: [{ key: "key1", value: "value1" }, { key: "key2", value: "value2" }],
+        tags: [],
         createdDateTime: "2021-09-03T10:48:45+00:00",
         modifiedDateTime: "2022-01-10T13:44:56+00:00",
         _links: {
@@ -264,18 +267,12 @@ describe("NamedGroups Client Unit tests", () => {
           query: responseGroup.query,
           ...(tags === undefined ? {} : { tags }),
         };
-        fetchStub.resolves({ group: { ...responseGroup, tags } });
+        fetchStub.resolves({ group: { ...responseGroup, tags: tags ?? [] } });
 
         const group = await client.createNamedGroup("authToken", body);
 
-        expect(group.tags).to.deep.equal(tags);
+        expect(group.tags).to.deep.equal(tags ?? []);
         expect(requestStub.firstCall.args).to.deep.equal(["POST", "authToken", JSON.stringify(body)]);
-        const payload = JSON.parse(requestStub.firstCall.args[2]);
-        if (tags === undefined) {
-          expect(payload).not.to.have.property("tags");
-        } else {
-          expect(payload.tags).to.deep.equal(tags);
-        }
       });
 
       it(`updates a group with tags ${label}`, async () => {
@@ -287,20 +284,14 @@ describe("NamedGroups Client Unit tests", () => {
         expect(group.tags).to.deep.equal(tags ?? responseGroup.tags);
         expect(requestStub.firstCall.args).to.deep.equal(["PATCH", "authToken", JSON.stringify(body)]);
         expect(fetchStub.firstCall.args).to.deep.equal(["https://api.bentley.com/named-groups/1", "pass"]);
-        const payload = JSON.parse(requestStub.firstCall.args[2]);
-        if (tags === undefined) {
-          expect(payload).not.to.have.property("tags");
-        } else {
-          expect(payload.tags).to.deep.equal(tags);
-        }
       });
 
-      it(`reads a group with tags ${label}`, async () => {
-        fetchStub.resolves({ group: { ...responseGroup, tags } });
+      it(`reads a group with tags ${JSON.stringify(tags ?? [])}`, async () => {
+        fetchStub.resolves({ group: { ...responseGroup, tags: tags ?? [] } });
 
         const group = await client.getNamedGroup("authToken", responseGroup.id);
 
-        expect(group.tags).to.deep.equal(tags);
+        expect(group.tags).to.deep.equal(tags ?? []);
         expect(requestStub.firstCall.args).to.deep.equal(["GET", "authToken"]);
         expect(fetchStub.firstCall.args[0]).to.equal("https://api.bentley.com/named-groups/1");
       });
@@ -319,25 +310,27 @@ describe("NamedGroups Client Unit tests", () => {
       const { metadata: _metadata, ...withoutMetadata } = responseGroup;
       const groups = preferReturn === PreferReturn.Representation ? [responseGroup] : [withoutMetadata];
 
-      for (const tag of [undefined, "", "Structural", "Phase 1 & review/steel+#?=%\u00e9"]) {
+      for (const tag of [undefined, null, "", "  ", "Structural", "Phase 1 & review/steel+#?=%\u00e9"]) {
         it(`lists ${preferReturn ?? "default"} groups with tag ${JSON.stringify(tag)}`, async () => {
           fetchStub.resolves({ groups, _links: {} });
 
-          const result: NamedGroupMinimalList | NamedGroupList = preferReturn === PreferReturn.Representation
-            ? await client.getNamedGroups("authToken", "iTwinId", preferReturn, 2, tag)
-            : await client.getNamedGroups("authToken", "iTwinId", preferReturn, 2, tag);
+          const options = { top: 2, ...(tag === undefined ? {} : { tag }) };
+          const result: NamedGroupMinimalList | NamedGroupList = preferReturn === undefined
+            ? await client.getNamedGroups("authToken", "iTwinId", options)
+            : await client.getNamedGroups("authToken", "iTwinId", preferReturn, options);
 
           const url = new URL(fetchStub.firstCall.args[0]);
           expect(url.origin + url.pathname).to.equal("https://api.bentley.com/named-groups/");
-          expect(Array.from(url.searchParams.keys())).to.deep.equal(tag === undefined ? ["iTwinId", "$top"] : ["iTwinId", "$top", "tag"]);
+          const shouldFilter = typeof tag === "string" && tag.trim().length > 0;
+          expect(Array.from(url.searchParams.keys())).to.deep.equal(shouldFilter ? ["iTwinId", "$top", "tag"] : ["iTwinId", "$top"]);
           expect(url.searchParams.get("iTwinId")).to.equal("iTwinId");
           expect(url.searchParams.get("$top")).to.equal("2");
-          expect(url.searchParams.get("tag")).to.equal(tag ?? null);
+          expect(url.searchParams.get("tag")).to.equal(shouldFilter ? tag : null);
           expect(url.hash).to.equal("");
           expect(requestStub.firstCall.args).to.deep.equal(["GET", "authToken", undefined, preferReturn]);
           expect(result.groups[0].tags).to.deep.equal(responseGroup.tags);
           expect(result.groups[0]).to.deep.equal(groups[0]);
-          if (tag === undefined) {
+          if (!shouldFilter) {
             expect(url.toString()).to.equal("https://api.bentley.com/named-groups/?iTwinId=iTwinId&%24top=2");
           }
         });
@@ -358,9 +351,10 @@ describe("NamedGroups Client Unit tests", () => {
             fetchStub.onFirstCall().resolves({ groups, _links: { next: { href: nextUrl.toString() } } });
             fetchStub.onSecondCall().resolves({ groups: [secondGroup], _links: {} });
 
-            const iterator = preferReturn === PreferReturn.Representation
-              ? client.getNamedGroupsIterator("authToken", "iTwinId", preferReturn, 1, tag)
-              : client.getNamedGroupsIterator("authToken", "iTwinId", preferReturn, 1, tag);
+            const options = { top: 1, ...(tag === undefined ? {} : { tag }) };
+            const iterator = preferReturn === undefined
+              ? client.getNamedGroupsIterator("authToken", "iTwinId", options)
+              : client.getNamedGroupsIterator("authToken", "iTwinId", preferReturn, options);
             expect(fetchStub.called).to.be.false;
             if (byPage) {
               expect(await toArray(iterator.byPage())).to.deep.equal([groups, [secondGroup]]);
@@ -381,11 +375,69 @@ describe("NamedGroups Client Unit tests", () => {
     it("filters without specifying a preference or page size", async () => {
       fetchStub.resolves({ groups: [], _links: {} });
 
-      await client.getNamedGroups("authToken", "iTwinId", undefined, undefined, "Structural");
+      await client.getNamedGroups("authToken", "iTwinId", { tag: "Structural" });
 
       expect(fetchStub.firstCall.args[0]).to.equal("https://api.bentley.com/named-groups/?iTwinId=iTwinId&tag=Structural");
-      expect(await toArray(client.getNamedGroupsIterator("authToken", "iTwinId", undefined, undefined, "Structural"))).to.deep.equal([]);
+      expect(await toArray(client.getNamedGroupsIterator("authToken", "iTwinId", { tag: "Structural" }))).to.deep.equal([]);
       expect(fetchStub.secondCall.args[0]).to.equal(fetchStub.firstCall.args[0]);
+    });
+
+    it("preserves the legacy top and tag arguments", async () => {
+      fetchStub.resolves({ groups: [], _links: {} });
+
+      await client.getNamedGroups("authToken", "iTwinId", PreferReturn.Minimal, 2, "Structural");
+
+      expect(fetchStub.firstCall.args[0]).to.equal("https://api.bentley.com/named-groups/?iTwinId=iTwinId&%24top=2&tag=Structural");
+    });
+
+    for (const invalidTags of [
+      Array(21).fill("tag"),
+      ["a".repeat(129)],
+      ["bad/tag"],
+      ["bad!tag"],
+      [""],
+      ["   "],
+      ["Tag", "tag"],
+    ]) {
+      it(`rejects invalid create tags: ${JSON.stringify(invalidTags).slice(0, 40)}`, async () => {
+        await expect(client.createNamedGroup("authToken", {
+          iTwinId: "iTwinId",
+          displayName: "Valid group",
+          query: "SELECT ECInstanceId FROM BisCore.Element",
+          tags: invalidTags,
+        })).to.be.rejectedWith(RequiredError);
+        expect(fetchStub.called).to.be.false;
+      });
+
+      it(`rejects invalid update tags: ${JSON.stringify(invalidTags).slice(0, 40)}`, async () => {
+        await expect(client.updateNamedGroup("authToken", "1", { tags: invalidTags }))
+          .to.be.rejectedWith(RequiredError);
+        expect(fetchStub.called).to.be.false;
+      });
+    }
+
+    it("accepts the maximum supported tag count and length", async () => {
+      const tags = Array.from({ length: 20 }, (_, index) => {
+        const prefix = `Tag${index}`;
+        return prefix + "a".repeat(128 - prefix.length);
+      });
+      expect(tags.every((tag) => tag.length === 128)).to.be.true;
+      fetchStub.resolves({ group: { ...responseGroup, tags } });
+
+      const group = await client.createNamedGroup("authToken", {
+        iTwinId: "iTwinId",
+        displayName: "Valid group",
+        query: "SELECT ECInstanceId FROM BisCore.Element",
+        tags,
+      });
+
+      expect(group.tags).to.deep.equal(tags);
+      expect(requestStub.firstCall.args[2]).to.equal(JSON.stringify({
+        iTwinId: "iTwinId",
+        displayName: "Valid group",
+        query: "SELECT ECInstanceId FROM BisCore.Element",
+        tags,
+      }));
     });
 
     for (const top of [0, -1, 1001]) {

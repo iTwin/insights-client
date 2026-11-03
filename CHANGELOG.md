@@ -2,8 +2,9 @@
 
 ## Unreleased
 ### Minor
-- Added optional `tags` to Named Groups response, create and update types, including tags-only updates and clearing tags with an empty array.
-- Added an optional trailing `tag` filter to `getNamedGroups` and `getNamedGroupsIterator`.
+- Added `tags` to Named Groups response types and optional `tags` to create/update inputs, including tags-only updates and clearing tags with an empty array.
+- Added optional query options (`top` and `tag`) to `getNamedGroups` and `getNamedGroupsIterator`, preserving the existing positional overloads.
+- Added client-side validation for Named Groups tag count, length, characters and case-insensitive uniqueness.
 - Updated `fast-xml-parser` to 5.11.2 to address production dependency audit findings.
 
 ## 0.17.0

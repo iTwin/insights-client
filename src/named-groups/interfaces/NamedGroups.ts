@@ -31,7 +31,7 @@ export interface NamedGroupMinimal {
   description: string;
 
   /** Tags used to categorize and filter the group. */
-  tags?: string[];
+  tags: string[];
 
   /**
     * An ECSQL query that represents a collection of iModel elements
@@ -173,6 +173,17 @@ export interface NamedGroupUpdate {
   * @memberof NamedGroupCreate
   */
   metadata?: Array<NamedGroupMetadata>;
+}
+
+/**
+ * Optional parameters for listing NamedGroups.
+ */
+export interface NamedGroupsQueryOptions {
+  /** Maximum number of groups to return per page. */
+  top?: number;
+
+  /** Tag to filter groups by. */
+  tag?: string | null;
 }
 
 /**
