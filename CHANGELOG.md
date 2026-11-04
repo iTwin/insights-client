@@ -1,5 +1,13 @@
 # Change Log - @itwin/insights-client
 
+## 0.18.0
+Wednesday, 4 November, 2026
+### Minor
+- Added `tags` to Named Groups response types and optional `tags` to create/update inputs, including tags-only updates and clearing tags with an empty array.
+- Added optional query options (`top` and `tag`) to `getNamedGroups` and `getNamedGroupsIterator`, preserving the existing positional overloads.
+- Added client-side validation for Named Groups tag count, length, characters and case-insensitive uniqueness.
+- Updated `fast-xml-parser` to 5.11.2 to address production dependency audit findings.
+
 ## 0.17.0
 Tuesday, 3 February, 2026
 ### Minor

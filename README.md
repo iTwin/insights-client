@@ -10,6 +10,32 @@ If you have questions, or wish to contribute to iTwin.js, see our [Contributing 
 
 Contains the **@itwin/insights-client** package that wraps sending requests to the reporting service. Visit the [Insights API](https://developer.bentley.com/apis/insights/) and [Carbon calculation API](https://developer.bentley.com/apis/carbon-calculation/) for more documentation on the insights service.
 
+### Named Groups tags
+
+The [Named Groups API](https://developer.bentley.com/apis/named-groups/) is a **Technical Preview**, available for testing only. **Do not use it in production.**
+
+Named Groups support optional `tags: string[]` on create and update requests. Every minimal/full group response includes a tags array, empty when the group has no tags. Update requests can replace tags without changing other fields; send `tags: []` to clear them, or omit `tags` to leave them unchanged. The client validates the service limits of 20 tags, 128 characters per tag, allowed characters, and case-insensitive uniqueness.
+
+```ts
+import { NamedGroupsClient, PreferReturn } from "@itwin/insights-client";
+
+const client = new NamedGroupsClient();
+const group = await client.createNamedGroup(accessToken, {
+  iTwinId,
+  displayName: "Structural elements",
+  query: "SELECT ECInstanceId, ECClassId FROM BisCore.PhysicalElement",
+  tags: ["Structural", "Phase-1"],
+});
+await client.updateNamedGroup(accessToken, group.id, { tags: ["Structural", "Phase-2"] });
+
+const groups = await client.getNamedGroups(accessToken, iTwinId, PreferReturn.Minimal, { tag: "Structural" });
+for await (const taggedGroup of client.getNamedGroupsIterator(accessToken, iTwinId, PreferReturn.Representation, { top: 100, tag: "Structural" })) {
+  console.log(taggedGroup.tags);
+}
+```
+
+The optional query options object accepts `top` and `tag`; the tag filter is URL-encoded by the client. Existing positional overloads remain supported. Iterators follow the service-provided next-page links.
+
 ### Authorization for running tests
 
 - Create .env file and configure the following variables:

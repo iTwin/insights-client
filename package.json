@@ -1,6 +1,6 @@
 {
   "name": "@itwin/insights-client",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "description": "Insights client for the iTwin platform",
   "main": "lib/cjs/insights-client.js",
   "module": "lib/esm/insights-client.js",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "cross-fetch": "^4.0.0",
-    "fast-xml-parser": "^5.3.4"
+    "fast-xml-parser": "^5.11.2"
   },
   "devDependencies": {
     "@azure/storage-blob": "^12.11.0",
@@ -90,6 +90,6 @@
   },
   "overrides": {
     "diff": "8.0.3",
-    "fast-xml-parser": "^5.3.4"
+    "fast-xml-parser": "^5.11.2"
   }
 }
