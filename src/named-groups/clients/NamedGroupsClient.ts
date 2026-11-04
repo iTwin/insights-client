@@ -116,11 +116,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
   public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn.Minimal, top?: number, tag?: string | null): Promise<NamedGroupMinimalList>;
   public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, top?: number, tag?: string | null): Promise<NamedGroupList>;
   public async getNamedGroups(accessToken: AccessToken, iTwinId: string, preferReturnOrOptions?: PreferReturn | NamedGroupsQueryOptions, optionsOrTop?: NamedGroupsQueryOptions | number, legacyTag?: string | null): Promise<NamedGroupMinimalList | NamedGroupList> {
-    const preferReturn = typeof preferReturnOrOptions === "string" ? preferReturnOrOptions : undefined;
-    const options = typeof preferReturnOrOptions === "object"
-      ? preferReturnOrOptions
-      : typeof optionsOrTop === "object" ? optionsOrTop : { top: optionsOrTop, tag: legacyTag };
-    const { top, tag } = options;
+    const { preferReturn, top, tag } = this.resolveListArguments(preferReturnOrOptions, optionsOrTop, legacyTag);
 
     if (!this.topIsValid(top)) {
       throw new RequiredError(
@@ -146,11 +142,7 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
   public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn?: PreferReturn.Minimal, top?: number, tag?: string | null): EntityListIterator<NamedGroupMinimal>;
   public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturn: PreferReturn.Representation, top?: number, tag?: string | null): EntityListIterator<NamedGroup>;
   public getNamedGroupsIterator(accessToken: AccessToken, iTwinId: string, preferReturnOrOptions?: PreferReturn | NamedGroupsQueryOptions, optionsOrTop?: NamedGroupsQueryOptions | number, legacyTag?: string | null): EntityListIterator<NamedGroup> | EntityListIterator<NamedGroupMinimal> {
-    const preferReturn = typeof preferReturnOrOptions === "string" ? preferReturnOrOptions : undefined;
-    const options = typeof preferReturnOrOptions === "object"
-      ? preferReturnOrOptions
-      : typeof optionsOrTop === "object" ? optionsOrTop : { top: optionsOrTop, tag: legacyTag };
-    const { top, tag } = options;
+    const { preferReturn, top, tag } = this.resolveListArguments(preferReturnOrOptions, optionsOrTop, legacyTag);
 
     if (!this.topIsValid(top)) {
       throw new RequiredError(
@@ -167,6 +159,27 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
     } else {
       return new EntityListIteratorImpl(async () => this.fetchCollection<NamedGroupMinimal>(url, request));
     }
+  }
+
+  /**
+   * Resolves the arguments of the options overloads and the legacy positional overloads.
+   * A `null` argument from a JavaScript caller counts as omitted.
+   */
+  private resolveListArguments(
+    preferReturnOrOptions: PreferReturn | NamedGroupsQueryOptions | null | undefined,
+    optionsOrTop: NamedGroupsQueryOptions | number | null | undefined,
+    legacyTag: string | null | undefined,
+  ): { preferReturn?: PreferReturn } & NamedGroupsQueryOptions {
+    if (typeof preferReturnOrOptions === "object" && preferReturnOrOptions !== null) {
+      return { top: preferReturnOrOptions.top, tag: preferReturnOrOptions.tag };
+    }
+
+    const preferReturn = typeof preferReturnOrOptions === "string" ? preferReturnOrOptions : undefined;
+    if (typeof optionsOrTop === "object" && optionsOrTop !== null) {
+      return { preferReturn, top: optionsOrTop.top, tag: optionsOrTop.tag };
+    }
+
+    return { preferReturn, top: optionsOrTop ?? undefined, tag: legacyTag };
   }
 
   private async fetchCollection<T extends NamedGroupMinimal | NamedGroup>(url: string, request: RequestInit): Promise<EntityCollectionPage<T>> {
@@ -204,11 +217,13 @@ export class NamedGroupsClient extends OperationsBase implements INamedGroupsCli
 
     const seenTags = new Set<string>();
     tags.forEach((tag, index) => {
-      if (this.isNullOrWhitespace(tag) || tag.length > NamedGroupsClient.MAX_TAG_LENGTH || !NamedGroupsClient.TAG_PATTERN.test(tag)) {
+      // The service trims each tag before it validates and compares tags, so the client does the same.
+      const trimmedTag = this.isNullOrWhitespace(tag) ? "" : tag.trim();
+      if (!trimmedTag || trimmedTag.length > NamedGroupsClient.MAX_TAG_LENGTH || !NamedGroupsClient.TAG_PATTERN.test(trimmedTag)) {
         throw new RequiredError(`tags[${index}]`, `Tags must be 1-${NamedGroupsClient.MAX_TAG_LENGTH} characters of letters, digits, spaces, hyphens or underscores.`);
       }
 
-      const normalizedTag = tag.toLowerCase();
+      const normalizedTag = trimmedTag.toLowerCase();
       if (seenTags.has(normalizedTag)) {
         throw new RequiredError(`tags[${index}]`, `Duplicate tag found: ${tag}`);
       }

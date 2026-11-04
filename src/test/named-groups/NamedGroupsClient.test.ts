@@ -390,6 +390,23 @@ describe("NamedGroups Client Unit tests", () => {
       expect(fetchStub.firstCall.args[0]).to.equal("https://api.bentley.com/named-groups/?iTwinId=iTwinId&%24top=2&tag=Structural");
     });
 
+    it("treats null list arguments from JavaScript callers as omitted", async () => {
+      fetchStub.resolves({ groups: [], _links: {} });
+      const jsClient = groupsClient as unknown as {
+        getNamedGroups: (...args: unknown[]) => Promise<NamedGroupMinimalList>;
+        getNamedGroupsIterator: (...args: unknown[]) => AsyncIterableIterator<unknown>;
+      };
+
+      await jsClient.getNamedGroups("authToken", "iTwinId", null);
+      await jsClient.getNamedGroups("authToken", "iTwinId", PreferReturn.Minimal, null);
+      await jsClient.getNamedGroups("authToken", "iTwinId", PreferReturn.Minimal, null, null);
+      await toArray(jsClient.getNamedGroupsIterator("authToken", "iTwinId", null));
+      await toArray(jsClient.getNamedGroupsIterator("authToken", "iTwinId", PreferReturn.Minimal, null));
+
+      expect(fetchStub.getCalls().map((call) => call.args[0]))
+        .to.deep.equal(Array(5).fill("https://api.bentley.com/named-groups/?iTwinId=iTwinId"));
+    });
+
     for (const invalidTags of [
       Array(21).fill("tag"),
       ["a".repeat(129)],
@@ -398,6 +415,7 @@ describe("NamedGroups Client Unit tests", () => {
       [""],
       ["   "],
       ["Tag", "tag"],
+      ["Tag", " tag "],
     ]) {
       it(`rejects invalid create tags: ${JSON.stringify(invalidTags).slice(0, 40)}`, async () => {
         await expect(client.createNamedGroup("authToken", {
@@ -438,6 +456,20 @@ describe("NamedGroups Client Unit tests", () => {
         query: "SELECT ECInstanceId FROM BisCore.Element",
         tags,
       }));
+    });
+
+    it("checks the trimmed tag length, like the service", async () => {
+      const tags = [` ${"a".repeat(128)} `];
+      fetchStub.resolves({ group: { ...responseGroup, tags: ["a".repeat(128)] } });
+
+      await client.createNamedGroup("authToken", {
+        iTwinId: "iTwinId",
+        displayName: "Valid group",
+        query: "SELECT ECInstanceId FROM BisCore.Element",
+        tags,
+      });
+
+      expect(fetchStub.calledOnce).to.be.true;
     });
 
     for (const top of [0, -1, 1001]) {

@@ -1,6 +1,7 @@
 # Change Log - @itwin/insights-client
 
-## Unreleased
+## 0.18.0
+Wednesday, 4 November, 2026
 ### Minor
 - Added `tags` to Named Groups response types and optional `tags` to create/update inputs, including tags-only updates and clearing tags with an empty array.
 - Added optional query options (`top` and `tag`) to `getNamedGroups` and `getNamedGroupsIterator`, preserving the existing positional overloads.
